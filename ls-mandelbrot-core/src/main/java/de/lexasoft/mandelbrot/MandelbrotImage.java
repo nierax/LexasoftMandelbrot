@@ -37,7 +37,8 @@ public class MandelbrotImage {
 	
 	public void writeAsFile(String qualifiedFilename) throws IOException {
 		File file = new File(qualifiedFilename);
-		ImageIO.write(image, "png", file);
+		String filetype = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
+		ImageIO.write(image, filetype, file);
 	}
 
 }

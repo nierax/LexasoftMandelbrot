@@ -41,7 +41,7 @@ class MandelbrotTest {
 	void testDrawMandelbrot() throws IOException {
 		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, MAXIMUM_ITERATIONS, IMAGE_WIDTH, IMAGE_HEIGHT);
 		assertNotNull(image, "Image could not be created");
-		image.writeAsFile("C:\\Users\\axeln\\Pictures\\mandelbrot.png");
+		image.writeAsFile("C:\\Users\\axeln\\Pictures\\mandelbrot.tiff");
 	}
 
 }
