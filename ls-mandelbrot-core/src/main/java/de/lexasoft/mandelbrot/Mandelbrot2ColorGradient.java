@@ -13,7 +13,7 @@ import java.awt.Color;
  * 
  * @author nierax
  */
-public class MandelbrotColorize2ColorGradient implements MandelbrotColorize {
+public class Mandelbrot2ColorGradient implements MandelbrotColorize {
 
 	private int nrOfColors;
 	private Color gradientStart;
@@ -23,7 +23,7 @@ public class MandelbrotColorize2ColorGradient implements MandelbrotColorize {
 	private float stepGreen;
 	private float stepBlue;
 
-	public MandelbrotColorize2ColorGradient(Color gradientStart, Color gradientEnd, int nrOfColors) {
+	public Mandelbrot2ColorGradient(Color gradientStart, Color gradientEnd, int nrOfColors) {
 		this.gradientStart = gradientStart;
 		this.gradientEnd = gradientEnd;
 		this.nrOfColors = nrOfColors;
@@ -31,7 +31,7 @@ public class MandelbrotColorize2ColorGradient implements MandelbrotColorize {
 		this.stepGreen = calculateGradient(this.gradientStart.getGreen(), this.gradientEnd.getGreen(), this.nrOfColors);
 		this.stepBlue = calculateGradient(this.gradientStart.getBlue(), this.gradientEnd.getBlue(), this.nrOfColors);
 	}
-	
+
 	/**
 	 * Calculates the difference per step for one RGB color.
 	 * 
@@ -59,9 +59,10 @@ public class MandelbrotColorize2ColorGradient implements MandelbrotColorize {
 		if (iteration == maxIter) {
 			return Color.BLACK;
 		}
-		int red = (int) (gradientStart.getRed() + iteration * stepRed);
-		int green = (int) (gradientStart.getGreen() + iteration * stepGreen);
-		int blue = (int) (gradientStart.getBlue() + iteration * stepBlue);
+		int step = iteration % nrOfColors;
+		int red = (int) (gradientStart.getRed() + step * stepRed);
+		int green = (int) (gradientStart.getGreen() + step * stepGreen);
+		int blue = (int) (gradientStart.getBlue() + step * stepBlue);
 		return new Color(red, green, blue);
 	}
 

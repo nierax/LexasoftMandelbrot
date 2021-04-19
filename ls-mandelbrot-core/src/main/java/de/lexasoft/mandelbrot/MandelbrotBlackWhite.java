@@ -10,7 +10,7 @@ import java.awt.Color;
  * 
  * @author nierax
  */
-public class MandelbrotColorizeBlackWhite implements MandelbrotColorize {
+public class MandelbrotBlackWhite implements MandelbrotColorize {
 
 	@Override
 	public Color getColorForIteration(int iteration, int maxIter) {

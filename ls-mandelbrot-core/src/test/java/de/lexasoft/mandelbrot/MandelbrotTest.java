@@ -21,8 +21,8 @@ class MandelbrotTest {
 
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
-	private static final int IMAGE_WIDTH = 459;
-	private static final int IMAGE_HEIGHT = 405;
+	private static final int IMAGE_WIDTH = 4590;
+	private static final int IMAGE_HEIGHT = 4050;
 
 	/**
 	 * @throws java.lang.Exception
@@ -36,10 +36,13 @@ class MandelbrotTest {
 	private static Stream<Arguments> testDrawMandelbrot() {
 		return Stream.of(
 		    // Black and white
-		    Arguments.of(new MandelbrotColorizeBlackWhite(), 500, "C:\\Users\\axeln\\Pictures\\mandelbrot-bw.tiff"),
+		    Arguments.of(new MandelbrotBlackWhite(), 500, "C:\\Users\\axeln\\Pictures\\mandelbrot-bw.tiff"),
 		    // 2 colors
-		    Arguments.of(new MandelbrotColorize2ColorGradient(Color.BLUE, Color.WHITE, 50), 50,
-		        "C:\\Users\\axeln\\Pictures\\mandelbrot-color.tiff"));
+		    Arguments.of(new Mandelbrot2ColorGradient(Color.BLUE, Color.RED, 5), 50,
+		        "C:\\Users\\axeln\\Pictures\\mandelbrot-color.tiff"),
+		    // 2 colors lighter blue
+		    Arguments.of(new Mandelbrot2ColorGradient(new Color(25, 140, 255), Color.WHITE, 5), 500,
+		        "C:\\Users\\axeln\\Pictures\\mandelbrot-color2.tiff"));
 	}
 
 	/**

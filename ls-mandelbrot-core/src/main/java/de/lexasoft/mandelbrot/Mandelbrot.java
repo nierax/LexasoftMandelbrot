@@ -65,13 +65,25 @@ public class Mandelbrot {
 		return image;
 	}
 
+	/**
+	 * Create Mandelbrot object with the given colorize strategy.
+	 * 
+	 * @param colorize The colorize strategy to use.
+	 * @return Newly created Mandelbrot object.
+	 */
 	public final static Mandelbrot of(MandelbrotColorize colorize) {
 		Mandelbrot mb = new Mandelbrot();
 		mb.colorize = colorize;
 		return mb;
 	}
 
+	/**
+	 * Create Mandelbrot object with a standard colorize strategy (black and white
+	 * only).
+	 * 
+	 * @return Newly created Mandelbrot object.
+	 */
 	public final static Mandelbrot of() {
-		return of(new MandelbrotColorizeBlackWhite());
+		return of(new MandelbrotBlackWhite());
 	}
 }

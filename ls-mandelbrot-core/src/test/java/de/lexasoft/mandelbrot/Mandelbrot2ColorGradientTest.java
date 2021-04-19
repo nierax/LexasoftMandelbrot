@@ -18,9 +18,9 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author nierax
  *
  */
-class MandelbrotColorize2ColorGradientTest {
+class Mandelbrot2ColorGradientTest {
 
-	private MandelbrotColorize2ColorGradient cut;
+	private Mandelbrot2ColorGradient cut;
 	private Color gradientStart;
 	private Color gradientEnd;
 	private static final int MAXIMUM_ITERATIONS = 500;
@@ -32,7 +32,7 @@ class MandelbrotColorize2ColorGradientTest {
 	void setUp() throws Exception {
 		gradientStart = Color.BLUE;
 		gradientEnd = Color.RED;
-		cut = new MandelbrotColorize2ColorGradient(gradientStart, gradientEnd, MAXIMUM_ITERATIONS);
+		cut = new Mandelbrot2ColorGradient(gradientStart, gradientEnd, MAXIMUM_ITERATIONS);
 	}
 
 	/**
@@ -59,7 +59,7 @@ class MandelbrotColorize2ColorGradientTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.MandelbrotColorize2ColorGradient#getColorForIteration(int)}.
+	 * {@link de.lexasoft.mandelbrot.Mandelbrot2ColorGradient#getColorForIteration(int)}.
 	 */
 	@ParameterizedTest
 	@MethodSource
