@@ -49,7 +49,7 @@ public class MandelbrotPointPosition {
 		return cx;
 	}
 	
-	public double deltax(double delta) {
+	public double movex(double delta) {
 		this.cx += delta;
 		return this.cx;
 	}
@@ -63,7 +63,7 @@ public class MandelbrotPointPosition {
 		return cy;
 	}
 
-	public double deltay(double delta) {
+	public double movey(double delta) {
 		this.cy += delta;
 		return this.cy;
 	}

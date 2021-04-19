@@ -11,9 +11,9 @@ import java.awt.Color;
  * Every point can be calculated to a special color on a gradient between two
  * colors, which must be given with constructor.
  * 
- * @author admin
+ * @author nierax
  */
-public class MandelbrotColorPalette {
+public class MandelbrotColorize2ColorGradient implements MandelbrotColorize {
 
 	private int nrOfColors;
 	private Color gradientStart;
@@ -23,17 +23,25 @@ public class MandelbrotColorPalette {
 	private float stepGreen;
 	private float stepBlue;
 
-	public MandelbrotColorPalette(Color gradientStart, Color gradientEnd, int nrOfColors) {
+	public MandelbrotColorize2ColorGradient(Color gradientStart, Color gradientEnd, int nrOfColors) {
 		this.gradientStart = gradientStart;
 		this.gradientEnd = gradientEnd;
 		this.nrOfColors = nrOfColors;
-		this.stepRed = calculateGradient(this.gradientStart.getRed(), this.gradientEnd.getRed(), nrOfColors);
-		this.stepGreen = calculateGradient(this.gradientStart.getGreen(), this.gradientEnd.getGreen(), nrOfColors);
-		this.stepBlue = calculateGradient(this.gradientStart.getBlue(), this.gradientEnd.getBlue(), nrOfColors);
+		this.stepRed = calculateGradient(this.gradientStart.getRed(), this.gradientEnd.getRed(), this.nrOfColors);
+		this.stepGreen = calculateGradient(this.gradientStart.getGreen(), this.gradientEnd.getGreen(), this.nrOfColors);
+		this.stepBlue = calculateGradient(this.gradientStart.getBlue(), this.gradientEnd.getBlue(), this.nrOfColors);
 	}
-
+	
+	/**
+	 * Calculates the difference per step for one RGB color.
+	 * 
+	 * @param rgbCStart
+	 * @param rgbCEnd
+	 * @param nrOfColors
+	 * @return Factor per step
+	 */
 	private float calculateGradient(int rgbCStart, int rgbCEnd, int nrOfColors) {
-		return (float)(rgbCEnd - rgbCStart) / nrOfColors;
+		return (float) (rgbCEnd - rgbCStart) / nrOfColors;
 	}
 
 	/**
@@ -43,16 +51,17 @@ public class MandelbrotColorPalette {
 	 * between the two gradients.
 	 * 
 	 * @param iteration Number of iterations on a special point.
+	 * @param maxIter   Maximum number of iterations on a special point.
 	 * @return The color of the point with the given number of iterations.
 	 */
-	public Color getColorForIteration(int iteration) {
-		if (iteration == nrOfColors) {
+	@Override
+	public Color getColorForIteration(int iteration, int maxIter) {
+		if (iteration == maxIter) {
 			return Color.BLACK;
 		}
 		int red = (int) (gradientStart.getRed() + iteration * stepRed);
 		int green = (int) (gradientStart.getGreen() + iteration * stepGreen);
 		int blue = (int) (gradientStart.getBlue() + iteration * stepBlue);
-//		System.out.println("R/G/B: " + red + "/" + green + "/" + blue);
 		return new Color(red, green, blue);
 	}
 

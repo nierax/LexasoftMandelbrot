@@ -39,7 +39,7 @@ public class Mandelbrot {
 		MandelbrotImage image = new MandelbrotImage(imageWidth, imageHeight);
 
 		// Color strategy
-		MandelbrotColorPalette color = new MandelbrotColorPalette(Color.BLUE, Color.WHITE, maxIt);
+		MandelbrotColorize color = new MandelbrotColorize2ColorGradient(Color.BLUE, Color.WHITE, maxIt);
 		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, yend);
 		long time = System.currentTimeMillis();
@@ -50,10 +50,10 @@ public class Mandelbrot {
 				Point iPoint = new Point();
 				iPoint.x = column;
 				iPoint.y = line;
-				image.colorizePoint(iPoint, color.getColorForIteration(iterate));
-				cpos.deltay(-dy);
+				image.colorizePoint(iPoint, color.getColorForIteration(iterate, maxIt));
+				cpos.movey(-dy);
 			}
-			cpos.deltax(dx);
+			cpos.movex(dx);
 		}
 		System.out.println("Time needed " + (System.currentTimeMillis() - time) + " ms");
 		return image;

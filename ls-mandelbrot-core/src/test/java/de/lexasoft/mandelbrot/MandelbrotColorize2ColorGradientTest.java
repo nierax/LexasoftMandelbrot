@@ -15,14 +15,15 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
-class MandelbrotColorPaletteTest {
+class MandelbrotColorize2ColorGradientTest {
 
-	private MandelbrotColorPalette cut;
+	private MandelbrotColorize2ColorGradient cut;
 	private Color gradientStart;
 	private Color gradientEnd;
+	private static final int MAXIMUM_ITERATIONS = 500;
 
 	/**
 	 * @throws java.lang.Exception
@@ -31,7 +32,7 @@ class MandelbrotColorPaletteTest {
 	void setUp() throws Exception {
 		gradientStart = Color.BLUE;
 		gradientEnd = Color.RED;
-		cut = new MandelbrotColorPalette(gradientStart, gradientEnd, 500);
+		cut = new MandelbrotColorize2ColorGradient(gradientStart, gradientEnd, MAXIMUM_ITERATIONS);
 	}
 
 	/**
@@ -58,12 +59,12 @@ class MandelbrotColorPaletteTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.MandelbrotColorPalette#getColorForIteration(int)}.
+	 * {@link de.lexasoft.mandelbrot.MandelbrotColorize2ColorGradient#getColorForIteration(int)}.
 	 */
 	@ParameterizedTest
 	@MethodSource
 	void testGetColorForIteration(int iteration, Color expected) {
-		Color result = cut.getColorForIteration(iteration);
+		Color result = cut.getColorForIteration(iteration, MAXIMUM_ITERATIONS);
 		assertEquals(expected.getRed(), result.getRed(), "Color red was not correctly calculated");
 		assertEquals(expected.getGreen(), result.getGreen(), "Color green was not correctly calculated");
 		assertEquals(expected.getBlue(), result.getBlue(), "Color blue was not correctly calculated");
