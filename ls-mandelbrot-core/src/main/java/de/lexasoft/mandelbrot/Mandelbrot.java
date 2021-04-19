@@ -3,7 +3,6 @@
  */
 package de.lexasoft.mandelbrot;
 
-import java.awt.Color;
 import java.awt.Point;
 
 /**
@@ -13,6 +12,15 @@ import java.awt.Point;
  * @author nierax
  */
 public class Mandelbrot {
+
+	private MandelbrotColorize colorize;
+
+	/**
+	 * Do not create other than with of() method.
+	 */
+	private Mandelbrot() {
+		super();
+	}
 
 	/**
 	 * Based on https://www.k-achilles.de/algorithmen/apfelmaennchen.pdf
@@ -38,8 +46,6 @@ public class Mandelbrot {
 		MandelbrotPoint point = new MandelbrotPoint();
 		MandelbrotImage image = new MandelbrotImage(imageWidth, imageHeight);
 
-		// Color strategy
-		MandelbrotColorize color = new MandelbrotColorize2ColorGradient(Color.BLUE, Color.WHITE, maxIt);
 		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, yend);
 		long time = System.currentTimeMillis();
@@ -50,7 +56,7 @@ public class Mandelbrot {
 				Point iPoint = new Point();
 				iPoint.x = column;
 				iPoint.y = line;
-				image.colorizePoint(iPoint, color.getColorForIteration(iterate, maxIt));
+				image.colorizePoint(iPoint, colorize.getColorForIteration(iterate, maxIt));
 				cpos.movey(-dy);
 			}
 			cpos.movex(dx);
@@ -59,4 +65,13 @@ public class Mandelbrot {
 		return image;
 	}
 
+	public final static Mandelbrot of(MandelbrotColorize colorize) {
+		Mandelbrot mb = new Mandelbrot();
+		mb.colorize = colorize;
+		return mb;
+	}
+
+	public final static Mandelbrot of() {
+		return of(new MandelbrotColorizeBlackWhite());
+	}
 }
