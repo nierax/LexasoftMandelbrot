@@ -19,7 +19,8 @@ public class Mandelbrot {
 	 * 
 	 * @param topLeft     The top left point of the calculation limit.
 	 * @param bottomRight The bottom right point of the calculation limit.
-	 * @param maxIt				The maximum number of iterations, before the point is considered to be in the Mandelbrot set.
+	 * @param maxIt       The maximum number of iterations, before the point is
+	 *                    considered to be in the Mandelbrot set.
 	 * @param imageWidth  The width of the image in pixel.
 	 * @param imageHeight The height of the image in pixel.
 	 */
@@ -37,18 +38,19 @@ public class Mandelbrot {
 		MandelbrotPoint point = new MandelbrotPoint();
 		MandelbrotImage image = new MandelbrotImage(imageWidth, imageHeight);
 
-		//
+		// Color strategy
+		MandelbrotColorPalette color = new MandelbrotColorPalette(Color.BLUE, Color.WHITE, maxIt);
+		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, yend);
 		long time = System.currentTimeMillis();
 		for (int column = 0; column < imageWidth; column++) {
 			cpos.cy(yend);
 			for (int line = 0; line < imageHeight; line++) {
-				if (point.iterate(cpos.cx(), cpos.cy(), maxIt) == maxIt) {
-					Point iPoint = new Point();
-					iPoint.x = column;
-					iPoint.y = line;
-					image.colorizePoint(iPoint, Color.BLACK);
-				}
+				int iterate = point.iterate(cpos.cx(), cpos.cy(), maxIt);
+				Point iPoint = new Point();
+				iPoint.x = column;
+				iPoint.y = line;
+				image.colorizePoint(iPoint, color.getColorForIteration(iterate));
 				cpos.deltay(-dy);
 			}
 			cpos.deltax(dx);

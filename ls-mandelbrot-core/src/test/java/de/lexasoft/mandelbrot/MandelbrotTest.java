@@ -19,7 +19,7 @@ class MandelbrotTest {
 	private Mandelbrot cut;
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
-	private static final int MAXIMUM_ITERATIONS = 500;
+	private static final int MAXIMUM_ITERATIONS = 50;
 	private static final int IMAGE_WIDTH = 459;
 	private static final int IMAGE_HEIGHT = 405;
 
@@ -41,7 +41,7 @@ class MandelbrotTest {
 	void testDrawMandelbrot() throws IOException {
 		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, MAXIMUM_ITERATIONS, IMAGE_WIDTH, IMAGE_HEIGHT);
 		assertNotNull(image, "Image could not be created");
-		image.writeAsFile("C:\\Users\\axeln\\Pictures\\mandelbrot.tiff");
+		image.writeAsFile("C:\\Users\\axeln\\Pictures\\mandelbrot-color.tiff");
 	}
 
 }
