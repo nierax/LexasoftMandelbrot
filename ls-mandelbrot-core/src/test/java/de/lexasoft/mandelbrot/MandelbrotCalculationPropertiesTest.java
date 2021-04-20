@@ -47,15 +47,17 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(4050, cut.getImageHeight());
 		assertSame(ColorVariant.GRADIENT2, cut.getColorVariant());
 
-		assertEquals(25, cut.getColor1().getRed());
-		assertEquals(140, cut.getColor1().getGreen());
-		assertEquals(255, cut.getColor1().getBlue());
+		assertEquals(2, cut.getColors().size());
 
-		assertEquals(255, cut.getColor2().getRed());
-		assertEquals(255, cut.getColor2().getGreen());
-		assertEquals(255, cut.getColor2().getBlue());
+		assertEquals(25, cut.getColors().get(0).getRed());
+		assertEquals(140, cut.getColors().get(0).getGreen());
+		assertEquals(255, cut.getColors().get(0).getBlue());
 
-		assertEquals(5, cut.getNrOfColors());
+		assertEquals(255, cut.getColors().get(1).getRed());
+		assertEquals(255, cut.getColors().get(1).getGreen());
+		assertEquals(255, cut.getColors().get(1).getBlue());
+
+		assertEquals(5, cut.getColorInterval());
 	}
 
 }

@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -24,10 +25,8 @@ public class MandelbrotCalculationProperties {
 	private int imageWidth;
 	private int imageHeight;
 	private ColorVariant colorVariant;
-	private Color color1;
-	private Color color2;
-	private Color color3;
-	private int nrOfColors;
+	private List<Color> colors;
+	private int colorInterval;
 
 	public MandelbrotPointPosition getTopLeft() {
 		return topLeft;
@@ -77,36 +76,20 @@ public class MandelbrotCalculationProperties {
 		this.colorVariant = colorVariant;
 	}
 
-	public Color getColor1() {
-		return color1;
+	public List<Color> getColors() {
+		return colors;
 	}
 
-	public void setColor1(Color color1) {
-		this.color1 = color1;
+	public void setColors(List<Color> colors) {
+		this.colors = colors;
 	}
 
-	public Color getColor2() {
-		return color2;
+	public int getColorInterval() {
+		return colorInterval;
 	}
 
-	public void setColor2(Color color2) {
-		this.color2 = color2;
-	}
-
-	public Color getColor3() {
-		return color3;
-	}
-
-	public void setColor3(Color color3) {
-		this.color3 = color3;
-	}
-
-	public int getNrOfColors() {
-		return nrOfColors;
-	}
-
-	public void setNrOfColors(int nrOfColors) {
-		this.nrOfColors = nrOfColors;
+	public void setColorInterval(int nrOfColors) {
+		this.colorInterval = nrOfColors;
 	}
 
 	/**
@@ -125,4 +108,5 @@ public class MandelbrotCalculationProperties {
 		    MandelbrotCalculationProperties.class);
 		return props;
 	}
+
 }

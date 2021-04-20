@@ -8,12 +8,11 @@ maximumIterations: 500
 imageWidth: 4590
 imageHeight: 4050
 colorVariant: "GRADIENT2"
-color1:
- red: 25
- green: 140
- blue: 255
-color2:
- red: 255
- green: 255
- blue: 255
-nrOfColors: 5 
+colors:
+- red: 25
+  green: 140
+  blue: 255
+- red: 255
+  green: 255
+  blue: 255
+colorInterval: 5 
