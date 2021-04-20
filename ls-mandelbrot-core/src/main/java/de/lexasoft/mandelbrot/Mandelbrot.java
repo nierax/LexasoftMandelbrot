@@ -50,7 +50,7 @@ public class Mandelbrot {
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, yend);
 		long time = System.currentTimeMillis();
 		for (int column = 0; column < imageWidth; column++) {
-			cpos.cy(yend);
+			cpos.setCy(yend);
 			for (int line = 0; line < imageHeight; line++) {
 				int iterate = point.iterate(cpos.cx(), cpos.cy(), maxIt);
 				Point iPoint = new Point();
