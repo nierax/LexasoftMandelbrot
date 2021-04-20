@@ -45,8 +45,9 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(500, cut.getMaximumIterations());
 		assertEquals(4590, cut.getImageWidth());
 		assertEquals(4050, cut.getImageHeight());
-		assertSame(ColorVariant.GRADIENT2, cut.getColorVariant());
+		assertEquals("C:\\Users\\axeln\\Pictures\\mandelbrot-test.tiff", cut.getImageFilename());
 
+		assertSame(ColorVariant.GRADIENT2, cut.getColorVariant());
 		assertEquals(2, cut.getColors().size());
 
 		assertEquals(25, cut.getColors().get(0).getRed());

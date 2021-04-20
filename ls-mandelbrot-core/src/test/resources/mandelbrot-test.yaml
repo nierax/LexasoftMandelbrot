@@ -7,6 +7,7 @@ bottomRight:
 maximumIterations: 500
 imageWidth: 4590
 imageHeight: 4050
+imageFilename: "C:\\Users\\axeln\\Pictures\\mandelbrot-test.tiff"
 colorVariant: "GRADIENT2"
 colors:
 - red: 25

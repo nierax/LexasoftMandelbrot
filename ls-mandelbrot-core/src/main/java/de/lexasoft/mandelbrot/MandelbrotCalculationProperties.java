@@ -24,6 +24,7 @@ public class MandelbrotCalculationProperties {
 	private int maximumIterations;
 	private int imageWidth;
 	private int imageHeight;
+	private String imageFilename;
 	private ColorVariant colorVariant;
 	private List<Color> colors;
 	private int colorInterval;
@@ -90,6 +91,14 @@ public class MandelbrotCalculationProperties {
 
 	public void setColorInterval(int nrOfColors) {
 		this.colorInterval = nrOfColors;
+	}
+
+	public String getImageFilename() {
+		return imageFilename;
+	}
+
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
 	}
 
 	/**
