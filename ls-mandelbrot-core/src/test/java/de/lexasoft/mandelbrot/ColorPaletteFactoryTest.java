@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,16 +19,16 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author admin
  *
  */
-class ColorGradientCalculatorTest {
+class ColorPaletteFactoryTest {
 
-	private ColorGradientCalculator cut;
+	private ColorPaletteFactory cut;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new ColorGradientCalculator();
+		cut = new ColorPaletteFactory();
 	}
 
 	private static Stream<Arguments> testCreateGradientList2() {
@@ -42,7 +43,7 @@ class ColorGradientCalculatorTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.ColorGradientCalculator#createGradientList(java.awt.Color, java.awt.Color, int)}.
+	 * {@link de.lexasoft.mandelbrot.ColorPaletteFactory#createGradientList(java.awt.Color, java.awt.Color, int)}.
 	 */
 	@ParameterizedTest
 	@MethodSource
@@ -87,6 +88,23 @@ class ColorGradientCalculatorTest {
 		assertEquals(expected.getRed(), cStep.getRed(), "Red color was not correctly calculated.");
 		assertEquals(expected.getGreen(), cStep.getGreen(), "Green color was not correctly calculated.");
 		assertEquals(expected.getBlue(), cStep.getBlue(), "Blue color was not correctly calculated.");
+	}
+
+	/**
+	 * Test method for #ColorPaletteFactory::createRainbowPalette29()
+	 */
+	@Test
+	void testCreateRainbowPalette29() {
+		List<Color> result = cut.createRainbowPalette29();
+		assertEquals(29, result.size(), "Size of list is not correct");
+		// First color
+		assertEquals(128, result.get(0).getRed(), "First color not correct in red.");
+		assertEquals(0, result.get(0).getGreen(), "First color not correct in green.");
+		assertEquals(0, result.get(0).getBlue(), "First color not correct in blue.");
+		// Last color
+		assertEquals(168, result.get(28).getRed(), "Last color not correct in red.");
+		assertEquals(0, result.get(28).getGreen(), "Last color not correct in green.");
+		assertEquals(185, result.get(28).getBlue(), "Last color not correct in blue.");
 	}
 
 }

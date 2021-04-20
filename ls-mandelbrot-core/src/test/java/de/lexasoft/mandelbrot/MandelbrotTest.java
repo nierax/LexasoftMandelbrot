@@ -34,16 +34,20 @@ class MandelbrotTest {
 	}
 
 	private static Stream<Arguments> testDrawMandelbrot() {
-		ColorGradientCalculator calculator = new ColorGradientCalculator();
+		ColorPaletteFactory cFactory = new ColorPaletteFactory();
 		return Stream.of(
 		    // Black and white
 		    Arguments.of(new MandelbrotBlackWhite(), 500, "C:\\Users\\axeln\\Pictures\\mandelbrot-bw.tiff"),
 		    // 3 colors
 		    Arguments.of(
-		        MandelbrotColorPalette.of(calculator.createGradientList(Color.BLUE, Color.GREEN, Color.YELLOW, 32)), 50,
-		        "C:\\Users\\axeln\\Pictures\\mandelbrot-color.tiff"),
+		        MandelbrotColorPalette
+		            .of(cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, new Color(25, 140, 255), 16)),
+		        500, "C:\\Users\\axeln\\Pictures\\mandelbrot-color.tiff"),
+		    // 3 colors
+		    Arguments.of(MandelbrotColorPalette.of(cFactory.createRainbowPalette29()), 580,
+		        "C:\\Users\\axeln\\Pictures\\mandelbrot-rainbow.tiff"),
 		    // 2 colors lighter blue
-		    Arguments.of(MandelbrotColorPalette.of(calculator.createGradientList(new Color(25, 140, 255), Color.WHITE, 5)),
+		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, 5)),
 		        500, "C:\\Users\\axeln\\Pictures\\mandelbrot-color2.tiff"));
 	}
 

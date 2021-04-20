@@ -15,7 +15,7 @@ import java.util.List;
  * @author nierax
  *
  */
-public class ColorGradientCalculator {
+public class ColorPaletteFactory {
 
 	class GradientFactors {
 		float red;
@@ -92,5 +92,44 @@ public class ColorGradientCalculator {
 		int cg = (int) (colorStart.getGreen() + gf.green * step);
 		int cb = (int) (colorStart.getBlue() + gf.blue * step);
 		return new Color(cr, cg, cb);
+	}
+
+	/**
+	 * Creates a color palette with rainbow colors in 29 steps.
+	 * 
+	 * @return
+	 */
+	public List<Color> createRainbowPalette29() {
+		List<Color> colors = new ArrayList<>(29);
+		colors.add(new Color(128, 0, 0));
+		colors.add(new Color(130, 40, 40));
+		colors.add(new Color(141, 83, 59));
+		colors.add(new Color(153, 102, 117));
+		colors.add(new Color(153, 102, 169));
+		colors.add(new Color(128, 0, 128));
+		colors.add(new Color(101, 0, 155));
+		colors.add(new Color(72, 0, 225));
+		colors.add(new Color(4, 0, 208));
+		colors.add(new Color(0, 68, 220));
+		colors.add(new Color(1, 114, 226));
+		colors.add(new Color(1, 159, 232));
+		colors.add(new Color(11, 175, 162));
+		colors.add(new Color(23, 179, 77));
+		colors.add(new Color(0, 212, 28));
+		colors.add(new Color(0, 255, 0));
+		colors.add(new Color(128, 255, 0));
+		colors.add(new Color(200, 255, 0));
+		colors.add(new Color(255, 255, 0));
+		colors.add(new Color(255, 219, 0));
+		colors.add(new Color(255, 182, 0));
+		colors.add(new Color(255, 146, 0));
+		colors.add(new Color(255, 109, 0));
+		colors.add(new Color(255, 73, 0));
+		colors.add(new Color(255, 0, 0));
+		colors.add(new Color(255, 0, 128));
+		colors.add(new Color(255, 105, 180));
+		colors.add(new Color(255, 0, 255));
+		colors.add(new Color(168, 0, 185));
+		return colors;
 	}
 }
