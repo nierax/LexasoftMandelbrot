@@ -3,6 +3,8 @@
  */
 package de.lexasoft.mandelbrot;
 
+import java.io.IOException;
+
 /**
  * This class runs a Mandelbrot calculation and colorization.
  * <p>
@@ -47,6 +49,21 @@ public class MandelbrotRunner {
 	public static MandelbrotRunner of(MandelbrotCalculationProperties props) {
 		MandelbrotRunner runner = new MandelbrotRunner();
 		return runner.initializeFromProperties(props);
+	}
+
+	/**
+	 * Runs a Mandelbrot calculation with the values, given during instantiation.
+	 * 
+	 * @throws MandelbrotRunnerException
+	 */
+	public void run() throws MandelbrotRunnerException {
+		Mandelbrot calculator = Mandelbrot.of(colorize);
+		MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maximumIterations, imageWidth, imageHeight);
+		try {
+			image.writeAsFile(imageFilename);
+		} catch (IOException e) {
+			throw new MandelbrotRunnerException(e);
+		}
 	}
 
 	MandelbrotPointPosition getTopLeft() {

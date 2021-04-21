@@ -4,11 +4,14 @@
 package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +111,37 @@ class MandelbrotRunnerTest {
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut.getColorize()).getPalette();
 		assertEquals(9, palette.size());
+	}
+
+	/**
+	 * Tests the run method, if the filename is not correct. An
+	 * {@link MandelbrotRunnerException} is thrown.
+	 */
+	@Test
+	void testRunOutputFileNotWorking() {
+		props.setImageFilename("/anything-that-does-not-work/");
+		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		assertThrows(MandelbrotRunnerException.class, () -> {
+			cut.run();
+		});
+	}
+
+	/**
+	 * Tests the run method, if everything is correct.
+	 * 
+	 * @throws MandelbrotRunnerException
+	 */
+	@Test
+	void testRunOk() throws MandelbrotRunnerException {
+		// First check, whether file exists and delete it.
+		File file2Write = new File(props.getImageFilename());
+		if (file2Write.exists()) {
+			file2Write.delete();
+		}
+		assertFalse(file2Write.exists());
+		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		cut.run();
+		assertTrue(file2Write.exists());
 	}
 
 }
