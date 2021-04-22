@@ -1,5 +1,6 @@
 bin/
 target/
+src/test/resources/junit-tmp/
 *.bak
 *.log
 *.class
