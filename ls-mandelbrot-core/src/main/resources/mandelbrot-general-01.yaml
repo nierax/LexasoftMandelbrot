@@ -1,13 +1,13 @@
 topLeft:
  cx: -2.02
- cy: -1.2
+ cy: 1.2
 bottomRight:
  cx: 0.7
- cy: 1.2
-maximumIterations: 500
+ cy: -1.2
+maximumIterations: 100
 imageWidth: 4590
 imageHeight: 4050
-imageFilename: "C:\\Users\\axeln\\Pictures\\mandelbrot-general-500.tiff"
+imageFilename: "C:\\Users\\axeln\\Pictures\\mandelbrot-general-100.tiff"
 colorVariant: "GRADIENT2"
 colors:
 - red: 25
@@ -16,4 +16,4 @@ colors:
 - red: 255
   green: 255
   blue: 255
-colorInterval: 5 
+colorInterval: 6

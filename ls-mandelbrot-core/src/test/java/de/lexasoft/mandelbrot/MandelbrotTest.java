@@ -30,8 +30,8 @@ class MandelbrotTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		topLeft = MandelbrotPointPosition.of(-2.02, -1.2);
-		bottomRight = MandelbrotPointPosition.of(0.7, 1.2);
+		topLeft = MandelbrotPointPosition.of(-2.02, 1.2);
+		bottomRight = MandelbrotPointPosition.of(0.7, -1.2);
 	}
 
 	private static Stream<Arguments> testDrawMandelbrot() {
