@@ -13,13 +13,18 @@ import java.awt.Point;
  */
 public class Mandelbrot {
 
-	private MandelbrotColorize colorize;
+	private final MandelbrotColorize colorize;
 
 	/**
 	 * Do not create other than with of() method.
 	 */
 	private Mandelbrot() {
+		this(new MandelbrotBlackWhite());
+	}
+
+	private Mandelbrot(MandelbrotColorize colorize) {
 		super();
+		this.colorize = colorize;
 	}
 
 	/**
@@ -72,8 +77,7 @@ public class Mandelbrot {
 	 * @return Newly created Mandelbrot object.
 	 */
 	public final static Mandelbrot of(MandelbrotColorize colorize) {
-		Mandelbrot mb = new Mandelbrot();
-		mb.colorize = colorize;
+		Mandelbrot mb = new Mandelbrot(colorize);
 		return mb;
 	}
 

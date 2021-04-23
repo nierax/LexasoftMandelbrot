@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class MandelbrotColorPalette implements MandelbrotColorize {
 
-	private List<Color> palette;
-	private int nrOfColors;
+	private final List<Color> palette;
+	private final int nrOfColors;
 
 	private MandelbrotColorPalette(List<Color> palette) {
 		this.palette = palette;
@@ -39,8 +39,8 @@ public class MandelbrotColorPalette implements MandelbrotColorize {
 		if (iteration == maxIter) {
 			return Color.BLACK;
 		}
-		int step = iteration % nrOfColors;
-		return palette.get(step);
+		int paletteIdx = iteration % nrOfColors;
+		return palette.get(paletteIdx);
 	}
 
 	public List<Color> getPalette() {
