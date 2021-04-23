@@ -23,7 +23,7 @@ class MandelbrotTest {
 	private MandelbrotPointPosition bottomRight;
 	private static final int IMAGE_WIDTH = 459;
 	private static final int IMAGE_HEIGHT = 405;
-	private static final String IMAGE_DIRECTORY = "src/test/resources/junit-tmp";
+	private static final String IMAGE_DIRECTORY = "junit-tmp";
 
 	/**
 	 * @throws java.lang.Exception

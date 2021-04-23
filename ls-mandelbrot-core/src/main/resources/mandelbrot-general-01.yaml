@@ -7,7 +7,7 @@ bottomRight:
 maximumIterations: 100
 imageWidth: 4590
 imageHeight: 4050
-imageFilename: "C:\\Users\\axeln\\Pictures\\mandelbrot-general-100.tiff"
+imageFilename: "./junit-tmp/mandelbrot-general-100.tiff"
 colorVariant: "GRADIENT2"
 colors:
 - red: 25
