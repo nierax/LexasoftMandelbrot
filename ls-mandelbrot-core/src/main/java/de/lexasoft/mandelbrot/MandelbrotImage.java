@@ -103,13 +103,13 @@ public class MandelbrotImage {
 		File file = new File(qualifiedFilename);
 		String filetype = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
 
-//		if (filetype.startsWith("tif")) {
-//		handleTiff(image, file);
-//		} else {
-		if (!ImageIO.write(image, filetype, file)) {
-			throw new IOException("Image could not be written to file \"" + qualifiedFilename + "\"");
+		if (filetype.startsWith("tif")) {
+			handleTiff(image, file);
+		} else {
+			if (!ImageIO.write(image, filetype, file)) {
+				throw new IOException("Image could not be written to file \"" + qualifiedFilename + "\"");
+			}
 		}
-//		}
 	}
 
 }
