@@ -35,8 +35,6 @@ public class MandelbrotImage {
 		super();
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g2d = image.createGraphics();
-		g2d.setColor(Color.WHITE);
-		g2d.fillRect(0, 0, width, height);
 	}
 
 	/**

@@ -42,6 +42,7 @@ public class MandelbrotRunner {
 			this.colorize = MandelbrotColorize.of(props.getColorVariant(), props.getColors(), props.getColorInterval(),
 			    Color.BLACK);
 		} else {
+			mandelbrotColor = new Color(mandelbrotColor.getRGB());
 			this.colorize = MandelbrotColorize.of(props.getColorVariant(), props.getColors(), props.getColorInterval(),
 			    mandelbrotColor);
 		}

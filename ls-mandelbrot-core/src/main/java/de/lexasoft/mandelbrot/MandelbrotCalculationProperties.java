@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,15 +20,25 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
  */
 public class MandelbrotCalculationProperties {
 
+	@JsonProperty
 	private MandelbrotPointPosition topLeft;
+	@JsonProperty
 	private MandelbrotPointPosition bottomRight;
+	@JsonProperty
 	private int maximumIterations;
+	@JsonProperty
 	private int imageWidth;
+	@JsonProperty
 	private int imageHeight;
+	@JsonProperty
 	private String imageFilename;
+	@JsonProperty
 	private ColorVariant colorVariant;
+	@JsonProperty
 	private List<Color> colors;
+	@JsonProperty
 	private int colorInterval;
+	@JsonProperty
 	private Color mandelbrotColor;
 
 	public MandelbrotPointPosition getTopLeft() {
@@ -110,6 +121,27 @@ public class MandelbrotCalculationProperties {
 		this.mandelbrotColor = mandelbrotColor;
 	}
 
+	private Color cloneColor(Color color) {
+		return new Color(color.getRGB());
+	}
+
+	/**
+	 * Unfortunately necessary, as color objects directly read from YAML do not work
+	 * correctly.
+	 */
+	private void cloneColors() {
+		if (mandelbrotColor != null) {
+			mandelbrotColor = cloneColor(mandelbrotColor);
+		}
+		if (colors != null) {
+			int i = 0;
+			for (Color color : colors) {
+				colors.set(i, cloneColor(color));
+				i++;
+			}
+		}
+	}
+
 	/**
 	 * 
 	 * @param yamlFilename
@@ -124,6 +156,7 @@ public class MandelbrotCalculationProperties {
 		mapper.findAndRegisterModules();
 		MandelbrotCalculationProperties props = mapper.readValue(new File(yamlFilename),
 		    MandelbrotCalculationProperties.class);
+		props.cloneColors();
 		return props;
 	}
 
