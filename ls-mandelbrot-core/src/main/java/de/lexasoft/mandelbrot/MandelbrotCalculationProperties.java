@@ -28,6 +28,7 @@ public class MandelbrotCalculationProperties {
 	private ColorVariant colorVariant;
 	private List<Color> colors;
 	private int colorInterval;
+	private Color mandelbrotColor;
 
 	public MandelbrotPointPosition getTopLeft() {
 		return topLeft;
@@ -99,6 +100,14 @@ public class MandelbrotCalculationProperties {
 
 	public void setImageFilename(String imageFilename) {
 		this.imageFilename = imageFilename;
+	}
+
+	public Color getMandelbrotColor() {
+		return mandelbrotColor;
+	}
+
+	public void setMandelbrotColor(Color mandelbrotColor) {
+		this.mandelbrotColor = mandelbrotColor;
 	}
 
 	/**

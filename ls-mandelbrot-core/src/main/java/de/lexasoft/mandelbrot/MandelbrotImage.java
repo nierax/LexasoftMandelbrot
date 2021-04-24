@@ -35,6 +35,8 @@ public class MandelbrotImage {
 		super();
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g2d = image.createGraphics();
+		g2d.setColor(Color.WHITE);
+		g2d.drawRect(0, 0, width, height);
 	}
 
 	/**
@@ -103,13 +105,13 @@ public class MandelbrotImage {
 		File file = new File(qualifiedFilename);
 		String filetype = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
 
-		if (filetype.startsWith("tif")) {
-			handleTiff(image, file);
-		} else {
-			if (!ImageIO.write(image, filetype, file)) {
-				throw new IOException("Image could not be written to file \"" + qualifiedFilename + "\"");
-			}
+//		if (filetype.startsWith("tif")) {
+//		handleTiff(image, file);
+//		} else {
+		if (!ImageIO.write(image, filetype, file)) {
+			throw new IOException("Image could not be written to file \"" + qualifiedFilename + "\"");
 		}
+//		}
 	}
 
 }

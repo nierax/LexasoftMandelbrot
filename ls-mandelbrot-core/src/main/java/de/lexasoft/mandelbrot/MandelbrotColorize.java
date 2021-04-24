@@ -17,7 +17,16 @@ public interface MandelbrotColorize {
 	 */
 	Color getColorForIteration(int iteration, int maxIter);
 
-	static MandelbrotColorize of(ColorVariant variant, List<Color> colors, int colorInterval) {
+	/**
+	 * Factory method for a colorize object.
+	 * 
+	 * @param variant         The variant used
+	 * @param colors          The colors, describing the palette to create.
+	 * @param nrOfSteps       The number of steps for color gradients.
+	 * @param mandelbrotColor The color used for the Mandelbrot set.
+	 * @return A colorize object, prepared to use.
+	 */
+	static MandelbrotColorize of(ColorVariant variant, List<Color> colors, int nrOfSteps, Color mandelbrotColor) {
 		ColorPaletteFactory cFactory = new ColorPaletteFactory();
 		MandelbrotColorize colorize = null;
 		switch (variant) {
@@ -28,24 +37,36 @@ public interface MandelbrotColorize {
 			if (colors.size() < 2) {
 				throw new IllegalArgumentException("2 colors required for gradient 2.");
 			}
-			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors.get(0), colors.get(1), colorInterval));
+			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors.get(0), colors.get(1), nrOfSteps),
+			    mandelbrotColor);
 			break;
 		case GRADIENT3:
 			if (colors.size() < 3) {
 				throw new IllegalArgumentException("3 colors required for gradient 3.");
 			}
 			colorize = MandelbrotColorPalette
-			    .of(cFactory.createGradientList(colors.get(0), colors.get(1), colors.get(2), colorInterval));
+			    .of(cFactory.createGradientList(colors.get(0), colors.get(1), colors.get(2), nrOfSteps), mandelbrotColor);
 			break;
 		case RAINBOW29:
-			colorize = MandelbrotColorPalette.of(cFactory.createRainbowPalette29());
+			colorize = MandelbrotColorPalette.of(cFactory.createRainbowPalette29(), mandelbrotColor);
 			break;
 		default:
 			break;
 
 		}
 		return colorize;
-
 	}
 
+	/**
+	 * Factory method for a colorize object. Black is used as default color of the
+	 * Mandelbrot set.
+	 * 
+	 * @param variant   The variant used
+	 * @param colors    The colors, describing the palette to create.
+	 * @param nrOfSteps The number of steps for color gradients.
+	 * @return A colorize object, prepared to use.
+	 */
+	static MandelbrotColorize of(ColorVariant variant, List<Color> colors, int nrOfSteps) {
+		return of(variant, colors, nrOfSteps, Color.BLACK);
+	}
 }

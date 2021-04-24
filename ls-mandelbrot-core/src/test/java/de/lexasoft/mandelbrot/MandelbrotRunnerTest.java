@@ -44,6 +44,7 @@ class MandelbrotRunnerTest {
 		colors.add(Color.WHITE);
 		props.setColors(colors);
 		props.setColorInterval(5);
+		props.setMandelbrotColor(Color.YELLOW);
 	}
 
 	/**

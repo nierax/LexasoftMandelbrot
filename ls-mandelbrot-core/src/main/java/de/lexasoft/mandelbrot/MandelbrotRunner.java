@@ -3,6 +3,7 @@
  */
 package de.lexasoft.mandelbrot;
 
+import java.awt.Color;
 import java.io.IOException;
 
 /**
@@ -36,7 +37,14 @@ public class MandelbrotRunner {
 		this.imageWidth = props.getImageWidth();
 		this.imageHeight = props.getImageHeight();
 		this.imageFilename = props.getImageFilename();
-		this.colorize = MandelbrotColorize.of(props.getColorVariant(), props.getColors(), props.getColorInterval());
+		Color mandelbrotColor = props.getMandelbrotColor();
+		if (mandelbrotColor == null) {
+			this.colorize = MandelbrotColorize.of(props.getColorVariant(), props.getColors(), props.getColorInterval(),
+			    Color.BLACK);
+		} else {
+			this.colorize = MandelbrotColorize.of(props.getColorVariant(), props.getColors(), props.getColorInterval(),
+			    mandelbrotColor);
+		}
 		return this;
 	}
 

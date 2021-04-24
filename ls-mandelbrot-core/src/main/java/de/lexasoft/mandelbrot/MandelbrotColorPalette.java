@@ -17,27 +17,31 @@ import java.util.List;
 public class MandelbrotColorPalette implements MandelbrotColorize {
 
 	private final List<Color> palette;
+	private final Color mandelbrotColor;
 	private final int nrOfColors;
 
-	private MandelbrotColorPalette(List<Color> palette) {
+	private MandelbrotColorPalette(List<Color> palette, Color mandelbrotColor) {
 		this.palette = palette;
 		this.nrOfColors = palette.size();
+		this.mandelbrotColor = mandelbrotColor;
 	}
 
 	/**
-	 * Create a new colorize method from the given palette.
+	 * Create a new colorize method from the given palette. In addition the color
+	 * for the Mandelbrot set can be given.
 	 * 
-	 * @param palette The color palette to use
-	 * @return the new object of {@link #MandelbrotColorPalette(List)}.
+	 * @param palette         The color palette to use
+	 * @param mandelbrotColor The color, used for the Mandelbrot set.
+	 * @return The new object of {@link #MandelbrotColorPalette(List)}.
 	 */
-	public static MandelbrotColorPalette of(List<Color> palette) {
-		return new MandelbrotColorPalette(palette);
+	public static MandelbrotColorPalette of(List<Color> palette, Color mandelbrotColor) {
+		return new MandelbrotColorPalette(palette, mandelbrotColor);
 	}
 
 	@Override
 	public Color getColorForIteration(int iteration, int maxIter) {
 		if (iteration == maxIter) {
-			return Color.BLACK;
+			return mandelbrotColor;
 		}
 		int paletteIdx = iteration % nrOfColors;
 		return palette.get(paletteIdx);
