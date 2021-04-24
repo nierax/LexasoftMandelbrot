@@ -21,34 +21,35 @@ class MandelbrotTest {
 
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
-	private static final int IMAGE_WIDTH = 4590;
-	private static final int IMAGE_HEIGHT = 4050;
+	private static final int IMAGE_WIDTH = 459;
+	private static final int IMAGE_HEIGHT = 405;
+	private static final String IMAGE_DIRECTORY = "junit-tmp";
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		topLeft = MandelbrotPointPosition.of(-2.02, -1.2);
-		bottomRight = MandelbrotPointPosition.of(0.7, 1.2);
+		topLeft = MandelbrotPointPosition.of(-2.02, 1.2);
+		bottomRight = MandelbrotPointPosition.of(0.7, -1.2);
 	}
 
 	private static Stream<Arguments> testDrawMandelbrot() {
 		ColorPaletteFactory cFactory = new ColorPaletteFactory();
 		return Stream.of(
 		    // Black and white
-		    Arguments.of(new MandelbrotBlackWhite(), 500, "C:\\Users\\axeln\\Pictures\\mandelbrot-bw.tiff"),
+		    Arguments.of(new MandelbrotBlackWhite(), 500, IMAGE_DIRECTORY + "/mandelbrot-bw.tiff"),
 		    // 3 colors
 		    Arguments.of(
 		        MandelbrotColorPalette
 		            .of(cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, new Color(25, 140, 255), 16)),
-		        500, "C:\\Users\\axeln\\Pictures\\mandelbrot-color.tiff"),
+		        500, IMAGE_DIRECTORY + "/mandelbrot-color.tiff"),
 		    // 3 colors
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createRainbowPalette29()), 580,
-		        "C:\\Users\\axeln\\Pictures\\mandelbrot-rainbow.tiff"),
+		        IMAGE_DIRECTORY + "/mandelbrot-rainbow.tiff"),
 		    // 2 colors lighter blue
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, 5)),
-		        500, "C:\\Users\\axeln\\Pictures\\mandelbrot-color2.tiff"));
+		        500, IMAGE_DIRECTORY + "/mandelbrot-color2.tiff"));
 	}
 
 	/**
