@@ -1,0 +1,19 @@
+topLeft:
+ cx: -1.82
+ cy: 0.0722963
+bottomRight:
+ cx: -1.71
+ cy: -0.071111
+maximumIterations: 500
+imageWidth: 4590
+imageHeight: 5940
+imageFilename: "./junit-tmp/mandelbrot-general-02-500.tiff"
+colorVariant: "GRADIENT2"
+colors:
+- red: 25
+  green: 140
+  blue: 255
+- red: 255
+  green: 255
+  blue: 255
+colorInterval: 6
