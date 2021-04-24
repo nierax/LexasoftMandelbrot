@@ -30,6 +30,7 @@ public class MandelbrotCLI {
 		runner = MandelbrotRunner.of(props);
 		System.out.println("Starting to claculate...");
 		runner.run();
+		System.out.println("Written to " + props.getImageFilename());
 		System.out.println("Done.");
 	}
 
@@ -43,7 +44,7 @@ public class MandelbrotCLI {
 	public static void main(String[] args) {
 		MandelbrotCLI cli = new MandelbrotCLI();
 		if ((args == null) || args.length < 1) {
-			System.err.println("File name to yaml file mus be given.");
+			System.err.println("File name to yaml file must be given.");
 			System.exit(99);
 		}
 		try {
