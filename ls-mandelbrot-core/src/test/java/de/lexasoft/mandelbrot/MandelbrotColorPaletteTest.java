@@ -33,7 +33,7 @@ class MandelbrotColorPaletteTest {
 		palette.add(Color.WHITE);
 		palette.add(Color.GREEN);
 		palette.add(Color.BLUE);
-		cut = MandelbrotColorPalette.of(palette);
+		cut = MandelbrotColorPalette.of(palette, Color.DARK_GRAY);
 	}
 
 	private static Stream<Arguments> testGetColorForIteration() {
@@ -52,7 +52,7 @@ class MandelbrotColorPaletteTest {
 		    // Sixth same as third
 		    Arguments.of(5, Color.BLUE),
 		    // With maximum iteration BLACK should be return.
-		    Arguments.of(MAXIMUM_ITERATIONS, Color.BLACK));
+		    Arguments.of(MAXIMUM_ITERATIONS, Color.DARK_GRAY));
 	}
 
 	/**
