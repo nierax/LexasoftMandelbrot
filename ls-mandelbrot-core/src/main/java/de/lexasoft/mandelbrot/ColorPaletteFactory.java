@@ -79,6 +79,45 @@ public class ColorPaletteFactory {
 		return colors;
 	}
 
+	public List<Color> createGradientList(List<Color> ungradedPalette, int grading) {
+		List<Color> gradedList = new ArrayList<>();
+		// For the given number of colors in the list there should be nC -1 grading
+		// intervals.
+		int nrOfIntervals = ungradedPalette.size() - 1;
+		// In every interval there should be an equal number of grading steps.
+		int stepsPerInterval = (grading - ungradedPalette.size()) / nrOfIntervals;
+		int[] stepsPI = new int[nrOfIntervals];
+		for (int i = 0; i < nrOfIntervals; i++) {
+			stepsPI[i] = stepsPerInterval;
+		}
+		// If there is a remainder, the number of steps is increased by one for some
+		// intervals, beginning with the last one.
+		int remainderPerInterval = (grading - ungradedPalette.size()) % nrOfIntervals;
+		if (remainderPerInterval > 0) {
+			int ii = nrOfIntervals - 1;
+			for (int i = 0; i < remainderPerInterval; i++) {
+				stepsPI[ii]++;
+				ii--;
+			}
+		}
+		// Handling for each interval
+		for (int i = 0; i < nrOfIntervals; i++) {
+			Color firstColor = ungradedPalette.get(i);
+			Color secondColor = ungradedPalette.get(i + 1);
+			// Put the first color of the interval in the list
+			gradedList.add(firstColor);
+			// Then grade the colors in the given number of steps to the next color in the
+			// interval
+			for (int j = 0; j < stepsPI[i]; j++) {
+				GradientFactors gf = calculateFactors(firstColor, secondColor, stepsPI[i]);
+				gradedList.add(gradeColor(firstColor, gf, j));
+			}
+		}
+		// Now add the last color directly
+		gradedList.add(ungradedPalette.get(ungradedPalette.size() - 1));
+		return gradedList;
+	}
+
 	private GradientFactors calculateFactors(Color colorStart, Color colorEnd, int nrOfSteps) {
 		GradientFactors gf = new GradientFactors();
 		gf.red = (float) (colorEnd.getRed() - colorStart.getRed()) / nrOfSteps;

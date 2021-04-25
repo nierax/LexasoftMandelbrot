@@ -4,8 +4,10 @@
 package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,6 +24,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 class ColorPaletteFactoryTest {
 
 	private ColorPaletteFactory cut;
+	private static List<Color> palette3Entries;
+	private static List<Color> palette4Entries;
 
 	/**
 	 * @throws java.lang.Exception
@@ -29,6 +33,15 @@ class ColorPaletteFactoryTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		cut = new ColorPaletteFactory();
+		palette3Entries = new ArrayList<>();
+		palette3Entries.add(Color.RED);
+		palette3Entries.add(Color.GREEN);
+		palette3Entries.add(Color.BLUE);
+		palette4Entries = new ArrayList<>();
+		palette4Entries.add(Color.RED);
+		palette4Entries.add(Color.GREEN);
+		palette4Entries.add(Color.BLUE);
+		palette4Entries.add(Color.ORANGE);
 	}
 
 	private static Stream<Arguments> testCreateGradientList2() {
@@ -105,6 +118,27 @@ class ColorPaletteFactoryTest {
 		assertEquals(168, result.get(28).getRed(), "Last color not correct in red.");
 		assertEquals(0, result.get(28).getGreen(), "Last color not correct in green.");
 		assertEquals(185, result.get(28).getBlue(), "Last color not correct in blue.");
+	}
+
+	private static Stream<Arguments> testCreateGradientList() {
+		return Stream.of(
+		    // Steps should be equal all over.
+		    Arguments.of(palette4Entries, 19, new int[] { 0, 6, 12, 18 }),
+		    // One step more for the last color (because of a modulo 1)
+		    Arguments.of(palette4Entries, 20, new int[] { 0, 6, 12, 19 }),
+		    // One step more for the last 2 colors (because of a modulo 2)
+		    Arguments.of(palette4Entries, 21, new int[] { 0, 6, 13, 20 }));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void testCreateGradientList(List<Color> ungraded, int nrOfSteps, int[] expectedIdx) {
+		List<Color> result = cut.createGradientList(ungraded, nrOfSteps);
+		assertNotNull(result);
+		assertEquals(nrOfSteps, result.size());
+		for (int i = 0; i < expectedIdx.length; i++) {
+			assertEquals(ungraded.get(i), result.get(expectedIdx[i]));
+		}
 	}
 
 }
