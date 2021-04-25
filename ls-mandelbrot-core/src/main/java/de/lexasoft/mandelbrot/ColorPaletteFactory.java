@@ -39,7 +39,7 @@ public class ColorPaletteFactory {
 		colors.add(colorStart);
 		// The colors between start and end will be interpolated
 		for (int i = 1; i < nrOfSteps - 1; i++) {
-			colors.add(createColor(colorStart, gf, i));
+			colors.add(gradeColor(colorStart, gf, i));
 		}
 		// To avoid mistakes from rounding -> set the last color as defined
 		colors.add(colorEnd);
@@ -66,13 +66,13 @@ public class ColorPaletteFactory {
 		colors.add(colorStart);
 		// Then add colors between start and between
 		for (int i = 1; i < stepBetween - 1; i++) {
-			colors.add(createColor(colorStart, gf1, i));
+			colors.add(gradeColor(colorStart, gf1, i));
 		}
 		// Then add between
 		colors.add(colorBetween);
 		// Then add colors between middle and end.
 		for (int i = 1; i < stepEnd; i++) {
-			colors.add(createColor(colorBetween, gf2, i));
+			colors.add(gradeColor(colorBetween, gf2, i));
 		}
 		// Now add the end color directly.
 		colors.add(colorEnd);
@@ -87,7 +87,7 @@ public class ColorPaletteFactory {
 		return gf;
 	}
 
-	private Color createColor(Color colorStart, GradientFactors gf, int step) {
+	private Color gradeColor(Color colorStart, GradientFactors gf, int step) {
 		int cr = (int) (colorStart.getRed() + gf.red * step);
 		int cg = (int) (colorStart.getGreen() + gf.green * step);
 		int cb = (int) (colorStart.getBlue() + gf.blue * step);
