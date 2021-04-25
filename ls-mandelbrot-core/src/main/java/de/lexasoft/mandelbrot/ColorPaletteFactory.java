@@ -79,9 +79,26 @@ public class ColorPaletteFactory {
 		return colors;
 	}
 
+	private void assertGradingPossible(int nrOfColors, int grading) {
+		// Make sure, there is at least one step between all colors
+		int minimumGrading = 2 * nrOfColors - 1;
+		if (grading < minimumGrading) {
+			throw new IllegalArgumentException(
+			    String.format("For %s number of colors grading must be at least %s.", nrOfColors, minimumGrading));
+		}
+	}
+
+	/**
+	 * Grades every color palette by inserting steps between the given colors.
+	 * 
+	 * @param ungradedPalette
+	 * @param grading
+	 * @return
+	 */
 	public List<Color> createGradientList(List<Color> ungradedPalette, int grading) {
-		List<Color> gradedList = new ArrayList<>();
-		// For the given number of colors in the list there should be nC -1 grading
+		// Make sure, we can grade this palette
+		assertGradingPossible(ungradedPalette.size(), grading);
+		// For the given number of colors in the list there should be nC-1 grading
 		// intervals.
 		int nrOfIntervals = ungradedPalette.size() - 1;
 		// In every interval there should be an equal number of grading steps.
@@ -100,6 +117,7 @@ public class ColorPaletteFactory {
 				ii--;
 			}
 		}
+		List<Color> gradedList = new ArrayList<>();
 		// Handling for each interval
 		for (int i = 0; i < nrOfIntervals; i++) {
 			Color firstColor = ungradedPalette.get(i);

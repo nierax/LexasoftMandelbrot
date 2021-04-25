@@ -5,6 +5,7 @@ package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -127,18 +128,38 @@ class ColorPaletteFactoryTest {
 		    // One step more for the last color (because of a modulo 1)
 		    Arguments.of(palette4Entries, 20, new int[] { 0, 6, 12, 19 }),
 		    // One step more for the last 2 colors (because of a modulo 2)
-		    Arguments.of(palette4Entries, 21, new int[] { 0, 6, 13, 20 }));
+		    Arguments.of(palette4Entries, 21, new int[] { 0, 6, 13, 20 }),
+		    // At least 7 steps for a 4 entry palette
+		    Arguments.of(palette4Entries, 7, new int[] { 0, 2, 4, 6 }),
+		    // At least 5 steps for a 3 entry palette
+		    Arguments.of(palette3Entries, 5, new int[] { 0, 2, 4 }));
 	}
 
 	@ParameterizedTest
 	@MethodSource
-	void testCreateGradientList(List<Color> ungraded, int nrOfSteps, int[] expectedIdx) {
-		List<Color> result = cut.createGradientList(ungraded, nrOfSteps);
+	void testCreateGradientList(List<Color> ungraded, int gradient, int[] expectedIdx) {
+		List<Color> result = cut.createGradientList(ungraded, gradient);
 		assertNotNull(result);
-		assertEquals(nrOfSteps, result.size());
+		assertEquals(gradient, result.size());
 		for (int i = 0; i < expectedIdx.length; i++) {
 			assertEquals(ungraded.get(i), result.get(expectedIdx[i]));
 		}
+	}
+
+	private static Stream<Arguments> testCreateGradientListGradientTooLow() {
+		return Stream.of(
+		    // 6 Is not enough for a 4 entries palette.
+		    Arguments.of(palette4Entries, 6),
+		    // 4 Is not enough for a 3 entries palette.
+		    Arguments.of(palette3Entries, 4));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void testCreateGradientListGradientTooLow(List<Color> ungraded, int gradient) {
+		assertThrows(IllegalArgumentException.class, () -> {
+			cut.createGradientList(ungraded, gradient);
+		});
 	}
 
 }
