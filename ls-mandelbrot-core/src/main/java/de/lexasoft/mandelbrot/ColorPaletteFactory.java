@@ -5,6 +5,7 @@ package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,6 +22,12 @@ public class ColorPaletteFactory {
 		float red;
 		float green;
 		float blue;
+	}
+
+	class GradingAttr {
+		int grading;
+		int[] stepsPerInterval;
+		int nrOfIntervals;
 	}
 
 	/**
@@ -88,47 +95,52 @@ public class ColorPaletteFactory {
 		}
 	}
 
-	/**
-	 * Grades every color palette by inserting steps between the given colors.
-	 * 
-	 * @param ungradedPalette
-	 * @param grading
-	 * @return
-	 */
-	public List<Color> createGradientList(List<Color> ungradedPalette, int grading) {
-		// Make sure, we can grade this palette
-		assertGradingPossible(ungradedPalette.size(), grading);
-		// For the given number of colors in the list there should be nC-1 grading
-		// intervals.
-		int nrOfIntervals = ungradedPalette.size() - 1;
-		// In every interval there should be an equal number of grading steps.
-		int stepsPerInterval = (grading - ungradedPalette.size()) / nrOfIntervals;
-		int[] stepsPI = new int[nrOfIntervals];
-		for (int i = 0; i < nrOfIntervals; i++) {
-			stepsPI[i] = stepsPerInterval;
-		}
+	private GradingAttr calculateGradingAttributes(int nrOfColors, int grading) {
+		assertGradingPossible(nrOfColors, grading);
+		GradingAttr ga = new GradingAttr();
+		ga.grading = grading;
+		ga.nrOfIntervals = nrOfColors - 1;
+		// Number of steps per interval
+		int stepsPI = (grading - nrOfColors) / ga.nrOfIntervals;
+		// Fill array steps per interval with the common steps per interval
+		ga.stepsPerInterval = new int[ga.nrOfIntervals];
+		Arrays.fill(ga.stepsPerInterval, stepsPI);
 		// If there is a remainder, the number of steps is increased by one for some
 		// intervals, beginning with the last one.
-		int remainderPerInterval = (grading - ungradedPalette.size()) % nrOfIntervals;
-		if (remainderPerInterval > 0) {
-			int ii = nrOfIntervals - 1;
-			for (int i = 0; i < remainderPerInterval; i++) {
-				stepsPI[ii]++;
+		int remainderPI = (grading - nrOfColors) % ga.nrOfIntervals;
+		if (remainderPI > 0) {
+			int ii = ga.nrOfIntervals - 1;
+			for (int i = 0; i < remainderPI; i++) {
+				ga.stepsPerInterval[ii]++;
 				ii--;
 			}
 		}
+		return ga;
+	}
+
+	/**
+	 * Grades every color palette by inserting steps between the colors in the
+	 * palette.
+	 * 
+	 * @param ungradedPalette The original palette
+	 * @param grading         The number of entries, the graded palette should have
+	 * @return The graded color palette
+	 */
+	public List<Color> createGradientList(List<Color> ungradedPalette, int grading) {
+		// Calculate the parameters of grading
+		GradingAttr ga = calculateGradingAttributes(ungradedPalette.size(), grading);
 		List<Color> gradedList = new ArrayList<>();
 		// Handling for each interval
-		for (int i = 0; i < nrOfIntervals; i++) {
+		for (int i = 0; i < ga.nrOfIntervals; i++) {
 			Color firstColor = ungradedPalette.get(i);
 			Color secondColor = ungradedPalette.get(i + 1);
 			// Put the first color of the interval in the list
 			gradedList.add(firstColor);
 			// Then grade the colors in the given number of steps to the next color in the
 			// interval
-			for (int j = 0; j < stepsPI[i]; j++) {
-				GradientFactors gf = calculateFactors(firstColor, secondColor, stepsPI[i]);
-				gradedList.add(gradeColor(firstColor, gf, j));
+			for (int j = 0; j < ga.stepsPerInterval[i]; j++) {
+				GradientFactors gf = calculateFactors(firstColor, secondColor, ga.stepsPerInterval[i] + 1);
+				gradedList.add(gradeColor(firstColor, gf, j + 1));
 			}
 		}
 		// Now add the last color directly

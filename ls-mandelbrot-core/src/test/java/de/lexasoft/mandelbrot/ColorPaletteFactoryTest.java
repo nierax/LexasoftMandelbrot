@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -142,7 +143,16 @@ class ColorPaletteFactoryTest {
 		assertNotNull(result);
 		assertEquals(gradient, result.size());
 		for (int i = 0; i < expectedIdx.length; i++) {
-			assertEquals(ungraded.get(i), result.get(expectedIdx[i]));
+			int j = expectedIdx[i];
+			assertEquals(ungraded.get(i), result.get(j));
+			if (j < result.size() - 1) {
+				// The next color must not be the same some original
+				assertNotEquals(ungraded.get(i), result.get(j + 1));
+			}
+			if (j > 0) {
+				// The previous color must not be the same some original
+				assertNotEquals(ungraded.get(i), result.get(j - 1));
+			}
 		}
 	}
 
