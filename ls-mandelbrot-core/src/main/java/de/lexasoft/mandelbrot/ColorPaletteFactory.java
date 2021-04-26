@@ -30,62 +30,6 @@ public class ColorPaletteFactory {
 		int nrOfIntervals;
 	}
 
-	/**
-	 * Creates a list of colors in steps between two colors: Color start and color
-	 * end.
-	 * 
-	 * @param colorStart The first color used (at step 0)
-	 * @param colorEnd   The last color used (at step nrOfSteps-1)
-	 * @param nrOfSteps  The number of steps to gradient between.
-	 * @return A list with all colors at their positions.
-	 */
-	public List<Color> createGradientList(Color colorStart, Color colorEnd, int nrOfSteps) {
-		List<Color> colors = new ArrayList<>(nrOfSteps);
-		GradientFactors gf = calculateFactors(colorStart, colorEnd, nrOfSteps);
-		// Start color is set directly
-		colors.add(colorStart);
-		// The colors between start and end will be interpolated
-		for (int i = 1; i < nrOfSteps - 1; i++) {
-			colors.add(gradeColor(colorStart, gf, i));
-		}
-		// To avoid mistakes from rounding -> set the last color as defined
-		colors.add(colorEnd);
-		return colors;
-	}
-
-	/**
-	 * Creates a list of colors in steps between three colors: Color start, Color
-	 * between and color end.
-	 * 
-	 * @param colorStart   The first color used (at step 0)
-	 * @param colorBetween The color used in the middle of the interval.
-	 * @param colorEnd     The last color used (at step nrOfSteps-1)
-	 * @param nrOfSteps    The number of steps to gradient between.
-	 * @return A list with all colors at their positions.
-	 */
-	public List<Color> createGradientList(Color colorStart, Color colorBetween, Color colorEnd, int nrOfSteps) {
-		List<Color> colors = new ArrayList<>(nrOfSteps);
-		int stepBetween = nrOfSteps / 2;
-		int stepEnd = nrOfSteps - stepBetween;
-		GradientFactors gf1 = calculateFactors(colorStart, colorBetween, stepBetween);
-		GradientFactors gf2 = calculateFactors(colorBetween, colorEnd, nrOfSteps - stepBetween);
-		// First color is set directly
-		colors.add(colorStart);
-		// Then add colors between start and between
-		for (int i = 1; i < stepBetween - 1; i++) {
-			colors.add(gradeColor(colorStart, gf1, i));
-		}
-		// Then add between
-		colors.add(colorBetween);
-		// Then add colors between middle and end.
-		for (int i = 1; i < stepEnd; i++) {
-			colors.add(gradeColor(colorBetween, gf2, i));
-		}
-		// Now add the end color directly.
-		colors.add(colorEnd);
-		return colors;
-	}
-
 	private void assertGradingPossible(int nrOfColors, int grading) {
 		// Make sure, there is at least one step between all colors
 		int minimumGrading = 2 * nrOfColors - 1;
