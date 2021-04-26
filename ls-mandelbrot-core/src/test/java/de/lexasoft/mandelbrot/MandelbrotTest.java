@@ -46,16 +46,9 @@ class MandelbrotTest {
 		return Stream.of(
 		    // Black and white
 		    Arguments.of(new MandelbrotBlackWhite(), 500, IMAGE_DIRECTORY + "/mandelbrot-bw.tiff"),
-		    // 3 colors
-		    Arguments.of(MandelbrotColorPalette.of(
-		        cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, new Color(25, 140, 255), 16),
-		        Color.BLACK), 500, IMAGE_DIRECTORY + "/mandelbrot-color.tiff"),
-		    // 3 colors
+		    // Rainbow 29 colors
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createRainbowPalette29(), Color.BLACK), 580,
 		        IMAGE_DIRECTORY + "/mandelbrot-rainbow.tiff"),
-		    // 2 colors lighter blue
-		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, 5),
-		        Color.BLACK), 500, IMAGE_DIRECTORY + "/mandelbrot-color2.tiff"),
 		    // 3 colors in list
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(ungraded, 21), Color.BLACK), 500,
 		        IMAGE_DIRECTORY + "/mandelbrot-colorlist.tiff"));
