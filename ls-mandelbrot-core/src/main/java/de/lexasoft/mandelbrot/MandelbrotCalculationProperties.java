@@ -33,11 +33,11 @@ public class MandelbrotCalculationProperties {
 	@JsonProperty
 	private String imageFilename;
 	@JsonProperty
-	private ColorVariant colorVariant;
+	private PaletteVariant paletteVariant;
 	@JsonProperty
 	private List<Color> colors;
 	@JsonProperty
-	private int colorInterval;
+	private int colorGrading;
 	@JsonProperty
 	private Color mandelbrotColor;
 
@@ -81,12 +81,12 @@ public class MandelbrotCalculationProperties {
 		this.imageHeight = imageHeight;
 	}
 
-	public ColorVariant getColorVariant() {
-		return colorVariant;
+	public PaletteVariant getPaletteVariant() {
+		return paletteVariant;
 	}
 
-	public void setColorVariant(ColorVariant colorVariant) {
-		this.colorVariant = colorVariant;
+	public void setPaletteVariant(PaletteVariant paletteVariant) {
+		this.paletteVariant = paletteVariant;
 	}
 
 	public List<Color> getColors() {
@@ -97,12 +97,12 @@ public class MandelbrotCalculationProperties {
 		this.colors = colors;
 	}
 
-	public int getColorInterval() {
-		return colorInterval;
+	public int getColorGrading() {
+		return colorGrading;
 	}
 
-	public void setColorInterval(int nrOfColors) {
-		this.colorInterval = nrOfColors;
+	public void setColorGrading(int nrOfColors) {
+		this.colorGrading = nrOfColors;
 	}
 
 	public String getImageFilename() {

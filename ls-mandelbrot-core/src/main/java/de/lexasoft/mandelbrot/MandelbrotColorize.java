@@ -22,11 +22,11 @@ public interface MandelbrotColorize {
 	 * 
 	 * @param variant         The variant used
 	 * @param colors          The colors, describing the palette to create.
-	 * @param nrOfSteps       The number of steps for color gradients.
+	 * @param colorGrading    The number of steps for color gradients.
 	 * @param mandelbrotColor The color used for the Mandelbrot set.
 	 * @return A colorize object, prepared to use.
 	 */
-	static MandelbrotColorize of(ColorVariant variant, List<Color> colors, int nrOfSteps, Color mandelbrotColor) {
+	static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, int colorGrading, Color mandelbrotColor) {
 		ColorPaletteFactory cFactory = new ColorPaletteFactory();
 		MandelbrotColorize colorize = null;
 		switch (variant) {
@@ -37,7 +37,7 @@ public interface MandelbrotColorize {
 			if (colors.size() < 2) {
 				throw new IllegalArgumentException("2 colors required for gradient 2.");
 			}
-			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors.get(0), colors.get(1), nrOfSteps),
+			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors.get(0), colors.get(1), colorGrading),
 			    mandelbrotColor);
 			break;
 		case GRADIENT3:
@@ -45,10 +45,17 @@ public interface MandelbrotColorize {
 				throw new IllegalArgumentException("3 colors required for gradient 3.");
 			}
 			colorize = MandelbrotColorPalette
-			    .of(cFactory.createGradientList(colors.get(0), colors.get(1), colors.get(2), nrOfSteps), mandelbrotColor);
+			    .of(cFactory.createGradientList(colors.get(0), colors.get(1), colors.get(2), colorGrading), mandelbrotColor);
 			break;
 		case RAINBOW29:
-			colorize = MandelbrotColorPalette.of(cFactory.createRainbowPalette29(), mandelbrotColor);
+			List<Color> rainbow = cFactory.createRainbowPalette29();
+			if (colorGrading > 0) {
+				rainbow = cFactory.createGradientList(rainbow, colorGrading);
+			}
+			colorize = MandelbrotColorPalette.of(rainbow, mandelbrotColor);
+			break;
+		case CUSTOM:
+			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors, colorGrading), mandelbrotColor);
 			break;
 		default:
 			break;
@@ -66,7 +73,7 @@ public interface MandelbrotColorize {
 	 * @param nrOfSteps The number of steps for color gradients.
 	 * @return A colorize object, prepared to use.
 	 */
-	static MandelbrotColorize of(ColorVariant variant, List<Color> colors, int nrOfSteps) {
+	static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, int nrOfSteps) {
 		return of(variant, colors, nrOfSteps, Color.BLACK);
 	}
 }

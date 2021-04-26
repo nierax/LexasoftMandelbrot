@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,9 +46,9 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(500, cut.getMaximumIterations());
 		assertEquals(4590, cut.getImageWidth());
 		assertEquals(4050, cut.getImageHeight());
-		assertEquals("C:\\Users\\axeln\\Pictures\\mandelbrot-test.tiff", cut.getImageFilename());
+		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImageFilename());
 
-		assertSame(ColorVariant.GRADIENT2, cut.getColorVariant());
+		assertSame(PaletteVariant.CUSTOM, cut.getPaletteVariant());
 		assertEquals(2, cut.getColors().size());
 
 		assertEquals(25, cut.getColors().get(0).getRed());
@@ -58,7 +59,9 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(255, cut.getColors().get(1).getGreen());
 		assertEquals(255, cut.getColors().get(1).getBlue());
 
-		assertEquals(5, cut.getColorInterval());
+		assertEquals(5, cut.getColorGrading());
+
+		assertEquals(Color.BLACK, cut.getMandelbrotColor());
 	}
 
 }

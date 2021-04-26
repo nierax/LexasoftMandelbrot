@@ -43,7 +43,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfBlackAndWhite() {
-		MandelbrotColorize cut = MandelbrotColorize.of(ColorVariant.BLACK_WHITE, null, 0);
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.BLACK_WHITE, null, 0);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotBlackWhite);
 	}
@@ -52,11 +52,11 @@ class MandelbrotColorizeTest {
 	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
 	 * color variant rainbow in 29 steps.
 	 * <p>
-	 * In this case both list of colors and color interval are not needed.
+	 * The grading is 0, which means, that the original RAINBOW29 list is expected.
 	 */
 	@Test
 	void testOfRainbow29() {
-		MandelbrotColorize cut = MandelbrotColorize.of(ColorVariant.RAINBOW29, null, 0);
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.RAINBOW29, null, 0);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -74,6 +74,29 @@ class MandelbrotColorizeTest {
 
 	/**
 	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
+	 * color variant rainbow in 29 steps and a grading of 57 (minimum value).
+	 * <p>
+	 * A custom (ungraded) palette is not needed, as RAINBOW29 is a predefined list.
+	 */
+	@Test
+	void testOfRainbow29Graded() {
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.RAINBOW29, null, 57);
+		assertNotNull(cut);
+		assertTrue(cut instanceof MandelbrotColorPalette);
+		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
+		assertNotNull(palette);
+		// Check, whether this is the right palette.
+		assertEquals(57, palette.size());
+		assertEquals(128, palette.get(0).getRed());
+		assertEquals(0, palette.get(0).getGreen());
+		assertEquals(0, palette.get(0).getBlue());
+		assertEquals(168, palette.get(56).getRed());
+		assertEquals(0, palette.get(56).getGreen());
+		assertEquals(185, palette.get(56).getBlue());
+	}
+
+	/**
+	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
 	 * color variant color grading between 2 colors.
 	 * <p>
 	 * In this case the list must contain the two colors, between the colors are
@@ -81,7 +104,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfGrading2() {
-		MandelbrotColorize cut = MandelbrotColorize.of(ColorVariant.GRADIENT2, colors, 5);
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.GRADIENT2, colors, 5);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -104,7 +127,7 @@ class MandelbrotColorizeTest {
 	@Test
 	void testOfGrading3() {
 		colors.add(Color.GREEN);
-		MandelbrotColorize cut = MandelbrotColorize.of(ColorVariant.GRADIENT3, colors, 9);
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.GRADIENT3, colors, 9);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -125,12 +148,12 @@ class MandelbrotColorizeTest {
 		// New empty list -> No colors defined
 		List<Color> colors = new ArrayList<>();
 		assertThrows(IllegalArgumentException.class, () -> {
-			MandelbrotColorize.of(ColorVariant.GRADIENT2, colors, 5);
+			MandelbrotColorize.of(PaletteVariant.GRADIENT2, colors, 5);
 		});
 		// Adding just one color is not enough
 		colors.add(Color.BLUE);
 		assertThrows(IllegalArgumentException.class, () -> {
-			MandelbrotColorize.of(ColorVariant.GRADIENT2, colors, 5);
+			MandelbrotColorize.of(PaletteVariant.GRADIENT2, colors, 5);
 		});
 	}
 
@@ -142,17 +165,17 @@ class MandelbrotColorizeTest {
 		// New empty list -> No colors defined
 		List<Color> colors = new ArrayList<>();
 		assertThrows(IllegalArgumentException.class, () -> {
-			MandelbrotColorize.of(ColorVariant.GRADIENT3, colors, 9);
+			MandelbrotColorize.of(PaletteVariant.GRADIENT3, colors, 9);
 		});
 		// Adding just one color is not enough
 		colors.add(Color.BLUE);
 		assertThrows(IllegalArgumentException.class, () -> {
-			MandelbrotColorize.of(ColorVariant.GRADIENT3, colors, 9);
+			MandelbrotColorize.of(PaletteVariant.GRADIENT3, colors, 9);
 		});
 		// Adding a second color is not enough, as well
 		colors.add(Color.GREEN);
 		assertThrows(IllegalArgumentException.class, () -> {
-			MandelbrotColorize.of(ColorVariant.GRADIENT3, colors, 9);
+			MandelbrotColorize.of(PaletteVariant.GRADIENT3, colors, 9);
 		});
 	}
 
