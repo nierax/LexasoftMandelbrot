@@ -37,7 +37,7 @@ class MandelbrotRunnerTest {
 		props.setMaximumIterations(50);
 		props.setImageWidth(459);
 		props.setImageHeight(405);
-		props.setImageFilename("C:/Users/axeln/Pictures/mandelbrot-test.tiff");
+		props.setImageFilename("./junit-tmp/mandelbrot-test.tiff");
 		props.setColorVariant(ColorVariant.GRADIENT2);
 		List<Color> colors = new ArrayList<>();
 		colors.add(Color.BLUE);
@@ -63,7 +63,7 @@ class MandelbrotRunnerTest {
 		assertEquals(50, cut.getMaximumIterations());
 		assertEquals(459, cut.getImageWidth());
 		assertEquals(405, cut.getImageHeight());
-		assertEquals("C:/Users/axeln/Pictures/mandelbrot-test.tiff", cut.getImageFilename());
+		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImageFilename());
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut.getColorize()).getPalette();

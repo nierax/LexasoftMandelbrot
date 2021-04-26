@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +38,11 @@ class MandelbrotTest {
 
 	private static Stream<Arguments> testDrawMandelbrot() {
 		ColorPaletteFactory cFactory = new ColorPaletteFactory();
+		List<Color> ungraded = new ArrayList<>();
+		ungraded.add(Color.BLUE);
+		ungraded.add(Color.WHITE);
+		ungraded.add(Color.ORANGE);
+		ungraded.add(Color.WHITE);
 		return Stream.of(
 		    // Black and white
 		    Arguments.of(new MandelbrotBlackWhite(), 500, IMAGE_DIRECTORY + "/mandelbrot-bw.tiff"),
@@ -48,7 +55,11 @@ class MandelbrotTest {
 		        IMAGE_DIRECTORY + "/mandelbrot-rainbow.tiff"),
 		    // 2 colors lighter blue
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(new Color(25, 140, 255), Color.WHITE, 5),
-		        Color.BLACK), 500, IMAGE_DIRECTORY + "/mandelbrot-color2.tiff"));
+		        Color.BLACK), 500, IMAGE_DIRECTORY + "/mandelbrot-color2.tiff"),
+		    // 3 colors in list
+		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(ungraded, 21), Color.BLACK), 500,
+		        IMAGE_DIRECTORY + "/mandelbrot-colorlist.tiff"));
+
 	}
 
 	/**
