@@ -201,4 +201,21 @@ public class ColorPaletteFactory {
 		colors.add(new Color(168, 0, 185));
 		return colors;
 	}
+
+	/**
+	 * Creates a color palette with rainbow colors in 7 steps.
+	 * 
+	 * @return
+	 */
+	public List<Color> createRainbowPalette7() {
+		List<Color> colors = new ArrayList<>(7);
+		colors.add(Color.RED);
+		colors.add(Color.ORANGE);
+		colors.add(Color.YELLOW);
+		colors.add(Color.GREEN);
+		colors.add(Color.BLUE);
+		colors.add(new Color(75, 0, 130)); // Indigo
+		colors.add(new Color(136, 0, 255)); // Purple
+		return colors;
+	}
 }

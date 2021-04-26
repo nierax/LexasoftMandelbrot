@@ -17,21 +17,14 @@ public enum PaletteVariant {
 	BLACK_WHITE,
 
 	/**
-	 * Deprecated. Use custom with grading instead
-	 */
-	@Deprecated
-	GRADIENT2,
-
-	/**
-	 * Deprecated. Use custom with grading instead
-	 */
-	@Deprecated
-	GRADIENT3,
-
-	/**
 	 * Rainbow in 29 colors
 	 */
 	RAINBOW29,
+
+	/**
+	 * Rainbow in 7 colors
+	 */
+	RAINBOW7,
 
 	/**
 	 * Custom palette, defined by user (f.ex. in YAML file)

@@ -33,26 +33,19 @@ public interface MandelbrotColorize {
 		case BLACK_WHITE:
 			colorize = new MandelbrotBlackWhite();
 			break;
-		case GRADIENT2:
-			if (colors.size() < 2) {
-				throw new IllegalArgumentException("2 colors required for gradient 2.");
-			}
-			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors.get(0), colors.get(1), colorGrading),
-			    mandelbrotColor);
-			break;
-		case GRADIENT3:
-			if (colors.size() < 3) {
-				throw new IllegalArgumentException("3 colors required for gradient 3.");
-			}
-			colorize = MandelbrotColorPalette
-			    .of(cFactory.createGradientList(colors.get(0), colors.get(1), colors.get(2), colorGrading), mandelbrotColor);
-			break;
 		case RAINBOW29:
-			List<Color> rainbow = cFactory.createRainbowPalette29();
+			List<Color> rainbow29 = cFactory.createRainbowPalette29();
 			if (colorGrading > 0) {
-				rainbow = cFactory.createGradientList(rainbow, colorGrading);
+				rainbow29 = cFactory.createGradientList(rainbow29, colorGrading);
 			}
-			colorize = MandelbrotColorPalette.of(rainbow, mandelbrotColor);
+			colorize = MandelbrotColorPalette.of(rainbow29, mandelbrotColor);
+			break;
+		case RAINBOW7:
+			List<Color> rainbow7 = cFactory.createRainbowPalette7();
+			if (colorGrading > 0) {
+				rainbow7 = cFactory.createGradientList(rainbow7, colorGrading);
+			}
+			colorize = MandelbrotColorPalette.of(rainbow7, mandelbrotColor);
 			break;
 		case CUSTOM:
 			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors, colorGrading), mandelbrotColor);
