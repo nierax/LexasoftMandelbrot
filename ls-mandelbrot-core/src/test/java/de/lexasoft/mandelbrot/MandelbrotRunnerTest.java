@@ -94,6 +94,19 @@ class MandelbrotRunnerTest {
 	@Test
 	void testOfRainbow29() {
 		props.setPaletteVariant(PaletteVariant.RAINBOW29);
+		props.setColorGrading(0);
+		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		assertNotNull(cut.getColorize());
+		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
+	}
+
+	/**
+	 * Check for Rainbow in 7 steps
+	 */
+	@Test
+	void testOfRainbow7() {
+		props.setPaletteVariant(PaletteVariant.RAINBOW7);
+		props.setColorGrading(0);
 		MandelbrotRunner cut = MandelbrotRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
