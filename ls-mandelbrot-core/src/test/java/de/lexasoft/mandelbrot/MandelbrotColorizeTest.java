@@ -94,4 +94,39 @@ class MandelbrotColorizeTest {
 		assertEquals(185, palette.get(56).getBlue());
 	}
 
+	/**
+	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
+	 * color variant custom in 2 steps, graded to 3 steps.
+	 */
+	@Test
+	void testOfCustomGraded() {
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.CUSTOM, colors, 3);
+		assertNotNull(cut);
+		assertTrue(cut instanceof MandelbrotColorPalette);
+		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
+		assertNotNull(palette);
+		// Check, whether this is the right palette.
+		assertEquals(3, palette.size());
+		assertEquals(Color.BLUE, palette.get(0));
+		assertEquals(new Color(127, 127, 255), palette.get(1));
+		assertEquals(Color.WHITE, palette.get(2));
+	}
+
+	/**
+	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
+	 * color variant custom in 2 steps, not graded.
+	 */
+	@Test
+	void testOfCustomNotGraded() {
+		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.CUSTOM, colors, 0);
+		assertNotNull(cut);
+		assertTrue(cut instanceof MandelbrotColorPalette);
+		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
+		assertNotNull(palette);
+		// Check, whether this is the right palette.
+		assertEquals(2, palette.size());
+		assertEquals(Color.BLUE, palette.get(0));
+		assertEquals(Color.WHITE, palette.get(1));
+	}
+
 }

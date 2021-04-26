@@ -48,7 +48,8 @@ public interface MandelbrotColorize {
 			colorize = MandelbrotColorPalette.of(rainbow7, mandelbrotColor);
 			break;
 		case CUSTOM:
-			colorize = MandelbrotColorPalette.of(cFactory.createGradientList(colors, colorGrading), mandelbrotColor);
+			List<Color> custom = (colorGrading == 0) ? colors : cFactory.createGradientList(colors, colorGrading);
+			colorize = MandelbrotColorPalette.of(custom, mandelbrotColor);
 			break;
 		default:
 			break;
