@@ -4,16 +4,20 @@ topLeft:
 bottomRight:
  cx: -1.71
  cy: -0.071111
-maximumIterations: 500
+maximumIterations: 100
 imageWidth: 4590
 imageHeight: 5940
-imageFilename: "./junit-tmp/mandelbrot-general-02-500.tiff"
-colorVariant: "GRADIENT2"
-colors:
+imageFilename: "./junit-tmp/mandelbrot-general-02-100.tiff"
+paletteVariant: "RAINBOW7"
+customColorPalette:
 - red: 25
   green: 140
   blue: 255
 - red: 255
   green: 255
   blue: 255
-colorInterval: 6
+colorGrading: 26
+mandelbrotColor:
+   red: 0
+   green: 0
+   blue: 64

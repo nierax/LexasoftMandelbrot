@@ -7,13 +7,17 @@ bottomRight:
 maximumIterations: 500
 imageWidth: 4590
 imageHeight: 4050
-imageFilename: "C:\\Users\\axeln\\Pictures\\mandelbrot-test.tiff"
-colorVariant: "GRADIENT2"
-colors:
+imageFilename: "./junit-tmp/mandelbrot-test.tiff"
+paletteVariant: "CUSTOM"
+customColorPalette:
 - red: 25
   green: 140
   blue: 255
 - red: 255
   green: 255
   blue: 255
-colorInterval: 5 
+colorGrading: 5 
+mandelbrotColor:
+   red: 0
+   green: 0
+   blue: 0

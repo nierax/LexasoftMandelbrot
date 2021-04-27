@@ -37,13 +37,13 @@ class MandelbrotRunnerTest {
 		props.setMaximumIterations(50);
 		props.setImageWidth(459);
 		props.setImageHeight(405);
-		props.setImageFilename("C:/Users/axeln/Pictures/mandelbrot-test.tiff");
-		props.setColorVariant(ColorVariant.GRADIENT2);
+		props.setImageFilename("./junit-tmp/mandelbrot-test.tiff");
+		props.setPaletteVariant(PaletteVariant.CUSTOM);
 		List<Color> colors = new ArrayList<>();
 		colors.add(Color.BLUE);
 		colors.add(Color.WHITE);
-		props.setColors(colors);
-		props.setColorInterval(5);
+		props.setCustomColorPalette(colors);
+		props.setColorGrading(5);
 		props.setMandelbrotColor(Color.YELLOW);
 	}
 
@@ -63,7 +63,7 @@ class MandelbrotRunnerTest {
 		assertEquals(50, cut.getMaximumIterations());
 		assertEquals(459, cut.getImageWidth());
 		assertEquals(405, cut.getImageHeight());
-		assertEquals("C:/Users/axeln/Pictures/mandelbrot-test.tiff", cut.getImageFilename());
+		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImageFilename());
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut.getColorize()).getPalette();
@@ -82,7 +82,7 @@ class MandelbrotRunnerTest {
 	 */
 	@Test
 	void testOfBlackAndWhite() {
-		props.setColorVariant(ColorVariant.BLACK_WHITE);
+		props.setPaletteVariant(PaletteVariant.BLACK_WHITE);
 		MandelbrotRunner cut = MandelbrotRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotBlackWhite);
@@ -93,25 +93,23 @@ class MandelbrotRunnerTest {
 	 */
 	@Test
 	void testOfRainbow29() {
-		props.setColorVariant(ColorVariant.RAINBOW29);
+		props.setPaletteVariant(PaletteVariant.RAINBOW29);
+		props.setColorGrading(0);
 		MandelbrotRunner cut = MandelbrotRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
 	}
 
 	/**
-	 * Check for Color grading with three colors
+	 * Check for Rainbow in 7 steps
 	 */
 	@Test
-	void testOfColorGrading3() {
-		props.setColorVariant(ColorVariant.GRADIENT3);
-		props.getColors().add(Color.BLUE);
-		props.setColorInterval(9);
+	void testOfRainbow7() {
+		props.setPaletteVariant(PaletteVariant.RAINBOW7);
+		props.setColorGrading(0);
 		MandelbrotRunner cut = MandelbrotRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
-		List<Color> palette = ((MandelbrotColorPalette) cut.getColorize()).getPalette();
-		assertEquals(9, palette.size());
 	}
 
 	/**

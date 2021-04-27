@@ -33,11 +33,11 @@ public class MandelbrotCalculationProperties {
 	@JsonProperty
 	private String imageFilename;
 	@JsonProperty
-	private ColorVariant colorVariant;
+	private PaletteVariant paletteVariant;
 	@JsonProperty
-	private List<Color> colors;
+	private List<Color> customColorPalette;
 	@JsonProperty
-	private int colorInterval;
+	private int colorGrading;
 	@JsonProperty
 	private Color mandelbrotColor;
 
@@ -81,28 +81,28 @@ public class MandelbrotCalculationProperties {
 		this.imageHeight = imageHeight;
 	}
 
-	public ColorVariant getColorVariant() {
-		return colorVariant;
+	public PaletteVariant getPaletteVariant() {
+		return paletteVariant;
 	}
 
-	public void setColorVariant(ColorVariant colorVariant) {
-		this.colorVariant = colorVariant;
+	public void setPaletteVariant(PaletteVariant paletteVariant) {
+		this.paletteVariant = paletteVariant;
 	}
 
-	public List<Color> getColors() {
-		return colors;
+	public List<Color> getCustomColorPalette() {
+		return customColorPalette;
 	}
 
-	public void setColors(List<Color> colors) {
-		this.colors = colors;
+	public void setCustomColorPalette(List<Color> colors) {
+		this.customColorPalette = colors;
 	}
 
-	public int getColorInterval() {
-		return colorInterval;
+	public int getColorGrading() {
+		return colorGrading;
 	}
 
-	public void setColorInterval(int nrOfColors) {
-		this.colorInterval = nrOfColors;
+	public void setColorGrading(int nrOfColors) {
+		this.colorGrading = nrOfColors;
 	}
 
 	public String getImageFilename() {
@@ -133,10 +133,10 @@ public class MandelbrotCalculationProperties {
 		if (mandelbrotColor != null) {
 			mandelbrotColor = cloneColor(mandelbrotColor);
 		}
-		if (colors != null) {
+		if (customColorPalette != null) {
 			int i = 0;
-			for (Color color : colors) {
-				colors.set(i, cloneColor(color));
+			for (Color color : customColorPalette) {
+				customColorPalette.set(i, cloneColor(color));
 				i++;
 			}
 		}
