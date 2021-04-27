@@ -15,12 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests, whether the factory method in the interface instantiates correctly.
  * 
  * @author nierax
  *
  */
-class MandelbrotColorizeTest {
+class MandelbrotColorizeFactoryTest {
 
 	private List<Color> colors;
 
@@ -42,7 +41,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfBlackAndWhite() {
-		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.BLACK_WHITE, null, 0);
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.BLACK_WHITE, null, 0);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotBlackWhite);
 	}
@@ -55,7 +54,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfRainbow29() {
-		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.RAINBOW29, null, 0);
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.RAINBOW29, null, 0);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -79,7 +78,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfRainbow29Graded() {
-		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.RAINBOW29, null, 57);
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.RAINBOW29, null, 57);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -100,7 +99,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfCustomGraded() {
-		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.CUSTOM, colors, 3);
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.CUSTOM, colors, 3);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -118,7 +117,7 @@ class MandelbrotColorizeTest {
 	 */
 	@Test
 	void testOfCustomNotGraded() {
-		MandelbrotColorize cut = MandelbrotColorize.of(PaletteVariant.CUSTOM, colors, 0);
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.CUSTOM, colors, 0);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();

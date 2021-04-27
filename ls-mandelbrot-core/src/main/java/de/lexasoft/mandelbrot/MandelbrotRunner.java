@@ -38,7 +38,7 @@ public class MandelbrotRunner {
 		this.imageHeight = props.getImageHeight();
 		this.imageFilename = props.getImageFilename();
 		Color mandelbrotColor = (props.getMandelbrotColor() == null) ? Color.BLACK : props.getMandelbrotColor();
-		this.colorize = MandelbrotColorize.of(props.getPaletteVariant(), props.getColors(), props.getColorGrading(),
+		this.colorize = MandelbrotColorizeFactory.of(props.getPaletteVariant(), props.getColors(), props.getColorGrading(),
 		    mandelbrotColor);
 		return this;
 	}
