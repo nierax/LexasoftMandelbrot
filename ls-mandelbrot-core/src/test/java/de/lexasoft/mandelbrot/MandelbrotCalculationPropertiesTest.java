@@ -49,15 +49,15 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImageFilename());
 
 		assertSame(PaletteVariant.CUSTOM, cut.getPaletteVariant());
-		assertEquals(2, cut.getColors().size());
+		assertEquals(2, cut.getCustomColorPalette().size());
 
-		assertEquals(25, cut.getColors().get(0).getRed());
-		assertEquals(140, cut.getColors().get(0).getGreen());
-		assertEquals(255, cut.getColors().get(0).getBlue());
+		assertEquals(25, cut.getCustomColorPalette().get(0).getRed());
+		assertEquals(140, cut.getCustomColorPalette().get(0).getGreen());
+		assertEquals(255, cut.getCustomColorPalette().get(0).getBlue());
 
-		assertEquals(255, cut.getColors().get(1).getRed());
-		assertEquals(255, cut.getColors().get(1).getGreen());
-		assertEquals(255, cut.getColors().get(1).getBlue());
+		assertEquals(255, cut.getCustomColorPalette().get(1).getRed());
+		assertEquals(255, cut.getCustomColorPalette().get(1).getGreen());
+		assertEquals(255, cut.getCustomColorPalette().get(1).getBlue());
 
 		assertEquals(5, cut.getColorGrading());
 

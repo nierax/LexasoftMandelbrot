@@ -9,7 +9,7 @@ imageWidth: 4590
 imageHeight: 4050
 imageFilename: "./junit-tmp/mandelbrot-test.tiff"
 paletteVariant: "CUSTOM"
-colors:
+customColorPalette:
 - red: 25
   green: 140
   blue: 255

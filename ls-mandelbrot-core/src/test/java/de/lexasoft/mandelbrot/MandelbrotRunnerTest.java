@@ -42,7 +42,7 @@ class MandelbrotRunnerTest {
 		List<Color> colors = new ArrayList<>();
 		colors.add(Color.BLUE);
 		colors.add(Color.WHITE);
-		props.setColors(colors);
+		props.setCustomColorPalette(colors);
 		props.setColorGrading(5);
 		props.setMandelbrotColor(Color.YELLOW);
 	}

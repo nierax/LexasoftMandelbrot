@@ -35,7 +35,7 @@ public class MandelbrotCalculationProperties {
 	@JsonProperty
 	private PaletteVariant paletteVariant;
 	@JsonProperty
-	private List<Color> colors;
+	private List<Color> customColorPalette;
 	@JsonProperty
 	private int colorGrading;
 	@JsonProperty
@@ -89,12 +89,12 @@ public class MandelbrotCalculationProperties {
 		this.paletteVariant = paletteVariant;
 	}
 
-	public List<Color> getColors() {
-		return colors;
+	public List<Color> getCustomColorPalette() {
+		return customColorPalette;
 	}
 
-	public void setColors(List<Color> colors) {
-		this.colors = colors;
+	public void setCustomColorPalette(List<Color> colors) {
+		this.customColorPalette = colors;
 	}
 
 	public int getColorGrading() {
@@ -133,10 +133,10 @@ public class MandelbrotCalculationProperties {
 		if (mandelbrotColor != null) {
 			mandelbrotColor = cloneColor(mandelbrotColor);
 		}
-		if (colors != null) {
+		if (customColorPalette != null) {
 			int i = 0;
-			for (Color color : colors) {
-				colors.set(i, cloneColor(color));
+			for (Color color : customColorPalette) {
+				customColorPalette.set(i, cloneColor(color));
 				i++;
 			}
 		}
