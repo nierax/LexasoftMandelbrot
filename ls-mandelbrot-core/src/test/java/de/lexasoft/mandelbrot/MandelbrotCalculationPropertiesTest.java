@@ -83,12 +83,30 @@ class MandelbrotCalculationPropertiesTest {
 	}
 
 	private static Stream<Arguments> testOfAspectRatioOk() {
-		return Stream.of(Arguments.of("src/test/resources/mandelbrot-test-imageheight-ar.yaml", 4590, 4050),
+		return Stream.of(
+		    // Image width given, image height calculated
+		    Arguments.of("src/test/resources/mandelbrot-test-imageheight-ar.yaml", 4590, 4050),
+		    // Image height given, image width calculated
 		    Arguments.of("src/test/resources/mandelbrot-test-imagewidth-ar.yaml", 4590, 4050),
+		    // Image width given, image height calculated with cx both points in minus
 		    Arguments.of("src/test/resources/mandelbrot-test-ar-bothinminus.yaml", 3000, 2000),
+		    // Image width given, image height calculated with cx both points in plus
 		    Arguments.of("src/test/resources/mandelbrot-test-ar-bothinplus.yaml", 3000, 2000));
 	}
 
+	/**
+	 * Tests the determination of the image width / image height from the aspect
+	 * ration of the Mandelbrot calculation.
+	 * 
+	 * @param yamlFilename   YAML file with test case
+	 * @param expectedWidth  Which image width is expected (either given in the file
+	 *                       or calculated)
+	 * @param expectedHeight Which image height is expected (either given in the
+	 *                       file or calculated)
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	@ParameterizedTest
 	@MethodSource
 	void testOfAspectRatioOk(String yamlFilename, int expectedWidth, int expectedHeight)
