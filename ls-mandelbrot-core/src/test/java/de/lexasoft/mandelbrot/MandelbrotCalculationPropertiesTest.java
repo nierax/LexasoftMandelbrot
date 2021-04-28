@@ -9,9 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -72,36 +76,26 @@ class MandelbrotCalculationPropertiesTest {
 	 * @throws IOException
 	 */
 	@Test
-	void testOfAspectRatioImageHeight() throws JsonParseException, JsonMappingException, IOException {
-		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties
-		    .of("src/test/resources/mandelbrot-test-imageheight-ar.yaml");
-		assertEquals(4050, cut.getImageHeight());
-	}
-
-	/**
-	 * 
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
-	@Test
-	void testOfAspectRatioImageWidth() throws JsonParseException, JsonMappingException, IOException {
-		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties
-		    .of("src/test/resources/mandelbrot-test-imagewidth-ar.yaml");
-		assertEquals(4590, cut.getImageWidth());
-	}
-
-	/**
-	 * 
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
-	@Test
 	void testOfAspectRatioError() throws JsonParseException, JsonMappingException, IOException {
 		assertThrows(IllegalArgumentException.class, () -> {
 			MandelbrotCalculationProperties.of("src/test/resources/mandelbrot-test-ar-widthandheight-error.yaml");
 		});
+	}
+
+	private static Stream<Arguments> testOfAspectRatioOk() {
+		return Stream.of(Arguments.of("src/test/resources/mandelbrot-test-imageheight-ar.yaml", 4590, 4050),
+		    Arguments.of("src/test/resources/mandelbrot-test-imagewidth-ar.yaml", 4590, 4050),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-bothinminus.yaml", 3000, 2000),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-bothinplus.yaml", 3000, 2000));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void testOfAspectRatioOk(String yamlFilename, int expectedWidth, int expectedHeight)
+	    throws JsonParseException, JsonMappingException, IOException {
+		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.of(yamlFilename);
+		assertEquals(expectedWidth, cut.getImageWidth());
+		assertEquals(expectedHeight, cut.getImageHeight());
 	}
 
 }

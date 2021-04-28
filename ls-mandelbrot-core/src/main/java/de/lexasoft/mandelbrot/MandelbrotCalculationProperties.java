@@ -146,7 +146,7 @@ public class MandelbrotCalculationProperties {
 		if ((v0 < 0) && (v1 >= 0)) {
 			return Math.abs(v0) + v1;
 		}
-		return Math.abs(v0) - Math.abs(v1);
+		return Math.abs(v0 - v1);
 	}
 
 	/**
