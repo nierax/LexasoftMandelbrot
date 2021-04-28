@@ -143,9 +143,6 @@ public class MandelbrotCalculationProperties {
 	}
 
 	private double difference(double v0, double v1) {
-		if ((v0 < 0) && (v1 >= 0)) {
-			return Math.abs(v0) + v1;
-		}
 		return Math.abs(v0 - v1);
 	}
 
