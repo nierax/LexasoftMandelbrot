@@ -5,6 +5,7 @@ package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -62,6 +63,45 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(5, cut.getColorGrading());
 
 		assertEquals(Color.BLACK, cut.getMandelbrotColor());
+	}
+
+	/**
+	 * 
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@Test
+	void testOfAspectRatioImageHeight() throws JsonParseException, JsonMappingException, IOException {
+		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties
+		    .of("src/test/resources/mandelbrot-test-imageheight-ar.yaml");
+		assertEquals(4050, cut.getImageHeight());
+	}
+
+	/**
+	 * 
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@Test
+	void testOfAspectRatioImageWidth() throws JsonParseException, JsonMappingException, IOException {
+		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties
+		    .of("src/test/resources/mandelbrot-test-imagewidth-ar.yaml");
+		assertEquals(4590, cut.getImageWidth());
+	}
+
+	/**
+	 * 
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@Test
+	void testOfAspectRatioError() throws JsonParseException, JsonMappingException, IOException {
+		assertThrows(IllegalArgumentException.class, () -> {
+			MandelbrotCalculationProperties.of("src/test/resources/mandelbrot-test-ar-widthandheight-error.yaml");
+		});
 	}
 
 }

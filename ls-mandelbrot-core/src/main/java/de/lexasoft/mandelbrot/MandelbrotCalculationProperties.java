@@ -142,6 +142,32 @@ public class MandelbrotCalculationProperties {
 		}
 	}
 
+	private double difference(double v0, double v1) {
+		if ((v0 < 0) && (v1 >= 0)) {
+			return Math.abs(v0) + v1;
+		}
+		return Math.abs(v0) - Math.abs(v1);
+	}
+
+	/**
+	 * Determine aspect ratio from either calculation to image or the other way
+	 * round.
+	 */
+	private void calculateAspectRatio() {
+		if ((imageHeight == 0) && (imageWidth == 0)) {
+			throw new IllegalArgumentException("Either image height oder image width must be given");
+		}
+		if ((imageHeight > 0) && (imageWidth > 0)) {
+			return;
+		}
+		double ratioXtoY = difference(topLeft.cx(), bottomRight.cx()) / difference(topLeft.cy(), bottomRight.cy());
+		if (imageHeight == 0) {
+			imageHeight = (int) (imageWidth / ratioXtoY);
+		} else {
+			imageWidth = (int) (imageHeight * ratioXtoY);
+		}
+	}
+
 	/**
 	 * 
 	 * @param yamlFilename
@@ -157,6 +183,7 @@ public class MandelbrotCalculationProperties {
 		MandelbrotCalculationProperties props = mapper.readValue(new File(yamlFilename),
 		    MandelbrotCalculationProperties.class);
 		props.cloneColors();
+		props.calculateAspectRatio();
 		return props;
 	}
 
