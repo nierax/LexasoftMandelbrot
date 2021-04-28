@@ -52,17 +52,17 @@ public class Mandelbrot {
 		MandelbrotImage image = new MandelbrotImage(imageWidth, imageHeight);
 
 		// Start position
-		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, yend);
+		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, ystart);
 		long time = System.currentTimeMillis();
 		for (int column = 0; column < imageWidth; column++) {
-			cpos.setCy(yend);
+			cpos.setCy(ystart);
 			for (int line = 0; line < imageHeight; line++) {
 				int iterate = point.iterate(cpos.cx(), cpos.cy(), maxIt);
 				Point iPoint = new Point();
 				iPoint.x = column;
 				iPoint.y = line;
 				image.colorizePoint(iPoint, colorize.getColorForIteration(iterate, maxIt));
-				cpos.movey(-dy);
+				cpos.movey(dy);
 			}
 			cpos.movex(dx);
 		}
