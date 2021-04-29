@@ -220,6 +220,13 @@ public class MandelbrotCalculationProperties {
 	}
 
 	/**
+	 * Calculates the properties, that are not given such as aspect ratio.
+	 */
+	public void normalize() {
+		calculateAspectRatio();
+	}
+
+	/**
 	 * 
 	 * @param yamlFilename
 	 * @return
@@ -236,6 +243,10 @@ public class MandelbrotCalculationProperties {
 		props.cloneColors();
 		props.calculateAspectRatio();
 		return props;
+	}
+
+	public static MandelbrotCalculationProperties of() {
+		return new MandelbrotCalculationProperties();
 	}
 
 }

@@ -45,9 +45,9 @@ class MandelbrotCalculationPropertiesTest {
 	void testOf() throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.of("src/test/resources/mandelbrot-test.yaml");
 		assertEquals(-2.02d, cut.getTopLeft().cx());
-		assertEquals(-1.2d, cut.getTopLeft().cy());
+		assertEquals(1.2d, cut.getTopLeft().cy());
 		assertEquals(0.7d, cut.getBottomRight().cx());
-		assertEquals(1.2d, cut.getBottomRight().cy());
+		assertEquals(-1.2d, cut.getBottomRight().cy());
 		assertEquals(500, cut.getMaximumIterations());
 		assertEquals(4590, cut.getImageWidth());
 		assertEquals(4050, cut.getImageHeight());
