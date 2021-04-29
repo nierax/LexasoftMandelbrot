@@ -4,9 +4,9 @@
 package de.lexasoft.mandelbrot;
 
 /**
- * Represents a position of a point in the Mandelbrot set.
+ * Represents a position of a point in the Mandelbrot calculation.
  * 
- * @author admin
+ * @author nierax
  *
  */
 public class MandelbrotPointPosition {
@@ -20,7 +20,8 @@ public class MandelbrotPointPosition {
 	private double cy;
 
 	public MandelbrotPointPosition() {
-
+		cx = Double.NaN;
+		cy = Double.NaN;
 	}
 
 	/**
