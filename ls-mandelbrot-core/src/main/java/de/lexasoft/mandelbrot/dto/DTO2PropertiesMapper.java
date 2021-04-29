@@ -57,4 +57,8 @@ public class DTO2PropertiesMapper {
 		props.normalize();
 		return props;
 	}
+
+	public static DTO2PropertiesMapper of() {
+		return new DTO2PropertiesMapper();
+	}
 }

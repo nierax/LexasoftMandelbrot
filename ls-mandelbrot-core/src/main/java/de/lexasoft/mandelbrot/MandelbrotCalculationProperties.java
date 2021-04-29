@@ -4,15 +4,9 @@
 package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  * @author admin
@@ -224,25 +218,6 @@ public class MandelbrotCalculationProperties {
 	 */
 	public void normalize() {
 		calculateAspectRatio();
-	}
-
-	/**
-	 * 
-	 * @param yamlFilename
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 */
-	public static MandelbrotCalculationProperties of(String yamlFilename)
-	    throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		mapper.findAndRegisterModules();
-		MandelbrotCalculationProperties props = mapper.readValue(new File(yamlFilename),
-		    MandelbrotCalculationProperties.class);
-		props.cloneColors();
-		props.calculateAspectRatio();
-		return props;
 	}
 
 	public static MandelbrotCalculationProperties of() {

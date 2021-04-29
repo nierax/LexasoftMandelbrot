@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,15 +24,33 @@ class MandelbrotRunnerFactoryTest {
 	private MandelbrotCalculationProperties props2;
 	private List<MandelbrotCalculationProperties> listOfProps;
 
+	private MandelbrotCalculationProperties createProps() {
+		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of();
+		props.setTopLeft(MandelbrotPointPosition.of(-2.02, 1.2));
+		props.setBottomRight(MandelbrotPointPosition.of(0.7, -1.2));
+		props.setMaximumIterations(500);
+		props.setImageWidth(4590);
+		props.setImageHeight(4050);
+		props.setImageFilename("./junit-tmp/mandelbrot-test.tiff");
+		props.setPaletteVariant(PaletteVariant.CUSTOM);
+		List<Color> customPalette = new ArrayList<>();
+		customPalette.add(new Color(25, 140, 255));
+		customPalette.add(new Color(255, 255, 255));
+		props.setCustomColorPalette(customPalette);
+		props.setColorGrading(5);
+		props.setMandelbrotColor(Color.BLACK);
+		return props;
+	}
+
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
 		cut = new MandelbrotRunnerFactory();
-		props1 = MandelbrotCalculationProperties.of("src/test/resources/mandelbrot-test.yaml");
+		props1 = createProps();
 		props1.setImageFilename("props1");
-		props2 = MandelbrotCalculationProperties.of("src/test/resources/mandelbrot-test.yaml");
+		props2 = createProps();
 		props2.setImageFilename("props2");
 		listOfProps = new ArrayList<>();
 		listOfProps.add(props1);

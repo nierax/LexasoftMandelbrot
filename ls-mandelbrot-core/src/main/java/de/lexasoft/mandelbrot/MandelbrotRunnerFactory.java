@@ -34,4 +34,8 @@ public class MandelbrotRunnerFactory {
 		}
 		return chain;
 	}
+
+	public static MandelbrotRunnerFactory of() {
+		return new MandelbrotRunnerFactory();
+	}
 }

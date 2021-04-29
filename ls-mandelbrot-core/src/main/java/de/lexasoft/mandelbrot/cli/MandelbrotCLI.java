@@ -12,6 +12,8 @@ import de.lexasoft.mandelbrot.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.MandelbrotRunner;
 import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.MandelbrotRunnerFactory;
+import de.lexasoft.mandelbrot.dto.CalculationPropertiesDTO;
+import de.lexasoft.mandelbrot.dto.DTO2PropertiesMapper;
 
 /**
  * CLI application for Mandelbrot calculation.
@@ -27,9 +29,9 @@ public class MandelbrotCLI {
 
 	private void doRun(String yamlFilename)
 	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
-		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of(yamlFilename);
-		MandelbrotRunnerFactory runnerFactory = new MandelbrotRunnerFactory();
-		runner = runnerFactory.createRunner(props);
+		MandelbrotCalculationProperties props = DTO2PropertiesMapper.of()
+		    .mapDTO2Properties(CalculationPropertiesDTO.of(yamlFilename));
+		runner = MandelbrotRunnerFactory.of().createRunner(props);
 		System.out.println("Starting to claculate...");
 		runner.run();
 		System.out.println("Written to " + props.getImageFilename());
