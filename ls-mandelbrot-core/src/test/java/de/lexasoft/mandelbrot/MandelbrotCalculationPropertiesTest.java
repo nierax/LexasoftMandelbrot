@@ -130,13 +130,13 @@ class MandelbrotCalculationPropertiesTest {
 	private static Stream<Arguments> testOfAspectRatioCalculationOk() {
 		return Stream.of(
 		    // Bottom right x is sought-after
-		    Arguments.of("src/test/resources/mandelbrot-test-ar-brcx.yaml", point(-2.02, -1.2), point(0.7, 1.2)),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-brcx.yaml", point(-2.02, 1.2), point(0.7, -1.2)),
 		    // Bottom right x is sought-after
-		    Arguments.of("src/test/resources/mandelbrot-test-ar-brcy.yaml", point(-2.02, -1.2), point(0.7, 1.2)),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-brcy.yaml", point(-2.02, 1.2), point(0.7, -1.2)),
 		    // Bottom right x is sought-after
-		    Arguments.of("src/test/resources/mandelbrot-test-ar-tlcx.yaml", point(-2.02, -1.2), point(0.7, 1.2)),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-tlcx.yaml", point(-2.02, 1.2), point(0.7, -1.2)),
 		    // Bottom right x is sought-after
-		    Arguments.of("src/test/resources/mandelbrot-test-ar-tlcx.yaml", point(-2.02, -1.2), point(0.7, 1.2)));
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-tlcy.yaml", point(-2.02, 1.2), point(0.7, -1.2)));
 	}
 
 	/**
@@ -157,5 +157,12 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(expectedTopLeft.cy(), cut.getTopLeft().cy(), 0.001);
 		assertEquals(expectedBottomRight.cx(), cut.getBottomRight().cx(), 0.001);
 		assertEquals(expectedBottomRight.cy(), cut.getBottomRight().cy(), 0.001);
+	}
+
+	@Test
+	void testOfAspcetRatioCalculationError() throws JsonParseException, JsonMappingException, IOException {
+		assertThrows(IllegalArgumentException.class, () -> {
+			MandelbrotCalculationProperties.of("src/test/resources/mandelbrot-test-ar-2values-error.yaml");
+		});
 	}
 }

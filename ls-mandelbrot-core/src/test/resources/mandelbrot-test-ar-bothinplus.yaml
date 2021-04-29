@@ -1,9 +1,9 @@
 topLeft:
  cx: 1
- cy: -1
+ cy: 1
 bottomRight:
  cx: 4
- cy: 1
+ cy: -1
 maximumIterations: 500
 imageWidth: 3000
 #imageHeight: 4050

@@ -1,9 +1,9 @@
 topLeft:
- cx: -2.02
- cy: 1.2
+# cx: -2.02
+ cy: -1.2
 bottomRight:
- cx: 0.7
-# cy: -1.2
+# cx: 0.7
+ cy: 1.2
 maximumIterations: 500
 imageWidth: 4590
 imageHeight: 4050

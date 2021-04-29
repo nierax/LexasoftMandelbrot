@@ -155,14 +155,68 @@ public class MandelbrotCalculationProperties {
 			throw new IllegalArgumentException("Either image height oder image width must be given");
 		}
 		if ((imageHeight > 0) && (imageWidth > 0)) {
+			calculateAspectRatioForCalculation();
 			return;
 		}
+		calculateAspectRatioForImage();
+	}
+
+	private void calculateAspectRatioForImage() {
 		double ratioXtoY = difference(topLeft.cx(), bottomRight.cx()) / difference(topLeft.cy(), bottomRight.cy());
 		if (imageHeight == 0) {
 			imageHeight = (int) (imageWidth / ratioXtoY);
 		} else {
 			imageWidth = (int) (imageHeight * ratioXtoY);
 		}
+	}
+
+	private void calculateAspectRatioForCalculation() {
+		// Check the number of omitted parameters?
+		int count = countNaN();
+		// All parameters given
+		if (count == 0) {
+			return;
+		}
+		// More than one parameter omitted.
+		if (count > 1) {
+			throw new IllegalArgumentException(
+			    String.format("Just one calculation parameter can be omitted, but it were %s", count));
+		}
+		double ratioXtoY = (double) imageWidth / (double) imageHeight;
+		// width is given
+		if (!Double.isNaN(topLeft.cx()) && !Double.isNaN(bottomRight.cx())) {
+			double height = difference(topLeft.cx(), bottomRight.cx()) / ratioXtoY;
+			if (Double.isNaN(bottomRight.cy())) {
+				bottomRight.setCy(topLeft.cy() - height);
+			} else if (Double.isNaN(topLeft.cy())) {
+				topLeft.setCy(bottomRight.cy() + height);
+			}
+			return;
+		}
+		// height is given
+		double width = difference(topLeft.cy(), bottomRight.cy()) * ratioXtoY;
+		if (Double.isNaN(bottomRight.cx())) {
+			bottomRight.setCx(topLeft.cx() + width);
+		} else if (Double.isNaN(topLeft.cx())) {
+			topLeft.setCx(bottomRight.cx() - width);
+		}
+	}
+
+	private int countNaN() {
+		int count = 0;
+		if (Double.isNaN(topLeft.cx())) {
+			count++;
+		}
+		if (Double.isNaN(topLeft.cy())) {
+			count++;
+		}
+		if (Double.isNaN(bottomRight.cx())) {
+			count++;
+		}
+		if (Double.isNaN(bottomRight.cy())) {
+			count++;
+		}
+		return count;
 	}
 
 	/**
