@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  * @author nierax
  *
  */
-class MandelbrotRunnerTest {
+class MandelbrotSingleRunnerTest {
 
 	private MandelbrotCalculationProperties props;
 
@@ -49,11 +49,11 @@ class MandelbrotRunnerTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.MandelbrotRunner#of(de.lexasoft.mandelbrot.MandelbrotCalculationProperties)}.
+	 * {@link de.lexasoft.mandelbrot.MandelbrotSingleRunner#of(de.lexasoft.mandelbrot.MandelbrotCalculationProperties)}.
 	 */
 	@Test
 	void testOfOk() {
-		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		MandelbrotSingleRunner cut = MandelbrotSingleRunner.of(props);
 		assertNotSame(props.getTopLeft(), cut.getTopLeft(), "Not the same object, just the same values.");
 		assertEquals(-2.02d, cut.getTopLeft().cx());
 		assertEquals(-1.02d, cut.getTopLeft().cy());
@@ -83,7 +83,7 @@ class MandelbrotRunnerTest {
 	@Test
 	void testOfBlackAndWhite() {
 		props.setPaletteVariant(PaletteVariant.BLACK_WHITE);
-		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		MandelbrotSingleRunner cut = MandelbrotSingleRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotBlackWhite);
 	}
@@ -95,7 +95,7 @@ class MandelbrotRunnerTest {
 	void testOfRainbow29() {
 		props.setPaletteVariant(PaletteVariant.RAINBOW29);
 		props.setColorGrading(0);
-		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		MandelbrotSingleRunner cut = MandelbrotSingleRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
 	}
@@ -107,7 +107,7 @@ class MandelbrotRunnerTest {
 	void testOfRainbow7() {
 		props.setPaletteVariant(PaletteVariant.RAINBOW7);
 		props.setColorGrading(0);
-		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		MandelbrotSingleRunner cut = MandelbrotSingleRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
 	}
@@ -119,7 +119,7 @@ class MandelbrotRunnerTest {
 	@Test
 	void testRunOutputFileNotWorking() {
 		props.setImageFilename("/anything-that-does-not-work/");
-		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		MandelbrotRunner cut = MandelbrotSingleRunner.of(props);
 		assertThrows(MandelbrotRunnerException.class, () -> {
 			cut.run();
 		});
@@ -138,7 +138,7 @@ class MandelbrotRunnerTest {
 			file2Write.delete();
 		}
 		assertFalse(file2Write.exists());
-		MandelbrotRunner cut = MandelbrotRunner.of(props);
+		MandelbrotRunner cut = MandelbrotSingleRunner.of(props);
 		cut.run();
 		assertTrue(file2Write.exists());
 	}
