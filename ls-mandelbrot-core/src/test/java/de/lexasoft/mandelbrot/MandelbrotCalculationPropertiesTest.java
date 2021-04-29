@@ -82,12 +82,12 @@ class MandelbrotCalculationPropertiesTest {
 		});
 	}
 
-	private static Stream<Arguments> testOfAspectRatioOk() {
+	private static Stream<Arguments> testOfAspectRatioImageOk() {
 		return Stream.of(
 		    // Image width given, image height calculated
-		    Arguments.of("src/test/resources/mandelbrot-test-imageheight-ar.yaml", 4590, 4050),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-imageheight.yaml", 4590, 4050),
 		    // Image height given, image width calculated
-		    Arguments.of("src/test/resources/mandelbrot-test-imagewidth-ar.yaml", 4590, 4050),
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-imagewidth.yaml", 4590, 4050),
 		    // Image width given, image height calculated with cx both points in minus
 		    Arguments.of("src/test/resources/mandelbrot-test-ar-bothinminus.yaml", 3000, 2000),
 		    // Image width given, image height calculated with cx both points in plus
@@ -109,11 +109,53 @@ class MandelbrotCalculationPropertiesTest {
 	 */
 	@ParameterizedTest
 	@MethodSource
-	void testOfAspectRatioOk(String yamlFilename, int expectedWidth, int expectedHeight)
+	void testOfAspectRatioImageOk(String yamlFilename, int expectedWidth, int expectedHeight)
 	    throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.of(yamlFilename);
 		assertEquals(expectedWidth, cut.getImageWidth());
 		assertEquals(expectedHeight, cut.getImageHeight());
 	}
 
+	/**
+	 * Make the creation of the point a little bit shorter.
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private static MandelbrotPointPosition point(double x, double y) {
+		return MandelbrotPointPosition.of(x, y);
+	}
+
+	private static Stream<Arguments> testOfAspectRatioCalculationOk() {
+		return Stream.of(
+		    // Bottom right x is sought-after
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-brcx.yaml", point(-2.02, -1.2), point(0.7, 1.2)),
+		    // Bottom right x is sought-after
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-brcy.yaml", point(-2.02, -1.2), point(0.7, 1.2)),
+		    // Bottom right x is sought-after
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-tlcx.yaml", point(-2.02, -1.2), point(0.7, 1.2)),
+		    // Bottom right x is sought-after
+		    Arguments.of("src/test/resources/mandelbrot-test-ar-tlcx.yaml", point(-2.02, -1.2), point(0.7, 1.2)));
+	}
+
+	/**
+	 * 
+	 * @param yamlFilename
+	 * @param expectedTopLeft
+	 * @param expectedBottomRight
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@ParameterizedTest
+	@MethodSource
+	void testOfAspectRatioCalculationOk(String yamlFilename, MandelbrotPointPosition expectedTopLeft,
+	    MandelbrotPointPosition expectedBottomRight) throws JsonParseException, JsonMappingException, IOException {
+		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.of(yamlFilename);
+		assertEquals(expectedTopLeft.cx(), cut.getTopLeft().cx(), 0.001);
+		assertEquals(expectedTopLeft.cy(), cut.getTopLeft().cy(), 0.001);
+		assertEquals(expectedBottomRight.cx(), cut.getBottomRight().cx(), 0.001);
+		assertEquals(expectedBottomRight.cy(), cut.getBottomRight().cy(), 0.001);
+	}
 }
