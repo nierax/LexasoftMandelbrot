@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.MandelbrotRunner;
-import de.lexasoft.mandelbrot.MandelbrotSingleRunner;
 import de.lexasoft.mandelbrot.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.MandelbrotRunnerFactory;
 
 /**
  * CLI application for Mandelbrot calculation.
@@ -28,7 +28,8 @@ public class MandelbrotCLI {
 	private void doRun(String yamlFilename)
 	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
 		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of(yamlFilename);
-		runner = MandelbrotSingleRunner.of(props);
+		MandelbrotRunnerFactory runnerFactory = new MandelbrotRunnerFactory();
+		runner = runnerFactory.createRunner(props);
 		System.out.println("Starting to claculate...");
 		runner.run();
 		System.out.println("Written to " + props.getImageFilename());
