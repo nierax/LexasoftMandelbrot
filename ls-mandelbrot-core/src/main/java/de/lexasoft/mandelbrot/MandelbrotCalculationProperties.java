@@ -188,7 +188,7 @@ public class MandelbrotCalculationProperties {
 			double height = difference(topLeft.cx(), bottomRight.cx()) / ratioXtoY;
 			if (Double.isNaN(bottomRight.cy())) {
 				bottomRight.setCy(topLeft.cy() - height);
-			} else if (Double.isNaN(topLeft.cy())) {
+			} else {
 				topLeft.setCy(bottomRight.cy() + height);
 			}
 			return;
@@ -197,7 +197,7 @@ public class MandelbrotCalculationProperties {
 		double width = difference(topLeft.cy(), bottomRight.cy()) * ratioXtoY;
 		if (Double.isNaN(bottomRight.cx())) {
 			bottomRight.setCx(topLeft.cx() + width);
-		} else if (Double.isNaN(topLeft.cx())) {
+		} else {
 			topLeft.setCx(bottomRight.cx() - width);
 		}
 	}
