@@ -30,7 +30,7 @@ public class MandelbrotRunnerFactory {
 	public MandelbrotRunner createRunner(List<MandelbrotCalculationProperties> listOfProps) {
 		MandelbrotRunnerChain chain = new MandelbrotRunnerChain();
 		for (MandelbrotCalculationProperties props : listOfProps) {
-			chain.addRunner(MandelbrotSingleRunner.of(props));
+			chain.addRunner(createRunner(props));
 		}
 		return chain;
 	}
