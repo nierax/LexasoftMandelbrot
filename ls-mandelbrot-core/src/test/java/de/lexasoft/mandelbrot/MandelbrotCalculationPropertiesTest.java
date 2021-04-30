@@ -79,7 +79,7 @@ class MandelbrotCalculationPropertiesTest {
 
 	/**
 	 * Tests the determination of the image width / image height from the aspect
-	 * ration of the Mandelbrot calculation.
+	 * ration of the MandelbrotIterator calculation.
 	 * 
 	 * @param topLeft        The position top left to relate to.
 	 * @param bottomRight    The position bottom right to relate to.

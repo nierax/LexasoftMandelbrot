@@ -16,9 +16,9 @@ import de.lexasoft.mandelbrot.dto.CalculationPropertiesDTO;
 import de.lexasoft.mandelbrot.dto.DTO2PropertiesMapper;
 
 /**
- * CLI application for Mandelbrot calculation.
+ * CLI application for MandelbrotIterator calculation.
  * <p>
- * Call with a yaml file, containing the attributes for a Mandelbrot calculation
+ * Call with a yaml file, containing the attributes for a MandelbrotIterator calculation
  * 
  * @author nierax
  *

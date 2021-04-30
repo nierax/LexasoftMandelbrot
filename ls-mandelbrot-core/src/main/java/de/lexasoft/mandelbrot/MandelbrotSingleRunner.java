@@ -6,8 +6,10 @@ package de.lexasoft.mandelbrot;
 import java.awt.Color;
 import java.io.IOException;
 
+import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
+
 /**
- * This class runs a Mandelbrot calculation and colorization.
+ * This class runs a MandelbrotIterator calculation and colorization.
  * <p>
  * Attributes are read from #MandelbrotCalculationProperties.
  * 
@@ -55,13 +57,13 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 	}
 
 	/**
-	 * Runs a Mandelbrot calculation with the values, given during instantiation.
+	 * Runs a MandelbrotIterator calculation with the values, given during instantiation.
 	 * 
 	 * @throws MandelbrotRunnerException
 	 */
 	@Override
 	public void run() throws MandelbrotRunnerException {
-		Mandelbrot calculator = Mandelbrot.of(colorize);
+		MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
 		MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maximumIterations, imageWidth, imageHeight);
 		try {
 			image.writeAsFile(imageFilename);

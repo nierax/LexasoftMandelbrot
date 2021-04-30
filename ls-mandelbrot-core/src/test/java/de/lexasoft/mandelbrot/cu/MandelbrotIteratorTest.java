@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.cu;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -16,10 +16,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import de.lexasoft.mandelbrot.ColorPaletteFactory;
+import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
+import de.lexasoft.mandelbrot.MandelbrotColorPalette;
+import de.lexasoft.mandelbrot.MandelbrotColorize;
+import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+
 /**
  * @author nierax
  */
-class MandelbrotTest {
+class MandelbrotIteratorTest {
 
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
@@ -57,14 +64,14 @@ class MandelbrotTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.Mandelbrot#drawMandelbrot(de.lexasoft.mandelbrot.MandelbrotPointPosition, de.lexasoft.mandelbrot.MandelbrotPointPosition, int, int, int)}.
+	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIterator#drawMandelbrot(de.lexasoft.mandelbrot.MandelbrotPointPosition, de.lexasoft.mandelbrot.MandelbrotPointPosition, int, int, int)}.
 	 * 
 	 * @throws IOException
 	 */
 	@ParameterizedTest
 	@MethodSource
 	void testDrawMandelbrot(MandelbrotColorize col, int maxIter, String filename) throws IOException {
-		Mandelbrot cut = Mandelbrot.of(col);
+		MandelbrotIterator cut = MandelbrotIterator.of(col);
 		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT);
 		assertNotNull(image, "Image could not be created");
 		image.writeAsFile(filename);

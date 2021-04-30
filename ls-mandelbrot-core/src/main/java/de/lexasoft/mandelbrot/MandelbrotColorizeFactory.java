@@ -31,7 +31,7 @@ public class MandelbrotColorizeFactory {
 	 * @param ungraded        The original color palette.
 	 * @param colorGrading    The color grading (number of colors, the palette
 	 *                        should have in the end).
-	 * @param mandelbrotColor The color of the Mandelbrot set.
+	 * @param mandelbrotColor The color of the MandelbrotIterator set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
 	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, int colorGrading, Color mandelbrotColor) {
@@ -45,7 +45,7 @@ public class MandelbrotColorizeFactory {
 	 * @param variant         The variant used
 	 * @param colors          The colors, describing the palette to create.
 	 * @param colorGrading    The number of steps for color gradients.
-	 * @param mandelbrotColor The color used for the Mandelbrot set.
+	 * @param mandelbrotColor The color used for the MandelbrotIterator set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
 	private MandelbrotColorize createColorize(PaletteVariant variant, List<Color> colors, int colorGrading,
@@ -79,7 +79,7 @@ public class MandelbrotColorizeFactory {
 	 * @param colors          The colors, describing the palette to create.
 	 * @param colorGrading    The number of steps for color gradients. 0, if no
 	 *                        grading is wanted.
-	 * @param mandelbrotColor The color used for the Mandelbrot set.
+	 * @param mandelbrotColor The color used for the MandelbrotIterator set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
 	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, int colorGrading,
@@ -90,7 +90,7 @@ public class MandelbrotColorizeFactory {
 
 	/**
 	 * Factory method for a colorize object. Black is used as default color of the
-	 * Mandelbrot set.
+	 * MandelbrotIterator set.
 	 * 
 	 * @param variant   The variant used
 	 * @param colors    The colors, describing the palette to create.

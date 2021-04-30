@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.cu;
 
 /**
  * Represents one point to be investigated.
@@ -11,7 +11,7 @@ package de.lexasoft.mandelbrot;
  * @author nierax
  *
  */
-public class MandelbrotPoint {
+public class MandelbrotFormula {
 	
 	/**
 	 * This logic is based on https://www.k-achilles.de/algorithmen/apfelmaennchen.pdf

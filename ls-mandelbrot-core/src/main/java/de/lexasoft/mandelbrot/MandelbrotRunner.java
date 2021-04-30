@@ -3,7 +3,7 @@ package de.lexasoft.mandelbrot;
 public interface MandelbrotRunner {
 
 	/**
-	 * Runs a Mandelbrot calculation with the values, given during instantiation.
+	 * Runs a MandelbrotIterator calculation with the values, given during instantiation.
 	 * 
 	 * @throws MandelbrotRunnerException
 	 */
