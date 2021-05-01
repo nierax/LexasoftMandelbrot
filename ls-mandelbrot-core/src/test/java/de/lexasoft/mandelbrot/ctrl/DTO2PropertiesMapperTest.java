@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.Color;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import de.lexasoft.mandelbrot.PaletteVariant;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 class DTO2PropertiesMapperTest {
@@ -39,7 +40,10 @@ class DTO2PropertiesMapperTest {
 	 */
 	@Test
 	void testMapDTO2Properties() {
-		MandelbrotCalculationProperties props = cut.mapDTO2Properties(dto);
+		List<MandelbrotCalculationProperties> listOfProps = cut.mapDTO2Properties(dto);
+		assertNotNull(listOfProps);
+		assertEquals(1, listOfProps.size());
+		MandelbrotCalculationProperties props = listOfProps.get(0);
 		assertNotNull(props);
 		assertEquals(-2.02d, props.getTopLeft().cx());
 		assertEquals(1.2d, props.getTopLeft().cy());

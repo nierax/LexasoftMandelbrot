@@ -42,7 +42,8 @@ public class DTO2PropertiesMapper {
 	 * @param dto
 	 * @return
 	 */
-	public MandelbrotCalculationProperties mapDTO2Properties(CalculationPropertiesDTO dto) {
+	public List<MandelbrotCalculationProperties> mapDTO2Properties(CalculationPropertiesDTO dto) {
+		List<MandelbrotCalculationProperties> listOfProps = new ArrayList<>();
 		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of();
 		props.setTopLeft(mapPoint(dto.getTopLeft()));
 		props.setBottomRight(mapPoint(dto.getBottomRight()));
@@ -55,7 +56,8 @@ public class DTO2PropertiesMapper {
 		props.setColorGrading(dto.getColorGrading());
 		props.setMandelbrotColor(dto.getMandelbrotColor());
 		props.normalize();
-		return props;
+		listOfProps.add(props);
+		return listOfProps;
 	}
 
 	public static DTO2PropertiesMapper of() {
