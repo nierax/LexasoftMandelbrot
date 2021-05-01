@@ -45,7 +45,7 @@ public class DTO2PropertiesMapper {
 	public List<MandelbrotCalculationProperties> mapDTO2Properties(CalculationPropertiesDTO dto) {
 		List<MandelbrotCalculationProperties> listOfProps = new ArrayList<>();
 		// Set first calculation directly
-		MandelbrotCalculationProperties props = mapSingleCalculation(dto);
+		MandelbrotCalculationProperties props = mapSingleCalculation(dto, MandelbrotCalculationProperties.of());
 		listOfProps.add(props);
 		// If there are more calculations given
 		List<CalculationPropertiesDTO> followingCalcs = dto.getFollowing();
@@ -57,16 +57,6 @@ public class DTO2PropertiesMapper {
 		// At last: Normalize all properties in list
 		listOfProps.stream().forEach((p) -> p.normalize());
 		return listOfProps;
-	}
-
-	/**
-	 * 
-	 * @param dto
-	 * @return
-	 */
-	private MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto) {
-		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of();
-		return mapSingleCalculation(dto, props);
 	}
 
 	private MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto,
