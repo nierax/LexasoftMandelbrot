@@ -1,28 +1,33 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.cu;
 
 import java.awt.Point;
 
+import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
+import de.lexasoft.mandelbrot.MandelbrotColorize;
+import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+
 /**
- * This class generates an image of the Mandelbrot set
+ * This class generates an image of the MandelbrotIterator set
  * <p>
  * 
  * @author nierax
  */
-public class Mandelbrot {
+public class MandelbrotIterator {
 
 	private final MandelbrotColorize colorize;
 
 	/**
 	 * Do not create other than with of() method.
 	 */
-	private Mandelbrot() {
+	private MandelbrotIterator() {
 		this(new MandelbrotBlackWhite());
 	}
 
-	private Mandelbrot(MandelbrotColorize colorize) {
+	private MandelbrotIterator(MandelbrotColorize colorize) {
 		super();
 		this.colorize = colorize;
 	}
@@ -33,7 +38,7 @@ public class Mandelbrot {
 	 * @param topLeft     The top left point of the calculation limit.
 	 * @param bottomRight The bottom right point of the calculation limit.
 	 * @param maxIt       The maximum number of iterations, before the point is
-	 *                    considered to be in the Mandelbrot set.
+	 *                    considered to be in the MandelbrotIterator set.
 	 * @param imageWidth  The width of the image in pixel.
 	 * @param imageHeight The height of the image in pixel.
 	 */
@@ -48,12 +53,11 @@ public class Mandelbrot {
 		double dx = (xend - xstart) / (imageWidth - 1);
 		double dy = (yend - ystart) / (imageHeight - 1);
 
-		MandelbrotPoint point = new MandelbrotPoint();
+		MandelbrotFormula point = new MandelbrotFormula();
 		MandelbrotImage image = new MandelbrotImage(imageWidth, imageHeight);
 
 		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, ystart);
-		long time = System.currentTimeMillis();
 		for (int column = 0; column < imageWidth; column++) {
 			cpos.setCy(ystart);
 			for (int line = 0; line < imageHeight; line++) {
@@ -66,28 +70,27 @@ public class Mandelbrot {
 			}
 			cpos.movex(dx);
 		}
-		System.out.println("Time needed " + (System.currentTimeMillis() - time) + " ms");
 		return image;
 	}
 
 	/**
-	 * Create Mandelbrot object with the given colorize strategy.
+	 * Create MandelbrotIterator object with the given colorize strategy.
 	 * 
 	 * @param colorize The colorize strategy to use.
-	 * @return Newly created Mandelbrot object.
+	 * @return Newly created MandelbrotIterator object.
 	 */
-	public final static Mandelbrot of(MandelbrotColorize colorize) {
-		Mandelbrot mb = new Mandelbrot(colorize);
+	public final static MandelbrotIterator of(MandelbrotColorize colorize) {
+		MandelbrotIterator mb = new MandelbrotIterator(colorize);
 		return mb;
 	}
 
 	/**
-	 * Create Mandelbrot object with a standard colorize strategy (black and white
-	 * only).
+	 * Create MandelbrotIterator object with a standard colorize strategy (black and
+	 * white only).
 	 * 
-	 * @return Newly created Mandelbrot object.
+	 * @return Newly created MandelbrotIterator object.
 	 */
-	public final static Mandelbrot of() {
+	public final static MandelbrotIterator of() {
 		return of(new MandelbrotBlackWhite());
 	}
 }

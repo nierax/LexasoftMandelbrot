@@ -21,7 +21,7 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
 /**
- * This class represents an image of a Mandelbrot set calculation.
+ * This class represents an image of a MandelbrotIterator set calculation.
  * 
  * @author nierax
  *

@@ -1,21 +1,19 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 public class MandelbrotCalculationProperties {
@@ -121,27 +119,6 @@ public class MandelbrotCalculationProperties {
 		this.mandelbrotColor = mandelbrotColor;
 	}
 
-	private Color cloneColor(Color color) {
-		return new Color(color.getRGB());
-	}
-
-	/**
-	 * Unfortunately necessary, as color objects directly read from YAML do not work
-	 * correctly.
-	 */
-	private void cloneColors() {
-		if (mandelbrotColor != null) {
-			mandelbrotColor = cloneColor(mandelbrotColor);
-		}
-		if (customColorPalette != null) {
-			int i = 0;
-			for (Color color : customColorPalette) {
-				customColorPalette.set(i, cloneColor(color));
-				i++;
-			}
-		}
-	}
-
 	private double difference(double v0, double v1) {
 		return Math.abs(v0 - v1);
 	}
@@ -220,22 +197,51 @@ public class MandelbrotCalculationProperties {
 	}
 
 	/**
-	 * 
-	 * @param yamlFilename
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
+	 * Calculates the properties, that are not given such as aspect ratio.
 	 */
-	public static MandelbrotCalculationProperties of(String yamlFilename)
-	    throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		mapper.findAndRegisterModules();
-		MandelbrotCalculationProperties props = mapper.readValue(new File(yamlFilename),
-		    MandelbrotCalculationProperties.class);
-		props.cloneColors();
-		props.calculateAspectRatio();
-		return props;
+	public void normalize() {
+		calculateAspectRatio();
+	}
+
+	/**
+	 * Clones this object with all values containing new objects with same values.
+	 * <p>
+	 * Empty values will be kept empty in the clone.
+	 * 
+	 * @return Cloned object of these properties.
+	 */
+	public MandelbrotCalculationProperties cloneValues() {
+		MandelbrotCalculationProperties newProps = MandelbrotCalculationProperties.of();
+		if (topLeft != null) {
+			newProps.setTopLeft(MandelbrotPointPosition.of(topLeft.cx(), topLeft.cy()));
+		}
+		if (bottomRight != null) {
+			newProps.setBottomRight(MandelbrotPointPosition.of(bottomRight.cx(), bottomRight.cy()));
+		}
+		newProps.setMaximumIterations(maximumIterations);
+		newProps.setImageWidth(imageWidth);
+		newProps.setImageHeight(imageHeight);
+		newProps.setImageFilename(imageFilename);
+		newProps.setPaletteVariant(paletteVariant);
+		if (customColorPalette != null) {
+			newProps.setCustomColorPalette(new ArrayList<>());
+			for (Color color : customColorPalette) {
+				newProps.getCustomColorPalette().add(color);
+			}
+		}
+		newProps.setColorGrading(colorGrading);
+		newProps.setMandelbrotColor(mandelbrotColor);
+		return newProps;
+	}
+
+	/**
+	 * Static factory method to build a new object of
+	 * {@link MandelbrotCalculationProperties}
+	 * 
+	 * @return New instance of {@link MandelbrotCalculationProperties}
+	 */
+	public static MandelbrotCalculationProperties of() {
+		return new MandelbrotCalculationProperties();
 	}
 
 }

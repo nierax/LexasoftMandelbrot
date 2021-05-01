@@ -3,11 +3,11 @@ topLeft:
  cy: 1.2
 bottomRight:
  cx: 0.7
-# cy: -1.2
-maximumIterations: 500
-imageWidth: 4590
-imageHeight: 4050
-imageFilename: "./junit-tmp/mandelbrot-test.tiff"
+ cy: -1.2
+maximumIterations: 50
+imageWidth: 459
+imageHeight: 405
+imageFilename: "./junit-tmp/mandelbrot-ctrl-test.tiff"
 paletteVariant: "CUSTOM"
 customColorPalette:
 - red: 25
