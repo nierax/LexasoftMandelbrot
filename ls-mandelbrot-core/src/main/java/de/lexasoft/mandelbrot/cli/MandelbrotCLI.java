@@ -28,7 +28,6 @@ public class MandelbrotCLI {
 		System.out.println("Starting to claculate...");
 		CalculationPropertiesDTO propDTO = CalculationPropertiesDTO.of(yamlFilename);
 		MandelbrotController.of(propDTO).flowCalculation();
-//		System.out.println("Written to " + propDTO.getImageFilename());
 		System.out.println("Done.");
 	}
 
