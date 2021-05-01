@@ -58,7 +58,6 @@ public class MandelbrotIterator {
 
 		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, ystart);
-		long time = System.currentTimeMillis();
 		for (int column = 0; column < imageWidth; column++) {
 			cpos.setCy(ystart);
 			for (int line = 0; line < imageHeight; line++) {
@@ -71,7 +70,6 @@ public class MandelbrotIterator {
 			}
 			cpos.movex(dx);
 		}
-		System.out.println("Time needed " + (System.currentTimeMillis() - time) + " ms");
 		return image;
 	}
 
@@ -87,8 +85,8 @@ public class MandelbrotIterator {
 	}
 
 	/**
-	 * Create MandelbrotIterator object with a standard colorize strategy (black and white
-	 * only).
+	 * Create MandelbrotIterator object with a standard colorize strategy (black and
+	 * white only).
 	 * 
 	 * @return Newly created MandelbrotIterator object.
 	 */

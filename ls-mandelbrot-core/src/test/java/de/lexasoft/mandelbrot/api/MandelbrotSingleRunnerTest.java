@@ -66,7 +66,7 @@ class MandelbrotSingleRunnerTest {
 		assertNotSame(props.getTopLeft(), cut.getTopLeft(), "Not the same object, just the same values.");
 		assertEquals(0.7d, cut.getBottomRight().cx());
 		assertEquals(1.02d, cut.getBottomRight().cy());
-		assertEquals(50, cut.getMaximumIterations());
+		assertEquals(50, cut.getMaxIterations());
 		assertEquals(459, cut.getImageWidth());
 		assertEquals(405, cut.getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImageFilename());

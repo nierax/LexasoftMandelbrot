@@ -24,11 +24,12 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
-	private int maximumIterations;
+	private int maxIterations;
 	private int imageWidth;
 	private int imageHeight;
 	private String imageFilename;
 	private MandelbrotColorize colorize;
+	private InfoCallbackAPI info;
 
 	/**
 	 * Use of Method to instantiate class.
@@ -40,7 +41,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 	private MandelbrotSingleRunner initializeFromProperties(MandelbrotCalculationProperties props) {
 		this.topLeft = MandelbrotPointPosition.of(props.getTopLeft().cx(), props.getTopLeft().cy());
 		this.bottomRight = MandelbrotPointPosition.of(props.getBottomRight().cx(), props.getBottomRight().cy());
-		this.maximumIterations = props.getMaximumIterations();
+		this.maxIterations = props.getMaximumIterations();
 		this.imageWidth = props.getImageWidth();
 		this.imageHeight = props.getImageHeight();
 		this.imageFilename = props.getImageFilename();
@@ -56,9 +57,14 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 	 * @param props Properties, from which the runner is initialized
 	 * @return The new runner object.
 	 */
-	public static MandelbrotSingleRunner of(MandelbrotCalculationProperties props) {
+	public static MandelbrotSingleRunner of(MandelbrotCalculationProperties props, InfoCallbackAPI info) {
 		MandelbrotSingleRunner runner = new MandelbrotSingleRunner();
+		runner.info = info;
 		return runner.initializeFromProperties(props);
+	}
+
+	public static MandelbrotSingleRunner of(MandelbrotCalculationProperties props) {
+		return of(props, new DefaultInfoCallBack());
 	}
 
 	/**
@@ -69,10 +75,15 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 	 */
 	@Override
 	public void run() throws MandelbrotRunnerException {
-		MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
-		MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maximumIterations, imageWidth, imageHeight);
 		try {
+			MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
+			long start = System.currentTimeMillis();
+			MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth,
+			    imageHeight);
+			long stop = System.currentTimeMillis();
+			info.outCalculationReady(stop - start);
 			image.writeAsFile(imageFilename);
+			info.outFileWritten(imageFilename);
 		} catch (IOException e) {
 			throw new MandelbrotRunnerException(e);
 		}
@@ -86,8 +97,8 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		return bottomRight;
 	}
 
-	int getMaximumIterations() {
-		return maximumIterations;
+	int getMaxIterations() {
+		return maxIterations;
 	}
 
 	int getImageWidth() {
