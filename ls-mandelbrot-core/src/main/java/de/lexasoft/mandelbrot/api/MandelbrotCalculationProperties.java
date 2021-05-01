@@ -12,7 +12,7 @@ import de.lexasoft.mandelbrot.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 public class MandelbrotCalculationProperties {
@@ -116,27 +116,6 @@ public class MandelbrotCalculationProperties {
 
 	public void setMandelbrotColor(Color mandelbrotColor) {
 		this.mandelbrotColor = mandelbrotColor;
-	}
-
-	private Color cloneColor(Color color) {
-		return new Color(color.getRGB());
-	}
-
-	/**
-	 * Unfortunately necessary, as color objects directly read from YAML do not work
-	 * correctly.
-	 */
-	private void cloneColors() {
-		if (mandelbrotColor != null) {
-			mandelbrotColor = cloneColor(mandelbrotColor);
-		}
-		if (customColorPalette != null) {
-			int i = 0;
-			for (Color color : customColorPalette) {
-				customColorPalette.set(i, cloneColor(color));
-				i++;
-			}
-		}
 	}
 
 	private double difference(double v0, double v1) {
