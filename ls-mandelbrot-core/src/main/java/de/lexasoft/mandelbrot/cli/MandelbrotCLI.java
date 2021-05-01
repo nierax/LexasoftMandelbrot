@@ -25,7 +25,7 @@ public class MandelbrotCLI {
 
 	private void doRun(String yamlFilename)
 	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
-		System.out.println("Starting to claculate...");
+		System.out.println("Starting to calculate...");
 		CalculationPropertiesDTO propDTO = CalculationPropertiesDTO.of(yamlFilename);
 		MandelbrotController.of(propDTO).flowCalculation();
 		System.out.println("Done.");
