@@ -3,7 +3,6 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +41,8 @@ public class CalculationPropertiesDTO {
 	private int colorGrading;
 	@JsonProperty
 	private ColorDTO mandelbrotColor;
+	@JsonProperty
+	private List<CalculationPropertiesDTO> following;
 
 	public PointDTO getTopLeft() {
 		return topLeft;
@@ -87,8 +88,8 @@ public class CalculationPropertiesDTO {
 		return colorGrading;
 	}
 
-	public Color getMandelbrotColor() {
-		return mandelbrotColor.getColor();
+	public ColorDTO getMandelbrotColor() {
+		return mandelbrotColor;
 	}
 
 	public static CalculationPropertiesDTO of(String yamlFilename)
@@ -97,6 +98,10 @@ public class CalculationPropertiesDTO {
 		mapper.findAndRegisterModules();
 		CalculationPropertiesDTO props = mapper.readValue(new File(yamlFilename), CalculationPropertiesDTO.class);
 		return props;
+	}
+
+	public List<CalculationPropertiesDTO> getFollowing() {
+		return following;
 	}
 
 }

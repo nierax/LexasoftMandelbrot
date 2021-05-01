@@ -23,7 +23,8 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 class DTO2PropertiesMapperTest {
 
 	private DTO2PropertiesMapper cut;
-	private CalculationPropertiesDTO dto;
+	private CalculationPropertiesDTO dtoSingle;
+	private CalculationPropertiesDTO dtoList;
 
 	/**
 	 * @throws java.lang.Exception
@@ -31,7 +32,8 @@ class DTO2PropertiesMapperTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		cut = new DTO2PropertiesMapper();
-		dto = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test.yaml");
+		dtoSingle = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test.yaml");
+		dtoList = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-list.yaml");
 	}
 
 	/**
@@ -40,7 +42,7 @@ class DTO2PropertiesMapperTest {
 	 */
 	@Test
 	void testMapDTO2Properties() {
-		List<MandelbrotCalculationProperties> listOfProps = cut.mapDTO2Properties(dto);
+		List<MandelbrotCalculationProperties> listOfProps = cut.mapDTO2Properties(dtoSingle);
 		assertNotNull(listOfProps);
 		assertEquals(1, listOfProps.size());
 		MandelbrotCalculationProperties props = listOfProps.get(0);
@@ -56,17 +58,71 @@ class DTO2PropertiesMapperTest {
 
 		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
 		assertEquals(2, props.getCustomColorPalette().size());
-
-		assertEquals(25, props.getCustomColorPalette().get(0).getRed());
-		assertEquals(140, props.getCustomColorPalette().get(0).getGreen());
-		assertEquals(255, props.getCustomColorPalette().get(0).getBlue());
-
-		assertEquals(255, props.getCustomColorPalette().get(1).getRed());
-		assertEquals(255, props.getCustomColorPalette().get(1).getGreen());
-		assertEquals(255, props.getCustomColorPalette().get(1).getBlue());
-
+		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
+		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
 		assertEquals(5, props.getColorGrading());
 
+		assertEquals(Color.BLACK, props.getMandelbrotColor());
+	}
+
+	@Test
+	void testMapDTOList2Properties() {
+		List<MandelbrotCalculationProperties> listOfProps = cut.mapDTO2Properties(dtoList);
+		assertNotNull(listOfProps);
+		assertEquals(3, listOfProps.size());
+
+		// First entry with complete properties
+		MandelbrotCalculationProperties props = listOfProps.get(0);
+		assertNotNull(props);
+		assertEquals(-2.02d, props.getTopLeft().cx());
+		assertEquals(1.2d, props.getTopLeft().cy());
+		assertEquals(0.7d, props.getBottomRight().cx());
+		assertEquals(-1.2d, props.getBottomRight().cy());
+		assertEquals(100, props.getMaximumIterations());
+		assertEquals(4590, props.getImageWidth());
+		assertEquals(4050, props.getImageHeight());
+		assertEquals("./junit-tmp/mandelbrot-test-list-01.tiff", props.getImageFilename());
+		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
+		assertEquals(2, props.getCustomColorPalette().size());
+		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
+		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
+		assertEquals(5, props.getColorGrading());
+		assertEquals(Color.BLACK, props.getMandelbrotColor());
+
+		// Second entry with different maximum iterations
+		props = listOfProps.get(1);
+		assertNotNull(props);
+		assertEquals(-2.02d, props.getTopLeft().cx());
+		assertEquals(1.2d, props.getTopLeft().cy());
+		assertEquals(0.7d, props.getBottomRight().cx());
+		assertEquals(-1.2d, props.getBottomRight().cy());
+		assertEquals(500, props.getMaximumIterations());
+		assertEquals(4590, props.getImageWidth());
+		assertEquals(4050, props.getImageHeight());
+		assertEquals("./junit-tmp/mandelbrot-test-list-02.tiff", props.getImageFilename());
+		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
+		assertEquals(2, props.getCustomColorPalette().size());
+		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
+		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
+		assertEquals(5, props.getColorGrading());
+		assertEquals(Color.BLACK, props.getMandelbrotColor());
+
+		// Third entry with different coordinates and maximum iterations
+		props = listOfProps.get(2);
+		assertNotNull(props);
+		assertEquals(-0.2d, props.getTopLeft().cx());
+		assertEquals(0.93d, props.getTopLeft().cy());
+		assertEquals(-0.02d, props.getBottomRight().cx());
+		assertEquals(0.8d, props.getBottomRight().cy());
+		assertEquals(300, props.getMaximumIterations());
+		assertEquals(4590, props.getImageWidth());
+		assertEquals(4050, props.getImageHeight());
+		assertEquals("./junit-tmp/mandelbrot-test-list-03.tiff", props.getImageFilename());
+		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
+		assertEquals(2, props.getCustomColorPalette().size());
+		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
+		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
+		assertEquals(5, props.getColorGrading());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 	}
 

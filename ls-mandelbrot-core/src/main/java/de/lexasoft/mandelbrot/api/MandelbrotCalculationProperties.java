@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot.api;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -202,6 +203,43 @@ public class MandelbrotCalculationProperties {
 		calculateAspectRatio();
 	}
 
+	/**
+	 * Clones this object with all values containing new objects with same values.
+	 * <p>
+	 * Empty values will be kept empty in the clone.
+	 * 
+	 * @return Cloned object of these properties.
+	 */
+	public MandelbrotCalculationProperties cloneValues() {
+		MandelbrotCalculationProperties newProps = MandelbrotCalculationProperties.of();
+		if (topLeft != null) {
+			newProps.setTopLeft(MandelbrotPointPosition.of(topLeft.cx(), topLeft.cy()));
+		}
+		if (bottomRight != null) {
+			newProps.setBottomRight(MandelbrotPointPosition.of(bottomRight.cx(), bottomRight.cy()));
+		}
+		newProps.setMaximumIterations(maximumIterations);
+		newProps.setImageWidth(imageWidth);
+		newProps.setImageHeight(imageHeight);
+		newProps.setImageFilename(imageFilename);
+		newProps.setPaletteVariant(paletteVariant);
+		if (customColorPalette != null) {
+			newProps.setCustomColorPalette(new ArrayList<>());
+			for (Color color : customColorPalette) {
+				newProps.getCustomColorPalette().add(color);
+			}
+		}
+		newProps.setColorGrading(colorGrading);
+		newProps.setMandelbrotColor(mandelbrotColor);
+		return newProps;
+	}
+
+	/**
+	 * Static factory method to build a new object of
+	 * {@link MandelbrotCalculationProperties}
+	 * 
+	 * @return New instance of {@link MandelbrotCalculationProperties}
+	 */
 	public static MandelbrotCalculationProperties of() {
 		return new MandelbrotCalculationProperties();
 	}

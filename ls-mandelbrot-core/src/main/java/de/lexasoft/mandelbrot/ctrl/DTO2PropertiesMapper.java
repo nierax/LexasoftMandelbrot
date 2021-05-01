@@ -44,20 +44,64 @@ public class DTO2PropertiesMapper {
 	 */
 	public List<MandelbrotCalculationProperties> mapDTO2Properties(CalculationPropertiesDTO dto) {
 		List<MandelbrotCalculationProperties> listOfProps = new ArrayList<>();
-		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of();
-		props.setTopLeft(mapPoint(dto.getTopLeft()));
-		props.setBottomRight(mapPoint(dto.getBottomRight()));
-		props.setMaximumIterations(dto.getMaximumIterations());
-		props.setImageWidth(dto.getImageWidth());
-		props.setImageHeight(dto.getImageHeight());
-		props.setImageFilename(dto.getImageFilename());
-		props.setPaletteVariant(dto.getPaletteVariant());
-		props.setCustomColorPalette(mapListOfColorDTO2(dto.getCustomColorPalette()));
-		props.setColorGrading(dto.getColorGrading());
-		props.setMandelbrotColor(dto.getMandelbrotColor());
-		props.normalize();
+		// Set first calculation directly
+		MandelbrotCalculationProperties props = mapSingleCalculation(dto);
 		listOfProps.add(props);
+		// If there are more calculations given
+		List<CalculationPropertiesDTO> followingCalcs = dto.getFollowing();
+		if (followingCalcs != null && !followingCalcs.isEmpty()) {
+			for (CalculationPropertiesDTO calc : followingCalcs) {
+				listOfProps.add(mapSingleCalculation(calc, props.cloneValues()));
+			}
+		}
+		// At last: Normalize all properties in list
+		listOfProps.stream().forEach((p) -> p.normalize());
 		return listOfProps;
+	}
+
+	/**
+	 * 
+	 * @param dto
+	 * @return
+	 */
+	private MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto) {
+		MandelbrotCalculationProperties props = MandelbrotCalculationProperties.of();
+		return mapSingleCalculation(dto, props);
+	}
+
+	private MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto,
+	    MandelbrotCalculationProperties props) {
+		if (dto.getTopLeft() != null) {
+			props.setTopLeft(mapPoint(dto.getTopLeft()));
+		}
+		if (dto.getBottomRight() != null) {
+			props.setBottomRight(mapPoint(dto.getBottomRight()));
+		}
+		if (dto.getMaximumIterations() > 0) {
+			props.setMaximumIterations(dto.getMaximumIterations());
+		}
+		if (dto.getImageWidth() > 0) {
+			props.setImageWidth(dto.getImageWidth());
+		}
+		if (dto.getImageHeight() > 0) {
+			props.setImageHeight(dto.getImageHeight());
+		}
+		if (dto.getImageFilename() != null && !"".equals(dto.getImageFilename())) {
+			props.setImageFilename(dto.getImageFilename());
+		}
+		if (dto.getPaletteVariant() != null) {
+			props.setPaletteVariant(dto.getPaletteVariant());
+		}
+		if (dto.getCustomColorPalette() != null) {
+			props.setCustomColorPalette(mapListOfColorDTO2(dto.getCustomColorPalette()));
+		}
+		if (dto.getColorGrading() > 0) {
+			props.setColorGrading(dto.getColorGrading());
+		}
+		if (dto.getMandelbrotColor() != null) {
+			props.setMandelbrotColor(dto.getMandelbrotColor().getColor());
+		}
+		return props;
 	}
 
 	public static DTO2PropertiesMapper of() {

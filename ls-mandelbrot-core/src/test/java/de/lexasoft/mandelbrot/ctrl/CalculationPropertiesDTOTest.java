@@ -63,7 +63,7 @@ class CalculationPropertiesDTOTest {
 
 		assertEquals(5, cut.getColorGrading());
 
-		assertEquals(Color.BLACK.getRGB(), cut.getMandelbrotColor().getRGB());
+		assertEquals(Color.BLACK.getRGB(), cut.getMandelbrotColor().getColor().getRGB());
 	}
 
 }

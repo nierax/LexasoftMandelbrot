@@ -1,9 +1,12 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
@@ -21,7 +24,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
  * @author nierax
@@ -165,5 +169,63 @@ class MandelbrotCalculationPropertiesTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			cut.normalize();
 		});
+	}
+
+	/**
+	 * Copy should include new objects, but same values.
+	 */
+	@Test
+	void testCopyValues() {
+		MandelbrotCalculationProperties clonedProps = cut.cloneValues();
+		assertNotNull(clonedProps);
+		assertNotSame(cut, clonedProps);
+
+		assertNotSame(cut.getTopLeft(), clonedProps.getTopLeft());
+		assertEquals(cut.getTopLeft().cx(), clonedProps.getTopLeft().cx());
+		assertEquals(cut.getTopLeft().cy(), clonedProps.getTopLeft().cy());
+
+		assertNotSame(cut.getBottomRight(), clonedProps.getBottomRight());
+		assertEquals(cut.getBottomRight().cx(), clonedProps.getBottomRight().cx());
+		assertEquals(cut.getBottomRight().cy(), clonedProps.getBottomRight().cy());
+
+		assertEquals(cut.getMaximumIterations(), clonedProps.getMaximumIterations());
+		assertEquals(cut.getImageWidth(), clonedProps.getImageWidth());
+		assertEquals(cut.getImageHeight(), clonedProps.getImageHeight());
+		assertEquals(cut.getImageFilename(), clonedProps.getImageFilename());
+
+		assertEquals(cut.getPaletteVariant(), clonedProps.getPaletteVariant());
+		assertNotSame(cut.getCustomColorPalette(), clonedProps.getCustomColorPalette());
+		assertEquals(cut.getCustomColorPalette().size(), clonedProps.getCustomColorPalette().size());
+		for (int i = 0; i < cut.getCustomColorPalette().size(); i++) {
+			assertEquals(cut.getCustomColorPalette().get(i), clonedProps.getCustomColorPalette().get(i));
+		}
+
+		assertEquals(cut.getColorGrading(), clonedProps.getColorGrading());
+		assertEquals(cut.getMandelbrotColor(), clonedProps.getMandelbrotColor());
+	}
+
+	/**
+	 * If the properties to be copied are empty, the result should be a new object,
+	 * which is empty, too.
+	 */
+	@Test
+	void testCopyValuesEmptyProperties() {
+		// New empty object
+		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.of();
+		// Now clone this
+		MandelbrotCalculationProperties clonedProps = cut.cloneValues();
+
+		assertNotNull(clonedProps);
+		assertNotSame(cut, clonedProps);
+		assertNull(clonedProps.getTopLeft());
+		assertNull(clonedProps.getBottomRight());
+		assertEquals(0, clonedProps.getMaximumIterations());
+		assertEquals(0, clonedProps.getImageWidth());
+		assertEquals(0, clonedProps.getImageHeight());
+		assertNull(clonedProps.getImageFilename());
+		assertNull(clonedProps.getPaletteVariant());
+		assertNull(clonedProps.getCustomColorPalette());
+		assertEquals(0, clonedProps.getColorGrading());
+		assertNull(clonedProps.getMandelbrotColor());
 	}
 }
