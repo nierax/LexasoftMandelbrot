@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -17,6 +17,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
+import de.lexasoft.mandelbrot.MandelbrotColorPalette;
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
  * @author nierax
@@ -49,7 +55,7 @@ class MandelbrotSingleRunnerTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.MandelbrotSingleRunner#of(de.lexasoft.mandelbrot.MandelbrotCalculationProperties)}.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotSingleRunner#of(de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties)}.
 	 */
 	@Test
 	void testOfOk() {

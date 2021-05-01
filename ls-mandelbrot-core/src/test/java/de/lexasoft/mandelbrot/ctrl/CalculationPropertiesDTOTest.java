@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot.dto;
+package de.lexasoft.mandelbrot.ctrl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -32,7 +32,7 @@ class CalculationPropertiesDTOTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.dto.CalculationPropertiesDTO#of(java.lang.String)}.
+	 * {@link de.lexasoft.mandelbrot.ctrl.CalculationPropertiesDTO#of(java.lang.String)}.
 	 * 
 	 * @throws IOException
 	 * @throws JsonMappingException

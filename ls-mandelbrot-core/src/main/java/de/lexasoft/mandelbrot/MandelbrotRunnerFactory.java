@@ -5,6 +5,11 @@ package de.lexasoft.mandelbrot;
 
 import java.util.List;
 
+import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotRunner;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerChain;
+import de.lexasoft.mandelbrot.api.MandelbrotSingleRunner;
+
 /**
  * @author nierax
  *

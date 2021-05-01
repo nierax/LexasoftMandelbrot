@@ -1,12 +1,15 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import java.awt.Color;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
  * @author admin

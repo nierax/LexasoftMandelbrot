@@ -1,10 +1,12 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 
 /**
  * @author admin

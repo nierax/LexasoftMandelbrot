@@ -1,4 +1,6 @@
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
+
+import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 
 public interface MandelbrotRunner {
 

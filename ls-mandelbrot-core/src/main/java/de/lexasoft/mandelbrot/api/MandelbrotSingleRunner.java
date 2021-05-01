@@ -1,11 +1,16 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import java.awt.Color;
 import java.io.IOException;
 
+import de.lexasoft.mandelbrot.MandelbrotColorize;
+import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
+import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
 
 /**
@@ -40,8 +45,8 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		this.imageHeight = props.getImageHeight();
 		this.imageFilename = props.getImageFilename();
 		Color mandelbrotColor = (props.getMandelbrotColor() == null) ? Color.BLACK : props.getMandelbrotColor();
-		this.colorize = MandelbrotColorizeFactory.of(props.getPaletteVariant(), props.getCustomColorPalette(), props.getColorGrading(),
-		    mandelbrotColor);
+		this.colorize = MandelbrotColorizeFactory.of(props.getPaletteVariant(), props.getCustomColorPalette(),
+		    props.getColorGrading(), mandelbrotColor);
 		return this;
 	}
 
@@ -57,7 +62,8 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 	}
 
 	/**
-	 * Runs a MandelbrotIterator calculation with the values, given during instantiation.
+	 * Runs a MandelbrotIterator calculation with the values, given during
+	 * instantiation.
 	 * 
 	 * @throws MandelbrotRunnerException
 	 */

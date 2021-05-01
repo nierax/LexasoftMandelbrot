@@ -1,14 +1,14 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot.dto;
+package de.lexasoft.mandelbrot.ctrl;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 
 /**
  * Maps from the properties DTO to the properties.

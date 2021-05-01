@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot.dto;
+package de.lexasoft.mandelbrot.ctrl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,8 +12,8 @@ import java.awt.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.lexasoft.mandelbrot.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.PaletteVariant;
+import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 
 /**
  * @author admin
@@ -35,7 +35,7 @@ class DTO2PropertiesMapperTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.dto.DTO2PropertiesMapper#mapDTO2Properties(CalculationPropertiesDTO)}.
+	 * {@link de.lexasoft.mandelbrot.ctrl.DTO2PropertiesMapper#mapDTO2Properties(CalculationPropertiesDTO)}.
 	 */
 	@Test
 	void testMapDTO2Properties() {

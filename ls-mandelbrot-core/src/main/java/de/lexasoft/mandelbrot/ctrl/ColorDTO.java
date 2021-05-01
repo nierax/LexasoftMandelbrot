@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot.dto;
+package de.lexasoft.mandelbrot.ctrl;
 
 import java.awt.Color;
 

@@ -8,33 +8,27 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.MandelbrotCalculationProperties;
-import de.lexasoft.mandelbrot.MandelbrotRunner;
 import de.lexasoft.mandelbrot.MandelbrotRunnerException;
-import de.lexasoft.mandelbrot.MandelbrotRunnerFactory;
-import de.lexasoft.mandelbrot.dto.CalculationPropertiesDTO;
-import de.lexasoft.mandelbrot.dto.DTO2PropertiesMapper;
+import de.lexasoft.mandelbrot.ctrl.CalculationPropertiesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 
 /**
  * CLI application for MandelbrotIterator calculation.
  * <p>
- * Call with a yaml file, containing the attributes for a MandelbrotIterator calculation
+ * Call with a yaml file, containing the attributes for a MandelbrotIterator
+ * calculation
  * 
  * @author nierax
  *
  */
 public class MandelbrotCLI {
 
-	private MandelbrotRunner runner;
-
 	private void doRun(String yamlFilename)
 	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
-		MandelbrotCalculationProperties props = DTO2PropertiesMapper.of()
-		    .mapDTO2Properties(CalculationPropertiesDTO.of(yamlFilename));
-		runner = MandelbrotRunnerFactory.of().createRunner(props);
 		System.out.println("Starting to claculate...");
-		runner.run();
-		System.out.println("Written to " + props.getImageFilename());
+		CalculationPropertiesDTO propDTO = CalculationPropertiesDTO.of(yamlFilename);
+		MandelbrotController.of(propDTO).flowCalculation();
+		System.out.println("Written to " + propDTO.getImageFilename());
 		System.out.println("Done.");
 	}
 
