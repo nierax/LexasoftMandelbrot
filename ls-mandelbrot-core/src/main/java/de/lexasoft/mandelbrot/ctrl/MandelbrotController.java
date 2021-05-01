@@ -4,8 +4,8 @@
 package de.lexasoft.mandelbrot.ctrl;
 
 import de.lexasoft.mandelbrot.MandelbrotRunnerException;
-import de.lexasoft.mandelbrot.MandelbrotRunnerFactory;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory;
 
 /**
  * Implements the control flow from the input to the runner.

@@ -1,14 +1,9 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 import java.util.List;
-
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
-import de.lexasoft.mandelbrot.api.MandelbrotRunner;
-import de.lexasoft.mandelbrot.api.MandelbrotRunnerChain;
-import de.lexasoft.mandelbrot.api.MandelbrotSingleRunner;
 
 /**
  * @author nierax
@@ -27,12 +22,18 @@ public class MandelbrotRunnerFactory {
 	}
 
 	/**
-	 * Creates a runner for multiple calculations
+	 * Creates a runner for multiple calculations.
+	 * <p>
+	 * If the list contains just one entry, a single runner is used.
 	 * 
 	 * @param props The list of calculation properties for this runner
 	 * @return
 	 */
 	public MandelbrotRunner createRunner(List<MandelbrotCalculationProperties> listOfProps) {
+		if (listOfProps.size() == 1) {
+			// Just a single runner needed.
+			return createRunner(listOfProps.get(0));
+		}
 		MandelbrotRunnerChain chain = new MandelbrotRunnerChain();
 		for (MandelbrotCalculationProperties props : listOfProps) {
 			chain.addRunner(createRunner(props));

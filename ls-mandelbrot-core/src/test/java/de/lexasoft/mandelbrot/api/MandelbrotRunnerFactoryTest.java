@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.MandelbrotRunnerFactory;
 import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
@@ -63,7 +62,7 @@ class MandelbrotRunnerFactoryTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.MandelbrotRunnerFactory#createRunner(de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties)}.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory#createRunner(de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties)}.
 	 */
 	@Test
 	void testCreateRunnerMandelbrotCalculationProperties() {
@@ -75,7 +74,7 @@ class MandelbrotRunnerFactoryTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.MandelbrotRunnerFactory#createRunner(java.util.List)}.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory#createRunner(java.util.List)}.
 	 */
 	@Test
 	void testCreateRunnerListOfMandelbrotCalculationProperties() {
@@ -85,6 +84,21 @@ class MandelbrotRunnerFactoryTest {
 		assertEquals(2, chain.runners().size());
 		assertEquals("props1", ((MandelbrotSingleRunner) chain.runners().get(0)).getImageFilename());
 		assertEquals("props2", ((MandelbrotSingleRunner) chain.runners().get(1)).getImageFilename());
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory#createRunner(java.util.List)},
+	 * when the list contains one entry, only.
+	 */
+	@Test
+	void testCreateRunnerListOfMandelbrotCalculationProperties1Entry() {
+		List<MandelbrotCalculationProperties> listOneEntry = new ArrayList<>();
+		listOneEntry.add(props1);
+		MandelbrotRunner result = cut.createRunner(listOneEntry);
+		assertTrue(result instanceof MandelbrotSingleRunner);
+		MandelbrotSingleRunner singleRunner = (MandelbrotSingleRunner) result;
+		assertEquals("props1", singleRunner.getImageFilename());
 	}
 
 }
