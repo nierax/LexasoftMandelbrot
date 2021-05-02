@@ -20,7 +20,7 @@ public class VariantsDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
 	}
 
 	@Override
-	protected void mapFollowingCalculations(List<CalculationPropertiesDTO> followingCalcs,
+	protected void mapFollowingCalculations(List<TransitionPropertiesDTO> followingCalcs,
 	    List<MandelbrotCalculationProperties> listOfProps) {
 		MandelbrotCalculationProperties baseProps = listOfProps.get(0);
 		// If there are more calculations given

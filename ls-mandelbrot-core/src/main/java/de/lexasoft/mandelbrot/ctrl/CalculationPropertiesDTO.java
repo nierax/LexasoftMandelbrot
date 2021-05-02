@@ -42,7 +42,7 @@ public class CalculationPropertiesDTO {
 	@JsonProperty
 	private ColorDTO mandelbrotColor;
 	@JsonProperty
-	private List<CalculationPropertiesDTO> following;
+	private List<TransitionPropertiesDTO> following;
 
 	public PointDTO getTopLeft() {
 		return topLeft;
@@ -100,7 +100,7 @@ public class CalculationPropertiesDTO {
 		return props;
 	}
 
-	public List<CalculationPropertiesDTO> getFollowing() {
+	public List<TransitionPropertiesDTO> getFollowing() {
 		return following;
 	}
 

@@ -26,7 +26,7 @@ public abstract class AbstractDTO2PropertiesMapper {
 	 * @param dto
 	 * @param listOfProps
 	 */
-	protected abstract void mapFollowingCalculations(List<CalculationPropertiesDTO> followingDTO,
+	protected abstract void mapFollowingCalculations(List<TransitionPropertiesDTO> followingDTO,
 	    List<MandelbrotCalculationProperties> listOfProps);
 
 	private Double mapDoubleFromString(String val) {
