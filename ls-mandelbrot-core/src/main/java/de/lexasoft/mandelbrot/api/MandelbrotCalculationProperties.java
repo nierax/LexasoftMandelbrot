@@ -124,7 +124,7 @@ public class MandelbrotCalculationProperties {
 		int posOfPoint = this.imageFilename.lastIndexOf(".");
 		String fileTypeWithPoint = this.imageFilename.substring(posOfPoint);
 		String fileName2Point = this.imageFilename.substring(0, posOfPoint);
-		String format = (nrOfDigits > 0) ? "%s_%0" + nrOfDigits + "d%s" : "%s_%d%s";
+		String format = (nrOfDigits > 0) ? "%s_%0" + nrOfDigits + "d%s" : "%s_%d%s"; // for nrOfDigits=4: "%s_%04d%s"
 		this.imageFilename = String.format(format, fileName2Point, idx, fileTypeWithPoint);
 		return this.imageFilename;
 	}
