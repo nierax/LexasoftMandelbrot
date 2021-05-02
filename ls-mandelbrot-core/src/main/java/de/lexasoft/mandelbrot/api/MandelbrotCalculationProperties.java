@@ -111,6 +111,24 @@ public class MandelbrotCalculationProperties {
 		this.imageFilename = imageFilename;
 	}
 
+	/**
+	 * The index will be added, divided by "_" before the file type in the filename.
+	 * It is filled up with "0" to the length of nrOfDigits digits. If the index has
+	 * more than nrOfDigits digits, the index will be added in its original length.
+	 * 
+	 * @param idx The index number to add
+	 * @return The file name with the added index (getImageFilename() will also get
+	 *         this file name).
+	 */
+	public String addIndex2ImageFilename(int nrOfDigits, int idx) {
+		int posOfPoint = this.imageFilename.lastIndexOf(".");
+		String fileTypeWithPoint = this.imageFilename.substring(posOfPoint);
+		String fileName2Point = this.imageFilename.substring(0, posOfPoint);
+		String format = (nrOfDigits > 0) ? "%s_%0" + nrOfDigits + "d%s" : "%s_%d%s";
+		this.imageFilename = String.format(format, fileName2Point, idx, fileTypeWithPoint);
+		return this.imageFilename;
+	}
+
 	public Color getMandelbrotColor() {
 		return mandelbrotColor;
 	}
