@@ -10,7 +10,7 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 public abstract class AbstractDTO2PropertiesMapper {
 
 	enum Type {
-		SINGLE, VARIANT
+		SINGLE, VARIANT, TRANSITION
 	}
 
 	private CalculationPropertiesDTO propsDTO;
@@ -106,6 +106,11 @@ public abstract class AbstractDTO2PropertiesMapper {
 		if (propsDTO.getFollowing().isEmpty()) {
 			return Type.SINGLE;
 		}
+		for (TransitionPropertiesDTO props : propsDTO.getFollowing()) {
+			if (props.getTransition() != null && props.getTransition().steps() > 0) {
+				return Type.TRANSITION;
+			}
+		}
 		return Type.VARIANT;
 	}
 
@@ -116,6 +121,8 @@ public abstract class AbstractDTO2PropertiesMapper {
 			return SingleDTO2PropertiesMapper.of(propsDTO);
 		case VARIANT:
 			return VariantsDTO2PropertiesMapper.of(propsDTO);
+		case TRANSITION:
+			return TransitionDTO2PropertiesMapper.of(propsDTO);
 		default:
 			break;
 		}

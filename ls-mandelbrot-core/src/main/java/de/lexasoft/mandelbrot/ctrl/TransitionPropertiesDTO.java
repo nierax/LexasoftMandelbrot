@@ -16,10 +16,22 @@ public class TransitionPropertiesDTO extends CalculationPropertiesDTO {
 	}
 
 	class Transition {
+		public Transition() {
+			super();
+		}
+
 		@JsonProperty
 		private int steps;
 		@JsonProperty
 		private TransitionVariant variant;
+
+		public int steps() {
+			return this.steps;
+		}
+
+		public TransitionVariant variant() {
+			return this.variant;
+		}
 	}
 
 	@JsonProperty
