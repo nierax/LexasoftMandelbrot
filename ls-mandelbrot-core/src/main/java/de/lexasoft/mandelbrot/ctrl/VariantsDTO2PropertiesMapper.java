@@ -20,13 +20,13 @@ public class VariantsDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
 	}
 
 	@Override
-	protected void mapFollowingCalculations(CalculationPropertiesDTO dto,
-	    List<MandelbrotCalculationProperties> listOfProps, MandelbrotCalculationProperties props) {
+	protected void mapFollowingCalculations(List<CalculationPropertiesDTO> followingCalcs,
+	    List<MandelbrotCalculationProperties> listOfProps) {
+		MandelbrotCalculationProperties baseProps = listOfProps.get(0);
 		// If there are more calculations given
-		List<CalculationPropertiesDTO> followingCalcs = dto.getFollowing();
 		if (followingCalcs != null && !followingCalcs.isEmpty()) {
 			for (CalculationPropertiesDTO calc : followingCalcs) {
-				listOfProps.add(mapSingleCalculation(calc, props.cloneValues()));
+				listOfProps.add(mapSingleCalculation(calc, baseProps.cloneValues()));
 			}
 		}
 	}

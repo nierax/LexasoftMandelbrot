@@ -33,8 +33,8 @@ class AbstractDTO2PropertiesMapperTest {
 		}
 
 		@Override
-		protected void mapFollowingCalculations(CalculationPropertiesDTO dto,
-		    List<MandelbrotCalculationProperties> listOfProps, MandelbrotCalculationProperties props) {
+		protected void mapFollowingCalculations(List<CalculationPropertiesDTO> dto,
+		    List<MandelbrotCalculationProperties> listOfProps) {
 		}
 
 	}

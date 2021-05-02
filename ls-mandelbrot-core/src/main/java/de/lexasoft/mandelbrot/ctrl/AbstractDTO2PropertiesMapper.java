@@ -19,8 +19,15 @@ public abstract class AbstractDTO2PropertiesMapper {
 		this.propsDTO = propsDTO;
 	}
 
-	protected abstract void mapFollowingCalculations(CalculationPropertiesDTO dto,
-	    List<MandelbrotCalculationProperties> listOfProps, MandelbrotCalculationProperties props);
+	/**
+	 * In this method the list of calculations, given in the following parameter
+	 * must be mapped and added to the listOfProps.
+	 * 
+	 * @param dto
+	 * @param listOfProps
+	 */
+	protected abstract void mapFollowingCalculations(List<CalculationPropertiesDTO> followingDTO,
+	    List<MandelbrotCalculationProperties> listOfProps);
 
 	private Double mapDoubleFromString(String val) {
 		return ((val == null) || ("".equals(val) || ("auto".equals(val))) ? Double.NaN : Double.parseDouble(val));
@@ -49,9 +56,9 @@ public abstract class AbstractDTO2PropertiesMapper {
 	public List<MandelbrotCalculationProperties> mapDTO2Properties() {
 		List<MandelbrotCalculationProperties> listOfProps = new ArrayList<>();
 		// Set first calculation directly
-		MandelbrotCalculationProperties props = mapSingleCalculation(propsDTO, MandelbrotCalculationProperties.of());
-		listOfProps.add(props);
-		mapFollowingCalculations(propsDTO, listOfProps, props);
+		MandelbrotCalculationProperties baseProps = mapSingleCalculation(propsDTO, MandelbrotCalculationProperties.of());
+		listOfProps.add(baseProps);
+		mapFollowingCalculations(propsDTO.getFollowing(), listOfProps);
 		// At last: Normalize all properties in list
 		listOfProps.stream().forEach((p) -> p.normalize());
 		return listOfProps;

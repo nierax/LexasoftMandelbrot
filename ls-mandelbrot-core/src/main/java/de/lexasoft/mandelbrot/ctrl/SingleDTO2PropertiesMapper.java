@@ -20,8 +20,8 @@ public class SingleDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
 	}
 
 	@Override
-	protected void mapFollowingCalculations(CalculationPropertiesDTO dto,
-	    List<MandelbrotCalculationProperties> listOfProps, MandelbrotCalculationProperties props) {
+	protected void mapFollowingCalculations(List<CalculationPropertiesDTO> followingDTO,
+	    List<MandelbrotCalculationProperties> listOfProps) {
 		// Nothing to do here
 	}
 
