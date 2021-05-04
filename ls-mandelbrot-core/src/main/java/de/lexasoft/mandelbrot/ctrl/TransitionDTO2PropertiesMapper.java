@@ -8,7 +8,7 @@ import java.util.List;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
@@ -17,11 +17,19 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 		super(propsDTO);
 	}
 
+	private void calculateTransition(MandelbrotCalculationProperties start, MandelbrotCalculationProperties end,
+	    List<MandelbrotCalculationProperties> listOfProps) {
+
+	}
+
 	@Override
 	protected void mapFollowingCalculations(List<TransitionPropertiesDTO> followingDTO,
 	    List<MandelbrotCalculationProperties> listOfProps) {
-		// TODO Auto-generated method stub
+		MandelbrotCalculationProperties baseProps = listOfProps.get(0);
+		for (TransitionPropertiesDTO calc : followingDTO) {
 
+			listOfProps.add(mapSingleCalculation(calc, baseProps.cloneValues()));
+		}
 	}
 
 	public static TransitionDTO2PropertiesMapper of(CalculationPropertiesDTO propsDTO) {

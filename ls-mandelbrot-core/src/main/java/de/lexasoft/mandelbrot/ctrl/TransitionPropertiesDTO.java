@@ -5,18 +5,16 @@ package de.lexasoft.mandelbrot.ctrl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.lexasoft.mandelbrot.api.TransitionVariant;
+
 /**
  * @author nierax
  *
  */
 public class TransitionPropertiesDTO extends CalculationPropertiesDTO {
 
-	enum TransitionVariant {
-		LINEAR;
-	}
-
-	class Transition {
-		public Transition() {
+	class TransitionDTO {
+		public TransitionDTO() {
 			super();
 		}
 
@@ -35,9 +33,9 @@ public class TransitionPropertiesDTO extends CalculationPropertiesDTO {
 	}
 
 	@JsonProperty
-	private Transition transition;
+	private TransitionDTO transitionDTO;
 
-	public Transition getTransition() {
-		return transition;
+	public TransitionDTO getTransition() {
+		return transitionDTO;
 	}
 }
