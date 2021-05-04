@@ -1,6 +1,3 @@
-/**
- * 
- */
 package de.lexasoft.mandelbrot.ctrl;
 
 import java.awt.Color;
@@ -10,13 +7,27 @@ import java.util.List;
 import de.lexasoft.mandelbrot.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 
-/**
- * Maps from the properties DTO to the properties.
- * 
- * @author nierax
- *
- */
-public class DTO2PropertiesMapper {
+public abstract class AbstractDTO2PropertiesMapper {
+
+	enum Type {
+		SINGLE, VARIANT, TRANSITION
+	}
+
+	private CalculationPropertiesDTO propsDTO;
+
+	public AbstractDTO2PropertiesMapper(CalculationPropertiesDTO propsDTO) {
+		this.propsDTO = propsDTO;
+	}
+
+	/**
+	 * In this method the list of calculations, given in the following parameter
+	 * must be mapped and added to the listOfProps.
+	 * 
+	 * @param dto
+	 * @param listOfProps
+	 */
+	protected abstract void mapFollowingCalculations(List<TransitionPropertiesDTO> followingDTO,
+	    List<MandelbrotCalculationProperties> listOfProps);
 
 	private Double mapDoubleFromString(String val) {
 		return ((val == null) || ("".equals(val) || ("auto".equals(val))) ? Double.NaN : Double.parseDouble(val));
@@ -42,24 +53,18 @@ public class DTO2PropertiesMapper {
 	 * @param dto
 	 * @return
 	 */
-	public List<MandelbrotCalculationProperties> mapDTO2Properties(CalculationPropertiesDTO dto) {
+	public List<MandelbrotCalculationProperties> mapDTO2Properties() {
 		List<MandelbrotCalculationProperties> listOfProps = new ArrayList<>();
 		// Set first calculation directly
-		MandelbrotCalculationProperties props = mapSingleCalculation(dto, MandelbrotCalculationProperties.of());
-		listOfProps.add(props);
-		// If there are more calculations given
-		List<CalculationPropertiesDTO> followingCalcs = dto.getFollowing();
-		if (followingCalcs != null && !followingCalcs.isEmpty()) {
-			for (CalculationPropertiesDTO calc : followingCalcs) {
-				listOfProps.add(mapSingleCalculation(calc, props.cloneValues()));
-			}
-		}
+		MandelbrotCalculationProperties baseProps = mapSingleCalculation(propsDTO, MandelbrotCalculationProperties.of());
+		listOfProps.add(baseProps);
+		mapFollowingCalculations(propsDTO.getFollowing(), listOfProps);
 		// At last: Normalize all properties in list
 		listOfProps.stream().forEach((p) -> p.normalize());
 		return listOfProps;
 	}
 
-	private MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto,
+	protected MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto,
 	    MandelbrotCalculationProperties props) {
 		if (dto.getTopLeft() != null) {
 			props.setTopLeft(mapPoint(dto.getTopLeft()));
@@ -94,7 +99,38 @@ public class DTO2PropertiesMapper {
 		return props;
 	}
 
-	public static DTO2PropertiesMapper of() {
-		return new DTO2PropertiesMapper();
+	private static Type determineType(CalculationPropertiesDTO propsDTO) {
+		if ((propsDTO.getFollowing() == null)) {
+			return Type.SINGLE;
+		}
+		if (propsDTO.getFollowing().isEmpty()) {
+			return Type.SINGLE;
+		}
+		for (TransitionPropertiesDTO props : propsDTO.getFollowing()) {
+			if (props.getTransition() != null && props.getTransition().steps() > 0) {
+				return Type.TRANSITION;
+			}
+		}
+		return Type.VARIANT;
 	}
+
+	public static AbstractDTO2PropertiesMapper of(CalculationPropertiesDTO propsDTO) {
+		Type type = determineType(propsDTO);
+		switch (type) {
+		case SINGLE:
+			return SingleDTO2PropertiesMapper.of(propsDTO);
+		case VARIANT:
+			return VariantsDTO2PropertiesMapper.of(propsDTO);
+		case TRANSITION:
+			return TransitionDTO2PropertiesMapper.of(propsDTO);
+		default:
+			break;
+		}
+		return null;
+	}
+
+	protected CalculationPropertiesDTO getPropsDTO() {
+		return propsDTO;
+	}
+
 }

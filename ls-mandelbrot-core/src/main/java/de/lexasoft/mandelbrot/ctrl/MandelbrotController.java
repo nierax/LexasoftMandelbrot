@@ -24,7 +24,7 @@ public class MandelbrotController {
 	}
 
 	public void flowCalculation() throws MandelbrotRunnerException {
-		MandelbrotRunner runner = runnerFactory.createRunner(DTO2PropertiesMapper.of().mapDTO2Properties(propDTO));
+		MandelbrotRunner runner = runnerFactory.createRunner(AbstractDTO2PropertiesMapper.of(propDTO).mapDTO2Properties());
 		runner.run();
 	}
 

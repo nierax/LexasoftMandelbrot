@@ -228,4 +228,54 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(0, clonedProps.getColorGrading());
 		assertNull(clonedProps.getMandelbrotColor());
 	}
+
+	private static Stream<Arguments> testAdd2ImageFilename() {
+		return Stream.of(
+		    // Tiff with 0
+		    Arguments.of("./junit-tmp/mandelbrot-test.tiff", 1, 0, "./junit-tmp/mandelbrot-test_0.tiff"),
+		    // Tiff with 5
+		    Arguments.of("./junit-tmp/mandelbrot-test.tiff", 1, 5, "./junit-tmp/mandelbrot-test_5.tiff"),
+		    // Jpg with 1
+		    Arguments.of("./junit-tmp/mandelbrot-test.jpg", 2, 1, "./junit-tmp/mandelbrot-test_01.jpg"),
+		    // Png with 99
+		    Arguments.of("./junit-tmp/mandelbrot-test.png", 4, 99, "./junit-tmp/mandelbrot-test_0099.png"),
+		    // Tiff with 1234
+		    Arguments.of("./junit-tmp/mandelbrot-test.tif", 4, 1234, "./junit-tmp/mandelbrot-test_1234.tif"),
+		    // Tiff with 12345
+		    Arguments.of("./junit-tmp/mandelbrot-test.gif", 4, 12345, "./junit-tmp/mandelbrot-test_12345.gif"),
+		    // Tiff with 12345
+		    Arguments.of("./junit-tmp/mandelbrot-test.gif", 5, 12345, "./junit-tmp/mandelbrot-test_12345.gif"),
+		    // Tiff with 12345
+		    Arguments.of("./junit-tmp/mandelbrot-test.gif", 6, 12345, "./junit-tmp/mandelbrot-test_012345.gif"),
+		    // No leading 0
+		    Arguments.of("./junit-tmp/mandelbrot-test.tiff", 0, 1, "./junit-tmp/mandelbrot-test_1.tiff"),
+		    // nrOfDigits < 0 -> ignore
+		    Arguments.of("./junit-tmp/mandelbrot-test.tiff", -1, 15, "./junit-tmp/mandelbrot-test_15.tiff"));
+	}
+
+	/**
+	 * Checks, whether the
+	 * {@link MandelbrotCalculationProperties#addIndex2ImageFilename(int)} method
+	 * adds the index correctly to the file name
+	 * <p>
+	 * The index will be added, divided by "_" before the file type in the filename.
+	 * It is filled up with "0" to the length of nrOfDigits digits. If the index has
+	 * more than nrOfDigits digits, than the index will be added in its original
+	 * length.
+	 * 
+	 * @param imageFilename
+	 * @param nrOfDigits
+	 * @param idx
+	 * @param expected
+	 */
+	@ParameterizedTest
+	@MethodSource
+	void testAdd2ImageFilename(String imageFilename, int nrOfDigits, int idx, String expected) {
+		cut.setImageFilename(imageFilename);
+		String changedFilename = cut.addIndex2ImageFilename(nrOfDigits, idx);
+		// new file name must also have been set.
+		assertEquals(changedFilename, cut.getImageFilename());
+		// Is the index added to the file name?
+		assertEquals(expected, changedFilename);
+	}
 }

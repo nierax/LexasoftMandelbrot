@@ -3,7 +3,7 @@
  * <p>
  * In most cases read form a corresponding yaml file.
  * 
- * @see de.lexasoft.mandelbrot.ctrl.DTO2PropertiesMapper
+ * @see de.lexasoft.mandelbrot.ctrl.SingleDTO2PropertiesMapper
  * @since 1.0
  * @author nierax
  */
