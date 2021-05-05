@@ -30,7 +30,7 @@ class TransitionDTO2PropertiesMapperTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		dtoTrans = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-ctrl-transition-test.yaml");
+		dtoTrans = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-0.yaml");
 		cut = TransitionDTO2PropertiesMapper.of(dtoTrans);
 	}
 
@@ -51,7 +51,7 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(1.2d, props.getTopLeft().cy());
 		assertEquals(0.7d, props.getBottomRight().cx());
 		assertEquals(-1.2d, props.getBottomRight().cy());
-		assertEquals(20, props.getMaximumIterations());
+		assertEquals(10, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-ctrl-trans-test-01_01.tiff", props.getImageFilename());
@@ -65,11 +65,11 @@ class TransitionDTO2PropertiesMapperTest {
 		// Second entry with first transition
 		props = listOfProps.get(1);
 		assertNotNull(props);
-		assertEquals(-1.72d, props.getTopLeft().cx());
-		assertEquals(0.9d, props.getTopLeft().cy());
-		assertEquals(0.4d, props.getBottomRight().cx());
-		assertEquals(-0.9d, props.getBottomRight().cy());
-		assertEquals(20, props.getMaximumIterations());
+		assertEquals(-1.72d, props.getTopLeft().cx(), 0.001);
+		assertEquals(0.9d, props.getTopLeft().cy(), 0.001);
+		assertEquals(0.4d, props.getBottomRight().cx(), 0.001);
+		assertEquals(-0.9d, props.getBottomRight().cy(), 0.001);
+		assertEquals(20, props.getMaximumIterations(), 0.001);
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-ctrl-trans-test-01_02.tiff", props.getImageFilename());
@@ -83,11 +83,11 @@ class TransitionDTO2PropertiesMapperTest {
 		// Third entry with second transition
 		props = listOfProps.get(2);
 		assertNotNull(props);
-		assertEquals(-1.42d, props.getTopLeft().cx());
-		assertEquals(0.6d, props.getTopLeft().cy());
-		assertEquals(0.1d, props.getBottomRight().cx());
-		assertEquals(-0.6d, props.getBottomRight().cy());
-		assertEquals(20, props.getMaximumIterations());
+		assertEquals(-1.42d, props.getTopLeft().cx(), 0.001);
+		assertEquals(0.6d, props.getTopLeft().cy(), 0.001);
+		assertEquals(0.1d, props.getBottomRight().cx(), 0.001);
+		assertEquals(-0.6d, props.getBottomRight().cy(), 0.001);
+		assertEquals(30, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-ctrl-trans-test-01_03.tiff", props.getImageFilename());
@@ -102,10 +102,10 @@ class TransitionDTO2PropertiesMapperTest {
 		props = listOfProps.get(3);
 		assertNotNull(props);
 		assertEquals(-1.12d, props.getTopLeft().cx());
-		assertEquals(-0.3d, props.getTopLeft().cy());
+		assertEquals(0.3d, props.getTopLeft().cy());
 		assertEquals(-0.2d, props.getBottomRight().cx());
 		assertEquals(-0.3d, props.getBottomRight().cy());
-		assertEquals(20, props.getMaximumIterations());
+		assertEquals(40, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-ctrl-trans-test-01_04.tiff", props.getImageFilename());

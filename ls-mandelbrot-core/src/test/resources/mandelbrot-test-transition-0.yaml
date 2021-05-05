@@ -3,7 +3,7 @@ topLeft:
  cy: 1.2
 bottomRight:
  cx: 0.7
-# cy: -1.2
+ cy: -1.2
 maximumIterations: 10
 imageWidth: 459
 imageHeight: 405
@@ -32,4 +32,4 @@ following:
      cy: 0.3
    bottomRight:
      cx: -0.2
- #    cy: -0.3
+     cy: -0.3

@@ -33,9 +33,9 @@ public class TransitionPropertiesDTO extends CalculationPropertiesDTO {
 	}
 
 	@JsonProperty
-	private TransitionDTO transitionDTO;
+	private TransitionDTO transition;
 
 	public TransitionDTO getTransition() {
-		return transitionDTO;
+		return transition;
 	}
 }
