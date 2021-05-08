@@ -39,7 +39,7 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 	private int determineNrOfDigits(int nrOfCalculations) {
 		int nrOfDigits = 2;
 		int i = 100;
-		while (nrOfCalculations > i) {
+		while (nrOfCalculations >= i) {
 			i = i * 10;
 			nrOfDigits++;
 		}
