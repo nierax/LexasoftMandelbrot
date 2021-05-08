@@ -44,6 +44,7 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 			listOfTransitions = transitionFactory.createTransitions(start, next, transition);
 			listOfProps.addAll(listOfTransitions);
 			listOfProps.add(next);
+			start = next;
 		}
 		int size = listOfProps.size();
 		for (int i = 0; i < size; i++) {
