@@ -10,6 +10,14 @@ import de.lexasoft.mandelbrot.api.Transition;
 import de.lexasoft.mandelbrot.api.TransitionFactory;
 
 /**
+ * Extends the {@link AbstractDTO2PropertiesMapper} to handle the list of
+ * following calculations in case of transitions.
+ * <p>
+ * By use of the factory method
+ * {@link AbstractDTO2PropertiesMapper#of(CalculationPropertiesDTO)} it is
+ * guaranteed, that this implementation is used, when at least one transition is
+ * in the list, only
+ * 
  * @author nierax
  *
  */
@@ -22,30 +30,50 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 		transitionFactory = new TransitionFactory();
 	}
 
-	private int determineNrOfDigits(int total) {
+	/**
+	 * Calculate the number of leading 0 for the filename.
+	 * 
+	 * @param nrOfCalculations Number of calculations in total.
+	 * @return Number of leading 0, required.
+	 */
+	private int determineNrOfDigits(int nrOfCalculations) {
 		int nrOfDigits = 2;
-		int i = 10;
-		while (total > i) {
+		int i = 100;
+		while (nrOfCalculations > i) {
 			i = i * 10;
 			nrOfDigits++;
 		}
 		return nrOfDigits;
 	}
 
+	/**
+	 * Handles the list of following calculations in case of transitions.
+	 * <p>
+	 * Calculates the transitions in the given number of steps and adds them to the
+	 * list of calculation properties.
+	 * <p>
+	 * Changes the file names in the list by adding an index number.
+	 * 
+	 * @param followingDTO List of following calculations
+	 * @param listOfProps  List of properties, containing the base entry.
+	 */
 	@Override
 	protected void mapFollowingCalculations(List<TransitionPropertiesDTO> followingDTO,
 	    List<MandelbrotCalculationProperties> listOfProps) {
-		MandelbrotCalculationProperties baseProps = listOfProps.get(0);
-		MandelbrotCalculationProperties start = baseProps;
-		List<MandelbrotCalculationProperties> listOfTransitions;
+		MandelbrotCalculationProperties start = listOfProps.get(0);
 		for (TransitionPropertiesDTO calc : followingDTO) {
+			// Figure transition parameters
 			Transition transition = Transition.of(calc.getTransition().steps(), calc.getTransition().variant());
-			MandelbrotCalculationProperties next = mapSingleCalculation(calc, baseProps.cloneValues());
-			listOfTransitions = transitionFactory.createTransitions(start, next, transition);
-			listOfProps.addAll(listOfTransitions);
+			// Map the next entry (end point of the transition)
+			MandelbrotCalculationProperties next = mapSingleCalculation(calc, start.cloneValues());
+			// Calculate transitions and add them to the list
+			listOfProps.addAll(transitionFactory.createTransitions(start, next, transition));
+			// Add the end point of the transition
 			listOfProps.add(next);
+			// End point is the start point of the next transition
 			start = next;
 		}
+		// Add indices to the file names
 		int size = listOfProps.size();
 		for (int i = 0; i < size; i++) {
 			listOfProps.get(i).addIndex2ImageFilename(determineNrOfDigits(size), i + 1);

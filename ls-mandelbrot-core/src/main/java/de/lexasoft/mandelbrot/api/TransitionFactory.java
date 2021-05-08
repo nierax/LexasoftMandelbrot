@@ -15,9 +15,12 @@ import de.lexasoft.mandelbrot.MandelbrotPointPosition;
  * <li>bottomRight start => bottomRight end</li>
  * <li>maximumIterations start => maximumIterations end</li>
  * </ul>
- * 
- * Important: All other parameters are kept unchanged, including the filenames.
- * This must be done after the list is complete.
+ * Example: <br/>
+ * [start] -> [end] in 4 steps => <br/>
+ * [start] -> [step1] -> [step2] -> [step3] -> [step4] -> [end]
+ * <p>
+ * Please note: All other parameters are kept unchanged, including the
+ * filenames. This must be done after the list is complete.
  * 
  * @author nierax
  *
@@ -41,10 +44,10 @@ public class TransitionFactory {
 	 * Does the transition and returns a list with only the transition steps. Both
 	 * start and end point are not included.
 	 * 
-	 * @param start
-	 * @param end
-	 * @param transition
-	 * @return
+	 * @param start      Start point of the transition
+	 * @param end        End point of the transition
+	 * @param transition Then transitions parameters
+	 * @return List with the transition steps, only.
 	 */
 	public List<MandelbrotCalculationProperties> createTransitions(MandelbrotCalculationProperties start,
 	    MandelbrotCalculationProperties end, Transition transition) {
