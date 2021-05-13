@@ -30,6 +30,11 @@
 				<artifactId>jackson-dataformat-yaml</artifactId>
 				<version>2.12.3</version>
 			</dependency>
+			<dependency>
+				<groupId>de.lexasoft</groupId>
+				<artifactId>ls-commons</artifactId>
+				<version>0.0.3-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
