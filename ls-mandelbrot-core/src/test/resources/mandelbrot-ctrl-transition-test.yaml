@@ -1,0 +1,35 @@
+topLeft:
+ cx: -2.02
+ cy: 1.2
+bottomRight:
+ cx: 0.7
+# cy: -1.2
+maximumIterations: 10
+imageWidth: 459
+imageHeight: 405
+imageFilename: "./junit-tmp/mandelbrot-ctrl-trans-test-01.tiff"
+paletteVariant: "CUSTOM"
+customColorPalette:
+- red: 25
+  green: 140
+  blue: 255
+- red: 255
+  green: 255
+  blue: 255
+colorGrading: 5 
+mandelbrotColor:
+   red: 0
+   green: 0
+   blue: 0
+following:
+-  transition: 
+     steps: 2
+     variant: LINEAR
+   maximumIterations: 40
+# Change 0.9 in 3 steps: 0.3 per step
+   topLeft:
+     cx: -1.12
+     cy: 0.3
+   bottomRight:
+     cx: -0.2
+ #    cy: -0.3
