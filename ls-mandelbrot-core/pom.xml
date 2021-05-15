@@ -20,6 +20,10 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>de.lexasoft</groupId>
+			<artifactId>ls-commons</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
