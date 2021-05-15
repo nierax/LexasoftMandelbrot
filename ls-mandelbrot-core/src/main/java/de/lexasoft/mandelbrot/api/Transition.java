@@ -4,7 +4,7 @@
 package de.lexasoft.mandelbrot.api;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 public class Transition {

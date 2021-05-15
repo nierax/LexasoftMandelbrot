@@ -64,6 +64,14 @@ public abstract class AbstractDTO2PropertiesMapper {
 		return listOfProps;
 	}
 
+	/**
+	 * 
+	 * Maps a single calculation from DTO to {@link MandelbrotCalculationProperties}
+	 * 
+	 * @param dto   Calculation input
+	 * @param props Calculation properties, where the values are set to.
+	 * @return Calculation properties, same object as given
+	 */
 	protected MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto,
 	    MandelbrotCalculationProperties props) {
 		if (dto.getTopLeft() != null) {
