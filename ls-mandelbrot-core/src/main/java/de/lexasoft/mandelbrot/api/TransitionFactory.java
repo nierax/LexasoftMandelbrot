@@ -59,13 +59,12 @@ public class TransitionFactory {
 		factors.tlFactors = calcPointTransition(start.getTopLeft(), end.getTopLeft(), transition.steps() + 1);
 		factors.brFactors = calcPointTransition(start.getBottomRight(), end.getBottomRight(), transition.steps() + 1);
 		factors.mIFactor = (double) (start.getMaximumIterations() - end.getMaximumIterations()) / (transition.steps() + 1);
+		TransitionStep tranStep = TransitionStep.of(transition.variant());
 		for (int i = 1; i < transition.steps() + 1; i++) {
 			MandelbrotCalculationProperties step = start.cloneValues();
-			step.getTopLeft().setCx(start.getTopLeft().cx() - (factors.tlFactors.cx() * i));
-			step.getTopLeft().setCy(start.getTopLeft().cy() - (factors.tlFactors.cy() * i));
-			step.getBottomRight().setCx(start.getBottomRight().cx() - (factors.brFactors.cx() * i));
-			step.getBottomRight().setCy(start.getBottomRight().cy() - (factors.brFactors.cy() * i));
-			step.setMaximumIterations((int) (start.getMaximumIterations() - (factors.mIFactor * i)));
+			step.setTopLeft(tranStep.transitionTo(start.getTopLeft(), factors.tlFactors, i));
+			step.setBottomRight(tranStep.transitionTo(start.getBottomRight(), factors.brFactors, i));
+			step.setMaximumIterations(tranStep.transitionTo(start.getMaximumIterations(), factors.mIFactor, i));
 			listOfProps.add(step);
 		}
 		return listOfProps;
