@@ -61,7 +61,7 @@ public class TransitionFactory {
 	 * @param step The step of the transition, being performed.
 	 * @return The factor for this step.
 	 */
-	protected int stepFactor(int step) {
+	protected double stepFactor(int step) {
 		return step;
 	}
 
