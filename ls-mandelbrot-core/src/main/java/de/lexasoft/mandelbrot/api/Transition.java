@@ -29,4 +29,9 @@ public class Transition {
 		return new Transition(steps, variant);
 	}
 
+	@Override
+	public String toString() {
+		return String.format("[steps=%s][variant=%s]", steps, variant);
+	}
+
 }

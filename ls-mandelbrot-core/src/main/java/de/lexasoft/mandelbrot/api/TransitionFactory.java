@@ -102,4 +102,11 @@ public class TransitionFactory {
 		return (transition.variant() == TransitionVariant.LINEAR) ? new TransitionFactory(transition)
 		    : new SoftTransitionFactory(transition);
 	}
+
+	/**
+	 * @return the transition
+	 */
+	Transition transition() {
+		return transition;
+	}
 }

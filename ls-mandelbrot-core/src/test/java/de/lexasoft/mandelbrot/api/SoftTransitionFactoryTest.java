@@ -32,7 +32,25 @@ class SoftTransitionFactoryTest {
 		    Arguments.of(Transition.of(10, TransitionVariant.SOFT_IN), 1, 0.1d),
 		    Arguments.of(Transition.of(10, TransitionVariant.SOFT_IN), 9, 8.1d),
 		    Arguments.of(Transition.of(10, TransitionVariant.SOFT_OUT), 1, 1.9d),
-		    Arguments.of(Transition.of(10, TransitionVariant.SOFT_OUT), 9, 9.9));
+		    Arguments.of(Transition.of(10, TransitionVariant.SOFT_OUT), 9, 9.9),
+		    Arguments.of(Transition.of(30, TransitionVariant.SOFT_INOUT), 1, 0.045798),
+		    Arguments.of(Transition.of(30, TransitionVariant.SOFT_INOUT), 29, 29.954202),
+		    Arguments.of(Transition.of(300, TransitionVariant.SOFT_INOUT), 1, 0.0044569),
+		    Arguments.of(Transition.of(300, TransitionVariant.SOFT_INOUT), 299, 299.995543),
+		    Arguments.of(Transition.of(3000, TransitionVariant.SOFT_INOUT), 1, 4.43490e-4),
+		    Arguments.of(Transition.of(3000, TransitionVariant.SOFT_INOUT), 2999, 2999.9995644),
+		    Arguments.of(Transition.of(30, TransitionVariant.SOFT_IN), 1, 0.0333326),
+		    Arguments.of(Transition.of(30, TransitionVariant.SOFT_IN), 29, 28.03352),
+		    Arguments.of(Transition.of(300, TransitionVariant.SOFT_IN), 1, 0.0033267),
+		    Arguments.of(Transition.of(300, TransitionVariant.SOFT_IN), 299, 298.00353),
+		    Arguments.of(Transition.of(3000, TransitionVariant.SOFT_IN), 1, 3.32667e-4),
+		    Arguments.of(Transition.of(3000, TransitionVariant.SOFT_IN), 2999, 2998.0203266),
+		    Arguments.of(Transition.of(30, TransitionVariant.SOFT_OUT), 1, 1.96664),
+		    Arguments.of(Transition.of(30, TransitionVariant.SOFT_OUT), 29, 29.96667),
+		    Arguments.of(Transition.of(300, TransitionVariant.SOFT_OUT), 1, 1.99467),
+		    Arguments.of(Transition.of(300, TransitionVariant.SOFT_OUT), 299, 299.996667),
+		    Arguments.of(Transition.of(3000, TransitionVariant.SOFT_OUT), 1, 1.997667),
+		    Arguments.of(Transition.of(3000, TransitionVariant.SOFT_OUT), 2999, 2999.99967));
 	}
 
 	/**

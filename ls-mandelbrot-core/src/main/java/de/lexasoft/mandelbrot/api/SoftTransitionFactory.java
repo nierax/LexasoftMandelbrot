@@ -60,10 +60,17 @@ public class SoftTransitionFactory extends TransitionFactory {
 
 	@Override
 	protected double stepFactor(int step) {
+		double initialDt = 0.1;
+		int rest = transition().steps();
+		while (rest > 10) {
+			initialDt *= 0.1;
+			rest /= 10;
+		}
 		try {
-			return bezier.bezier(bezier.tFromX2((double) step)).y();
+			return bezier.bezier(bezier.tFromX2((double) step, initialDt)).y();
 		} catch (MathException e) {
-			throw new IllegalArgumentException(String.format("Could not handle bezier calculation for %s", step));
+			throw new IllegalArgumentException(
+			    String.format("Could not handle bezier calculation for x=%s with dt=%s", step, initialDt), e);
 		}
 	}
 
