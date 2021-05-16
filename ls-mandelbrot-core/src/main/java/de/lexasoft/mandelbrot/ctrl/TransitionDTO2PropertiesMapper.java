@@ -23,11 +23,8 @@ import de.lexasoft.mandelbrot.api.TransitionFactory;
  */
 public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
 
-	private TransitionFactory transitionFactory;
-
 	private TransitionDTO2PropertiesMapper(CalculationPropertiesDTO propsDTO) {
 		super(propsDTO);
-		transitionFactory = new TransitionFactory();
 	}
 
 	/**
@@ -64,10 +61,11 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 		for (TransitionPropertiesDTO calc : followingDTO) {
 			// Figure transition parameters
 			Transition transition = Transition.of(calc.getTransition().steps(), calc.getTransition().variant());
+			TransitionFactory transitionFactory = TransitionFactory.of(transition);
 			// Map the next entry (end point of the transition)
 			MandelbrotCalculationProperties next = mapSingleCalculation(calc, start.cloneValues());
 			// Calculate transitions and add them to the list
-			listOfProps.addAll(transitionFactory.createTransitions(start, next, transition));
+			listOfProps.addAll(transitionFactory.createTransitions(start, next));
 			// Add the end point of the transition
 			listOfProps.add(next);
 			// End point is the start point of the next transition
