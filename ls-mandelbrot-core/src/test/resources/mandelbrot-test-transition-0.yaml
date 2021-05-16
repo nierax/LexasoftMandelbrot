@@ -1,3 +1,4 @@
+# Used in de.lexasoft.mandelbrot.ctrl.TransitionDTO2PropertiesMapperTest
 topLeft:
  cx: -2.02
  cy: 1.2

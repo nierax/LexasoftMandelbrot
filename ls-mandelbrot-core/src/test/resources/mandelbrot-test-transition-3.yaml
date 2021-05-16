@@ -36,5 +36,5 @@ following:
   imageFilename: "./junit-tmp/mandelbrot-test-list-03.tiff"
   transition:
      steps: 20
-     variant: SOFT_INOUT
+     variant: LINEAR
   

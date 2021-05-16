@@ -1,4 +1,4 @@
-# Used in run configuration MandelbrotCLI - Transition
+# Used in run configuration MandelbrotCLI - Transition SOFT_INOUT
 topLeft:
  cx: -2.02
  cy: 1.2
@@ -8,7 +8,7 @@ bottomRight:
 maximumIterations: 10
 imageWidth: 459
 imageHeight: 405
-imageFilename: "./junit-tmp/mandelbrot-ctrl-trans-test-01.tiff"
+imageFilename: "./junit-tmp/mandelbrot-ctrl-trans-test-02.tiff"
 paletteVariant: "CUSTOM"
 customColorPalette:
 - red: 25
@@ -24,8 +24,8 @@ mandelbrotColor:
    blue: 0
 following:
 -  transition: 
-     steps: 2
-     variant: LINEAR
+     steps: 10
+     variant: SOFT_INOUT
    maximumIterations: 40
 # Change 0.9 in 3 steps: 0.3 per step
    topLeft:
