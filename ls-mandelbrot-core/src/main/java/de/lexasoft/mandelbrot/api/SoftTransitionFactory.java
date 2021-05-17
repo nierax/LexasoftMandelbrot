@@ -34,7 +34,7 @@ public class SoftTransitionFactory extends TransitionFactory {
 
 	private List<Point> createControlPoints(Transition transition) {
 		List<Point> controlPoints = new ArrayList<>();
-		int steps = transition.steps();
+		int steps = transition.steps() + 1;
 		switch (transition.variant()) {
 		case SOFT_INOUT:
 			controlPoints.add(Point.of(0, 0));
