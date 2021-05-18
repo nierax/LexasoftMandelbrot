@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>de.lexasoft</groupId>
 		<artifactId>mandelbrot</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0</version>
 	</parent>
 
 	<dependencies>
@@ -19,6 +19,10 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.lexasoft</groupId>
+			<artifactId>ls-commons</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -4,7 +4,7 @@
 package de.lexasoft.mandelbrot.api;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 public class Transition {
@@ -27,6 +27,11 @@ public class Transition {
 
 	public static Transition of(int steps, TransitionVariant variant) {
 		return new Transition(steps, variant);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[steps=%s][variant=%s]", steps, variant);
 	}
 
 }

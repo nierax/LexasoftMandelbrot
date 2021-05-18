@@ -55,6 +55,8 @@ class AbstractDTO2PropertiesMapperTest {
 		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-1.yaml"),
 		        TransitionDTO2PropertiesMapper.class),
 		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-2.yaml"),
+		        TransitionDTO2PropertiesMapper.class),
+		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-3.yaml"),
 		        TransitionDTO2PropertiesMapper.class));
 	}
 

@@ -8,5 +8,5 @@ package de.lexasoft.mandelbrot.api;
  *
  */
 public enum TransitionVariant {
-	LINEAR
+	LINEAR, SOFT_INOUT, SOFT_IN, SOFT_OUT
 }

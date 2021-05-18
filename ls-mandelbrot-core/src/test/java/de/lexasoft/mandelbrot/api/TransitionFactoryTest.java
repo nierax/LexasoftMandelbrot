@@ -23,7 +23,7 @@ import de.lexasoft.mandelbrot.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 class TransitionFactoryTest {
@@ -38,7 +38,6 @@ class TransitionFactoryTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new TransitionFactory();
 		// Transition starts at
 		start = new MandelbrotCalculationProperties();
 		start.setImageWidth(459);
@@ -55,6 +54,7 @@ class TransitionFactoryTest {
 		end = start.cloneValues();
 		// Transition parameters
 		transition = Transition.of(2, TransitionVariant.LINEAR);
+		cut = new TransitionFactory(transition);
 	}
 
 	private static MandelbrotPointPosition point(double cx, double cy) {
@@ -88,7 +88,7 @@ class TransitionFactoryTest {
 		end.setBottomRight(brEnd);
 		end.setMaximumIterations(mTEnd);
 
-		List<MandelbrotCalculationProperties> transitions = cut.createTransitions(start, end, transition);
+		List<MandelbrotCalculationProperties> transitions = cut.createTransitions(start, end);
 		assertNotNull(transitions);
 		assertEquals(2, transitions.size());
 
@@ -134,10 +134,30 @@ class TransitionFactoryTest {
 	 * If the step is below 1, an {@link IllegalArgumentException} is thrown.
 	 */
 	@Test
-	void testCreateTransitionsTooFewSteps() {
+	void testOfTooFewSteps() {
 		assertThrows(IllegalArgumentException.class, () -> {
-			cut.createTransitions(start, end, Transition.of(0, TransitionVariant.LINEAR));
+			TransitionFactory.of(Transition.of(0, TransitionVariant.LINEAR));
 		});
+	}
+
+	private static Stream<Arguments> testOf() {
+		return Stream.of(Arguments.of(Transition.of(100, TransitionVariant.LINEAR), TransitionFactory.class),
+		    Arguments.of(Transition.of(100, TransitionVariant.SOFT_INOUT), SoftTransitionFactory.class),
+		    Arguments.of(Transition.of(100, TransitionVariant.SOFT_IN), SoftTransitionFactory.class),
+		    Arguments.of(Transition.of(100, TransitionVariant.SOFT_OUT), SoftTransitionFactory.class));
+	}
+
+	/**
+	 * Does the of() method produce the right TransitionFactory object?
+	 * 
+	 * @param transition
+	 */
+	@ParameterizedTest
+	@MethodSource
+	void testOf(Transition transition, Class<?> expected) {
+		TransitionFactory cut = TransitionFactory.of(transition);
+		assertNotNull(cut);
+		assertEquals(expected, cut.getClass());
 	}
 
 }
