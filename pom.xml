@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.lexasoft</groupId>
 	<artifactId>mandelbrot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>pom</packaging>
 	<name>Lexasoft-Mandelbrot</name>
 
@@ -33,7 +33,7 @@
 			<dependency>
 				<groupId>de.lexasoft</groupId>
 				<artifactId>ls-commons</artifactId>
-				<version>0.0.3-SNAPSHOT</version>
+				<version>0.1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
