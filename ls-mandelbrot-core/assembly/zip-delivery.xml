@@ -12,7 +12,7 @@
 	<fileSets>
 		<fileSet>
 			<outputDirectory>/</outputDirectory>
-			<directory>src/main/resources</directory>
+			<directory>sample-yaml/</directory>
 		</fileSet>
 		<fileSet>
 			<outputDirectory>/</outputDirectory>
