@@ -24,6 +24,10 @@
 			<source> ${project.build.directory}/${project.artifactId}-${project.version}-jar-with-dependencies.jar</source>
 			<outputDirectory>/lib</outputDirectory>
 		</file>
+		<file>
+			<source>../LICENSE</source>
+			<outputDirectory>./</outputDirectory>
+		</file>
 	</files>
 	<!-- use this section if you want to package dependencies -->
 <!-- 	<dependencySets> -->
