@@ -6,6 +6,8 @@ package de.lexasoft.mandelbrot;
 import java.awt.Color;
 import java.util.List;
 
+import de.lexasoft.mandelbrot.api.PaletteVariant;
+
 /**
  * This Factory creates objects of {@link MandelbrotColorize}.
  * 

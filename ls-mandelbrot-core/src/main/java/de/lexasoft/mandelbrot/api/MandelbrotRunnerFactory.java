@@ -5,6 +5,9 @@ package de.lexasoft.mandelbrot.api;
 
 import java.util.List;
 
+import de.lexasoft.mandelbrot.MandelbrotRunnerChain;
+import de.lexasoft.mandelbrot.MandelbrotSingleRunner;
+
 /**
  * @author nierax
  *
