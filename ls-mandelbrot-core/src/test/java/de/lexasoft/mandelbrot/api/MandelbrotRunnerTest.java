@@ -13,7 +13,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.MandelbrotRunnerChain;
 import de.lexasoft.mandelbrot.MandelbrotSingleRunner;
 

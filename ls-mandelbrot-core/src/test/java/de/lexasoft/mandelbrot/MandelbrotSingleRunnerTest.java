@@ -19,6 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.api.PaletteVariant;

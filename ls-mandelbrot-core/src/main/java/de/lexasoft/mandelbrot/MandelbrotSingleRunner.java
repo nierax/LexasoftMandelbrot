@@ -9,6 +9,7 @@ import java.io.IOException;
 import de.lexasoft.mandelbrot.api.DefaultInfoCallBack;
 import de.lexasoft.mandelbrot.api.InfoCallbackAPI;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.cu.MandelbrotIterator;

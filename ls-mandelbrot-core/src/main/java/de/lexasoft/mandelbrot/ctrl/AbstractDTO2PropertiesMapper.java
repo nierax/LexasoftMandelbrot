@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 public abstract class AbstractDTO2PropertiesMapper {
 

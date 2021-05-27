@@ -21,7 +21,7 @@ import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorPalette;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
  * @author nierax
@@ -64,7 +64,7 @@ class MandelbrotIteratorTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIterator#drawMandelbrot(de.lexasoft.mandelbrot.MandelbrotPointPosition, de.lexasoft.mandelbrot.MandelbrotPointPosition, int, int, int)}.
+	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIterator#drawMandelbrot(de.lexasoft.mandelbrot.api.MandelbrotPointPosition, de.lexasoft.mandelbrot.api.MandelbrotPointPosition, int, int, int)}.
 	 * 
 	 * @throws IOException
 	 */

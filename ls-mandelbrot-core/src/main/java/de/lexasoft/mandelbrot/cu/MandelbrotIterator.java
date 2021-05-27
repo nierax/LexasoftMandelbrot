@@ -8,7 +8,7 @@ import java.awt.Point;
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
  * This class generates an image of the MandelbrotIterator set

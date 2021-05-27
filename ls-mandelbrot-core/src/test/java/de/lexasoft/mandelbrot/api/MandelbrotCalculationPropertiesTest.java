@@ -24,8 +24,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-
 /**
  * @author nierax
  *

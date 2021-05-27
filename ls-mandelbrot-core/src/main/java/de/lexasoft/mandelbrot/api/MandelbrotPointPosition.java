@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 /**
  * Represents a position of a point in the MandelbrotIterator calculation.
