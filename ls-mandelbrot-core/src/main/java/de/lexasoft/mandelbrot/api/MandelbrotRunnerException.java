@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot;
+package de.lexasoft.mandelbrot.api;
 
 /**
  * @author admin

@@ -3,8 +3,8 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory;
 
 /**

@@ -10,7 +10,6 @@ import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
 
 /**

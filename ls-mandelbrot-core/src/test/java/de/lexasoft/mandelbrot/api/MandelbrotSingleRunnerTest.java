@@ -21,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorPalette;
 import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.PaletteVariant;
 
 /**

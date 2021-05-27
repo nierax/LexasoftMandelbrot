@@ -6,8 +6,6 @@ package de.lexasoft.mandelbrot.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
-
 /**
  * Implementation of {@link MandelbrotRunner}, which runs a number of runner
  * objects.
