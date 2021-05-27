@@ -55,4 +55,8 @@ public class MandelbrotRunnerChain implements MandelbrotRunner {
 		return runners;
 	}
 
+	public int nrOfRunners() {
+		return runners.size();
+	}
+
 }
