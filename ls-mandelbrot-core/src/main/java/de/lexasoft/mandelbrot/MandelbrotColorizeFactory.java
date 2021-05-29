@@ -37,7 +37,7 @@ public class MandelbrotColorizeFactory {
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
 	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, int colorGrading, Color mandelbrotColor) {
-		List<Color> custom = (colorGrading == 0) ? ungraded : cFactory.createGradientList(ungraded, colorGrading);
+		List<Color> custom = (colorGrading == 0) ? ungraded : ColorGradingLine.of().gradePalette(ungraded, colorGrading);
 		return MandelbrotColorPalette.of(custom, mandelbrotColor);
 	}
 

@@ -16,6 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import de.lexasoft.mandelbrot.ColorGradingLine;
 import de.lexasoft.mandelbrot.ColorPaletteFactory;
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorPalette;
@@ -57,7 +58,7 @@ class MandelbrotIteratorTest {
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createRainbowPalette29(), Color.BLACK), 580,
 		        IMAGE_DIRECTORY + "/mandelbrot-rainbow.tiff"),
 		    // 3 colors in list
-		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(ungraded, 21), Color.BLACK), 500,
+		    Arguments.of(MandelbrotColorPalette.of(ColorGradingLine.of().gradePalette(ungraded, 21), Color.BLACK), 500,
 		        IMAGE_DIRECTORY + "/mandelbrot-colorlist.tiff"));
 
 	}

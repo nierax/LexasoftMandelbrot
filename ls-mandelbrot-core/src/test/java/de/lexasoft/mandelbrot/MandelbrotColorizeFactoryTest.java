@@ -109,7 +109,7 @@ class MandelbrotColorizeFactoryTest {
 		// Check, whether this is the right palette.
 		assertEquals(3, palette.size());
 		assertEquals(Color.BLUE, palette.get(0));
-		assertEquals(new Color(127, 127, 255), palette.get(1));
+		assertEquals(new Color(128, 128, 255), palette.get(1));
 		assertEquals(Color.WHITE, palette.get(2));
 	}
 
