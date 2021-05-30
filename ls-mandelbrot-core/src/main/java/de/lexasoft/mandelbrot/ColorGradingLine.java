@@ -20,7 +20,7 @@ public class ColorGradingLine extends AbstractColorGrading {
 	/**
 	 * 
 	 */
-	ColorGradingLine() {
+	public ColorGradingLine() {
 	}
 
 	public static ColorGrading of() {

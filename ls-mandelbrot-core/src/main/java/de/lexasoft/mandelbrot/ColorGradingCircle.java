@@ -12,7 +12,7 @@ public class ColorGradingCircle extends AbstractColorGrading {
 	/**
 	 * 
 	 */
-	ColorGradingCircle() {
+	public ColorGradingCircle() {
 	}
 
 	/**
