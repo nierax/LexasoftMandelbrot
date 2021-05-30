@@ -8,14 +8,7 @@ maximumIterations: 20
 imageWidth: 459
 imageHeight: 405
 imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-020.tiff"
-paletteVariant: "CUSTOM"
-customColorPalette:
-- red: 25
-  green: 140
-  blue: 255
-- red: 255
-  green: 255
-  blue: 255
+paletteVariant: "BLUEWHITE"
 colorGrading: 
   style: LINE
   colorsTotal: 5 

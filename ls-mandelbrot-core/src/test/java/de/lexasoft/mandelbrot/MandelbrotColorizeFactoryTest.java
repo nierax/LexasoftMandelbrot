@@ -100,6 +100,26 @@ class MandelbrotColorizeFactoryTest {
 
 	/**
 	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
+	 * color variant blue white with a line grading of 3 (minimum).
+	 * <p>
+	 * A custom (ungraded) palette is not needed, as BLUEWHITE is a predefined list.
+	 */
+	@Test
+	void testOfBlueWhiteGraded() {
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.BLUEWHITE, null,
+		    MandelbrotColorGrading.of(ColorGradingStyle.LINE, 3));
+		assertNotNull(cut);
+		assertTrue(cut instanceof MandelbrotColorPalette);
+		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
+		assertNotNull(palette);
+		// Check, whether this is the right palette.
+		assertEquals(3, palette.size());
+		assertEquals(new Color(25, 140, 255), palette.get(0));
+		assertEquals(Color.WHITE, palette.get(2));
+	}
+
+	/**
+	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
 	 * color variant custom in 2 steps, graded to 3 steps.
 	 */
 	@Test

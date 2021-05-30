@@ -73,6 +73,18 @@ public class ColorPaletteFactory {
 		return colors;
 	}
 
+	/**
+	 * Creates a color palette with two colors: blue and white
+	 * 
+	 * @return
+	 */
+	public List<Color> createBlueWhitePalette() {
+		List<Color> colors = new ArrayList<>(2);
+		colors.add(new Color(25, 140, 255));
+		colors.add(Color.WHITE);
+		return colors;
+	}
+
 	public static ColorPaletteFactory of() {
 		return new ColorPaletteFactory();
 	}

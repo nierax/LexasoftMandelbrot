@@ -12,7 +12,7 @@ package de.lexasoft.mandelbrot.api;
 public enum PaletteVariant {
 
 	/**
-	 * Black an White only, grading not possible
+	 * Black and White only, grading not possible
 	 */
 	BLACK_WHITE,
 
@@ -25,6 +25,11 @@ public enum PaletteVariant {
 	 * Rainbow in 7 colors
 	 */
 	RAINBOW7,
+
+	/**
+	 * 2 colors sky blue and white
+	 */
+	BLUEWHITE,
 
 	/**
 	 * Custom palette, defined by user (f.ex. in YAML file)

@@ -68,11 +68,14 @@ public class MandelbrotColorizeFactory {
 		case RAINBOW7:
 			colorize = createAndGradePalette(cFactory.createRainbowPalette7(), colorGrading, mandelbrotColor);
 			break;
+		case BLUEWHITE:
+			colorize = createAndGradePalette(cFactory.createBlueWhitePalette(), colorGrading, mandelbrotColor);
+			break;
 		case CUSTOM:
 			colorize = createAndGradePalette(colors, colorGrading, mandelbrotColor);
 			break;
 		default:
-			break;
+			throw new IllegalArgumentException("Did not find a colorize method for variant " + variant);
 
 		}
 		return colorize;

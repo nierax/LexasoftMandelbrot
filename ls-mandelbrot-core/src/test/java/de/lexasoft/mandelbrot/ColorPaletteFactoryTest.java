@@ -4,9 +4,9 @@
 package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,8 +19,6 @@ import org.junit.jupiter.api.Test;
 class ColorPaletteFactoryTest {
 
 	private ColorPaletteFactory cut;
-	private static List<Color> palette3Entries;
-	private static List<Color> palette4Entries;
 
 	/**
 	 * @throws java.lang.Exception
@@ -28,15 +26,6 @@ class ColorPaletteFactoryTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		cut = new ColorPaletteFactory();
-		palette3Entries = new ArrayList<>();
-		palette3Entries.add(Color.RED);
-		palette3Entries.add(Color.GREEN);
-		palette3Entries.add(Color.BLUE);
-		palette4Entries = new ArrayList<>();
-		palette4Entries.add(Color.RED);
-		palette4Entries.add(Color.GREEN);
-		palette4Entries.add(Color.BLUE);
-		palette4Entries.add(Color.ORANGE);
 	}
 
 	/**
@@ -70,6 +59,15 @@ class ColorPaletteFactoryTest {
 		assertEquals(Color.BLUE, result.get(4));
 		assertEquals(new Color(75, 0, 130), result.get(5));
 		assertEquals(new Color(136, 0, 255), result.get(6));
+	}
+
+	@Test
+	void testCreateBlueWhitePalette() {
+		List<Color> result = cut.createBlueWhitePalette();
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		assertEquals(new Color(25, 140, 255), result.get(0));
+		assertEquals(Color.WHITE, result.get(1));
 	}
 
 }
