@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
+import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
 /**
@@ -38,7 +39,7 @@ public class CalculationPropertiesDTO {
 	@JsonProperty
 	private List<ColorDTO> customColorPalette;
 	@JsonProperty
-	private int colorGrading;
+	private MandelbrotColorGrading colorGrading;
 	@JsonProperty
 	private ColorDTO mandelbrotColor;
 	@JsonProperty
@@ -84,7 +85,7 @@ public class CalculationPropertiesDTO {
 		return customColorPalette;
 	}
 
-	public int getColorGrading() {
+	public MandelbrotColorGrading getColorGrading() {
 		return colorGrading;
 	}
 

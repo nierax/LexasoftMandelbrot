@@ -39,7 +39,7 @@ class MandelbrotRunnerTest {
 		customPalette.add(new Color(25, 140, 255));
 		customPalette.add(new Color(255, 255, 255));
 		props.setCustomColorPalette(customPalette);
-		props.setColorGrading(5);
+		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 5));
 		props.setMandelbrotColor(Color.BLACK);
 		return props;
 	}

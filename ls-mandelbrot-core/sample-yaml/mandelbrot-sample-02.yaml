@@ -44,11 +44,16 @@ customColorPalette:
   blue: 255
 # Expand the color palette to the given number of colors by calculating
 # a color grading between the colors in the palette.
-# The number is the total number of colors from the original palette and 
-# the intermediate steps.
-# In this example the 2 custom colors are extended to the total of 7 colors, 
-# chatoyant from blue to white. 
-colorGrading: 6
+# In this example the 2 custom colors are extended to the total of 6 colors, 
+# chatoyant from blue to white and back to blue. 
+colorGrading: 
+  # CIRCLE: Add transitions both between each color, and between the first and the last one.
+  # To avoid a transition between the last and the first color use "LINE" 
+  style: CIRCLE
+  # The number is the total number of colors from the original palette and 
+  # the intermediate steps.
+  colorsTotal: 6 
+
 # The color of the Mandelbrot set, default is black
 mandelbrotColor:
   red: 0

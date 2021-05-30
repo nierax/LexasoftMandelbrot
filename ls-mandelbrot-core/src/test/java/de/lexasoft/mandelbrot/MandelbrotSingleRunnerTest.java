@@ -18,7 +18,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
@@ -49,7 +51,7 @@ class MandelbrotSingleRunnerTest {
 		colors.add(Color.BLUE);
 		colors.add(Color.WHITE);
 		props.setCustomColorPalette(colors);
-		props.setColorGrading(5);
+		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 5));
 		props.setMandelbrotColor(Color.YELLOW);
 	}
 
@@ -100,7 +102,7 @@ class MandelbrotSingleRunnerTest {
 	@Test
 	void testOfRainbow29() {
 		props.setPaletteVariant(PaletteVariant.RAINBOW29);
-		props.setColorGrading(0);
+		props.setColorGrading(null);
 		MandelbrotSingleRunner cut = MandelbrotSingleRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);
@@ -112,7 +114,7 @@ class MandelbrotSingleRunnerTest {
 	@Test
 	void testOfRainbow7() {
 		props.setPaletteVariant(PaletteVariant.RAINBOW7);
-		props.setColorGrading(0);
+		props.setColorGrading(null);
 		MandelbrotSingleRunner cut = MandelbrotSingleRunner.of(props);
 		assertNotNull(cut.getColorize());
 		assertTrue(cut.getColorize() instanceof MandelbrotColorPalette);

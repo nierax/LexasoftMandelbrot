@@ -16,7 +16,9 @@ customColorPalette:
 - red: 255
   green: 255
   blue: 255
-colorGrading: 5 
+colorGrading: 
+  style: LINE
+  colorsTotal: 5 
 mandelbrotColor:
    red: 0
    green: 0

@@ -45,7 +45,7 @@ class TransitionFactoryTest {
 		customPalette.add(new Color(25, 140, 255));
 		customPalette.add(new Color(255, 255, 255));
 		start.setCustomColorPalette(customPalette);
-		start.setColorGrading(5);
+		start.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 5));
 		start.setMandelbrotColor(Color.BLACK);
 		// Transition ends at
 		end = start.cloneValues();
@@ -104,7 +104,7 @@ class TransitionFactoryTest {
 		assertEquals(2, props.getCustomColorPalette().size());
 		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
-		assertEquals(5, props.getColorGrading());
+		assertEquals(5, props.getColorGrading().getColorsTotal());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 
 		// Second step
@@ -122,7 +122,7 @@ class TransitionFactoryTest {
 		assertEquals(2, props.getCustomColorPalette().size());
 		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
-		assertEquals(5, props.getColorGrading());
+		assertEquals(5, props.getColorGrading().getColorsTotal());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 
 	}

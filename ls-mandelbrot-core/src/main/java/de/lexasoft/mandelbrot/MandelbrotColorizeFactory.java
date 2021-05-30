@@ -6,6 +6,8 @@ package de.lexasoft.mandelbrot;
 import java.awt.Color;
 import java.util.List;
 
+import de.lexasoft.mandelbrot.api.ColorGrading;
+import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
 /**
@@ -36,8 +38,11 @@ public class MandelbrotColorizeFactory {
 	 * @param mandelbrotColor The color of the MandelbrotIterator set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
-	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, int colorGrading, Color mandelbrotColor) {
-		List<Color> custom = (colorGrading == 0) ? ungraded : ColorGradingLine.of().gradePalette(ungraded, colorGrading);
+	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, MandelbrotColorGrading colorGrading,
+	    Color mandelbrotColor) {
+		boolean isGradingUsed = (colorGrading != null) && colorGrading.getColorsTotal() > 0;
+		List<Color> custom = !isGradingUsed ? ungraded
+		    : ColorGrading.of(colorGrading.getStyle()).gradePalette(ungraded, colorGrading.getColorsTotal());
 		return MandelbrotColorPalette.of(custom, mandelbrotColor);
 	}
 
@@ -50,8 +55,8 @@ public class MandelbrotColorizeFactory {
 	 * @param mandelbrotColor The color used for the MandelbrotIterator set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
-	private MandelbrotColorize createColorize(PaletteVariant variant, List<Color> colors, int colorGrading,
-	    Color mandelbrotColor) {
+	private MandelbrotColorize createColorize(PaletteVariant variant, List<Color> colors,
+	    MandelbrotColorGrading colorGrading, Color mandelbrotColor) {
 		MandelbrotColorize colorize = null;
 		switch (variant) {
 		case BLACK_WHITE:
@@ -84,7 +89,7 @@ public class MandelbrotColorizeFactory {
 	 * @param mandelbrotColor The color used for the MandelbrotIterator set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
-	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, int colorGrading,
+	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, MandelbrotColorGrading colorGrading,
 	    Color mandelbrotColor) {
 		MandelbrotColorizeFactory factory = new MandelbrotColorizeFactory();
 		return factory.createColorize(variant, colors, colorGrading, mandelbrotColor);
@@ -99,7 +104,7 @@ public class MandelbrotColorizeFactory {
 	 * @param nrOfSteps The number of steps for color gradients.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
-	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, int nrOfSteps) {
-		return of(variant, colors, nrOfSteps, Color.BLACK);
+	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, MandelbrotColorGrading colorGrading) {
+		return of(variant, colors, colorGrading, Color.BLACK);
 	}
 }

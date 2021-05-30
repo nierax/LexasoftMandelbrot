@@ -98,7 +98,7 @@ public abstract class AbstractDTO2PropertiesMapper {
 		if (dto.getCustomColorPalette() != null) {
 			props.setCustomColorPalette(mapListOfColorDTO2(dto.getCustomColorPalette()));
 		}
-		if (dto.getColorGrading() > 0) {
+		if (dto.getColorGrading() != null && dto.getColorGrading().getColorsTotal() > 0) {
 			props.setColorGrading(dto.getColorGrading());
 		}
 		if (dto.getMandelbrotColor() != null) {

@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
@@ -59,7 +60,8 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(2, props.getCustomColorPalette().size());
 		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
-		assertEquals(5, props.getColorGrading());
+		assertEquals(ColorGradingStyle.LINE, props.getColorGrading().getStyle());
+		assertEquals(5, props.getColorGrading().getColorsTotal());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 
 		// Second entry with first transition
@@ -77,7 +79,8 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(2, props.getCustomColorPalette().size());
 		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
-		assertEquals(5, props.getColorGrading());
+		assertEquals(ColorGradingStyle.LINE, props.getColorGrading().getStyle());
+		assertEquals(5, props.getColorGrading().getColorsTotal());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 
 		// Third entry with second transition
@@ -95,7 +98,8 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(2, props.getCustomColorPalette().size());
 		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
-		assertEquals(5, props.getColorGrading());
+		assertEquals(ColorGradingStyle.LINE, props.getColorGrading().getStyle());
+		assertEquals(5, props.getColorGrading().getColorsTotal());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 
 		// Forth entry is second point given
@@ -113,7 +117,8 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(2, props.getCustomColorPalette().size());
 		assertEquals(new Color(25, 140, 255), props.getCustomColorPalette().get(0));
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
-		assertEquals(5, props.getColorGrading());
+		assertEquals(ColorGradingStyle.LINE, props.getColorGrading().getStyle());
+		assertEquals(5, props.getColorGrading().getColorsTotal());
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 	}
 

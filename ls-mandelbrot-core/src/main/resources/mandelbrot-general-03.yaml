@@ -5,9 +5,9 @@ bottomRight:
  cx: 0.7
  cy: -1.2
 maximumIterations: 50
-imageWidth: 459
-imageHeight: 405
-imageFilename: "./junit-tmp/mandelbrot-ctrl-test.tiff"
+imageWidth: 4590
+imageHeight: 4050
+imageFilename: "./junit-tmp/mandelbrot-general-100-circle.tiff"
 paletteVariant: "CUSTOM"
 customColorPalette:
 - red: 25
@@ -17,9 +17,9 @@ customColorPalette:
   green: 255
   blue: 255
 colorGrading: 
-  style: LINE
-  colorsTotal: 5 
+  style: CIRCLE
+  colorsTotal: 6
 mandelbrotColor:
    red: 0
    green: 0
-   blue: 0
+   blue: 64

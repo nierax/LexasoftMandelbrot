@@ -49,7 +49,7 @@ class MandelbrotCalculationPropertiesTest {
 		customPalette.add(new Color(25, 140, 255));
 		customPalette.add(new Color(255, 255, 255));
 		cut.setCustomColorPalette(customPalette);
-		cut.setColorGrading(5);
+		cut.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 5));
 		cut.setMandelbrotColor(Color.BLACK);
 	}
 
@@ -222,7 +222,7 @@ class MandelbrotCalculationPropertiesTest {
 		assertNull(clonedProps.getImageFilename());
 		assertNull(clonedProps.getPaletteVariant());
 		assertNull(clonedProps.getCustomColorPalette());
-		assertEquals(0, clonedProps.getColorGrading());
+		assertNull(clonedProps.getColorGrading());
 		assertNull(clonedProps.getMandelbrotColor());
 	}
 

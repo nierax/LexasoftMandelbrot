@@ -32,11 +32,16 @@ imageFilename: "./images/mandelbrot-sample-rainbow7-100.tiff"
 paletteVariant: "RAINBOW7"
 # Expand the color palette to the given number of colors by calculating
 # a color grading between the colors in the palette.
-# The number is the total number of colors from the original palette and 
-# the intermediate steps.
 # In this example the 7 rainbow colors are extended with one more color 
 # between every palette entry.
-colorGrading: 13
+colorGrading: 
+  # LINE: Add transitions between each color, but not between the first and the last one.
+  # To add a transition between the last and the first color use "CIRCLE" 
+  style: LINE
+  # The number is the total number of colors from the original palette and 
+  # the intermediate steps.
+  colorsTotal: 13 
+
 # The color of the Mandelbrot set, default is black
 mandelbrotColor:
   red: 0
