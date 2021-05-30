@@ -18,24 +18,19 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests the {@link ColorGradingLine} class.
- * <p>
- * Does not check the correct grading steps, but the number of resulting colors
- * and if the original colors are added at the right place.
- * 
  * @author nierax
  *
  */
-class ColorGradingLineTest {
+class ColorGradingCircleTest {
 
-	private ColorGradingLine cut;
+	private ColorGradingCircle cut;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new ColorGradingLine();
+		cut = new ColorGradingCircle();
 	}
 
 	private static List<Color> palette(Color... colors) {
@@ -49,13 +44,13 @@ class ColorGradingLineTest {
 	private static Stream<Arguments> testGradePalette() {
 		return Stream.of(
 		    // Rainbow7 with one step between
-		    Arguments.of(ColorPaletteFactory.of().createRainbowPalette7(), 13, new int[] { 0, 2, 4, 6, 8, 10, 12 }),
+		    Arguments.of(ColorPaletteFactory.of().createRainbowPalette7(), 14, new int[] { 0, 2, 4, 6, 8, 10, 12 }),
 		    // Blue white with 3 steps between
-		    Arguments.of(palette(new Color(25, 140, 255), Color.WHITE), 5, new int[] { 0, 4 }),
+		    Arguments.of(palette(new Color(25, 140, 255), Color.WHITE), 8, new int[] { 0, 4 }),
 		    // Blue white with 1 step between
-		    Arguments.of(palette(new Color(25, 140, 255), Color.WHITE), 3, new int[] { 0, 2 }),
+		    Arguments.of(palette(new Color(25, 140, 255), Color.WHITE), 4, new int[] { 0, 2 }),
 		    // Rainbow7 with one step between and a remainder of 2
-		    Arguments.of(ColorPaletteFactory.of().createRainbowPalette7(), 15, new int[] { 0, 2, 4, 6, 8, 11, 14 }));
+		    Arguments.of(ColorPaletteFactory.of().createRainbowPalette7(), 16, new int[] { 0, 2, 4, 6, 8, 10, 13 }));
 	}
 
 	/**
@@ -80,10 +75,10 @@ class ColorGradingLineTest {
 
 	private static Stream<Arguments> testGradePaletteTooLow() {
 		return Stream.of(
-		    // 6 Is not enough for a 4 entries palette.
-		    Arguments.of(ColorPaletteFactory.of().createRainbowPalette7(), 12),
-		    // 2 Is not enough for a 2 entries palette.
-		    Arguments.of(palette(Color.BLUE, Color.WHITE), 2));
+		    // 13 Is not enough for a 7 entries palette.
+		    Arguments.of(ColorPaletteFactory.of().createRainbowPalette7(), 13),
+		    // 3 Is not enough for a 2 entries palette.
+		    Arguments.of(palette(Color.BLUE, Color.WHITE), 3));
 	}
 
 	@ParameterizedTest
