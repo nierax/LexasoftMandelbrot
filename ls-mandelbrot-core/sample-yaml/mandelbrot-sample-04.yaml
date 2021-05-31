@@ -1,0 +1,83 @@
+# This sample covers the caclculation of a row of Mandelbrot sections with transitions 
+# between them. Thus You can produce dollie shots within the Mandelbrot set.
+
+# Coordinates of the Mandelbrot set
+# Hint: It is possible to omit either one dimension of the calculation or   
+# of the image's width / height in order to get a 1:1 ratio between the 
+# calculation of the image.
+topLeft:
+ cx: -2.02
+ cy: 1.2
+bottomRight:
+ cx: 0.7
+ cy: -1.2
+# How many iterations maximal, until the point is considered as a member of the Mandelbrot set.
+maximumIterations: 100
+# The width of the image in pixel
+imageWidth: 459
+# The height of the image in pixel
+imageHeight: 405
+# Any file name of the image, You like.
+# Supported file formats are:
+# - jpg
+# - png
+# - tiff
+# Please note, that the directory must exist on the system
+imageFilename: "./images/mandelbrot-sample-transition.tiff"
+
+# Information about the colorization of the image.
+# A color palette can consist of any number of colors, You like. 
+# There are some predefined palettes:
+# - BLACK_WHITE (Black for members of Mandelbrot set, white otherwise)
+# - RAINBOW7 (7 Colors in the order of a rainbow)
+# - RAINBOW29 (29 Colors in the order of a rainbow)
+# - CUSTOM (Custom color palette - see example 2 for this)
+paletteVariant: "RAINBOW7"
+# Expand the color palette to the given number of colors by calculating
+# a color grading between the colors in the palette.
+# In this example the 7 rainbow colors are extended with one more color 
+# between every palette entry.
+colorGrading: 
+  # LINE: Add transitions between each color, but not between the first and the last one.
+  # To add a transition between the last and the first color use "CIRCLE" 
+  style: LINE
+  # The number is the total number of colors from the original palette and 
+  # the intermediate steps.
+  colorsTotal: 13 
+
+# The color of the Mandelbrot set, default is black
+mandelbrotColor:
+  red: 0
+  green: 0
+  blue: 32
+# Following opens a list of more calculations. Value that are not set will be used from 
+# the original definition.
+following:
+  # Increase maximum iterations from 100 (prev) to 300 in 5 steps. 
+  # LINEAR means that the distance between the transition steps is always the same.
+- maximumIterations: 300
+  # The transition fields mark, that this is a transition calculation.
+  # Please note: There is no need to provide a filename with every step, as files will 
+  # be numerized automatically. 
+  transition:
+    steps: 5
+    variant: LINEAR
+  # The second following transition zooms in the calculation in 20 steps.
+  # The new calculation coordinates
+- topLeft:
+     cx: -0.2
+     cy: 0.93
+  bottomRight:
+    cx: -0.02
+    # Keep the aspect ratio
+    cy: auto
+  # Increase maximum iterations now from 300 (prev) to 500.
+  maximumIterations: 500
+  # Use 20 steps with soft movement in and out
+  # SOFT_INOUT means that the distance between the transition steps will grow first
+  # and than decline.
+  # Also available: SOFT_IN (just grow) and SOFT_OUT (just decline)
+  transition:
+     steps: 20
+     variant: SOFT_INOUT
+ 

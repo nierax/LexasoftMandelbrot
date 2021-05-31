@@ -6,8 +6,8 @@ bottomRight:
  cx: 0.7
  cy: -1.2
 maximumIterations: 100
-imageWidth: 4590
-imageHeight: 4050
+imageWidth: 459
+imageHeight: 405
 imageFilename: "./junit-tmp/mandelbrot-test-list-01.tiff"
 paletteVariant: "CUSTOM"
 customColorPalette:
@@ -17,15 +17,15 @@ customColorPalette:
 - red: 255
   green: 255
   blue: 255
-colorGrading: 5 
+colorGrading: 
+  style: LINE
+  colorsTotal: 5 
 mandelbrotColor:
    red: 0
    green: 0
    blue: 0
 # List with next calculations
 following:
-- maximumIterations: 500
-  imageFilename: "./junit-tmp/mandelbrot-test-list-02.tiff"
 - topLeft:
      cx: -0.2
      cy: 0.93
@@ -33,8 +33,7 @@ following:
     cx: -0.02
     cy: 0.8
   maximumIterations: 300
-  imageFilename: "./junit-tmp/mandelbrot-test-list-03.tiff"
   transition:
-     steps: 20
-     variant: LINEAR
+    steps: 20
+    variant: LINEAR
   

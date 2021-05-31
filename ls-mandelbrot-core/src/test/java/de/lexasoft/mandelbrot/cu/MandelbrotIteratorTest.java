@@ -16,12 +16,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import de.lexasoft.mandelbrot.ColorGradingLine;
 import de.lexasoft.mandelbrot.ColorPaletteFactory;
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorPalette;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
  * @author nierax
@@ -57,14 +58,14 @@ class MandelbrotIteratorTest {
 		    Arguments.of(MandelbrotColorPalette.of(cFactory.createRainbowPalette29(), Color.BLACK), 580,
 		        IMAGE_DIRECTORY + "/mandelbrot-rainbow.tiff"),
 		    // 3 colors in list
-		    Arguments.of(MandelbrotColorPalette.of(cFactory.createGradientList(ungraded, 21), Color.BLACK), 500,
+		    Arguments.of(MandelbrotColorPalette.of(ColorGradingLine.of().gradePalette(ungraded, 21), Color.BLACK), 500,
 		        IMAGE_DIRECTORY + "/mandelbrot-colorlist.tiff"));
 
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIterator#drawMandelbrot(de.lexasoft.mandelbrot.MandelbrotPointPosition, de.lexasoft.mandelbrot.MandelbrotPointPosition, int, int, int)}.
+	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIterator#drawMandelbrot(de.lexasoft.mandelbrot.api.MandelbrotPointPosition, de.lexasoft.mandelbrot.api.MandelbrotPointPosition, int, int, int)}.
 	 * 
 	 * @throws IOException
 	 */

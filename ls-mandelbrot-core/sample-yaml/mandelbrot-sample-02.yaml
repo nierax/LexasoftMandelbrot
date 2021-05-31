@@ -1,0 +1,61 @@
+# Sample with CUSTOM Color palette.
+
+# Coordinates of the Mandelbrot set
+# Hint: It is possible to omit either one dimension of the calculation or   
+# of the image's width / height in order to get a 1:1 ratio between the 
+# calculation of the image.
+topLeft:
+ cx: -2.02
+ cy: 1.2
+bottomRight:
+ cx: 0.7
+ cy: -1.2
+# How many iterations maximal, until the point is considered as a member of the Mandelbrot set.
+maximumIterations: 100
+# The width of the image in pixel
+imageWidth: 459
+# The height of the image in pixel
+imageHeight: 405
+# Any file name of the image, You like.
+# Supported file formats are:
+# - jpg
+# - png
+# - tiff
+# Please note, that the directory must exist on the system
+imageFilename: "./images/mandelbrot-sample-custom-100.png"
+
+# Information about the colorization of the image.
+# A color palette can consist of any number of colors, You like. 
+# There are some predefined palettes:
+# - BLACK_WHITE (Black for members of Mandelbrot set, white otherwise)
+# - RAINBOW7 (7 Colors in the order of a rainbow)
+# - RAINBOW29 (29 Colors in the order of a rainbow)
+# - CUSTOM (Custom color palette - see example 2 for this)
+paletteVariant: "CUSTOM"
+# You can add an arbitraty number of colors by writing the rgb values 
+# as shown below.
+# This produces a palette with just 2 entries: a modern blue tone and white.
+customColorPalette:
+- red: 25
+  green: 140
+  blue: 255
+- red: 255
+  green: 255
+  blue: 255
+# Expand the color palette to the given number of colors by calculating
+# a color grading between the colors in the palette.
+# In this example the 2 custom colors are extended to the total of 6 colors, 
+# chatoyant from blue to white and back to blue. 
+colorGrading: 
+  # CIRCLE: Add transitions both between each color, and between the first and the last one.
+  # To avoid a transition between the last and the first color use "LINE" 
+  style: CIRCLE
+  # The number is the total number of colors from the original palette and 
+  # the intermediate steps.
+  colorsTotal: 6 
+
+# The color of the Mandelbrot set, default is black
+mandelbrotColor:
+  red: 0
+  green: 0
+  blue: 32

@@ -9,9 +9,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.PaletteVariant;
-
 /**
  * @author nierax
  *
@@ -35,7 +32,7 @@ public class MandelbrotCalculationProperties {
 	@JsonProperty
 	private List<Color> customColorPalette;
 	@JsonProperty
-	private int colorGrading;
+	private MandelbrotColorGrading colorGrading;
 	@JsonProperty
 	private Color mandelbrotColor;
 
@@ -95,12 +92,12 @@ public class MandelbrotCalculationProperties {
 		this.customColorPalette = colors;
 	}
 
-	public int getColorGrading() {
+	public MandelbrotColorGrading getColorGrading() {
 		return colorGrading;
 	}
 
-	public void setColorGrading(int nrOfColors) {
-		this.colorGrading = nrOfColors;
+	public void setColorGrading(MandelbrotColorGrading colorGrading) {
+		this.colorGrading = colorGrading;
 	}
 
 	public String getImageFilename() {

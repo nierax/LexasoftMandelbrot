@@ -6,8 +6,6 @@ package de.lexasoft.mandelbrot.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-
 /**
  * Calculates the transition between 2 properties in the following dimensions:
  * <ul>

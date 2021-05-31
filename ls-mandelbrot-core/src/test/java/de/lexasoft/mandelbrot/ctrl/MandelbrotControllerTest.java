@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 
 /**
  * Integration test for the controller to check the correctness of the
