@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-java -Xmx1024m -jar lib/ls-mandelbrot-core-0.1.1-jar-with-dependencies.jar %*
+java -Xmx1024m -jar lib/ls-mandelbrot-core-0.1.2-SNAPSHOT-jar-with-dependencies.jar %*
