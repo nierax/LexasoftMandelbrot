@@ -1,16 +1,17 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot.api;
+package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
 import java.io.IOException;
 
-import de.lexasoft.mandelbrot.MandelbrotColorize;
-import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
-import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.api.DefaultInfoCallBack;
+import de.lexasoft.mandelbrot.api.InfoCallbackAPI;
+import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.MandelbrotRunner;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
 
 /**
@@ -78,8 +79,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		try {
 			MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
 			long start = System.currentTimeMillis();
-			MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth,
-			    imageHeight);
+			MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth, imageHeight);
 			long stop = System.currentTimeMillis();
 			info.outCalculationReady(stop - start);
 			image.writeAsFile(imageFilename);

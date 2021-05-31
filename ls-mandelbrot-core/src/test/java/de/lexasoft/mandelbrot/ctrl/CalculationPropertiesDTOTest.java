@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.PaletteVariant;
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
+import de.lexasoft.mandelbrot.api.PaletteVariant;
 
 /**
  * @author nierax
@@ -61,7 +62,8 @@ class CalculationPropertiesDTOTest {
 		assertEquals(255, cut.getCustomColorPalette().get(1).getColor().getGreen());
 		assertEquals(255, cut.getCustomColorPalette().get(1).getColor().getBlue());
 
-		assertEquals(5, cut.getColorGrading());
+		assertEquals(ColorGradingStyle.LINE, cut.getColorGrading().getStyle());
+		assertEquals(5, cut.getColorGrading().getColorsTotal());
 
 		assertEquals(Color.BLACK.getRGB(), cut.getMandelbrotColor().getColor().getRGB());
 	}

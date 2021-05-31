@@ -3,9 +3,8 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
-import de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 
 /**
  * Implements the control flow from the input to the runner.
@@ -16,16 +15,13 @@ import de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory;
 public class MandelbrotController {
 
 	private CalculationPropertiesDTO propDTO;
-	private MandelbrotRunnerFactory runnerFactory;
 
 	public MandelbrotController(CalculationPropertiesDTO propDTO) {
 		this.propDTO = propDTO;
-		this.runnerFactory = MandelbrotRunnerFactory.of();
 	}
 
 	public void flowCalculation() throws MandelbrotRunnerException {
-		MandelbrotRunner runner = runnerFactory.createRunner(AbstractDTO2PropertiesMapper.of(propDTO).mapDTO2Properties());
-		runner.run();
+		MandelbrotRunner.of(AbstractDTO2PropertiesMapper.of(propDTO).mapDTO2Properties()).run();
 	}
 
 	/**

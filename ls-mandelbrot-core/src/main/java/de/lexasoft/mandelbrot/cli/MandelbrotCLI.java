@@ -8,7 +8,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.ctrl.CalculationPropertiesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 

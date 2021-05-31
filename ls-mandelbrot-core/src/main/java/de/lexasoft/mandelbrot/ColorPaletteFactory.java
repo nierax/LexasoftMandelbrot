@@ -5,7 +5,6 @@ package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,95 +16,6 @@ import java.util.List;
  *
  */
 public class ColorPaletteFactory {
-
-	class GradientFactors {
-		float red;
-		float green;
-		float blue;
-	}
-
-	class GradingAttr {
-		int grading;
-		int[] stepsPerInterval;
-		int nrOfIntervals;
-	}
-
-	private void assertGradingPossible(int nrOfColors, int grading) {
-		// Make sure, there is at least one step between all colors
-		int minimumGrading = 2 * nrOfColors - 1;
-		if (grading < minimumGrading) {
-			throw new IllegalArgumentException(
-			    String.format("For %s number of colors grading must be at least %s.", nrOfColors, minimumGrading));
-		}
-	}
-
-	private GradingAttr calculateGradingAttributes(int nrOfColors, int grading) {
-		assertGradingPossible(nrOfColors, grading);
-		GradingAttr ga = new GradingAttr();
-		ga.grading = grading;
-		ga.nrOfIntervals = nrOfColors - 1;
-		// Number of steps per interval
-		int stepsPI = (grading - nrOfColors) / ga.nrOfIntervals;
-		// Fill array steps per interval with the common steps per interval
-		ga.stepsPerInterval = new int[ga.nrOfIntervals];
-		Arrays.fill(ga.stepsPerInterval, stepsPI);
-		// If there is a remainder, the number of steps is increased by one for some
-		// intervals, beginning with the last one.
-		int remainderPI = (grading - nrOfColors) % ga.nrOfIntervals;
-		if (remainderPI > 0) {
-			int ii = ga.nrOfIntervals - 1;
-			for (int i = 0; i < remainderPI; i++) {
-				ga.stepsPerInterval[ii]++;
-				ii--;
-			}
-		}
-		return ga;
-	}
-
-	/**
-	 * Grades every color palette by inserting steps between the colors in the
-	 * palette.
-	 * 
-	 * @param ungradedPalette The original palette
-	 * @param grading         The number of entries, the graded palette should have
-	 * @return The graded color palette
-	 */
-	public List<Color> createGradientList(List<Color> ungradedPalette, int grading) {
-		// Calculate the parameters of grading
-		GradingAttr ga = calculateGradingAttributes(ungradedPalette.size(), grading);
-		List<Color> gradedList = new ArrayList<>();
-		// Handling for each interval
-		for (int i = 0; i < ga.nrOfIntervals; i++) {
-			Color firstColor = ungradedPalette.get(i);
-			Color secondColor = ungradedPalette.get(i + 1);
-			// Put the first color of the interval in the list
-			gradedList.add(firstColor);
-			// Then grade the colors in the given number of steps to the next color in the
-			// interval
-			for (int j = 0; j < ga.stepsPerInterval[i]; j++) {
-				GradientFactors gf = calculateFactors(firstColor, secondColor, ga.stepsPerInterval[i] + 1);
-				gradedList.add(gradeColor(firstColor, gf, j + 1));
-			}
-		}
-		// Now add the last color directly
-		gradedList.add(ungradedPalette.get(ungradedPalette.size() - 1));
-		return gradedList;
-	}
-
-	private GradientFactors calculateFactors(Color colorStart, Color colorEnd, int nrOfSteps) {
-		GradientFactors gf = new GradientFactors();
-		gf.red = (float) (colorEnd.getRed() - colorStart.getRed()) / nrOfSteps;
-		gf.green = (float) (colorEnd.getGreen() - colorStart.getGreen()) / nrOfSteps;
-		gf.blue = (float) (colorEnd.getBlue() - colorStart.getBlue()) / nrOfSteps;
-		return gf;
-	}
-
-	private Color gradeColor(Color colorStart, GradientFactors gf, int step) {
-		int cr = (int) (colorStart.getRed() + gf.red * step);
-		int cg = (int) (colorStart.getGreen() + gf.green * step);
-		int cb = (int) (colorStart.getBlue() + gf.blue * step);
-		return new Color(cr, cg, cb);
-	}
 
 	/**
 	 * Creates a color palette with rainbow colors in 29 steps.
@@ -161,5 +71,21 @@ public class ColorPaletteFactory {
 		colors.add(new Color(75, 0, 130)); // Indigo
 		colors.add(new Color(136, 0, 255)); // Purple
 		return colors;
+	}
+
+	/**
+	 * Creates a color palette with two colors: blue and white
+	 * 
+	 * @return
+	 */
+	public List<Color> createBlueWhitePalette() {
+		List<Color> colors = new ArrayList<>(2);
+		colors.add(new Color(25, 140, 255));
+		colors.add(Color.WHITE);
+		return colors;
+	}
+
+	public static ColorPaletteFactory of() {
+		return new ColorPaletteFactory();
 	}
 }

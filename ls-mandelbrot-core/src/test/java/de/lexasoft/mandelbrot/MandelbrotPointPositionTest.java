@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+
 /**
  * @author admin
  *
@@ -26,7 +28,7 @@ class MandelbrotPointPositionTest {
 	}
 
 	/**
-	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotPointPosition#movex(double)}.
+	 * Test method for {@link de.lexasoft.mandelbrot.api.MandelbrotPointPosition#movex(double)}.
 	 */
 	@ParameterizedTest
 	@ValueSource(doubles = {0.0, -0.2, 2.2})
@@ -36,7 +38,7 @@ class MandelbrotPointPositionTest {
 	}
 
 	/**
-	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotPointPosition#movey(double)}.
+	 * Test method for {@link de.lexasoft.mandelbrot.api.MandelbrotPointPosition#movey(double)}.
 	 */
 	@ParameterizedTest
 	@ValueSource(doubles = {0.0, -0.2, 2.2})

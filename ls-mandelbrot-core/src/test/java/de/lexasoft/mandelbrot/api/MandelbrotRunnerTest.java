@@ -13,16 +13,15 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.lexasoft.mandelbrot.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.PaletteVariant;
+import de.lexasoft.mandelbrot.MandelbrotRunnerChain;
+import de.lexasoft.mandelbrot.MandelbrotSingleRunner;
 
 /**
- * @author nierax
+ * @author admin
  *
  */
-class MandelbrotRunnerFactoryTest {
+class MandelbrotRunnerTest {
 
-	private MandelbrotRunnerFactory cut;
 	private MandelbrotCalculationProperties props1;
 	private MandelbrotCalculationProperties props2;
 	private List<MandelbrotCalculationProperties> listOfProps;
@@ -40,7 +39,7 @@ class MandelbrotRunnerFactoryTest {
 		customPalette.add(new Color(25, 140, 255));
 		customPalette.add(new Color(255, 255, 255));
 		props.setCustomColorPalette(customPalette);
-		props.setColorGrading(5);
+		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 5));
 		props.setMandelbrotColor(Color.BLACK);
 		return props;
 	}
@@ -50,7 +49,6 @@ class MandelbrotRunnerFactoryTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new MandelbrotRunnerFactory();
 		props1 = createProps();
 		props1.setImageFilename("props1");
 		props2 = createProps();
@@ -62,43 +60,37 @@ class MandelbrotRunnerFactoryTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory#createRunner(de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties)}.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunner#of(de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties)}.
 	 */
 	@Test
-	void testCreateRunnerMandelbrotCalculationProperties() {
-		MandelbrotRunner result = cut.createRunner(props1);
+	final void testOfMandelbrotCalculationProperties() {
+		MandelbrotRunner result = MandelbrotRunner.of(props1);
 		assertTrue(result instanceof MandelbrotSingleRunner);
-		MandelbrotSingleRunner singleRunner = (MandelbrotSingleRunner) result;
-		assertEquals("props1", singleRunner.getImageFilename());
 	}
 
 	/**
-	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory#createRunner(java.util.List)}.
+	 * Test method for {@link MandelbrotRunner#of(List)}, when there are tow entries
+	 * in the list.
 	 */
 	@Test
-	void testCreateRunnerListOfMandelbrotCalculationProperties() {
-		MandelbrotRunner result = cut.createRunner(listOfProps);
+	final void testOfListOfMandelbrotCalculationProperties() {
+		MandelbrotRunner result = MandelbrotRunner.of(listOfProps);
 		assertTrue(result instanceof MandelbrotRunnerChain);
 		MandelbrotRunnerChain chain = (MandelbrotRunnerChain) result;
-		assertEquals(2, chain.runners().size());
-		assertEquals("props1", ((MandelbrotSingleRunner) chain.runners().get(0)).getImageFilename());
-		assertEquals("props2", ((MandelbrotSingleRunner) chain.runners().get(1)).getImageFilename());
+		assertEquals(2, chain.nrOfRunners());
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunnerFactory#createRunner(java.util.List)},
-	 * when the list contains one entry, only.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotRunner#of(java.util.List)}, when
+	 * the list contains one entry, only.
 	 */
 	@Test
 	void testCreateRunnerListOfMandelbrotCalculationProperties1Entry() {
 		List<MandelbrotCalculationProperties> listOneEntry = new ArrayList<>();
 		listOneEntry.add(props1);
-		MandelbrotRunner result = cut.createRunner(listOneEntry);
+		MandelbrotRunner result = MandelbrotRunner.of(listOneEntry);
 		assertTrue(result instanceof MandelbrotSingleRunner);
-		MandelbrotSingleRunner singleRunner = (MandelbrotSingleRunner) result;
-		assertEquals("props1", singleRunner.getImageFilename());
 	}
 
 }
