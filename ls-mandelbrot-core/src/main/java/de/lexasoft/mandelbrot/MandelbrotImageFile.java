@@ -3,9 +3,7 @@
  */
 package de.lexasoft.mandelbrot;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -26,33 +24,17 @@ import javax.imageio.stream.ImageOutputStream;
  * @author nierax
  *
  */
-public class MandelbrotImageFile implements MandelbrotImage {
+public class MandelbrotImageFile extends AbstractMandelbrotImage implements MandelbrotImage {
 
 	private BufferedImage image;
-	private Graphics2D g2d;
 	private File file;
 	private String fileType;
 
 	MandelbrotImageFile(int width, int height, String qualifiedFilename) {
 		super();
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		g2d = image.createGraphics();
 		file = new File(qualifiedFilename);
 		fileType = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
-	}
-
-	/**
-	 * Draw a point with the given color.
-	 * 
-	 * @param point The point to draw.
-	 * @param color The color, the point should have.
-	 * @return The color used.
-	 */
-	@Override
-	public Color colorizePoint(Point point, Color color) {
-		g2d.setColor(color);
-		g2d.drawLine(point.x, point.y, point.x, point.y);
-		return color;
 	}
 
 	/**
@@ -113,6 +95,16 @@ public class MandelbrotImageFile implements MandelbrotImage {
 				throw new IOException("Image could not be written to file \"" + file.getAbsolutePath() + "\"");
 			}
 		}
+	}
+
+	/**
+	 * Get graphics object to write to image file.
+	 * 
+	 * @return Graphics object created from image.
+	 */
+	@Override
+	protected Graphics getGraphics() {
+		return image.createGraphics();
 	}
 
 }

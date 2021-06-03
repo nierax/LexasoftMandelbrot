@@ -1,6 +1,7 @@
 package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.io.IOException;
 
@@ -33,5 +34,15 @@ public interface MandelbrotImage {
 	 */
 	static MandelbrotImage of(int width, int height, String qualifiedFilename) {
 		return new MandelbrotImageFile(width, height, qualifiedFilename);
+	}
+
+	/**
+	 * Create an instance of MandelbrotImage with an abstract graphics object
+	 * 
+	 * @param graphics
+	 * @return
+	 */
+	static MandelbrotImage of(Graphics graphics) {
+		return new MandelbrotImageGraphics(graphics);
 	}
 }
