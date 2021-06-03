@@ -18,6 +18,8 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
+import de.lexasoft.mandelbrot.api.InfoCallbackAPI;
+
 /**
  * This class represents an image of a MandelbrotIterator set calculation.
  * 
@@ -95,6 +97,7 @@ public class MandelbrotImageFile extends AbstractMandelbrotImage implements Mand
 				throw new IOException("Image could not be written to file \"" + file.getAbsolutePath() + "\"");
 			}
 		}
+		InfoCallbackAPI.of().outFileWritten(file.getCanonicalPath());
 	}
 
 	/**

@@ -50,7 +50,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		Color mandelbrotColor = (props.getMandelbrotColor() == null) ? Color.BLACK : props.getMandelbrotColor();
 		this.colorize = MandelbrotColorizeFactory.of(props.getPaletteVariant(), props.getCustomColorPalette(),
 		    props.getColorGrading(), mandelbrotColor);
-		image = MandelbrotImage.of(imageWidth, imageHeight, imageFilename);
+		image = props.getImage();
 		return this;
 	}
 
@@ -85,7 +85,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 			long stop = System.currentTimeMillis();
 			info.outCalculationReady(stop - start);
 			image.write();
-			info.outFileWritten(imageFilename);
+//			info.outFileWritten(imageFilename);
 		} catch (IOException e) {
 			throw new MandelbrotRunnerException(e);
 		}

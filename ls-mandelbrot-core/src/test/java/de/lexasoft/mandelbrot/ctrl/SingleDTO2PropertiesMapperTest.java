@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot.ctrl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.lexasoft.mandelbrot.MandelbrotImageFile;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -61,6 +63,9 @@ class SingleDTO2PropertiesMapperTest {
 		assertEquals(Color.WHITE, props.getCustomColorPalette().get(1));
 		assertEquals(ColorGradingStyle.LINE, props.getColorGrading().getStyle());
 		assertEquals(5, props.getColorGrading().getColorsTotal());
+
+		assertNotNull(props.getImage());
+		assertTrue(props.getImage() instanceof MandelbrotImageFile);
 
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
 	}
