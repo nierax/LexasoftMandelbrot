@@ -85,7 +85,6 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 			long stop = System.currentTimeMillis();
 			info.outCalculationReady(stop - start);
 			image.write();
-//			info.outFileWritten(imageFilename);
 		} catch (IOException e) {
 			throw new MandelbrotRunnerException(e);
 		}

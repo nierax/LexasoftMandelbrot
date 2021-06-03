@@ -110,4 +110,9 @@ public class MandelbrotImageFile extends AbstractMandelbrotImage implements Mand
 		return image.createGraphics();
 	}
 
+	@Override
+	public BufferedImage getImage() {
+		return image;
+	}
+
 }

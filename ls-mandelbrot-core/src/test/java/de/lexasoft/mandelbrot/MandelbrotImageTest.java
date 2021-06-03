@@ -6,8 +6,6 @@ package de.lexasoft.mandelbrot;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.image.BufferedImage;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +38,7 @@ class MandelbrotImageTest {
 	 */
 	@Test
 	final void testOfGraphics() {
-		MandelbrotImage result = MandelbrotImage.of(new BufferedImage(600, 400, BufferedImage.TYPE_INT_RGB).getGraphics());
+		MandelbrotImage result = MandelbrotImage.of(450, 300);
 		assertNotNull(result);
 		assertTrue(result instanceof MandelbrotImageGraphics);
 	}

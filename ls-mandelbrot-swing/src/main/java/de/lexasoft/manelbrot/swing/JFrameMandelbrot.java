@@ -3,14 +3,18 @@
  */
 package de.lexasoft.manelbrot.swing;
 
+import java.awt.Graphics;
 import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
+import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.MandelbrotRunner;
+import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
 /**
@@ -36,6 +40,7 @@ public class JFrameMandelbrot extends JFrame {
 		this.imageHeight = imageHeight;
 		this.frameWidth = this.imageWidth + 20;
 		this.frameHeight = this.imageHeight + 45;
+		this.props = createDefaultProps();
 		setBounds(300, 350, frameWidth, frameHeight);
 		setVisible(true);
 	}
@@ -48,7 +53,24 @@ public class JFrameMandelbrot extends JFrame {
 		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
 		props.setImageHeight(imageHeight);
 		props.setImageWidth(imageWidth);
+		props.setMaximumIterations(25);
 		return props;
+	}
+
+	/**
+	 * Does the calculation and paints it to the JFrame.
+	 */
+	@Override
+	public void paint(Graphics g) {
+		try {
+			props.setImageWidth(getWidth());
+			props.setImageHeight(getHeight());
+			props.setImage(MandelbrotImage.of(getWidth(), getHeight()));
+			MandelbrotRunner.of(props).run();
+			g.drawImage(props.getImage().getImage(), 0, 0, this);
+		} catch (MandelbrotRunnerException e) {
+			throw new IllegalArgumentException("Something went wrong", e);
+		}
 	}
 
 	public static void main(String[] args) {
