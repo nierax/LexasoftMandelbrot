@@ -21,7 +21,7 @@ import de.lexasoft.mandelbrot.ColorPaletteFactory;
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorPalette;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
-import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.MandelbrotImageFile;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
@@ -73,7 +73,7 @@ class MandelbrotIteratorTest {
 	@MethodSource
 	void testDrawMandelbrot(MandelbrotColorize col, int maxIter, String filename) throws IOException {
 		MandelbrotIterator cut = MandelbrotIterator.of(col);
-		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT);
+		MandelbrotImageFile image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT);
 		assertNotNull(image, "Image could not be created");
 		image.writeAsFile(filename);
 	}

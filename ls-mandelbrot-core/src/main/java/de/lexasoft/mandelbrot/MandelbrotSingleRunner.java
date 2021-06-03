@@ -79,7 +79,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		try {
 			MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
 			long start = System.currentTimeMillis();
-			MandelbrotImage image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth, imageHeight);
+			MandelbrotImageFile image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth, imageHeight);
 			long stop = System.currentTimeMillis();
 			info.outCalculationReady(stop - start);
 			image.writeAsFile(imageFilename);

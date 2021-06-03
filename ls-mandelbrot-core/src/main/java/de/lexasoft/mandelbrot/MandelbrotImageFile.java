@@ -26,12 +26,12 @@ import javax.imageio.stream.ImageOutputStream;
  * @author nierax
  *
  */
-public class MandelbrotImage {
+public class MandelbrotImageFile {
 
 	private BufferedImage image;
 	private Graphics2D g2d;
 
-	public MandelbrotImage(int width, int height) {
+	public MandelbrotImageFile(int width, int height) {
 		super();
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g2d = image.createGraphics();
