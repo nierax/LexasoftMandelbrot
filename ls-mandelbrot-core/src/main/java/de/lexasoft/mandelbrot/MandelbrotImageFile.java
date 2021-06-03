@@ -26,15 +26,19 @@ import javax.imageio.stream.ImageOutputStream;
  * @author nierax
  *
  */
-public class MandelbrotImageFile {
+public class MandelbrotImageFile implements MandelbrotImage {
 
 	private BufferedImage image;
 	private Graphics2D g2d;
+	private File file;
+	private String fileType;
 
-	public MandelbrotImageFile(int width, int height) {
+	MandelbrotImageFile(int width, int height, String qualifiedFilename) {
 		super();
 		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		g2d = image.createGraphics();
+		file = new File(qualifiedFilename);
+		fileType = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
 	}
 
 	/**
@@ -44,6 +48,7 @@ public class MandelbrotImageFile {
 	 * @param color The color, the point should have.
 	 * @return The color used.
 	 */
+	@Override
 	public Color colorizePoint(Point point, Color color) {
 		g2d.setColor(color);
 		g2d.drawLine(point.x, point.y, point.x, point.y);
@@ -99,15 +104,13 @@ public class MandelbrotImageFile {
 	 * @param qualifiedFilename
 	 * @throws IOException
 	 */
-	public void writeAsFile(String qualifiedFilename) throws IOException {
-		File file = new File(qualifiedFilename);
-		String filetype = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
-
-		if (filetype.startsWith("tif")) {
+	@Override
+	public void write() throws IOException {
+		if (fileType.startsWith("tif")) {
 			handleTiff(image, file);
 		} else {
-			if (!ImageIO.write(image, filetype, file)) {
-				throw new IOException("Image could not be written to file \"" + qualifiedFilename + "\"");
+			if (!ImageIO.write(image, fileType, file)) {
+				throw new IOException("Image could not be written to file \"" + file.getAbsolutePath() + "\"");
 			}
 		}
 	}

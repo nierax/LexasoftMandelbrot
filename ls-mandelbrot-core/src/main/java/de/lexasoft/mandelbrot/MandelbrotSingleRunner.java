@@ -31,6 +31,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 	private String imageFilename;
 	private MandelbrotColorize colorize;
 	private InfoCallbackAPI info;
+	private MandelbrotImage image;
 
 	/**
 	 * Use of Method to instantiate class.
@@ -49,6 +50,7 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		Color mandelbrotColor = (props.getMandelbrotColor() == null) ? Color.BLACK : props.getMandelbrotColor();
 		this.colorize = MandelbrotColorizeFactory.of(props.getPaletteVariant(), props.getCustomColorPalette(),
 		    props.getColorGrading(), mandelbrotColor);
+		image = MandelbrotImage.of(imageWidth, imageHeight, imageFilename);
 		return this;
 	}
 
@@ -79,10 +81,10 @@ public class MandelbrotSingleRunner implements MandelbrotRunner {
 		try {
 			MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
 			long start = System.currentTimeMillis();
-			MandelbrotImageFile image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth, imageHeight);
+			image = calculator.drawMandelbrot(topLeft, bottomRight, maxIterations, imageWidth, imageHeight, image);
 			long stop = System.currentTimeMillis();
 			info.outCalculationReady(stop - start);
-			image.writeAsFile(imageFilename);
+			image.write();
 			info.outFileWritten(imageFilename);
 		} catch (IOException e) {
 			throw new MandelbrotRunnerException(e);
