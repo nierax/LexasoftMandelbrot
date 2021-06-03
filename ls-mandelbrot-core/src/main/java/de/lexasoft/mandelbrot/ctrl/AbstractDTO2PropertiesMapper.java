@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
@@ -60,7 +61,10 @@ public abstract class AbstractDTO2PropertiesMapper {
 		listOfProps.add(baseProps);
 		mapFollowingCalculations(propsDTO.getFollowing(), listOfProps);
 		// At last: Normalize all properties in list
-		listOfProps.stream().forEach((p) -> p.normalize());
+		listOfProps.stream().forEach((p) -> {
+			p.normalize();
+			p.setImage(MandelbrotImage.of(p.getImageWidth(), p.getImageHeight(), p.getImageFilename()));
+		});
 		return listOfProps;
 	}
 

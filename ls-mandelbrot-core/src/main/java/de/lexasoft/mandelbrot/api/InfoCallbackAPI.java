@@ -23,4 +23,8 @@ public interface InfoCallbackAPI {
 	 * @param timeUsed
 	 */
 	void outCalculationReady(long timeUsed);
+
+	static InfoCallbackAPI of() {
+		return new DefaultInfoCallBack();
+	}
 }
