@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.lexasoft.mandelbrot.MandelbrotImage;
+
 /**
  * @author nierax
  *
@@ -27,6 +29,8 @@ public class MandelbrotCalculationProperties {
 	private int imageHeight;
 	@JsonProperty
 	private String imageFilename;
+
+	private MandelbrotImage image;
 	@JsonProperty
 	private PaletteVariant paletteVariant;
 	@JsonProperty
@@ -106,6 +110,20 @@ public class MandelbrotCalculationProperties {
 
 	public void setImageFilename(String imageFilename) {
 		this.imageFilename = imageFilename;
+	}
+
+	/**
+	 * @return the image
+	 */
+	public MandelbrotImage getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(MandelbrotImage image) {
+		this.image = image;
 	}
 
 	/**

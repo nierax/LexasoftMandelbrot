@@ -46,6 +46,7 @@ class MandelbrotSingleRunnerTest {
 		props.setImageWidth(459);
 		props.setImageHeight(405);
 		props.setImageFilename("./junit-tmp/mandelbrot-test.tiff");
+		props.setImage(MandelbrotImage.of(props.getImageWidth(), props.getImageHeight(), props.getImageFilename()));
 		props.setPaletteVariant(PaletteVariant.CUSTOM);
 		List<Color> colors = new ArrayList<>();
 		colors.add(Color.BLUE);
@@ -126,7 +127,7 @@ class MandelbrotSingleRunnerTest {
 	 */
 	@Test
 	void testRunOutputFileNotWorking() {
-		props.setImageFilename("/anything-that-does-not-work/");
+		props.setImage(MandelbrotImage.of(props.getImageWidth(), props.getImageHeight(), "/anything-that-does-not-work/"));
 		MandelbrotRunner cut = MandelbrotSingleRunner.of(props);
 		assertThrows(MandelbrotRunnerException.class, () -> {
 			cut.run();

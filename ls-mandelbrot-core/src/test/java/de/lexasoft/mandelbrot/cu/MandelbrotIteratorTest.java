@@ -73,9 +73,10 @@ class MandelbrotIteratorTest {
 	@MethodSource
 	void testDrawMandelbrot(MandelbrotColorize col, int maxIter, String filename) throws IOException {
 		MandelbrotIterator cut = MandelbrotIterator.of(col);
-		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT);
+		MandelbrotImage image = MandelbrotImage.of(IMAGE_WIDTH, IMAGE_HEIGHT, filename);
+		image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT, image);
 		assertNotNull(image, "Image could not be created");
-		image.writeAsFile(filename);
+		image.write();
 	}
 
 }

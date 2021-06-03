@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.1.2
+* MandelbrotCalculationProperties allows to specify an abstract MandelbrotImage.
+
 ## Version 0.1.1
 May 31, 2021
 * Color grading now supports two modes:
