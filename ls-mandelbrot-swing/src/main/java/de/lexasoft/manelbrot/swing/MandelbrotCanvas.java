@@ -10,13 +10,10 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
-import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
-import de.lexasoft.mandelbrot.api.PaletteVariant;
 
 /**
  * This is the canvas, the Mandelbrot image is painted in.
@@ -27,38 +24,39 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
 @SuppressWarnings("serial")
 public class MandelbrotCanvas extends JPanel {
 
-	private MandelbrotCalculationProperties properties;
+	private MandelbrotCalculationProperties model;
 
 	/**
 	 * 
 	 */
-	public MandelbrotCanvas(int imageWidth, int imageHeight) {
+	public MandelbrotCanvas(MandelbrotCalculationProperties model) {
 		setBackground(Color.WHITE);
-		setPreferredSize(new Dimension(imageWidth, imageHeight));
-		this.properties = MandelbrotCalculationProperties.ofDefault();
-		this.properties.setImageWidth(imageWidth);
-		this.properties.setImageHeight(imageHeight);
-		this.properties.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 0));
+		this.model = model;
+		setPreferredSize(new Dimension(model.getImageWidth(), model.getImageHeight()));
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		try {
-			properties.setImageWidth(getWidth());
-			properties.setImageHeight(getHeight());
-			properties.setImage(MandelbrotImage.of(getWidth(), getHeight()));
-			properties.setBottomRight(MandelbrotPointPosition.of(properties.getBottomRight().cx(), Double.NaN));
-			properties.normalize();
-			MandelbrotRunner.of(properties).run();
-			g.drawImage(properties.getImage().getImage(), 0, 0, this);
+			model.setImageWidth(getWidth());
+			model.setImageHeight(getHeight());
+			model.setImage(MandelbrotImage.of(getWidth(), getHeight()));
+			model.setBottomRight(MandelbrotPointPosition.of(model.getBottomRight().cx(), Double.NaN));
+			model.normalize();
+			MandelbrotRunner.of(model).run();
+			g.drawImage(model.getImage().getImage(), 0, 0, this);
 		} catch (MandelbrotRunnerException e) {
 			throw new IllegalArgumentException("Something went wrong", e);
 		}
 	}
 
-	public void changePaletteVariant(PaletteVariant variant) {
-		properties.setPaletteVariant(variant);
+	/**
+	 * Inform the component, that the underlying model has changed.
+	 * <p>
+	 * The component will be redrawn by this call.
+	 */
+	public void modelChanged() {
 		validate();
 		repaint();
 	}
