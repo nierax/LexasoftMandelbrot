@@ -10,10 +10,13 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.api.PaletteVariant;
 
 /**
  * This is the canvas, the Mandelbrot image is painted in.
@@ -35,6 +38,7 @@ public class MandelbrotCanvas extends JPanel {
 		this.properties = MandelbrotCalculationProperties.ofDefault();
 		this.properties.setImageWidth(imageWidth);
 		this.properties.setImageHeight(imageHeight);
+		this.properties.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 0));
 	}
 
 	@Override
@@ -51,6 +55,12 @@ public class MandelbrotCanvas extends JPanel {
 		} catch (MandelbrotRunnerException e) {
 			throw new IllegalArgumentException("Something went wrong", e);
 		}
+	}
+
+	public void changePaletteVariant(PaletteVariant variant) {
+		properties.setPaletteVariant(variant);
+		validate();
+		repaint();
 	}
 
 }
