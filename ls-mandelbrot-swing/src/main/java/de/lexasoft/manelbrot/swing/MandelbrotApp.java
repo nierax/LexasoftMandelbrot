@@ -7,8 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -88,16 +86,6 @@ public class MandelbrotApp {
 					PaletteVariant value = (PaletteVariant) evt.getItem();
 					getMandelbrotCanvas().changePaletteVariant(value);
 				}
-			}
-		});
-		comboBox.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
-//				if ("model".equals(evt.getPropertyName())) {
-//					Object object = evt.getNewValue();
-//					DefaultComboBoxModel<PaletteVariant> model = (DefaultComboBoxModel<PaletteVariant>) object;
-//					PaletteVariant value = (PaletteVariant) model.getSelectedItem();
-//					getMandelbrotCanvas().changePaletteVariant(value);
-//				}
 			}
 		});
 		comboBox.setModel(new DefaultComboBoxModel<PaletteVariant>(PaletteVariant.values()));
