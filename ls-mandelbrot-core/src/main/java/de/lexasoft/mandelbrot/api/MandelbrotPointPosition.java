@@ -75,4 +75,16 @@ public class MandelbrotPointPosition {
 		return this.cy;
 	}
 
+	/**
+	 * Equality means, that the point positions are numerically identical.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof MandelbrotPointPosition)) {
+			return false;
+		}
+		MandelbrotPointPosition other = (MandelbrotPointPosition) obj;
+		return ((Double.compare(cx, other.cx) == 0) && (Double.compare(cy, other.cy) == 0));
+	}
+
 }

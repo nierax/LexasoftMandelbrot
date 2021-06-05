@@ -264,4 +264,16 @@ public class MandelbrotCalculationProperties {
 		return new MandelbrotCalculationProperties();
 	}
 
+	public static MandelbrotCalculationProperties ofDefault() {
+		MandelbrotCalculationProperties props = of();
+		props.setTopLeft(MandelbrotPointPosition.of(-2.02d, 1.2d));
+		props.setBottomRight(MandelbrotPointPosition.of(0.8d, -1.2d));
+		props.setPaletteVariant(PaletteVariant.BLUEWHITE);
+		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
+		props.setImageHeight(405);
+		props.setImageWidth(459);
+		props.setMaximumIterations(25);
+		return props;
+	}
+
 }
