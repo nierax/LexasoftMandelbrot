@@ -1,5 +1,6 @@
 package de.lexasoft.mandelbrot.swing;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,6 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
@@ -22,9 +24,10 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  */
 @SuppressWarnings("serial")
 public class ColorControlPanel extends JPanel {
-	private JTextField colorGrading;
+	private JTextField totalColors;
 	private JComboBox paletteVariant;
 	private JComboBox colorGradingStyle;
+	private JLabel errorText;
 
 	/**
 	 * Create the panel.
@@ -33,13 +36,15 @@ public class ColorControlPanel extends JPanel {
 		setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblNewLabel = new JLabel("Color control");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.gridwidth = 2;
 		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
@@ -54,6 +59,7 @@ public class ColorControlPanel extends JPanel {
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 
 		paletteVariant = new JComboBox();
+		lblNewLabel_1.setLabelFor(paletteVariant);
 		paletteVariant.setModel(new DefaultComboBoxModel(PaletteVariant.values()));
 		GridBagConstraints gbc_paletteVariant = new GridBagConstraints();
 		gbc_paletteVariant.insets = new Insets(0, 0, 5, 0);
@@ -71,6 +77,7 @@ public class ColorControlPanel extends JPanel {
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 
 		colorGradingStyle = new JComboBox();
+		lblNewLabel_2.setLabelFor(colorGradingStyle);
 		colorGradingStyle.setModel(new DefaultComboBoxModel(ColorGradingStyle.values()));
 		GridBagConstraints gbc_colorGradingStyle = new GridBagConstraints();
 		gbc_colorGradingStyle.insets = new Insets(0, 0, 5, 0);
@@ -82,18 +89,31 @@ public class ColorControlPanel extends JPanel {
 		JLabel lblNewLabel_3 = new JLabel("Total number of colors");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 0;
 		gbc_lblNewLabel_3.gridy = 3;
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 
-		colorGrading = new JTextField();
-		GridBagConstraints gbc_colorGrading = new GridBagConstraints();
-		gbc_colorGrading.fill = GridBagConstraints.HORIZONTAL;
-		gbc_colorGrading.gridx = 1;
-		gbc_colorGrading.gridy = 3;
-		add(colorGrading, gbc_colorGrading);
-		colorGrading.setColumns(10);
+		totalColors = new JTextField();
+		lblNewLabel_3.setLabelFor(totalColors);
+		GridBagConstraints gbc_totalColors = new GridBagConstraints();
+		gbc_totalColors.insets = new Insets(0, 0, 5, 0);
+		gbc_totalColors.fill = GridBagConstraints.HORIZONTAL;
+		gbc_totalColors.gridx = 1;
+		gbc_totalColors.gridy = 3;
+		add(totalColors, gbc_totalColors);
+		totalColors.setColumns(10);
+
+		errorText = new JLabel("Error");
+		errorText.setHorizontalAlignment(SwingConstants.LEFT);
+		errorText.setForeground(Color.RED);
+		GridBagConstraints gbc_errorText = new GridBagConstraints();
+		gbc_errorText.gridwidth = 2;
+		gbc_errorText.insets = new Insets(0, 0, 0, 5);
+		gbc_errorText.anchor = GridBagConstraints.WEST;
+		gbc_errorText.gridx = 0;
+		gbc_errorText.gridy = 4;
+		add(errorText, gbc_errorText);
 
 	}
 
@@ -105,7 +125,11 @@ public class ColorControlPanel extends JPanel {
 		return colorGradingStyle;
 	}
 
-	public JTextField getColorGrading() {
-		return colorGrading;
+	public JTextField getTotalColors() {
+		return totalColors;
+	}
+
+	public JLabel getErrorText() {
+		return errorText;
 	}
 }
