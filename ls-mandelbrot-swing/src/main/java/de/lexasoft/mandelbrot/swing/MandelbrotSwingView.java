@@ -1,4 +1,4 @@
-package de.lexasoft.manelbrot.swing;
+package de.lexasoft.mandelbrot.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

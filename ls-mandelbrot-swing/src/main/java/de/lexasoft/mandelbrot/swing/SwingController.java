@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.manelbrot.swing;
+package de.lexasoft.mandelbrot.swing;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
