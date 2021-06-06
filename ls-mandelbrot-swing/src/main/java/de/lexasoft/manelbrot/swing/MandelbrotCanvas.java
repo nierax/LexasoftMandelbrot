@@ -31,7 +31,7 @@ public class MandelbrotCanvas extends JPanel {
 	 */
 	public MandelbrotCanvas(MandelbrotCalculationProperties model) {
 		setBackground(Color.WHITE);
-		this.model = model;
+		this.model = (model == null) ? MandelbrotCalculationProperties.ofDefault() : model;
 		setPreferredSize(new Dimension(model.getImageWidth(), model.getImageHeight()));
 	}
 
