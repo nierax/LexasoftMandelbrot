@@ -27,7 +27,7 @@ public class MandelbrotApp {
 				try {
 					MandelbrotCalculationProperties model = MandelbrotCalculationProperties.ofDefault();
 					MandelbrotSwingView view = new MandelbrotSwingView(model);
-					SwingController ctrl = new SwingController(model, view);
+					MandelbrotController ctrl = new MandelbrotController(model, view);
 					ctrl.initController();
 					view.getFrmLexasoftMandelbrotApplication().setVisible(true);
 				} catch (Exception e) {

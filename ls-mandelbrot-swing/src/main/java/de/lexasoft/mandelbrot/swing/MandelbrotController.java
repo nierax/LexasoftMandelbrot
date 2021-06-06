@@ -20,7 +20,7 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  * @author nierax
  *
  */
-public class SwingController {
+public class MandelbrotController {
 
 	private MandelbrotCalculationProperties model;
 	private MandelbrotSwingView view;
@@ -28,7 +28,7 @@ public class SwingController {
 	/**
 	 * 
 	 */
-	public SwingController(MandelbrotCalculationProperties model, MandelbrotSwingView view) {
+	public MandelbrotController(MandelbrotCalculationProperties model, MandelbrotSwingView view) {
 		this.model = model;
 		this.view = view;
 		initView();
