@@ -1,6 +1,7 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -105,6 +106,7 @@ public class ColorControlPanel extends JPanel {
 		totalColors.setColumns(10);
 
 		errorText = new JLabel("Error");
+		errorText.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		errorText.setHorizontalAlignment(SwingConstants.LEFT);
 		errorText.setForeground(Color.RED);
 		GridBagConstraints gbc_errorText = new GridBagConstraints();
