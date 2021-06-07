@@ -112,6 +112,8 @@ public class ColorController {
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			ColorGradingStyle style = (ColorGradingStyle) evt.getItem();
 			model.getColorGrading().setStyle(style);
+			view.getTotalColors().setEnabled((style != ColorGradingStyle.NONE));
+
 			canvas.modelChanged();
 		}
 	}
