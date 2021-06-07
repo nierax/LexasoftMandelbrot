@@ -161,4 +161,62 @@ class ColorControllerTest {
 		assertEquals(expNrOfColor, model.getColorGrading().getColorsTotal());
 	}
 
+	private static Stream<Arguments> testChangePalettVariant() {
+		return Stream.of(
+		    // Black & White: Color grading must be disabled, but the value underneath
+		    // doesn't change
+		    Arguments.of(PaletteVariant.BLACK_WHITE, 6, ColorGradingStyle.LINE, 6, false, false),
+		    // Blue White with a valid number of colors. Grading must be enabled.
+		    Arguments.of(PaletteVariant.BLUEWHITE, 6, ColorGradingStyle.LINE, 6, true, true),
+		    // RAINBOW7 with a valid number of colors. Grading must be enabled.
+		    Arguments.of(PaletteVariant.RAINBOW7, 13, ColorGradingStyle.LINE, 13, true, true),
+		    // RAINBOW29 with a valid number of colors. Grading must be enabled.
+		    Arguments.of(PaletteVariant.RAINBOW29, 65, ColorGradingStyle.LINE, 65, true, true),
+		    // Blue White with an invalid number of colors. Value must be corrected.
+		    Arguments.of(PaletteVariant.BLUEWHITE, 2, ColorGradingStyle.LINE, 3, true, true),
+		    // RAINBOW7 with an invalid number of colors. Value must be corrected.
+		    Arguments.of(PaletteVariant.RAINBOW7, 6, ColorGradingStyle.LINE, 13, true, true),
+		    // RAINBOW29 with an invalid number of colors. Value must be corrected.
+		    Arguments.of(PaletteVariant.RAINBOW29, 13, ColorGradingStyle.LINE, 57, true, true),
+		    // RAINBOW7 with grading style NONE. Grading style must be enabled, number of
+		    // colors must be disabled.
+		    Arguments.of(PaletteVariant.RAINBOW7, 13, ColorGradingStyle.NONE, 13, true, false),
+		    // RAINBOW7 with grading style NONE and far too low noC. Grading style must be
+		    // enabled, number of colors must be disabled and the value must remain
+		    // unchanged.
+		    Arguments.of(PaletteVariant.RAINBOW7, 3, ColorGradingStyle.NONE, 3, true, false));
+	}
+
+	/**
+	 * Tests the method changePaletteVarian() to the expected combinations
+	 * 
+	 * @param newValue
+	 * @param nrOfColors
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testChangePalettVariant(PaletteVariant newValue, int nrOfColors, ColorGradingStyle style,
+	    int expNrOfColors, boolean expGradingStyleEnabled, boolean expGradingNrOfCEnabled) {
+		// Prepare values
+		model.getColorGrading().setColorsTotal(nrOfColors);
+		model.getColorGrading().setStyle(style);
+		// Use cut's function to put these values into the view
+		cut.initView();
+		// Enter the new value
+		view.getPaletteVariant().setSelectedItem(newValue);
+		itemEvent = new ItemEvent(view.getPaletteVariant(), 0, newValue, ItemEvent.SELECTED);
+
+		// Run test
+		cut.changePalettVariant(itemEvent);
+		// Is the color grading section correctly enabled?
+		assertEquals(expGradingStyleEnabled, view.getColorGradingStyle().isEnabled());
+		assertEquals(expGradingNrOfCEnabled, view.getTotalColors().isEnabled());
+		// Is the value set in model and view, correctly?
+		assertEquals(newValue, model.getPaletteVariant());
+		assertEquals(newValue, view.getPaletteVariant().getSelectedItem());
+		// Is the number of colors set correctly, changed, if needed?
+		assertEquals(expNrOfColors, model.getColorGrading().getColorsTotal());
+		assertEquals(expNrOfColors, Integer.parseInt(view.getTotalColors().getText()));
+	}
+
 }

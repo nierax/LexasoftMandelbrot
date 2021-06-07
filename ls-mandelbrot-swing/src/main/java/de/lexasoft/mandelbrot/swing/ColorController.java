@@ -72,34 +72,6 @@ public class ColorController {
 	}
 
 	/**
-	 * Handle what to do, if the color palette variant changes.
-	 * 
-	 * @param evt
-	 */
-	void changePalettVariant(ItemEvent evt) {
-		if (evt.getStateChange() == ItemEvent.SELECTED) {
-			PaletteVariant value = (PaletteVariant) evt.getItem();
-			model.setPaletteVariant(value);
-			canvas.modelChanged();
-		}
-	}
-
-	/**
-	 * The total number of colors in color grading has changed.
-	 * 
-	 * @param evt
-	 */
-	void changeTotalColors(FocusEvent evt) {
-		String sNrOfC = view.getTotalColors().getText();
-		if (!"".equals(sNrOfC)) {
-			int nrOfC = Integer.parseInt(view.getTotalColors().getText());
-			nrOfC = handleTotalNrOfColorsCorrection(nrOfC);
-			model.getColorGrading().setColorsTotal(nrOfC);
-			canvas.modelChanged();
-		}
-	}
-
-	/**
 	 * @param nrOfC
 	 * @return
 	 */
@@ -116,17 +88,88 @@ public class ColorController {
 		return nrOfC;
 	}
 
+	/**
+	 * 
+	 */
+	private void checkAndChangeNrOfColorsCorrection() {
+		int before = model.getColorGrading().getColorsTotal();
+		int nrOfC = handleTotalNrOfColorsCorrection(before);
+		if (before < nrOfC) {
+			model.getColorGrading().setColorsTotal(nrOfC);
+		}
+	}
+
+	private boolean isColorGradingStyleEnabled(PaletteVariant variant) {
+		return variant != PaletteVariant.BLACK_WHITE;
+	}
+
+	private boolean isColorGradingNofCEnabled(PaletteVariant variant, ColorGradingStyle style) {
+		return isColorGradingStyleEnabled(variant) && (style != ColorGradingStyle.NONE);
+	}
+
+	/**
+	 * Handle what to do, if the color palette variant changes.
+	 * <p>
+	 * In case the value is set to BLACK_WHITE, the color grading section has to be
+	 * disabled completely.
+	 * <p>
+	 * In case the value is set to any other value, the color grading option has to
+	 * be opened to choose a color grading style. It should be disabled to enter a
+	 * number of colors, if the style is set to NONE.
+	 * <p>
+	 * If the number of colors is too low for the given color palette and grading
+	 * style, the value should be set to the minimum value.
+	 * 
+	 * @param evt
+	 */
+	void changePalettVariant(ItemEvent evt) {
+		if (evt.getStateChange() == ItemEvent.SELECTED) {
+			PaletteVariant value = (PaletteVariant) evt.getItem();
+			model.setPaletteVariant(value);
+			view.getColorGradingStyle().setEnabled(isColorGradingStyleEnabled(value));
+			view.getTotalColors().setEnabled(isColorGradingNofCEnabled(value, model.getColorGrading().getStyle()));
+			if (model.getColorGrading().getStyle() != ColorGradingStyle.NONE) {
+				checkAndChangeNrOfColorsCorrection();
+			}
+			canvas.modelChanged();
+		}
+	}
+
+	/**
+	 * Handle what to do, if the color grading style changes.
+	 * <p>
+	 * If the color grading is set to NONE, the number of colors has to be disabled.
+	 * <p>
+	 * If the number of colors is too low for the given color palette and grading
+	 * style, the value should be set to the minimum value.
+	 * 
+	 * @param evt
+	 */
 	void changeColorGradingStyle(ItemEvent evt) {
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			ColorGradingStyle style = (ColorGradingStyle) evt.getItem();
 			model.getColorGrading().setStyle(style);
-			view.getTotalColors().setEnabled((style != ColorGradingStyle.NONE));
-			int before = model.getColorGrading().getColorsTotal();
-			int nrOfC = handleTotalNrOfColorsCorrection(before);
-			if (before < nrOfC) {
-				model.getColorGrading().setColorsTotal(nrOfC);
-			}
+			view.getTotalColors().setEnabled((isColorGradingNofCEnabled(model.getPaletteVariant(), style)));
+			checkAndChangeNrOfColorsCorrection();
 
+			canvas.modelChanged();
+		}
+	}
+
+	/**
+	 * The total number of colors in color grading has changed.
+	 * <p>
+	 * If the number of colors is too low for the given color palette and grading
+	 * style, the value should be set to the minimum value.
+	 * 
+	 * @param evt
+	 */
+	void changeTotalColors(FocusEvent evt) {
+		String sNrOfC = view.getTotalColors().getText();
+		if (!"".equals(sNrOfC)) {
+			int nrOfC = Integer.parseInt(view.getTotalColors().getText());
+			nrOfC = handleTotalNrOfColorsCorrection(nrOfC);
+			model.getColorGrading().setColorsTotal(nrOfC);
 			canvas.modelChanged();
 		}
 	}
