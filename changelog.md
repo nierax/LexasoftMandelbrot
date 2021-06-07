@@ -2,6 +2,8 @@
 
 ## Version 0.1.2
 * MandelbrotCalculationProperties allows to specify an abstract MandelbrotImage.
+* First version of a swing gui added
+* Color control panel to the gui added.
 
 ## Version 0.1.1
 May 31, 2021
