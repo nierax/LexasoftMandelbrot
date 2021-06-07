@@ -11,6 +11,6 @@ package de.lexasoft.mandelbrot.api;
  */
 public enum ColorGradingStyle {
 
-	LINE, CIRCLE
+	NONE, LINE, CIRCLE
 
 }

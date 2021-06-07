@@ -10,10 +10,16 @@
 
 	<modules>
 		<module>ls-mandelbrot-core</module>
+		<module>ls-mandelbrot-swing</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>de.lexasoft</groupId>
+				<artifactId>ls-mandelbrot-core</artifactId>
+				<version>0.1.2-SNAPSHOT</version>
+			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter</artifactId>

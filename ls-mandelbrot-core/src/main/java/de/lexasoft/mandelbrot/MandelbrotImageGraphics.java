@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -16,13 +17,13 @@ import java.io.IOException;
  */
 public class MandelbrotImageGraphics extends AbstractMandelbrotImage {
 
-	private Graphics graphics;
+	private BufferedImage image;
 
 	/**
 	 * 
 	 */
-	MandelbrotImageGraphics(Graphics graphics) {
-		this.graphics = graphics;
+	MandelbrotImageGraphics(int width, int height) {
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 	}
 
 	@Override
@@ -33,7 +34,12 @@ public class MandelbrotImageGraphics extends AbstractMandelbrotImage {
 
 	@Override
 	protected Graphics getGraphics() {
-		return this.graphics;
+		return this.image.getGraphics();
+	}
+
+	@Override
+	public BufferedImage getImage() {
+		return image;
 	}
 
 }

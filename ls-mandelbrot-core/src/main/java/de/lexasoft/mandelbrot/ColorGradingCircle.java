@@ -3,6 +3,9 @@
  */
 package de.lexasoft.mandelbrot;
 
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
+import de.lexasoft.mandelbrot.api.ValidationAPI;
+
 /**
  * @author nierax
  *
@@ -24,7 +27,7 @@ public class ColorGradingCircle extends AbstractColorGrading {
 	 */
 	@Override
 	protected int minimumGrading(int noCUngraded) {
-		return 2 * noCUngraded;
+		return ValidationAPI.of().minimumNrOfColorsForGrading(noCUngraded, ColorGradingStyle.CIRCLE);
 	}
 
 	/**

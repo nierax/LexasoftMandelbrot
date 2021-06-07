@@ -1,8 +1,8 @@
 package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public interface MandelbrotImage {
@@ -25,6 +25,12 @@ public interface MandelbrotImage {
 	void write() throws IOException;
 
 	/**
+	 * 
+	 * @return The based BufferedImage
+	 */
+	BufferedImage getImage();
+
+	/**
 	 * Create a suitable instance of MandelbrotImage for writing in a file.
 	 * 
 	 * @param width             Width of the image
@@ -42,7 +48,7 @@ public interface MandelbrotImage {
 	 * @param graphics
 	 * @return
 	 */
-	static MandelbrotImage of(Graphics graphics) {
-		return new MandelbrotImageGraphics(graphics);
+	static MandelbrotImage of(int width, int height) {
+		return new MandelbrotImageGraphics(width, height);
 	}
 }

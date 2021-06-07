@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.util.List;
 
 import de.lexasoft.mandelbrot.api.ColorGrading;
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
@@ -40,7 +41,8 @@ public class MandelbrotColorizeFactory {
 	 */
 	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, MandelbrotColorGrading colorGrading,
 	    Color mandelbrotColor) {
-		boolean isGradingUsed = (colorGrading != null) && colorGrading.getColorsTotal() > 0;
+		boolean isGradingUsed = (colorGrading != null) && (!colorGrading.getStyle().equals(ColorGradingStyle.NONE))
+		    && (colorGrading.getColorsTotal() > 0);
 		List<Color> custom = !isGradingUsed ? ungraded
 		    : ColorGrading.of(colorGrading.getStyle()).gradePalette(ungraded, colorGrading.getColorsTotal());
 		return MandelbrotColorPalette.of(custom, mandelbrotColor);

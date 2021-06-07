@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import de.lexasoft.mandelbrot.MandelbrotImage;
 
 /**
@@ -17,27 +15,16 @@ import de.lexasoft.mandelbrot.MandelbrotImage;
  */
 public class MandelbrotCalculationProperties {
 
-	@JsonProperty
 	private MandelbrotPointPosition topLeft;
-	@JsonProperty
 	private MandelbrotPointPosition bottomRight;
-	@JsonProperty
 	private int maximumIterations;
-	@JsonProperty
 	private int imageWidth;
-	@JsonProperty
 	private int imageHeight;
-	@JsonProperty
 	private String imageFilename;
-
 	private MandelbrotImage image;
-	@JsonProperty
 	private PaletteVariant paletteVariant;
-	@JsonProperty
 	private List<Color> customColorPalette;
-	@JsonProperty
 	private MandelbrotColorGrading colorGrading;
-	@JsonProperty
 	private Color mandelbrotColor;
 
 	public MandelbrotPointPosition getTopLeft() {
@@ -275,6 +262,18 @@ public class MandelbrotCalculationProperties {
 	 */
 	public static MandelbrotCalculationProperties of() {
 		return new MandelbrotCalculationProperties();
+	}
+
+	public static MandelbrotCalculationProperties ofDefault() {
+		MandelbrotCalculationProperties props = of();
+		props.setTopLeft(MandelbrotPointPosition.of(-2.02d, 1.2d));
+		props.setBottomRight(MandelbrotPointPosition.of(0.8d, -1.2d));
+		props.setPaletteVariant(PaletteVariant.BLUEWHITE);
+		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
+		props.setImageHeight(405);
+		props.setImageWidth(459);
+		props.setMaximumIterations(25);
+		return props;
 	}
 
 }

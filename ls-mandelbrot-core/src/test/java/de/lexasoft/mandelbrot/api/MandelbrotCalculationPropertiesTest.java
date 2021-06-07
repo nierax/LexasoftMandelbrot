@@ -275,4 +275,18 @@ class MandelbrotCalculationPropertiesTest {
 		// Is the index added to the file name?
 		assertEquals(expected, changedFilename);
 	}
+
+	@Test
+	void testOfDefault() {
+		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.ofDefault();
+		assertNotNull(cut);
+		assertEquals(MandelbrotPointPosition.of(-2.02d, 1.2d), cut.getTopLeft());
+		assertEquals(MandelbrotPointPosition.of(0.8d, -1.2d), cut.getBottomRight());
+		assertEquals(PaletteVariant.BLUEWHITE, cut.getPaletteVariant());
+		assertEquals(ColorGradingStyle.LINE, cut.getColorGrading().getStyle());
+		assertEquals(6, cut.getColorGrading().getColorsTotal());
+		assertEquals(405, cut.getImageHeight());
+		assertEquals(459, cut.getImageWidth());
+		assertEquals(25, cut.getMaximumIterations());
+	}
 }
