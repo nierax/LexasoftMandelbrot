@@ -93,19 +93,27 @@ public class ColorController {
 		String sNrOfC = view.getTotalColors().getText();
 		if (!"".equals(sNrOfC)) {
 			int nrOfC = Integer.parseInt(view.getTotalColors().getText());
-			int nrOfCUngraded = nrOfColorsUngraded(model.getPaletteVariant());
-			int minNrOfC = ValidationAPI.of().minimumNrOfColorsForGrading(nrOfCUngraded, model.getColorGrading().getStyle());
-			if (nrOfC < minNrOfC) {
-				nrOfC = minNrOfC;
-				view.getTotalColors().setText(Integer.toString(nrOfC));
-				view.getErrorText().setText(String.format("Minimum number of colors is %s for grading in style %s.", minNrOfC,
-				    model.getColorGrading().getStyle()));
-			} else {
-				view.getErrorText().setText("");
-			}
+			nrOfC = handleTotalNrOfColorsCorrection(nrOfC);
 			model.getColorGrading().setColorsTotal(nrOfC);
 			canvas.modelChanged();
 		}
+	}
+
+	/**
+	 * @param nrOfC
+	 * @return
+	 */
+	private int handleTotalNrOfColorsCorrection(int nrOfC) {
+		int nrOfCUngraded = nrOfColorsUngraded(model.getPaletteVariant());
+		int minNrOfC = ValidationAPI.of().minimumNrOfColorsForGrading(nrOfCUngraded, model.getColorGrading().getStyle());
+		if (nrOfC < minNrOfC) {
+			nrOfC = minNrOfC;
+			view.getTotalColors().setText(Integer.toString(nrOfC));
+			view.getErrorText().setText(String.format("Minimum number of colors set to minimum value %s.", minNrOfC));
+		} else {
+			view.getErrorText().setText("");
+		}
+		return nrOfC;
 	}
 
 	void changeColorGradingStyle(ItemEvent evt) {
@@ -113,6 +121,11 @@ public class ColorController {
 			ColorGradingStyle style = (ColorGradingStyle) evt.getItem();
 			model.getColorGrading().setStyle(style);
 			view.getTotalColors().setEnabled((style != ColorGradingStyle.NONE));
+			int before = model.getColorGrading().getColorsTotal();
+			int nrOfC = handleTotalNrOfColorsCorrection(before);
+			if (before < nrOfC) {
+				model.getColorGrading().setColorsTotal(nrOfC);
+			}
 
 			canvas.modelChanged();
 		}

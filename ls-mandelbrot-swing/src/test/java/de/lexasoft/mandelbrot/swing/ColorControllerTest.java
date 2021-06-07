@@ -144,6 +144,7 @@ class ColorControllerTest {
 		model.getColorGrading().setStyle(newValue);
 		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, newValue, ItemEvent.SELECTED);
 		model.getColorGrading().setColorsTotal(nrOfColors);
+		model.setPaletteVariant(variant);
 		// Use cut's function to put these values into the view
 		cut.initView();
 		// Now set the value of color grading style to the view (simulate input)
