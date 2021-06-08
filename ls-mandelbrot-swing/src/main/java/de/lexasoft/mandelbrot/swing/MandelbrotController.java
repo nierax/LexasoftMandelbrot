@@ -46,4 +46,18 @@ public class MandelbrotController {
 		colorController.initController();
 	}
 
+	/**
+	 * @return the colorController
+	 */
+	ColorController getColorController() {
+		return colorController;
+	}
+
+	/**
+	 * @return the imageController
+	 */
+	MandelbrotImageController getImageController() {
+		return imageController;
+	}
+
 }

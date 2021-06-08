@@ -51,4 +51,11 @@ public class ModelChangingController<T> implements ModelChanger<T> {
 			modelChangedListener.modelChanged(event);
 		}
 	}
+
+	/**
+	 * @return the queue
+	 */
+	List<ModelChangedListener<T>> getQueue() {
+		return queue;
+	}
 }
