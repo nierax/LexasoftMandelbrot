@@ -11,7 +11,7 @@ package de.lexasoft.mandelbrot.swing;
  */
 public class ModelChangedEvent<T> {
 
-	private ModelChangingController source;
+	private ModelChanger<T> source;
 	private T model;
 
 	/**
@@ -20,7 +20,7 @@ public class ModelChangedEvent<T> {
 	 * @param source
 	 * @param model
 	 */
-	public ModelChangedEvent(ModelChangingController source, T model) {
+	public ModelChangedEvent(ModelChanger<T> source, T model) {
 		this.source = source;
 		this.model = model;
 	}
@@ -28,14 +28,14 @@ public class ModelChangedEvent<T> {
 	/**
 	 * @return the source
 	 */
-	public ModelChangingController getSource() {
+	public ModelChanger<T> getSource() {
 		return source;
 	}
 
 	/**
 	 * @param source the source to set
 	 */
-	public void setSource(ModelChangingController source) {
+	public void setSource(ModelChanger<T> source) {
 		this.source = source;
 	}
 
