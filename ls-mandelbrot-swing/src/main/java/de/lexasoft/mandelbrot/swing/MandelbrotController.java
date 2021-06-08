@@ -19,6 +19,7 @@ public class MandelbrotController {
 	private MandelbrotCalculationProperties model;
 	private MandelbrotSwingView view;
 	private ColorController colorController;
+	private MandelbrotImageController imageController;
 
 	/**
 	 * 
@@ -26,8 +27,8 @@ public class MandelbrotController {
 	public MandelbrotController(MandelbrotCalculationProperties model, MandelbrotSwingView view) {
 		this.model = model;
 		this.view = view;
-		this.colorController = new ColorController(this.model, this.view.getColorControlPanel(),
-		    this.view.getMandelbrotCanvas());
+		this.colorController = new ColorController(this.model, this.view.getColorControlPanel());
+		this.imageController = new MandelbrotImageController(this.view.getMandelbrotCanvas());
 		initView();
 	}
 
@@ -41,6 +42,7 @@ public class MandelbrotController {
 	 * Registers the listeners to promote changes of the attributes.
 	 */
 	public void initController() {
+		colorController.addModelChangedListener(imageController);
 		colorController.initController();
 	}
 

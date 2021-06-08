@@ -18,19 +18,17 @@ import de.lexasoft.mandelbrot.api.ValidationAPI;
  * @author nierax
  *
  */
-public class ColorController {
+public class ColorController extends ModelChangingController<MandelbrotCalculationProperties> {
 
 	private MandelbrotCalculationProperties model;
 	private ColorControlPanel view;
-	private MandelbrotCanvas canvas;
 
 	/**
 	 * 
 	 */
-	public ColorController(MandelbrotCalculationProperties model, ColorControlPanel view, MandelbrotCanvas canvas) {
+	public ColorController(MandelbrotCalculationProperties model, ColorControlPanel view) {
 		this.model = model;
 		this.view = view;
-		this.canvas = canvas;
 		initView();
 	}
 
@@ -131,7 +129,7 @@ public class ColorController {
 			if (model.getColorGrading().getStyle() != ColorGradingStyle.NONE) {
 				checkAndChangeNrOfColorsCorrection();
 			}
-			canvas.modelChanged();
+			fireEvent();
 		}
 	}
 
@@ -152,7 +150,7 @@ public class ColorController {
 			view.getTotalColors().setEnabled((isColorGradingNofCEnabled(model.getPaletteVariant(), style)));
 			checkAndChangeNrOfColorsCorrection();
 
-			canvas.modelChanged();
+			fireEvent();
 		}
 	}
 
@@ -170,7 +168,11 @@ public class ColorController {
 			int nrOfC = Integer.parseInt(view.getTotalColors().getText());
 			nrOfC = handleTotalNrOfColorsCorrection(nrOfC);
 			model.getColorGrading().setColorsTotal(nrOfC);
-			canvas.modelChanged();
+			fireEvent();
 		}
+	}
+
+	private void fireEvent() {
+		fireModelChangedEvent(new ModelChangedEvent<MandelbrotCalculationProperties>(this, model));
 	}
 }
