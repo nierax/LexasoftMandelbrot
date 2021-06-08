@@ -29,7 +29,6 @@ class ColorControllerTest {
 
 	private MandelbrotCalculationProperties model;
 	private ColorControlPanel view;
-	private MandelbrotCanvas canvas;
 	private ColorController cut;
 	private FocusEvent focusEvent;
 	private ItemEvent itemEvent;
@@ -41,8 +40,7 @@ class ColorControllerTest {
 	void setUp() throws Exception {
 		model = MandelbrotCalculationProperties.ofDefault();
 		view = new ColorControlPanel();
-		canvas = new MandelbrotCanvas(model);
-		cut = new ColorController(model, view, canvas);
+		cut = new ColorController(model, view);
 		focusEvent = new FocusEvent(view, 0);
 		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, model.getColorGrading().getStyle(), ItemEvent.SELECTED);
 	}
