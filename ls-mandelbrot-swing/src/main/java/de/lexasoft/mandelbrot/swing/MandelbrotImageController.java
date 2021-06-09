@@ -17,6 +17,10 @@ public class MandelbrotImageController implements ModelChangedListener<Mandelbro
 		this.view = view;
 	}
 
+	public void initView() {
+
+	}
+
 	@Override
 	public void modelChanged(ModelChangedEvent<MandelbrotCalculationProperties> event) {
 		view.modelChanged();
