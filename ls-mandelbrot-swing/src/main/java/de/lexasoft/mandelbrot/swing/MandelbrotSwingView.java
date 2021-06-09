@@ -11,25 +11,23 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
-
 public class MandelbrotSwingView {
 
 	private JFrame frmLexasoftMandelbrotApplication;
-	private MandelbrotCanvas panel;
+	private ImagePanel panel;
 	private ColorControlPanel colorControlPanel;
 
 	/**
 	 * Create the application.
 	 */
-	public MandelbrotSwingView(MandelbrotCalculationProperties model) {
-		initialize(model);
+	public MandelbrotSwingView() {
+		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(MandelbrotCalculationProperties model) {
+	private void initialize() {
 		frmLexasoftMandelbrotApplication = new JFrame();
 		frmLexasoftMandelbrotApplication.setTitle("Lexasoft Mandelbrot Application");
 		frmLexasoftMandelbrotApplication.setBounds(100, 100, 750, 530);
@@ -37,7 +35,7 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.getContentPane()
 		    .setLayout(new BoxLayout(frmLexasoftMandelbrotApplication.getContentPane(), BoxLayout.X_AXIS));
 
-		panel = new MandelbrotCanvas(model);
+		panel = new ImagePanel();
 		frmLexasoftMandelbrotApplication.getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 
@@ -61,7 +59,7 @@ public class MandelbrotSwingView {
 		panel_Right.add(colorControlPanel, gbc_colorControlPanel);
 	}
 
-	protected MandelbrotCanvas getMandelbrotCanvas() {
+	protected ImagePanel getImagePanel() {
 		return panel;
 	}
 

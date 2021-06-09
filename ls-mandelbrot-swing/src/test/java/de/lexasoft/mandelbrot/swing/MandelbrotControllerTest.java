@@ -29,7 +29,7 @@ class MandelbrotControllerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		model = MandelbrotCalculationProperties.ofDefault();
-		view = new MandelbrotSwingView(model);
+		view = new MandelbrotSwingView();
 		cut = new MandelbrotController(model, view);
 	}
 
