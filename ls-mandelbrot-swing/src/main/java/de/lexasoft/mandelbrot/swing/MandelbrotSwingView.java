@@ -2,6 +2,7 @@ package de.lexasoft.mandelbrot.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -40,16 +41,17 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.getContentPane().add(imagePanel);
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
-		JPanel panel_Right = new JPanel();
-		panel_Right.setAlignmentY(Component.TOP_ALIGNMENT);
-		panel_Right.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		frmLexasoftMandelbrotApplication.getContentPane().add(panel_Right);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 25 };
-		gridBagLayout.rowHeights = new int[] { 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0 };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0 };
-		panel_Right.setLayout(gridBagLayout);
+		JPanel rightPanel = new JPanel();
+		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		rightPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		frmLexasoftMandelbrotApplication.getContentPane().add(rightPanel);
+		GridBagLayout gbl_rightPanel = new GridBagLayout();
+		gbl_rightPanel.columnWidths = new int[] { 25 };
+		gbl_rightPanel.rowHeights = new int[] { 0, 0 };
+		gbl_rightPanel.columnWeights = new double[] { 1.0 };
+		gbl_rightPanel.rowWeights = new double[] { 1.0, 1.0 };
+		rightPanel.setLayout(gbl_rightPanel);
+		rightPanel.setPreferredSize(new Dimension(200, 0));
 
 		calculationPanel = new CalculationPanel();
 		GridBagConstraints gbc_calculationPanel = new GridBagConstraints();
@@ -57,14 +59,14 @@ public class MandelbrotSwingView {
 		gbc_calculationPanel.fill = GridBagConstraints.BOTH;
 		gbc_calculationPanel.gridx = 0;
 		gbc_calculationPanel.gridy = 0;
-		panel_Right.add(calculationPanel, gbc_calculationPanel);
+		rightPanel.add(calculationPanel, gbc_calculationPanel);
 
 		colorControlPanel = new ColorControlPanel();
 		GridBagConstraints gbc_colorControlPanel = new GridBagConstraints();
 		gbc_colorControlPanel.fill = GridBagConstraints.BOTH;
 		gbc_colorControlPanel.gridx = 0;
 		gbc_colorControlPanel.gridy = 1;
-		panel_Right.add(colorControlPanel, gbc_colorControlPanel);
+		rightPanel.add(colorControlPanel, gbc_colorControlPanel);
 	}
 
 	protected ImagePanel getImagePanel() {

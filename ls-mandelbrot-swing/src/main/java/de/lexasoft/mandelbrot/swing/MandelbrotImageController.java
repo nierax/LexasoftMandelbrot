@@ -63,9 +63,11 @@ public class MandelbrotImageController implements ModelChangedListener<Mandelbro
 
 	BufferedImage calculate() {
 		try {
-			model.setImageWidth(view.getWidth());
-			model.setImageHeight(view.getHeight());
-			model.setImage(MandelbrotImage.of(view.getWidth(), view.getHeight()));
+			int width = view.getWidth();
+			int height = view.getHeight();
+			model.setImageWidth(width);
+			model.setImageHeight(height);
+			model.setImage(MandelbrotImage.of(width, height));
 			model.setBottomRight(MandelbrotPointPosition.of(model.getBottomRight().cx(), Double.NaN));
 			model.normalize();
 			MandelbrotRunner.of(model).run();
