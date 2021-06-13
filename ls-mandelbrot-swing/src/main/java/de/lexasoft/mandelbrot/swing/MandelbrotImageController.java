@@ -13,6 +13,7 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
@@ -22,7 +23,7 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
  * @author nierax
  *
  */
-public class MandelbrotImageController implements ModelChangedListener<ColorControllerModel> {
+public class MandelbrotImageController {
 
 	private ImagePanel view;
 	private MandelbrotCalculationProperties model;
@@ -85,9 +86,34 @@ public class MandelbrotImageController implements ModelChangedListener<ColorCont
 		model.getColorGrading().setColorsTotal(colorCM.totalNrOfColors());
 	}
 
-	@Override
-	public void modelChanged(ModelChangedEvent<ColorControllerModel> event) {
-		assignColorCM(event.getModel());
+	/**
+	 * Has to be called, when the underlying color controller model has changed.
+	 * <p>
+	 * To ensure a lightweight message communication, the link is set within the
+	 * {@link MandelbrotController} with a lambda expression.
+	 * 
+	 * @param event The event connected with the change.
+	 */
+	public void colorModelChanged(ModelChangedEvent<ColorControllerModel> event) {
+		assignColorCM((ColorControllerModel) event.getModel());
+		view.drawImage(calculate());
+	}
+
+	private void assignCalculationCM(CalculationControllerModel calcCM) {
+		model.setMaximumIterations(calcCM.maximumIterations());
+	}
+
+	/**
+	 * Has to be called, when the underlying calculation controller model has
+	 * changed.
+	 * <p>
+	 * To ensure a lightweight message communication, the link is set within the
+	 * {@link MandelbrotController} with a lambda expression.
+	 * 
+	 * @param event The event connected with the change.
+	 */
+	public void calculationModelChanged(ModelChangedEvent<CalculationControllerModel> event) {
+		assignCalculationCM(event.getModel());
 		view.drawImage(calculate());
 	}
 

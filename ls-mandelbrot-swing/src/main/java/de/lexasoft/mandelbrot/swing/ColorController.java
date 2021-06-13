@@ -74,7 +74,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	}
 
 	/**
-	 * @TODO Add functionality for custom paletttes.
+	 * @TODO Add functionality for custom palette.
 	 * @param variant
 	 * @return
 	 */

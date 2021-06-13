@@ -3,6 +3,9 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
@@ -66,7 +69,23 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 * Register the listeners to react on changes
 	 */
 	public void initController() {
+		this.view.getMaxIter().addFocusListener(new FocusListener() {
 
+			@Override
+			public void focusLost(FocusEvent e) {
+				handleMaximumIterations();
+				fireModelChanged();
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// Nothing to be done here.
+			}
+		});
+	}
+
+	void handleMaximumIterations() {
+		maximumIterations(Integer.parseInt(view.getMaxIter().getText()));
 	}
 
 	@Override
@@ -82,6 +101,14 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	@Override
 	public int maximumIterations() {
 		return maximumIterations;
+	}
+
+	int maximumIterations(int maximumIterations) {
+		return this.maximumIterations = maximumIterations;
+	}
+
+	private void fireModelChanged() {
+		fireModelChangedEvent(new ModelChangedEvent<CalculationControllerModel>(this, this));
 	}
 
 }

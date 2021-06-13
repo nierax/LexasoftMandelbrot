@@ -44,8 +44,9 @@ public class MandelbrotController {
 	 * Registers the listeners to promote changes of the attributes.
 	 */
 	public void initController() {
-		colorController.addModelChangedListener(imageController);
+		colorController.addModelChangedListener(e -> imageController.colorModelChanged(e));
 		colorController.initController();
+		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
 		imageController.initController();
 	}
@@ -62,6 +63,10 @@ public class MandelbrotController {
 	 */
 	MandelbrotImageController getImageController() {
 		return imageController;
+	}
+
+	CalculationController getCalculationController() {
+		return calculationController;
 	}
 
 }

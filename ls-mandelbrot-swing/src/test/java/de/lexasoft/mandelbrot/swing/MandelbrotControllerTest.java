@@ -4,7 +4,6 @@
 package de.lexasoft.mandelbrot.swing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.List;
 
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
@@ -47,11 +47,14 @@ class MandelbrotControllerTest {
 		cut.initController();
 
 		// Check, whether they are correct
-		List<ModelChangedListener<ColorControllerModel>> queue = cut.getColorController().getQueue();
+		List<ModelChangedListener<ColorControllerModel>> queueColor = cut.getColorController().getQueue();
+		List<ModelChangedListener<CalculationControllerModel>> queueCalc = cut.getCalculationController().getQueue();
+
 		// Exactly one entry
-		assertEquals(1, queue.size());
-		// This is the image controller, which draws the Mandelbrot image
-		assertSame(cut.getImageController(), queue.get(0));
+		assertEquals(1, queueColor.size());
+		assertEquals(1, queueCalc.size());
+		// Since we are using lambda expressions here, we don't know anything about the
+		// instances.
 	}
 
 }
