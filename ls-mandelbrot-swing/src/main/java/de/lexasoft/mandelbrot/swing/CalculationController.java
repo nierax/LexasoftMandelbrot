@@ -8,17 +8,32 @@ import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 
 /**
+ * Controls the calculation properties, such as the complex numbers, defining
+ * the are to investigate and the maximum number of iterations to calculate.
+ * 
  * @author nierax
  *
  */
 public class CalculationController extends ModelChangingController<CalculationControllerModel>
     implements CalculationControllerModel {
 
+	// Attributes of the controller model.
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
 	private int maximumIterations;
+
+	// The view, being connected to.
 	private CalculationPanel view;
 
+	/**
+	 * Create the controller with the given objects.
+	 * <p>
+	 * The model is needed for initial assignment of the controller model. It is not
+	 * kept as reference.
+	 * 
+	 * @param initalModel
+	 * @param view
+	 */
 	public CalculationController(MandelbrotCalculationProperties initalModel, CalculationPanel view) {
 		initModel(initalModel);
 		this.view = view;
