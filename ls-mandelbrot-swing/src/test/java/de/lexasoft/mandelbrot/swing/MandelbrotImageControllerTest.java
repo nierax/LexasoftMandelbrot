@@ -77,8 +77,6 @@ class MandelbrotImageControllerTest {
 	@Test
 	final void testCalculate() {
 		// Prepare
-		when(view.getWidth()).thenReturn(459);
-		when(view.getHeight()).thenReturn(405);
 		BufferedImage result = cut.calculate();
 		assertNotNull(result);
 		assertEquals(459, result.getWidth());
@@ -121,8 +119,6 @@ class MandelbrotImageControllerTest {
 	final void testColorModelChanged(int nrOfC, PaletteVariant variant, ColorGradingStyle style) {
 		// Prepare
 		when(colorEvent.getModel()).thenReturn(createColorControlModel(nrOfC, variant, style));
-		when(view.getWidth()).thenReturn(459);
-		when(view.getHeight()).thenReturn(405);
 
 		// Run test
 		cut.colorModelChanged(colorEvent);
@@ -159,17 +155,27 @@ class MandelbrotImageControllerTest {
 		};
 	}
 
+	/**
+	 * To write it shorter.
+	 * 
+	 * @param cx
+	 * @param cy
+	 * @return
+	 */
+	private static MandelbrotPointPosition point(double cx, double cy) {
+		return MandelbrotPointPosition.of(cx, cy);
+	}
+
 	private static Stream<Arguments> testCalculationModelChanged() {
 		return Stream.of(
-		    Arguments.of(MandelbrotPointPosition.of(1, -1), MandelbrotPointPosition.of(0.5, -0.5), AspectRatio.FILL, 25),
-		    Arguments.of(MandelbrotPointPosition.of(1.2, 0), MandelbrotPointPosition.of(0.8, -0.5), AspectRatio.IGNORE,
-		        50));
+		    Arguments.of(point(1, -1), point(0.5, -0.5), AspectRatio.FILL, 25, point(0.5, -1.4411764705882353)),
+		    Arguments.of(point(1.2, 0), point(0.8, -0.5), AspectRatio.IGNORE, 50, point(0.8, -0.5)));
 	}
 
 	@ParameterizedTest
 	@MethodSource
 	final void testCalculationModelChanged(MandelbrotPointPosition tl, MandelbrotPointPosition br, AspectRatio ar,
-	    int maxIter) {
+	    int maxIter, MandelbrotPointPosition expBr) {
 		// Prepare
 		when(calcEvent.getModel()).thenReturn(createCalculationControllerModel(tl, br, ar, maxIter));
 		when(view.getWidth()).thenReturn(459);
@@ -180,7 +186,7 @@ class MandelbrotImageControllerTest {
 
 		// Check
 		assertEquals(tl, model.getTopLeft());
-		assertEquals(br, model.getBottomRight());
+		assertEquals(expBr, model.getBottomRight());
 		assertEquals(maxIter, model.getMaximumIterations());
 	}
 

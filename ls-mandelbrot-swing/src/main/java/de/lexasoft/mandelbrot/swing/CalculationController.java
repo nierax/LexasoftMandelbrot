@@ -5,6 +5,7 @@ package de.lexasoft.mandelbrot.swing;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
 
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
@@ -54,6 +55,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		topLeft = MandelbrotPointPosition.of(initialModel.getTopLeft().cx(), initialModel.getTopLeft().cy());
 		bottomRight = MandelbrotPointPosition.of(initialModel.getBottomRight().cx(), initialModel.getBottomRight().cy());
 		maximumIterations = initialModel.getMaximumIterations();
+		aspectRatio = AspectRatio.FILL;
 	}
 
 	/**
@@ -65,7 +67,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		this.view.getBrcx().setText(Double.toString(bottomRight().cx()));
 		this.view.getBrcy().setText(Double.toString(bottomRight().cy()));
 		this.view.getMaxIter().setText(Integer.toString(maximumIterations()));
-		this.view.getAspectRatio().setSelectedItem(AspectRatio.FILL);
+		this.view.getAspectRatio().setSelectedItem(aspectRatio());
 	}
 
 	/**
@@ -84,6 +86,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 				// Nothing to be done here.
 			}
 		});
+		this.view.getAspectRatio().addItemListener(e -> handleAspectRatio(e));
 	}
 
 	private void doHandleMaximumIterations(int maximumIterations) {
@@ -95,10 +98,15 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		fireModelChanged();
 	}
 
+	void handleAspectRatio(ItemEvent e) {
+		aspectRatio((AspectRatio) view.getAspectRatio().getSelectedItem());
+		fireModelChanged();
+	}
+
 	/**
 	 * Fire a model changed event to the listeners.
 	 */
-	private void fireModelChanged() {
+	void fireModelChanged() {
 		fireModelChangedEvent(new ModelChangedEvent<CalculationControllerModel>(this, this));
 	}
 

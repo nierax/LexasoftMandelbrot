@@ -66,13 +66,7 @@ public class MandelbrotImageController {
 
 	BufferedImage calculate() {
 		try {
-			int width = view.getWidth();
-			int height = view.getHeight();
-			model.setImageWidth(width);
-			model.setImageHeight(height);
-			model.setImage(MandelbrotImage.of(width, height));
-			model.setBottomRight(MandelbrotPointPosition.of(model.getBottomRight().cx(), Double.NaN));
-			model.normalize();
+			model.setImage(MandelbrotImage.of(model.getImageWidth(), model.getImageHeight()));
 			MandelbrotRunner.of(model).run();
 			return model.getImage().getImage();
 		} catch (MandelbrotRunnerException e) {
@@ -123,7 +117,6 @@ public class MandelbrotImageController {
 		}
 		model.setImageWidth(width);
 		model.setImageHeight(height);
-		model.setImage(MandelbrotImage.of(width, height));
 		model.setBottomRight(MandelbrotPointPosition.of(model.getBottomRight().cx(), Double.NaN));
 		model.normalize();
 	}

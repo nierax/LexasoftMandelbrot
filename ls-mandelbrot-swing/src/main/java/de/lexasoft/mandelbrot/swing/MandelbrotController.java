@@ -49,6 +49,7 @@ public class MandelbrotController {
 		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
 		imageController.initController();
+//		calculationController.fireModelChanged();
 	}
 
 	/**
