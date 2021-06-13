@@ -11,6 +11,7 @@ import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.api.ValidationAPI;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
  * The controller for the color section
@@ -18,27 +19,37 @@ import de.lexasoft.mandelbrot.api.ValidationAPI;
  * @author nierax
  *
  */
-public class ColorController extends ModelChangingController<MandelbrotCalculationProperties> {
+public class ColorController extends ModelChangingController<ColorControllerModel> implements ColorControllerModel {
 
-	private MandelbrotCalculationProperties model;
 	private ColorControlPanel view;
+
+	// Attributes of the color controller model
+	private PaletteVariant paletteVariant;
+	private ColorGradingStyle colorGradingStyle;
+	private int totalNrOfColors;
 
 	/**
 	 * 
 	 */
-	public ColorController(MandelbrotCalculationProperties model, ColorControlPanel view) {
-		this.model = model;
+	public ColorController(MandelbrotCalculationProperties initialModel, ColorControlPanel view) {
+		initModel(initialModel);
 		this.view = view;
 		initView();
+	}
+
+	void initModel(MandelbrotCalculationProperties initialModel) {
+		this.paletteVariant = initialModel.getPaletteVariant();
+		this.colorGradingStyle = initialModel.getColorGrading().getStyle();
+		this.totalNrOfColors = initialModel.getColorGrading().getColorsTotal();
 	}
 
 	/**
 	 * Connects the input with the model.
 	 */
-	public void initView() {
-		view.getPaletteVariant().setSelectedItem(model.getPaletteVariant());
-		view.getColorGradingStyle().setSelectedItem(model.getColorGrading().getStyle());
-		view.getTotalColors().setText(Integer.toString(model.getColorGrading().getColorsTotal()));
+	void initView() {
+		view.getPaletteVariant().setSelectedItem(paletteVariant());
+		view.getColorGradingStyle().setSelectedItem(gradingStyle());
+		view.getTotalColors().setText(Integer.toString(totalNrOfColors()));
 		view.getErrorText().setText("");
 	}
 
@@ -62,10 +73,16 @@ public class ColorController extends ModelChangingController<MandelbrotCalculati
 		view.getColorGradingStyle().addItemListener(e -> changeColorGradingStyle(e));
 	}
 
+	/**
+	 * @TODO Add functionality for custom paletttes.
+	 * @param variant
+	 * @return
+	 */
 	private int nrOfColorsUngraded(PaletteVariant variant) {
-		if (variant == PaletteVariant.CUSTOM) {
-			return model.getCustomColorPalette().size();
-		}
+		// Custom not supported yet. So let's think about it later
+//		if (variant == PaletteVariant.CUSTOM) {
+//			return model.getCustomColorPalette().size();
+//		}
 		return variant.getNrOfColorsUngraded();
 	}
 
@@ -74,8 +91,8 @@ public class ColorController extends ModelChangingController<MandelbrotCalculati
 	 * @return
 	 */
 	private int handleTotalNrOfColorsCorrection(int nrOfC) {
-		int nrOfCUngraded = nrOfColorsUngraded(model.getPaletteVariant());
-		int minNrOfC = ValidationAPI.of().minimumNrOfColorsForGrading(nrOfCUngraded, model.getColorGrading().getStyle());
+		int nrOfCUngraded = nrOfColorsUngraded(paletteVariant());
+		int minNrOfC = ValidationAPI.of().minimumNrOfColorsForGrading(nrOfCUngraded, gradingStyle());
 		if (nrOfC < minNrOfC) {
 			nrOfC = minNrOfC;
 			view.getTotalColors().setText(Integer.toString(nrOfC));
@@ -90,10 +107,10 @@ public class ColorController extends ModelChangingController<MandelbrotCalculati
 	 * 
 	 */
 	private void checkAndChangeNrOfColorsCorrection() {
-		int before = model.getColorGrading().getColorsTotal();
+		int before = totalNrOfColors();
 		int nrOfC = handleTotalNrOfColorsCorrection(before);
 		if (before < nrOfC) {
-			model.getColorGrading().setColorsTotal(nrOfC);
+			totalNrOfColors(nrOfC);
 		}
 	}
 
@@ -123,10 +140,10 @@ public class ColorController extends ModelChangingController<MandelbrotCalculati
 	void changePalettVariant(ItemEvent evt) {
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			PaletteVariant value = (PaletteVariant) evt.getItem();
-			model.setPaletteVariant(value);
+			paletteVariant(value);
 			view.getColorGradingStyle().setEnabled(isColorGradingStyleEnabled(value));
-			view.getTotalColors().setEnabled(isColorGradingNofCEnabled(value, model.getColorGrading().getStyle()));
-			if (model.getColorGrading().getStyle() != ColorGradingStyle.NONE) {
+			view.getTotalColors().setEnabled(isColorGradingNofCEnabled(value, gradingStyle()));
+			if (gradingStyle() != ColorGradingStyle.NONE) {
 				checkAndChangeNrOfColorsCorrection();
 			}
 			fireEvent();
@@ -146,8 +163,8 @@ public class ColorController extends ModelChangingController<MandelbrotCalculati
 	void changeColorGradingStyle(ItemEvent evt) {
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			ColorGradingStyle style = (ColorGradingStyle) evt.getItem();
-			model.getColorGrading().setStyle(style);
-			view.getTotalColors().setEnabled((isColorGradingNofCEnabled(model.getPaletteVariant(), style)));
+			gradingStyle(style);
+			view.getTotalColors().setEnabled((isColorGradingNofCEnabled(paletteVariant(), style)));
 			checkAndChangeNrOfColorsCorrection();
 
 			fireEvent();
@@ -167,12 +184,39 @@ public class ColorController extends ModelChangingController<MandelbrotCalculati
 		if (!"".equals(sNrOfC)) {
 			int nrOfC = Integer.parseInt(view.getTotalColors().getText());
 			nrOfC = handleTotalNrOfColorsCorrection(nrOfC);
-			model.getColorGrading().setColorsTotal(nrOfC);
+			totalNrOfColors(nrOfC);
 			fireEvent();
 		}
 	}
 
 	private void fireEvent() {
-		fireModelChangedEvent(new ModelChangedEvent<MandelbrotCalculationProperties>(this, model));
+		fireModelChangedEvent(new ModelChangedEvent<ColorControllerModel>(this, this));
+	}
+
+	@Override
+	public PaletteVariant paletteVariant() {
+		return paletteVariant;
+	}
+
+	public PaletteVariant paletteVariant(PaletteVariant paletteVariant) {
+		return this.paletteVariant = paletteVariant;
+	}
+
+	@Override
+	public ColorGradingStyle gradingStyle() {
+		return colorGradingStyle;
+	}
+
+	public ColorGradingStyle gradingStyle(ColorGradingStyle gradingStyle) {
+		return colorGradingStyle = gradingStyle;
+	}
+
+	@Override
+	public int totalNrOfColors() {
+		return totalNrOfColors;
+	}
+
+	public int totalNrOfColors(int totalNrofColors) {
+		return this.totalNrOfColors = totalNrofColors;
 	}
 }

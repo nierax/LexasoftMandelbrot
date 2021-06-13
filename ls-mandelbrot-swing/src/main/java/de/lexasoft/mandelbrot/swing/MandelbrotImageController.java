@@ -13,6 +13,7 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
  * This controller does the calculation of the Mandelbrot set and sets it as
@@ -21,7 +22,7 @@ import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
  * @author nierax
  *
  */
-public class MandelbrotImageController implements ModelChangedListener<MandelbrotCalculationProperties> {
+public class MandelbrotImageController implements ModelChangedListener<ColorControllerModel> {
 
 	private ImagePanel view;
 	private MandelbrotCalculationProperties model;
@@ -78,8 +79,15 @@ public class MandelbrotImageController implements ModelChangedListener<Mandelbro
 
 	}
 
+	private void assignColorCM(ColorControllerModel colorCM) {
+		model.setPaletteVariant(colorCM.paletteVariant());
+		model.getColorGrading().setStyle(colorCM.gradingStyle());
+		model.getColorGrading().setColorsTotal(colorCM.totalNrOfColors());
+	}
+
 	@Override
-	public void modelChanged(ModelChangedEvent<MandelbrotCalculationProperties> event) {
+	public void modelChanged(ModelChangedEvent<ColorControllerModel> event) {
+		assignColorCM(event.getModel());
 		view.drawImage(calculate());
 	}
 
