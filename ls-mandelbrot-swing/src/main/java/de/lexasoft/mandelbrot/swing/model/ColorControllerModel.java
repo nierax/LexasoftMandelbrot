@@ -12,7 +12,7 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  * @author nierax
  *
  */
-public interface ColorControllerModel {
+public interface ColorControllerModel extends ControllerModel {
 
 	/**
 	 * 
