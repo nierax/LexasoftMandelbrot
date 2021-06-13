@@ -92,18 +92,19 @@ class ColorControllerTest {
 	final void testChangeTotalColorsOk(int newValue, ColorGradingStyle gradingStyle, PaletteVariant paletteVariant,
 	    int expectedNew) {
 		// Prepare view and model
+		cut.paletteVariant(paletteVariant);
+		cut.gradingStyle(gradingStyle);
+		cut.initView();
+
+		// Set the new value
 		view.getTotalColors().setText(Integer.toString(newValue));
-		model.setPaletteVariant(paletteVariant);
-		view.getPaletteVariant().setSelectedItem(paletteVariant);
-		model.getColorGrading().setStyle(gradingStyle);
-		view.getColorGradingStyle().setSelectedItem(gradingStyle);
 
 		// Run test
 		cut.changeTotalColors(focusEvent);
 
 		// Assert results
 		// Do model and view have the changed value?
-		assertEquals(expectedNew, model.getColorGrading().getColorsTotal());
+		assertEquals(expectedNew, cut.totalNrOfColors());
 		assertEquals(expectedNew, Integer.parseInt(view.getTotalColors().getText()));
 		if (expectedNew > newValue) {
 			assertNotEquals("", view.getErrorText().getText());
@@ -138,11 +139,11 @@ class ColorControllerTest {
 	@MethodSource
 	final void testChangeColorGradingStyle(ColorGradingStyle newValue, int nrOfColors, PaletteVariant variant,
 	    int expNrOfColor, boolean expEnabled) {
-		// Prepare view and model
-		model.getColorGrading().setStyle(newValue);
+		// Prepare view and controller
+		cut.gradingStyle(newValue);
 		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, newValue, ItemEvent.SELECTED);
-		model.getColorGrading().setColorsTotal(nrOfColors);
-		model.setPaletteVariant(variant);
+		cut.totalNrOfColors(nrOfColors);
+		cut.paletteVariant(variant);
 		// Use cut's function to put these values into the view
 		cut.initView();
 		// Now set the value of color grading style to the view (simulate input)
@@ -153,10 +154,10 @@ class ColorControllerTest {
 
 		// Assert results
 		assertEquals(expEnabled, view.getTotalColors().isEnabled());
-		assertEquals(newValue, model.getColorGrading().getStyle());
+		assertEquals(newValue, cut.gradingStyle());
 		assertEquals(newValue, view.getColorGradingStyle().getSelectedItem());
 		assertEquals(expNrOfColor, Integer.parseInt(view.getTotalColors().getText()));
-		assertEquals(expNrOfColor, model.getColorGrading().getColorsTotal());
+		assertEquals(expNrOfColor, cut.totalNrOfColors());
 	}
 
 	private static Stream<Arguments> testChangePalettVariant() {
@@ -196,8 +197,8 @@ class ColorControllerTest {
 	final void testChangePalettVariant(PaletteVariant newValue, int nrOfColors, ColorGradingStyle style,
 	    int expNrOfColors, boolean expGradingStyleEnabled, boolean expGradingNrOfCEnabled) {
 		// Prepare values
-		model.getColorGrading().setColorsTotal(nrOfColors);
-		model.getColorGrading().setStyle(style);
+		cut.totalNrOfColors(nrOfColors);
+		cut.gradingStyle(style);
 		// Use cut's function to put these values into the view
 		cut.initView();
 		// Enter the new value
@@ -210,10 +211,10 @@ class ColorControllerTest {
 		assertEquals(expGradingStyleEnabled, view.getColorGradingStyle().isEnabled());
 		assertEquals(expGradingNrOfCEnabled, view.getTotalColors().isEnabled());
 		// Is the value set in model and view, correctly?
-		assertEquals(newValue, model.getPaletteVariant());
+		assertEquals(newValue, cut.paletteVariant());
 		assertEquals(newValue, view.getPaletteVariant().getSelectedItem());
 		// Is the number of colors set correctly, changed, if needed?
-		assertEquals(expNrOfColors, model.getColorGrading().getColorsTotal());
+		assertEquals(expNrOfColors, cut.totalNrOfColors());
 		assertEquals(expNrOfColors, Integer.parseInt(view.getTotalColors().getText()));
 	}
 

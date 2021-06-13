@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
  * @author nierax
@@ -46,7 +47,7 @@ class MandelbrotControllerTest {
 		cut.initController();
 
 		// Check, whether they are correct
-		List<ModelChangedListener<MandelbrotCalculationProperties>> queue = cut.getColorController().getQueue();
+		List<ModelChangedListener<ColorControllerModel>> queue = cut.getColorController().getQueue();
 		// Exactly one entry
 		assertEquals(1, queue.size());
 		// This is the image controller, which draws the Mandelbrot image
