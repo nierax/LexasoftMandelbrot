@@ -4,10 +4,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
+
+import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 
 @SuppressWarnings("serial")
 public class CalculationPanel extends JPanel {
@@ -16,6 +20,7 @@ public class CalculationPanel extends JPanel {
 	private JTextField brcx;
 	private JTextField brcy;
 	private JTextField maxIter;
+	private JComboBox aspectRatio;
 
 	/**
 	 * Create the panel.
@@ -24,9 +29,9 @@ public class CalculationPanel extends JPanel {
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblNewLabel = new JLabel("Calculation");
@@ -124,20 +129,37 @@ public class CalculationPanel extends JPanel {
 		add(brcy, gbc_brcy);
 		brcy.setColumns(5);
 
+		JLabel lblNewLabel_7 = new JLabel("Aspect Ratio");
+		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
+		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_7.gridx = 1;
+		gbc_lblNewLabel_7.gridy = 5;
+		add(lblNewLabel_7, gbc_lblNewLabel_7);
+
+		aspectRatio = new JComboBox();
+		aspectRatio.setModel(new DefaultComboBoxModel(AspectRatio.values()));
+		GridBagConstraints gbc_aspectRatio = new GridBagConstraints();
+		gbc_aspectRatio.insets = new Insets(0, 0, 5, 0);
+		gbc_aspectRatio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_aspectRatio.gridx = 3;
+		gbc_aspectRatio.gridy = 5;
+		add(aspectRatio, gbc_aspectRatio);
+
 		JLabel lblNewLabel_5 = new JLabel("Max. iterations");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.gridwidth = 2;
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_5.gridx = 1;
-		gbc_lblNewLabel_5.gridy = 5;
+		gbc_lblNewLabel_5.gridy = 6;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 
 		maxIter = new JTextField();
 		GridBagConstraints gbc_maxIter = new GridBagConstraints();
 		gbc_maxIter.fill = GridBagConstraints.HORIZONTAL;
 		gbc_maxIter.gridx = 3;
-		gbc_maxIter.gridy = 5;
+		gbc_maxIter.gridy = 6;
 		add(maxIter, gbc_maxIter);
 		maxIter.setColumns(5);
 
@@ -161,5 +183,9 @@ public class CalculationPanel extends JPanel {
 
 	public JTextField getMaxIter() {
 		return maxIter;
+	}
+
+	public JComboBox getAspectRatio() {
+		return aspectRatio;
 	}
 }

@@ -13,6 +13,7 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.MandelbrotRunner;
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
@@ -99,7 +100,37 @@ public class MandelbrotImageController {
 		view.drawImage(calculate());
 	}
 
+	private void assignDimensions(CalculationControllerModel calcCM) {
+		model.getTopLeft().setCx(calcCM.topLeft().cx());
+		model.getTopLeft().setCy(calcCM.topLeft().cy());
+		model.getBottomRight().setCx(calcCM.bottomRight().cx());
+		model.getBottomRight().setCy(calcCM.bottomRight().cy());
+	}
+
+	private void handleAspectRatio(AspectRatio ar) {
+		int width = view.getWidth();
+		int height = view.getHeight();
+		switch (ar) {
+		case IGNORE:
+			// do nothing
+			return;
+		case FILL:
+			// Use height and width as calculated above
+			break;
+		default:
+			height = (int) Math.round(width / ar.getRatioX2Y());
+			break;
+		}
+		model.setImageWidth(width);
+		model.setImageHeight(height);
+		model.setImage(MandelbrotImage.of(width, height));
+		model.setBottomRight(MandelbrotPointPosition.of(model.getBottomRight().cx(), Double.NaN));
+		model.normalize();
+	}
+
 	private void assignCalculationCM(CalculationControllerModel calcCM) {
+		assignDimensions(calcCM);
+		handleAspectRatio(calcCM.aspectRatio());
 		model.setMaximumIterations(calcCM.maximumIterations());
 	}
 

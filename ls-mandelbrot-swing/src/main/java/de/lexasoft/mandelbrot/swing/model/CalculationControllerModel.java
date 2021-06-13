@@ -27,6 +27,12 @@ public interface CalculationControllerModel extends ControllerModel {
 
 	/**
 	 * 
+	 * @return The aspect ratio to be used, calculating the image.
+	 */
+	AspectRatio aspectRatio();
+
+	/**
+	 * 
 	 * @return The maximum number of iterations calculated, to assign a number to
 	 *         the Mandelbrot set.
 	 */

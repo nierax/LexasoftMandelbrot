@@ -9,6 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 
 /**
  * @author nierax
@@ -39,10 +41,13 @@ class CalculationControllerTest {
 	private JTextField brCy;
 	@Mock
 	private JTextField maxIter;
+	@Mock
+	private JComboBox<AspectRatio> aspetRatio;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
+	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
 		model = MandelbrotCalculationProperties.ofDefault();
@@ -51,11 +56,13 @@ class CalculationControllerTest {
 		tlCy = mock(JTextField.class);
 		brCx = mock(JTextField.class);
 		brCy = mock(JTextField.class);
+		aspetRatio = mock(JComboBox.class);
 		when(view.getTlcx()).thenReturn(tlCx);
 		when(view.getTlcy()).thenReturn(tlCy);
 		when(view.getBrcx()).thenReturn(brCx);
 		when(view.getBrcy()).thenReturn(brCy);
 		when(view.getMaxIter()).thenReturn(maxIter);
+		when(view.getAspectRatio()).thenReturn(aspetRatio);
 	}
 
 	/**
@@ -79,6 +86,7 @@ class CalculationControllerTest {
 		verify(brCx).setText(Double.toString(model.getBottomRight().cx()));
 		verify(brCy).setText(Double.toString(model.getBottomRight().cy()));
 		verify(maxIter).setText(Integer.toString(model.getMaximumIterations()));
+		verify(aspetRatio).setSelectedItem(AspectRatio.FILL);
 	}
 
 }

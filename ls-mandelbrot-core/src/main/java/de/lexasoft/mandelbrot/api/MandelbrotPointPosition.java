@@ -87,4 +87,9 @@ public class MandelbrotPointPosition {
 		return ((Double.compare(cx, other.cx) == 0) && (Double.compare(cy, other.cy) == 0));
 	}
 
+	@Override
+	public String toString() {
+		return "[cx=" + cx + ", cy=" + cy + "]";
+	}
+
 }

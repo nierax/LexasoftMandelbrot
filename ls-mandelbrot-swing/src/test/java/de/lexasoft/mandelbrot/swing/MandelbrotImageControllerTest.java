@@ -11,14 +11,24 @@ import static org.mockito.Mockito.when;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.PaletteVariant;
+import de.lexasoft.mandelbrot.swing.model.AspectRatio;
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
  * @author nierax
@@ -31,15 +41,22 @@ class MandelbrotImageControllerTest {
 	private MandelbrotImageController cut;
 	@Mock
 	private ImagePanel view;
+	@Mock
+	private ModelChangedEvent<ColorControllerModel> colorEvent;
+	@Mock
+	private ModelChangedEvent<CalculationControllerModel> calcEvent;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
+	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
 		model = MandelbrotCalculationProperties.ofDefault();
 		view = mock(ImagePanel.class);
 		cut = new MandelbrotImageController(model, view);
+		colorEvent = mock(ModelChangedEvent.class);
+		calcEvent = mock(ModelChangedEvent.class);
 	}
 
 	/**
@@ -67,6 +84,104 @@ class MandelbrotImageControllerTest {
 		assertEquals(459, result.getWidth());
 		assertEquals(405, result.getHeight());
 		verify(view).setPreferredSize(new Dimension(459, 405));
+	}
+
+	private ColorControllerModel createColorControlModel(int nrOfC, PaletteVariant paletteVariant,
+	    ColorGradingStyle style) {
+		return new ColorControllerModel() {
+
+			@Override
+			public int totalNrOfColors() {
+				return nrOfC;
+			}
+
+			@Override
+			public PaletteVariant paletteVariant() {
+				return paletteVariant;
+			}
+
+			@Override
+			public ColorGradingStyle gradingStyle() {
+				return style;
+			}
+		};
+	}
+
+	private static Stream<Arguments> testColorModelChanged() {
+		return Stream.of(Arguments.of(25, PaletteVariant.BLUEWHITE, ColorGradingStyle.LINE),
+		    Arguments.of(35, PaletteVariant.RAINBOW7, ColorGradingStyle.CIRCLE),
+		    Arguments.of(500, PaletteVariant.RAINBOW29, ColorGradingStyle.NONE));
+	}
+
+	/**
+	 * 
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testColorModelChanged(int nrOfC, PaletteVariant variant, ColorGradingStyle style) {
+		// Prepare
+		when(colorEvent.getModel()).thenReturn(createColorControlModel(nrOfC, variant, style));
+		when(view.getWidth()).thenReturn(459);
+		when(view.getHeight()).thenReturn(405);
+
+		// Run test
+		cut.colorModelChanged(colorEvent);
+
+		// Check
+		assertEquals(nrOfC, model.getColorGrading().getColorsTotal());
+		assertEquals(style, model.getColorGrading().getStyle());
+		assertEquals(variant, model.getPaletteVariant());
+	}
+
+	private CalculationControllerModel createCalculationControllerModel(MandelbrotPointPosition tl,
+	    MandelbrotPointPosition br, AspectRatio ar, int maxIter) {
+		return new CalculationControllerModel() {
+
+			@Override
+			public MandelbrotPointPosition topLeft() {
+				return tl;
+			}
+
+			@Override
+			public int maximumIterations() {
+				return maxIter;
+			}
+
+			@Override
+			public MandelbrotPointPosition bottomRight() {
+				return br;
+			}
+
+			@Override
+			public AspectRatio aspectRatio() {
+				return ar;
+			}
+		};
+	}
+
+	private static Stream<Arguments> testCalculationModelChanged() {
+		return Stream.of(
+		    Arguments.of(MandelbrotPointPosition.of(1, -1), MandelbrotPointPosition.of(0.5, -0.5), AspectRatio.FILL, 25),
+		    Arguments.of(MandelbrotPointPosition.of(1.2, 0), MandelbrotPointPosition.of(0.8, -0.5), AspectRatio.IGNORE,
+		        50));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	final void testCalculationModelChanged(MandelbrotPointPosition tl, MandelbrotPointPosition br, AspectRatio ar,
+	    int maxIter) {
+		// Prepare
+		when(calcEvent.getModel()).thenReturn(createCalculationControllerModel(tl, br, ar, maxIter));
+		when(view.getWidth()).thenReturn(459);
+		when(view.getHeight()).thenReturn(405);
+
+		// Run
+		cut.calculationModelChanged(calcEvent);
+
+		// Check
+		assertEquals(tl, model.getTopLeft());
+		assertEquals(br, model.getBottomRight());
+		assertEquals(maxIter, model.getMaximumIterations());
 	}
 
 }

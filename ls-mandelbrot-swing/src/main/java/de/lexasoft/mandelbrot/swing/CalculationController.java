@@ -8,6 +8,7 @@ import java.awt.event.FocusListener;
 
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 
 /**
@@ -23,6 +24,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	// Attributes of the controller model.
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
+	private AspectRatio aspectRatio;
 	private int maximumIterations;
 
 	// The view, being connected to.
@@ -63,6 +65,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		this.view.getBrcx().setText(Double.toString(bottomRight().cx()));
 		this.view.getBrcy().setText(Double.toString(bottomRight().cy()));
 		this.view.getMaxIter().setText(Integer.toString(maximumIterations()));
+		this.view.getAspectRatio().setSelectedItem(AspectRatio.FILL);
 	}
 
 	/**
@@ -74,7 +77,6 @@ public class CalculationController extends ModelChangingController<CalculationCo
 			@Override
 			public void focusLost(FocusEvent e) {
 				handleMaximumIterations();
-				fireModelChanged();
 			}
 
 			@Override
@@ -84,8 +86,20 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		});
 	}
 
+	private void doHandleMaximumIterations(int maximumIterations) {
+		maximumIterations(maximumIterations);
+	}
+
 	void handleMaximumIterations() {
-		maximumIterations(Integer.parseInt(view.getMaxIter().getText()));
+		doHandleMaximumIterations(Integer.parseInt(view.getMaxIter().getText()));
+		fireModelChanged();
+	}
+
+	/**
+	 * Fire a model changed event to the listeners.
+	 */
+	private void fireModelChanged() {
+		fireModelChangedEvent(new ModelChangedEvent<CalculationControllerModel>(this, this));
 	}
 
 	@Override
@@ -107,8 +121,12 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		return this.maximumIterations = maximumIterations;
 	}
 
-	private void fireModelChanged() {
-		fireModelChangedEvent(new ModelChangedEvent<CalculationControllerModel>(this, this));
+	@Override
+	public AspectRatio aspectRatio() {
+		return aspectRatio;
 	}
 
+	public AspectRatio aspectRatio(AspectRatio aspectRatio) {
+		return this.aspectRatio = aspectRatio;
+	}
 }
