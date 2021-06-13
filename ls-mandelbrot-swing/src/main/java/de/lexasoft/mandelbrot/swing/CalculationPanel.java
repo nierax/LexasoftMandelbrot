@@ -143,4 +143,23 @@ public class CalculationPanel extends JPanel {
 
 	}
 
+	public JTextField getTlcx() {
+		return tlcx;
+	}
+
+	public JTextField getTlcy() {
+		return tlcy;
+	}
+
+	public JTextField getBrcx() {
+		return brcx;
+	}
+
+	public JTextField getBrcy() {
+		return brcy;
+	}
+
+	public JTextField getMaxIter() {
+		return maxIter;
+	}
 }

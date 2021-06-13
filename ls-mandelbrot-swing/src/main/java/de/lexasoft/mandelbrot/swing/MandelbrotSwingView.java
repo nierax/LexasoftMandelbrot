@@ -80,4 +80,8 @@ public class MandelbrotSwingView {
 	public ColorControlPanel getColorControlPanel() {
 		return colorControlPanel;
 	}
+
+	public CalculationPanel getCalculationPanel() {
+		return calculationPanel;
+	}
 }

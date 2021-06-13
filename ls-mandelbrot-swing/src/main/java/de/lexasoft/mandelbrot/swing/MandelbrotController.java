@@ -20,6 +20,7 @@ public class MandelbrotController {
 	private MandelbrotSwingView view;
 	private ColorController colorController;
 	private MandelbrotImageController imageController;
+	private CalculationController calculationController;
 
 	/**
 	 * 
@@ -29,6 +30,7 @@ public class MandelbrotController {
 		this.view = view;
 		this.colorController = new ColorController(this.model, this.view.getColorControlPanel());
 		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
+		this.calculationController = new CalculationController(model, this.view.getCalculationPanel());
 		initView();
 	}
 
@@ -44,6 +46,7 @@ public class MandelbrotController {
 	public void initController() {
 		colorController.addModelChangedListener(imageController);
 		colorController.initController();
+		calculationController.initController();
 		imageController.initController();
 	}
 
