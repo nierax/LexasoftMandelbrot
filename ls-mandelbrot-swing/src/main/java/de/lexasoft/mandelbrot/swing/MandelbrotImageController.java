@@ -28,6 +28,7 @@ public class MandelbrotImageController {
 
 	private ImagePanel view;
 	private MandelbrotCalculationProperties model;
+	private CalculationControllerModel calcModel;
 
 	public MandelbrotImageController(MandelbrotCalculationProperties model, ImagePanel view) {
 		this.view = view;
@@ -39,7 +40,8 @@ public class MandelbrotImageController {
 		this.view.setPreferredSize(new Dimension(model.getImageWidth(), model.getImageHeight()));
 	}
 
-	public void initController() {
+	public void initController(CalculationControllerModel calcModel) {
+		setCalcModel(calcModel);
 		this.view.addComponentListener(new ComponentListener() {
 
 			@Override
@@ -66,6 +68,7 @@ public class MandelbrotImageController {
 
 	BufferedImage calculate() {
 		try {
+			handleAspectRatio(getCalcModel().aspectRatio());
 			model.setImage(MandelbrotImage.of(model.getImageWidth(), model.getImageHeight()));
 			MandelbrotRunner.of(model).run();
 			return model.getImage().getImage();
@@ -106,7 +109,8 @@ public class MandelbrotImageController {
 		int height = view.getHeight();
 		switch (ar) {
 		case IGNORE:
-			// do nothing
+			model.setImageWidth(width);
+			model.setImageHeight(height);
 			return;
 		case FILL:
 			// Use height and width as calculated above
@@ -123,7 +127,6 @@ public class MandelbrotImageController {
 
 	private void assignCalculationCM(CalculationControllerModel calcCM) {
 		assignDimensions(calcCM);
-		handleAspectRatio(calcCM.aspectRatio());
 		model.setMaximumIterations(calcCM.maximumIterations());
 	}
 
@@ -139,6 +142,20 @@ public class MandelbrotImageController {
 	public void calculationModelChanged(ModelChangedEvent<CalculationControllerModel> event) {
 		assignCalculationCM(event.getModel());
 		view.drawImage(calculate());
+	}
+
+	/**
+	 * @return the calcModel
+	 */
+	CalculationControllerModel getCalcModel() {
+		return calcModel;
+	}
+
+	/**
+	 * @param calcModel the calcModel to set
+	 */
+	void setCalcModel(CalculationControllerModel calcModel) {
+		this.calcModel = calcModel;
 	}
 
 }

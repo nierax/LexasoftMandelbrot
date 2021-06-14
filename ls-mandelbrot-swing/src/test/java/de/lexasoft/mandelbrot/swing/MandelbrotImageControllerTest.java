@@ -45,6 +45,8 @@ class MandelbrotImageControllerTest {
 	private ModelChangedEvent<ColorControllerModel> colorEvent;
 	@Mock
 	private ModelChangedEvent<CalculationControllerModel> calcEvent;
+	@Mock
+	private CalculationControllerModel calcModel;
 
 	/**
 	 * @throws java.lang.Exception
@@ -54,6 +56,7 @@ class MandelbrotImageControllerTest {
 	void setUp() throws Exception {
 		model = MandelbrotCalculationProperties.ofDefault();
 		view = mock(ImagePanel.class);
+		calcModel = mock(CalculationControllerModel.class);
 		cut = new MandelbrotImageController(model, view);
 		colorEvent = mock(ModelChangedEvent.class);
 		calcEvent = mock(ModelChangedEvent.class);
@@ -77,7 +80,14 @@ class MandelbrotImageControllerTest {
 	@Test
 	final void testCalculate() {
 		// Prepare
+		cut.setCalcModel(createCalculationControllerModel(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.FILL, 25));
+		when(view.getWidth()).thenReturn(459);
+		when(view.getHeight()).thenReturn(405);
+
+		// Run
 		BufferedImage result = cut.calculate();
+
+		// Check
 		assertNotNull(result);
 		assertEquals(459, result.getWidth());
 		assertEquals(405, result.getHeight());
@@ -119,6 +129,9 @@ class MandelbrotImageControllerTest {
 	final void testColorModelChanged(int nrOfC, PaletteVariant variant, ColorGradingStyle style) {
 		// Prepare
 		when(colorEvent.getModel()).thenReturn(createColorControlModel(nrOfC, variant, style));
+		when(view.getWidth()).thenReturn(459);
+		when(view.getHeight()).thenReturn(405);
+		cut.setCalcModel(createCalculationControllerModel(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.FILL, 25));
 
 		// Run test
 		cut.colorModelChanged(colorEvent);
@@ -177,7 +190,9 @@ class MandelbrotImageControllerTest {
 	final void testCalculationModelChanged(MandelbrotPointPosition tl, MandelbrotPointPosition br, AspectRatio ar,
 	    int maxIter, MandelbrotPointPosition expBr) {
 		// Prepare
-		when(calcEvent.getModel()).thenReturn(createCalculationControllerModel(tl, br, ar, maxIter));
+		calcModel = createCalculationControllerModel(tl, br, ar, maxIter);
+		cut.setCalcModel(calcModel);
+		when(calcEvent.getModel()).thenReturn(calcModel);
 		when(view.getWidth()).thenReturn(459);
 		when(view.getHeight()).thenReturn(405);
 

@@ -29,8 +29,8 @@ public class MandelbrotController {
 		this.model = model;
 		this.view = view;
 		this.colorController = new ColorController(this.model, this.view.getColorControlPanel());
-		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
 		this.calculationController = new CalculationController(model, this.view.getCalculationPanel());
+		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
 		initView();
 	}
 
@@ -48,8 +48,7 @@ public class MandelbrotController {
 		colorController.initController();
 		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
-		imageController.initController();
-//		calculationController.fireModelChanged();
+		imageController.initController(calculationController);
 	}
 
 	/**
