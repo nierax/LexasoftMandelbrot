@@ -25,7 +25,7 @@ public class ImagePanel extends JPanel {
 	 * Create the panel with the background color white.
 	 */
 	public ImagePanel() {
-		this(Color.WHITE);
+		this(Color.LIGHT_GRAY);
 	}
 
 	/**
