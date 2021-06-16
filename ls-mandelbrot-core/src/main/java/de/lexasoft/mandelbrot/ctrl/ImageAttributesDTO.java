@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author nierax
  *
  */
-public class ImageAttributesDTO implements NormalizeDTO {
+public class ImageAttributesDTO {
 
 	@JsonProperty
 	private int imageWidth;
@@ -95,26 +95,6 @@ public class ImageAttributesDTO implements NormalizeDTO {
 	 */
 	public void setAspectRatioHandle(AspectRatioDTO aspectRatioHandle) {
 		this.aspectRatioHandle = aspectRatioHandle;
-	}
-
-	/**
-	 * Check, whether a filename is given, no image object present and both image
-	 * width and height are set.
-	 * <p>
-	 * In this case build a BufferedImage to the file.
-	 */
-	@Override
-	public void normalize() {
-		// Don't touch a known image
-		if (image != null) {
-			return;
-		}
-		// Check whether a filename is given
-		if ((imageFilename != null) && (!"".equals(imageFilename))) {
-			if ((imageWidth > 0) && (imageHeight > 0)) {
-				image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
-			}
-		}
 	}
 
 }

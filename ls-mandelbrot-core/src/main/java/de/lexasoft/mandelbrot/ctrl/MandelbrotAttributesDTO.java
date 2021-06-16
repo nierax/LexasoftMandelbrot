@@ -19,7 +19,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
  * @author nierax
  *
  */
-public class MandelbrotAttributesDTO implements NormalizeDTO {
+public class MandelbrotAttributesDTO {
 
 	@JsonProperty
 	private CalculationAttributesDTO calculation;
@@ -95,13 +95,6 @@ public class MandelbrotAttributesDTO implements NormalizeDTO {
 	 */
 	public void setImage(ImageAttributesDTO image) {
 		this.image = image;
-	}
-
-	@Override
-	public void normalize() {
-		if (image != null) {
-			image.normalize();
-		}
 	}
 
 }
