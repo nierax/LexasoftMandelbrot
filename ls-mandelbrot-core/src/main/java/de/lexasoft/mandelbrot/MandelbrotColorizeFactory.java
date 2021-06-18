@@ -19,14 +19,11 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  */
 public class MandelbrotColorizeFactory {
 
-	private ColorPaletteFactory cFactory;
-
 	/**
 	 * 
 	 */
 	private MandelbrotColorizeFactory() {
 		super();
-		cFactory = new ColorPaletteFactory();
 	}
 
 	/**
@@ -64,20 +61,12 @@ public class MandelbrotColorizeFactory {
 		case BLACK_WHITE:
 			colorize = new MandelbrotBlackWhite();
 			break;
-		case RAINBOW29:
-			colorize = createAndGradePalette(cFactory.createRainbowPalette29(), colorGrading, mandelbrotColor);
-			break;
-		case RAINBOW7:
-			colorize = createAndGradePalette(cFactory.createRainbowPalette7(), colorGrading, mandelbrotColor);
-			break;
-		case BLUEWHITE:
-			colorize = createAndGradePalette(cFactory.createBlueWhitePalette(), colorGrading, mandelbrotColor);
-			break;
 		case CUSTOM:
 			colorize = createAndGradePalette(colors, colorGrading, mandelbrotColor);
 			break;
 		default:
-			throw new IllegalArgumentException("Did not find a colorize method for variant " + variant);
+			colorize = createAndGradePalette(variant.colorPalette(), colorGrading, mandelbrotColor);
+			break;
 
 		}
 		return colorize;

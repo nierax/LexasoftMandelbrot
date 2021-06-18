@@ -83,7 +83,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 //		if (variant == PaletteVariant.CUSTOM) {
 //			return model.getCustomColorPalette().size();
 //		}
-		return variant.getNrOfColorsUngraded();
+		return variant.nrOfColorsUngraded();
 	}
 
 	/**
