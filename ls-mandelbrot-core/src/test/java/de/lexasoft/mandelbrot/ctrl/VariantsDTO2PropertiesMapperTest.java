@@ -24,14 +24,14 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
 class VariantsDTO2PropertiesMapperTest {
 
 	private VariantsDTO2PropertiesMapper cut;
-	private CalculationPropertiesDTO dtoList;
+	private MandelbrotAttributesDTO dtoList;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		dtoList = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-list.yaml");
+		dtoList = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test-list.yaml");
 		cut = VariantsDTO2PropertiesMapper.of(dtoList);
 	}
 

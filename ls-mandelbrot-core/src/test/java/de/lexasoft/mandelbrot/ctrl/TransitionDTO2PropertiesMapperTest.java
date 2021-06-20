@@ -24,14 +24,14 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
 class TransitionDTO2PropertiesMapperTest {
 
 	private TransitionDTO2PropertiesMapper cut;
-	private CalculationPropertiesDTO dtoTrans;
+	private MandelbrotAttributesDTO dtoTrans;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		dtoTrans = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-0.yaml");
+		dtoTrans = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test-transition-0.yaml");
 		cut = TransitionDTO2PropertiesMapper.of(dtoTrans);
 	}
 

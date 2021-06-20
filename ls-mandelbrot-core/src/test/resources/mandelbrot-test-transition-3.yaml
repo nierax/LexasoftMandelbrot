@@ -1,39 +1,42 @@
 # Used in de.lexasoft.mandelbrot.ctrl.AbstractDTO2PropertiesMapperTest
-topLeft:
- cx: -2.02
- cy: 1.2
-bottomRight:
- cx: 0.7
- cy: -1.2
-maximumIterations: 100
-imageWidth: 459
-imageHeight: 405
-imageFilename: "./junit-tmp/mandelbrot-test-list-01.tiff"
-paletteVariant: "CUSTOM"
-customColorPalette:
-- red: 25
-  green: 140
-  blue: 255
-- red: 255
-  green: 255
-  blue: 255
-colorGrading: 
-  style: LINE
-  colorsTotal: 5 
-mandelbrotColor:
-   red: 0
-   green: 0
-   blue: 0
+calculation:
+  topLeft:
+    cx: -2.02
+    cy: 1.2
+  bottomRight:
+    cx: 0.7
+    cy: -1.2
+  maximumIterations: 100
+image:
+  imageWidth: 459
+  imageHeight: 405
+  imageFilename: "./junit-tmp/mandelbrot-test-list-01.tiff"
+color:
+  paletteVariant: "CUSTOM"
+  customColorPalette:
+  - red: 25
+    green: 140
+    blue: 255
+  - red: 255
+    green: 255
+    blue: 255
+  colorGrading: 
+    style: LINE
+    colorsTotal: 5 
+  mandelbrotColor:
+    red: 0
+    green: 0
+    blue: 0
 # List with next calculations
 following:
-- topLeft:
-     cx: -0.2
-     cy: 0.93
-  bottomRight:
-    cx: -0.02
-    cy: 0.8
-  maximumIterations: 300
+- calculation:
+    topLeft:
+      cx: -0.2
+      cy: 0.93
+    bottomRight:
+      cx: -0.02
+      cy: 0.8
+    maximumIterations: 300
   transition:
     steps: 20
     variant: LINEAR
-  

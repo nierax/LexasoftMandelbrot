@@ -15,23 +15,23 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
  */
 public class VariantsDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
 
-	private VariantsDTO2PropertiesMapper(CalculationPropertiesDTO propsDTO) {
+	private VariantsDTO2PropertiesMapper(MandelbrotAttributesDTO propsDTO) {
 		super(propsDTO);
 	}
 
 	@Override
-	protected void mapFollowingCalculations(List<TransitionPropertiesDTO> followingCalcs,
+	protected void mapFollowingCalculations(List<TransitionAttributesDTO> followingCalcs,
 	    List<MandelbrotCalculationProperties> listOfProps) {
 		MandelbrotCalculationProperties baseProps = listOfProps.get(0);
 		// If there are more calculations given
 		if (followingCalcs != null && !followingCalcs.isEmpty()) {
-			for (CalculationPropertiesDTO calc : followingCalcs) {
+			for (MandelbrotAttributesDTO calc : followingCalcs) {
 				listOfProps.add(mapSingleCalculation(calc, baseProps.cloneValues()));
 			}
 		}
 	}
 
-	public static VariantsDTO2PropertiesMapper of(CalculationPropertiesDTO propsDTO) {
+	public static VariantsDTO2PropertiesMapper of(MandelbrotAttributesDTO propsDTO) {
 		return new VariantsDTO2PropertiesMapper(propsDTO);
 	}
 }
