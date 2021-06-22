@@ -20,7 +20,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 
 /**
  * Integration test for the controller to check the correctness of the
@@ -51,11 +50,9 @@ class MandelbrotControllerTest {
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
-	 * @throws MandelbrotRunnerException
 	 */
 	@Test
-	void testExecuteMultiCalculationOneCalculation()
-	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
+	void testExecuteMultiCalculationOneCalculation() throws JsonParseException, JsonMappingException, IOException {
 		File imageFile = new File(singleCalc.getImage().getImageFilename());
 		if (imageFile.exists()) {
 			imageFile.delete();
@@ -72,11 +69,9 @@ class MandelbrotControllerTest {
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
-	 * @throws MandelbrotRunnerException
 	 */
 	@Test
-	void testExecuteMultiCalculationFollowingCalculation()
-	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
+	void testExecuteMultiCalculationFollowingCalculation() throws JsonParseException, JsonMappingException, IOException {
 		// Get all files in the list and delete them before the test
 		List<File> files = new ArrayList<>();
 		files.add(new File(multiCalc.getImage().getImageFilename()));
