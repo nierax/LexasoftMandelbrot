@@ -1,25 +1,28 @@
-topLeft:
- cx: -2.02
- cy: 1.2
-bottomRight:
- cx: 0.7
- cy: -1.2
-maximumIterations: 50
-imageWidth: 459
-imageHeight: 405
-imageFilename: "./junit-tmp/mandelbrot-ctrl-test.tiff"
-paletteVariant: "CUSTOM"
-customColorPalette:
-- red: 255
-  green: 200
-  blue: 0
-- red: 25
-  green: 140
-  blue: 255
-colorGrading: 
-  style: CIRCLE
-  colorsTotal: 4
-mandelbrotColor:
-   red: 0
-   green: 0
-   blue: 0
+calculation:
+  topLeft:
+    cx: -2.02
+    cy: 1.2
+  bottomRight:
+    cx: 0.7
+    cy: -1.2
+  maximumIterations: 50
+image:
+  imageWidth: 459
+  imageHeight: 405
+  imageFilename: "./junit-tmp/mandelbrot-ctrl-test.tiff"
+color:
+  paletteVariant: "CUSTOM"
+  customColorPalette:
+  - red: 255
+    green: 200
+    blue: 0
+  - red: 25
+    green: 140
+    blue: 255
+  colorGrading: 
+    style: CIRCLE
+    colorsTotal: 4
+  mandelbrotColor:
+    red: 0
+    green: 0
+    blue: 0

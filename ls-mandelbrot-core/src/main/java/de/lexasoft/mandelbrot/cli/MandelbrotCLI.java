@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
-import de.lexasoft.mandelbrot.ctrl.CalculationPropertiesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 
 /**
@@ -26,8 +26,8 @@ public class MandelbrotCLI {
 	private void doRun(String yamlFilename)
 	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
 		System.out.println("Starting to calculate...");
-		CalculationPropertiesDTO propDTO = CalculationPropertiesDTO.of(yamlFilename);
-		MandelbrotController.of(propDTO).flowCalculation();
+		MandelbrotAttributesDTO propDTO = MandelbrotAttributesDTO.of(yamlFilename);
+		MandelbrotController.of().executeMultiCalculation(propDTO);
 		System.out.println("Done.");
 	}
 
