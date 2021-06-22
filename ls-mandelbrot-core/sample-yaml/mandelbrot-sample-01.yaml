@@ -1,27 +1,32 @@
+#Calculation properties
+calculation:
 # Coordinates of the Mandelbrot set
 # Hint: It is possible to omit either one dimension of the calculation or   
 # of the image's width / height in order to get a 1:1 ratio between the 
 # calculation of the image.
-topLeft:
- cx: -2.02
- cy: 1.2
-bottomRight:
- cx: 0.7
- cy: -1.2
+  topLeft:
+    cx: -2.02
+    cy: 1.2
+  bottomRight:
+    cx: 0.7
+    cy: -1.2
 # How many iterations maximal, until the point is considered as a member of the Mandelbrot set.
-maximumIterations: 100
+  maximumIterations: 100
+# Image defining properties
+image:
 # The width of the image in pixel
-imageWidth: 459
+  imageWidth: 459
 # The height of the image in pixel
-imageHeight: 405
+  imageHeight: 405
 # Any file name of the image, You like.
 # Supported file formats are:
 # - jpg
 # - png
 # - tiff
 # Please note, that the directory must exist on the system
-imageFilename: "./images/mandelbrot-sample-rainbow7-100.tiff"
-
+  imageFilename: "./images/mandelbrot-sample-rainbow7-100.tiff"
+#Color defining porperties
+color:
 # Information about the colorization of the image.
 # A color palette can consist of any number of colors, You like. 
 # There are some predefined palettes:
@@ -29,21 +34,20 @@ imageFilename: "./images/mandelbrot-sample-rainbow7-100.tiff"
 # - RAINBOW7 (7 Colors in the order of a rainbow)
 # - RAINBOW29 (29 Colors in the order of a rainbow)
 # - CUSTOM (Custom color palette - see example 2 for this)
-paletteVariant: "RAINBOW7"
+  paletteVariant: "RAINBOW7"
 # Expand the color palette to the given number of colors by calculating
 # a color grading between the colors in the palette.
 # In this example the 7 rainbow colors are extended with one more color 
 # between every palette entry.
-colorGrading: 
-  # LINE: Add transitions between each color, but not between the first and the last one.
-  # To add a transition between the last and the first color use "CIRCLE" 
-  style: LINE
-  # The number is the total number of colors from the original palette and 
-  # the intermediate steps.
-  colorsTotal: 13 
-
+  colorGrading: 
+    # LINE: Add transitions between each color, but not between the first and the last one.
+    # To add a transition between the last and the first color use "CIRCLE" 
+    style: LINE
+    # The number is the total number of colors from the original palette and 
+    # the intermediate steps.
+    colorsTotal: 13 
 # The color of the Mandelbrot set, default is black
-mandelbrotColor:
-  red: 0
-  green: 0
-  blue: 32
+  mandelbrotColor:
+    red: 0
+    green: 0
+    blue: 32
