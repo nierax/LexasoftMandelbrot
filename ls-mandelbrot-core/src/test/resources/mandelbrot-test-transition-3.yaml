@@ -35,7 +35,7 @@ following:
       cy: 0.93
     bottomRight:
       cx: -0.02
-      cy: 0.8
+#      cy: 0.8
     maximumIterations: 300
   transition:
     steps: 20

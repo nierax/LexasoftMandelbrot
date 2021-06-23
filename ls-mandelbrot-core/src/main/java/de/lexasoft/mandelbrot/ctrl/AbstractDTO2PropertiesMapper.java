@@ -59,6 +59,11 @@ public abstract class AbstractDTO2PropertiesMapper {
 		MandelbrotCalculationProperties baseProps = mapSingleCalculation(attribsDTO, MandelbrotCalculationProperties.of());
 		listOfProps.add(baseProps);
 		mapFollowingCalculations(attribsDTO.getFollowing(), listOfProps);
+		// At last: Normalize all properties in list
+		listOfProps.stream().forEach((p) -> {
+			p.normalize();
+		});
+
 		return listOfProps;
 	}
 

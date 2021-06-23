@@ -42,7 +42,7 @@ following:
       cy: 0.93
     bottomRight:
       cx: -0.02
-      cy: 0.8
+#      cy: 0.8
     maximumIterations: 300
   image:
     imageFilename: "./junit-tmp/mandelbrot-test-list-03.tiff"

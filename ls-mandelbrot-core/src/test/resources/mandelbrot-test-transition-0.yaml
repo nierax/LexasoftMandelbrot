@@ -39,4 +39,4 @@ following:
        cy: 0.3
      bottomRight:
        cx: -0.2
-       cy: -0.3
+#       cy: -0.3

@@ -70,7 +70,7 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(-1.72d, props.getTopLeft().cx(), 0.001);
 		assertEquals(0.9d, props.getTopLeft().cy(), 0.001);
 		assertEquals(0.4d, props.getBottomRight().cx(), 0.001);
-		assertEquals(-0.9d, props.getBottomRight().cy(), 0.001);
+		assertEquals(-0.97d, props.getBottomRight().cy(), 0.001);
 		assertEquals(20, props.getMaximumIterations(), 0.001);
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
@@ -89,7 +89,7 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(-1.42d, props.getTopLeft().cx(), 0.001);
 		assertEquals(0.6d, props.getTopLeft().cy(), 0.001);
 		assertEquals(0.1d, props.getBottomRight().cx(), 0.001);
-		assertEquals(-0.6d, props.getBottomRight().cy(), 0.001);
+		assertEquals(-0.741d, props.getBottomRight().cy(), 0.001);
 		assertEquals(30, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
@@ -108,7 +108,7 @@ class TransitionDTO2PropertiesMapperTest {
 		assertEquals(-1.12d, props.getTopLeft().cx());
 		assertEquals(0.3d, props.getTopLeft().cy());
 		assertEquals(-0.2d, props.getBottomRight().cx());
-		assertEquals(-0.3d, props.getBottomRight().cy());
+		assertEquals(-0.5117d, props.getBottomRight().cy(), 0.001);
 		assertEquals(40, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
