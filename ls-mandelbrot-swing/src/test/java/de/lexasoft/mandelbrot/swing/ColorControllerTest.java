@@ -18,8 +18,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
+import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
  * @author nierax
@@ -27,7 +28,7 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  */
 class ColorControllerTest {
 
-	private MandelbrotCalculationProperties model;
+	private MandelbrotAttributesDTO model;
 	private ColorControlPanel view;
 	private ColorController cut;
 	private FocusEvent focusEvent;
@@ -38,11 +39,12 @@ class ColorControllerTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		model = MandelbrotCalculationProperties.ofDefault();
+		model = MandelbrotAttributesDTO.ofDefaults();
 		view = new ColorControlPanel();
 		cut = new ColorController(model, view);
 		focusEvent = new FocusEvent(view, 0);
-		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, model.getColorGrading().getStyle(), ItemEvent.SELECTED);
+		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, model.getColor().getColorGrading().getStyle(),
+		    ItemEvent.SELECTED);
 	}
 
 	/**
@@ -52,9 +54,10 @@ class ColorControllerTest {
 	@Test
 	final void testColorController() {
 		assertNotNull(cut);
-		assertEquals(model.getPaletteVariant(), view.getPaletteVariant().getSelectedItem());
-		assertEquals(model.getColorGrading().getStyle(), view.getColorGradingStyle().getSelectedItem());
-		assertEquals(model.getColorGrading().getColorsTotal(), Integer.parseInt(view.getTotalColors().getText()));
+		ColorAttributesDTO color = model.getColor();
+		assertEquals(color.getPaletteVariant(), view.getPaletteVariant().getSelectedItem());
+		assertEquals(color.getColorGrading().getStyle(), view.getColorGradingStyle().getSelectedItem());
+		assertEquals(color.getColorGrading().getColorsTotal(), Integer.parseInt(view.getTotalColors().getText()));
 		assertEquals("", view.getErrorText().getText());
 	}
 

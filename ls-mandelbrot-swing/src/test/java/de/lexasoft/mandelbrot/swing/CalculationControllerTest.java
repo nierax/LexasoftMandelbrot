@@ -18,7 +18,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 
 /**
@@ -28,7 +29,7 @@ import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 @ExtendWith(MockitoExtension.class)
 class CalculationControllerTest {
 
-	private MandelbrotCalculationProperties model;
+	private MandelbrotAttributesDTO model;
 	@Mock
 	private CalculationPanel view;
 	@Mock
@@ -50,7 +51,7 @@ class CalculationControllerTest {
 	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
-		model = MandelbrotCalculationProperties.ofDefault();
+		model = MandelbrotAttributesDTO.ofDefaults();
 		view = mock(CalculationPanel.class);
 		tlCx = mock(JTextField.class);
 		tlCy = mock(JTextField.class);
@@ -77,15 +78,16 @@ class CalculationControllerTest {
 		// Check the result
 		assertNotNull(cut); // Should never fail
 		// Controller model
-		assertEquals(model.getTopLeft(), cut.topLeft());
-		assertEquals(model.getBottomRight(), cut.bottomRight());
-		assertEquals(model.getMaximumIterations(), cut.maximumIterations());
+		CalculationAttributesDTO calc = model.getCalculation();
+		assertEquals(calc.getTopLeft(), cut.topLeft());
+		assertEquals(calc.getBottomRight(), cut.bottomRight());
+		assertEquals(calc.getMaximumIterations(), cut.maximumIterations());
 		// View initialized?
-		verify(tlCx).setText(Double.toString(model.getTopLeft().cx()));
-		verify(tlCy).setText(Double.toString(model.getTopLeft().cy()));
-		verify(brCx).setText(Double.toString(model.getBottomRight().cx()));
-		verify(brCy).setText(Double.toString(model.getBottomRight().cy()));
-		verify(maxIter).setText(Integer.toString(model.getMaximumIterations()));
+		verify(tlCx).setText(Double.toString(calc.getTopLeft().cx()));
+		verify(tlCy).setText(Double.toString(calc.getTopLeft().cy()));
+		verify(brCx).setText(Double.toString(calc.getBottomRight().cx()));
+		verify(brCy).setText(Double.toString(calc.getBottomRight().cy()));
+		verify(maxIter).setText(Integer.toString(calc.getMaximumIterations()));
 		verify(aspetRatio).setSelectedItem(AspectRatio.FILL);
 	}
 

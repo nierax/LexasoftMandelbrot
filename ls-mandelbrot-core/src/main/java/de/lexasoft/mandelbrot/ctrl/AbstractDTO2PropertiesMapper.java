@@ -29,16 +29,6 @@ public abstract class AbstractDTO2PropertiesMapper {
 	protected abstract void mapFollowingCalculations(List<TransitionAttributesDTO> followingDTO,
 	    List<MandelbrotCalculationProperties> listOfProps);
 
-	private Double mapDoubleFromString(String val) {
-		return ((val == null) || ("".equals(val) || ("auto".equals(val))) ? Double.NaN : Double.parseDouble(val));
-	}
-
-	private MandelbrotPointPosition mapPoint(PointDTO point) {
-		double cx = mapDoubleFromString(point.getCx());
-		double cy = mapDoubleFromString(point.getCy());
-		return MandelbrotPointPosition.of(cx, cy);
-	}
-
 	private List<Color> mapListOfColorDTO2(List<ColorDTO> listOfColorDTO) {
 		List<Color> colors = new ArrayList<>();
 		for (ColorDTO colorDTO : listOfColorDTO) {
@@ -133,10 +123,10 @@ public abstract class AbstractDTO2PropertiesMapper {
 	 */
 	private void mapCalculation(MandelbrotCalculationProperties props, CalculationAttributesDTO calcDTO) {
 		if (calcDTO.getTopLeft() != null) {
-			props.setTopLeft(mapPoint(calcDTO.getTopLeft()));
+			props.setTopLeft(MandelbrotPointPosition.of(calcDTO.getTopLeft()));
 		}
 		if (calcDTO.getBottomRight() != null) {
-			props.setBottomRight(mapPoint(calcDTO.getBottomRight()));
+			props.setBottomRight(MandelbrotPointPosition.of(calcDTO.getBottomRight()));
 		}
 		if (calcDTO.getMaximumIterations() > 0) {
 			props.setMaximumIterations(calcDTO.getMaximumIterations());

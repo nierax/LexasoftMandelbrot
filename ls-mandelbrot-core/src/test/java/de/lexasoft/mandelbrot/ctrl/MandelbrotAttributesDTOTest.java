@@ -47,10 +47,10 @@ class MandelbrotAttributesDTOTest {
 	void testOfSingle() throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotAttributesDTO cut = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-dto-test.yaml");
 		// Calculation
-		assertEquals("-2.02", cut.getCalculation().getTopLeft().getCx());
-		assertEquals("1.2", cut.getCalculation().getTopLeft().getCy());
-		assertEquals("0.7", cut.getCalculation().getBottomRight().getCx());
-		assertEquals("-1.2", cut.getCalculation().getBottomRight().getCy());
+		assertEquals(-2.02, cut.getCalculation().getTopLeft().cx());
+		assertEquals(1.2, cut.getCalculation().getTopLeft().cy());
+		assertEquals(0.7, cut.getCalculation().getBottomRight().cx());
+		assertEquals(-1.2, cut.getCalculation().getBottomRight().cy());
 		assertEquals(500, cut.getCalculation().getMaximumIterations());
 		// Image
 		assertEquals(4590, cut.getImage().getImageWidth());
@@ -98,10 +98,10 @@ class MandelbrotAttributesDTOTest {
 		assertEquals(TransitionVariant.LINEAR, following.get(0).getTransition().variant());
 		// Calculation
 		CalculationAttributesDTO calculation = following.get(0).getCalculation();
-		assertEquals("-1.12", calculation.getTopLeft().getCx());
-		assertEquals("0.3", calculation.getTopLeft().getCy());
-		assertEquals("-0.2", calculation.getBottomRight().getCx());
-		assertEquals("-0.3", calculation.getBottomRight().getCy());
+		assertEquals(-1.12, calculation.getTopLeft().cx());
+		assertEquals(0.3, calculation.getTopLeft().cy());
+		assertEquals(-0.2, calculation.getBottomRight().cx());
+		assertEquals(-0.3, calculation.getBottomRight().cy());
 		// Other attributes not set, should be null
 		assertNull(following.get(0).getColor());
 		assertNull(following.get(0).getImage());

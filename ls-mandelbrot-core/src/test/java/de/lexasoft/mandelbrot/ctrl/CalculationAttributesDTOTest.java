@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+
 /**
  * @author nierax
  *
@@ -30,8 +32,8 @@ class CalculationAttributesDTOTest {
 	final void testOfDefault() {
 		CalculationAttributesDTO cut = CalculationAttributesDTO.ofDefault();
 		assertNotNull(cut);
-		assertEquals(PointDTO.of("-2.02d", "1.2d"), cut.getTopLeft());
-		assertEquals(PointDTO.of("0.8d", "-1.2d"), cut.getBottomRight());
+		assertEquals(MandelbrotPointPosition.of(-2.02d, 1.2d), cut.getTopLeft());
+		assertEquals(MandelbrotPointPosition.of(0.8d, -1.2d), cut.getBottomRight());
 		assertEquals(25, cut.getMaximumIterations());
 	}
 

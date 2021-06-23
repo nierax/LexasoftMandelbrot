@@ -7,8 +7,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 
@@ -40,7 +41,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 * @param initalModel
 	 * @param view
 	 */
-	public CalculationController(MandelbrotCalculationProperties initalModel, CalculationPanel view) {
+	public CalculationController(MandelbrotAttributesDTO initalModel, CalculationPanel view) {
 		initModel(initalModel);
 		this.view = view;
 		initView();
@@ -51,10 +52,11 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 * 
 	 * @param initialModel
 	 */
-	private void initModel(MandelbrotCalculationProperties initialModel) {
-		topLeft = MandelbrotPointPosition.of(initialModel.getTopLeft().cx(), initialModel.getTopLeft().cy());
-		bottomRight = MandelbrotPointPosition.of(initialModel.getBottomRight().cx(), initialModel.getBottomRight().cy());
-		maximumIterations = initialModel.getMaximumIterations();
+	private void initModel(MandelbrotAttributesDTO initialModel) {
+		CalculationAttributesDTO calc = initialModel.getCalculation();
+		topLeft = MandelbrotPointPosition.of(calc.getTopLeft());
+		bottomRight = MandelbrotPointPosition.of(calc.getBottomRight());
+		maximumIterations = calc.getMaximumIterations();
 		aspectRatio = AspectRatio.FILL;
 	}
 

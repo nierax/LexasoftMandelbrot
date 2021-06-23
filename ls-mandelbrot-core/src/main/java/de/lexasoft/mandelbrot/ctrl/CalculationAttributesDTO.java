@@ -5,6 +5,8 @@ package de.lexasoft.mandelbrot.ctrl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+
 /**
  * All attributes, used to define the calculation attributes, such as the area
  * of complex numbers and the maximum numbers of iterations.
@@ -15,37 +17,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CalculationAttributesDTO {
 
 	@JsonProperty
-	private PointDTO topLeft;
+	private MandelbrotPointPosition topLeft;
 	@JsonProperty
-	private PointDTO bottomRight;
+	private MandelbrotPointPosition bottomRight;
 	@JsonProperty
 	private int maximumIterations;
 
 	/**
 	 * @return the topLeft
 	 */
-	public PointDTO getTopLeft() {
+	public MandelbrotPointPosition getTopLeft() {
 		return topLeft;
 	}
 
 	/**
 	 * @param topLeft the topLeft to set
 	 */
-	public void setTopLeft(PointDTO cx) {
+	public void setTopLeft(MandelbrotPointPosition cx) {
 		this.topLeft = cx;
 	}
 
 	/**
 	 * @return the bottomRight
 	 */
-	public PointDTO getBottomRight() {
+	public MandelbrotPointPosition getBottomRight() {
 		return bottomRight;
 	}
 
 	/**
 	 * @param bottomRight the bottomRight to set
 	 */
-	public void setBottomRight(PointDTO cy) {
+	public void setBottomRight(MandelbrotPointPosition cy) {
 		this.bottomRight = cy;
 	}
 
@@ -70,8 +72,8 @@ public class CalculationAttributesDTO {
 	 */
 	public static final CalculationAttributesDTO ofDefault() {
 		CalculationAttributesDTO calc = new CalculationAttributesDTO();
-		calc.topLeft = PointDTO.of("-2.02d", "1.2d");
-		calc.bottomRight = PointDTO.of("0.8d", "-1.2d");
+		calc.topLeft = MandelbrotPointPosition.of(-2.02d, 1.2d);
+		calc.bottomRight = MandelbrotPointPosition.of(0.8d, -1.2d);
 		calc.maximumIterations = 25;
 		return calc;
 	}
