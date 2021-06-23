@@ -97,4 +97,12 @@ public class MandelbrotAttributesDTO {
 		this.image = image;
 	}
 
+	public final static MandelbrotAttributesDTO ofDefaults() {
+		MandelbrotAttributesDTO attribs = new MandelbrotAttributesDTO();
+		attribs.setCalculation(CalculationAttributesDTO.ofDefault());
+		attribs.setImage(ImageAttributesDTO.ofDefault());
+		attribs.setColor(ColorAttributesDTO.ofDefault());
+		return attribs;
+	}
+
 }

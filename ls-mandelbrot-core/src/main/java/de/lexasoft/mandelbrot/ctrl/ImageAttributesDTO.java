@@ -3,9 +3,6 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
-import java.awt.image.BufferedImage;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -22,8 +19,6 @@ public class ImageAttributesDTO {
 	private int imageHeight;
 	@JsonProperty
 	private String imageFilename;
-	@JsonIgnore
-	private BufferedImage image;
 	@JsonProperty
 	private AspectRatioDTO aspectRatioHandle;
 
@@ -70,20 +65,6 @@ public class ImageAttributesDTO {
 	}
 
 	/**
-	 * @return the image
-	 */
-	public BufferedImage getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(BufferedImage image) {
-		this.image = image;
-	}
-
-	/**
 	 * @return the aspectRatioHandle
 	 */
 	public AspectRatioDTO getAspectRatioHandle() {
@@ -95,6 +76,19 @@ public class ImageAttributesDTO {
 	 */
 	public void setAspectRatioHandle(AspectRatioDTO aspectRatioHandle) {
 		this.aspectRatioHandle = aspectRatioHandle;
+	}
+
+	/**
+	 * Creates {@link ImageAttributesDTO} with default values.
+	 * 
+	 * @return
+	 */
+	public final static ImageAttributesDTO ofDefault() {
+		ImageAttributesDTO image = new ImageAttributesDTO();
+		image.setImageWidth(459);
+		image.setImageHeight(405);
+		image.setAspectRatioHandle(AspectRatioDTO.FILL);
+		return image;
 	}
 
 }

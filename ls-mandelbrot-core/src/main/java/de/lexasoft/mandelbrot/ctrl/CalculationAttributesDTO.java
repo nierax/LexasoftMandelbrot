@@ -63,4 +63,16 @@ public class CalculationAttributesDTO {
 		this.maximumIterations = maximumIterations;
 	}
 
+	/**
+	 * Create {@link CalculationAttributesDTO} with default values.
+	 * 
+	 * @return
+	 */
+	public static final CalculationAttributesDTO ofDefault() {
+		CalculationAttributesDTO calc = new CalculationAttributesDTO();
+		calc.topLeft = PointDTO.of("-2.02d", "1.2d");
+		calc.bottomRight = PointDTO.of("0.8d", "-1.2d");
+		calc.maximumIterations = 25;
+		return calc;
+	}
 }

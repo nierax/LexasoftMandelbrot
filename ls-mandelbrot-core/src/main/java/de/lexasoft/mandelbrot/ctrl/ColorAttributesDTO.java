@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
@@ -84,4 +85,11 @@ public class ColorAttributesDTO {
 		this.mandelbrotColor = mandelbrotColor;
 	}
 
+	public final static ColorAttributesDTO ofDefault() {
+		ColorAttributesDTO color = new ColorAttributesDTO();
+		color.setPaletteVariant(PaletteVariant.BLUEWHITE);
+		color.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
+		color.setMandelbrotColor(ColorDTO.of(0, 0, 0));
+		return color;
+	}
 }

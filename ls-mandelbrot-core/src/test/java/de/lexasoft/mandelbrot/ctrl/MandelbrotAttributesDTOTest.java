@@ -56,7 +56,6 @@ class MandelbrotAttributesDTOTest {
 		assertEquals(4590, cut.getImage().getImageWidth());
 		assertEquals(4050, cut.getImage().getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImage().getImageFilename());
-		assertNull(cut.getImage().getImage()); // Image not read from Yaml
 		assertEquals(AspectRatioDTO.FILL, cut.getImage().getAspectRatioHandle());
 
 		// Color
@@ -106,6 +105,20 @@ class MandelbrotAttributesDTOTest {
 		// Other attributes not set, should be null
 		assertNull(following.get(0).getColor());
 		assertNull(following.get(0).getImage());
+	}
+
+	/**
+	 * Does the ofDefault() method create all sub objects?
+	 */
+	@Test
+	void testOfDefaults() {
+		MandelbrotAttributesDTO cut = MandelbrotAttributesDTO.ofDefaults();
+		assertNotNull(cut);
+		assertNotNull(cut.getCalculation());
+		assertNotNull(cut.getImage());
+		assertNotNull(cut.getColor());
+		// Following should not be used by default.
+		assertNull(cut.getFollowing());
 	}
 
 }
