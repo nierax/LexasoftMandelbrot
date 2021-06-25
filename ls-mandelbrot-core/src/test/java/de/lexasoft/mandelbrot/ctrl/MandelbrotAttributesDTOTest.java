@@ -57,7 +57,7 @@ class MandelbrotAttributesDTOTest {
 		assertEquals(4590, cut.getImage().getImageWidth());
 		assertEquals(4050, cut.getImage().getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImage().getImageFilename());
-		assertEquals(AspectRatio.FILL, cut.getImage().getAspectRatioHandle());
+		assertEquals(AspectRatio.FITIN, cut.getImage().getAspectRatioHandle());
 
 		// Color
 		assertSame(PaletteVariant.CUSTOM, cut.getColor().getPaletteVariant());

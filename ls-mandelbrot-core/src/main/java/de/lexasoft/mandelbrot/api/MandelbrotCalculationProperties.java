@@ -199,6 +199,71 @@ public class MandelbrotCalculationProperties {
 		return count;
 	}
 
+	private void assertAllParametersGiven() {
+		assertCalculationCompletelyGiven();
+		assertWidthAndHeightGiven();
+	}
+
+	/**
+	 * 
+	 */
+	private void assertCalculationCompletelyGiven() {
+		String msg = "Not all parameters given. %s missing.";
+		if (Double.isNaN(topLeft.cx())) {
+			throw new IllegalArgumentException(String.format(msg, "topLeft.cx"));
+		}
+		if (Double.isNaN(topLeft.cy())) {
+			throw new IllegalArgumentException(String.format(msg, "topLeft.cy"));
+		}
+		if (Double.isNaN(bottomRight.cx())) {
+			throw new IllegalArgumentException(String.format(msg, "bottomRight.cx"));
+		}
+		if (Double.isNaN(bottomRight.cy())) {
+			throw new IllegalArgumentException(String.format(msg, "bottomRight.cy"));
+		}
+	}
+
+	private void assertWidthAndHeightGiven() {
+		String msg = "Image width and height must be given. %s missing.";
+		if (imageWidth == 0) {
+			throw new IllegalArgumentException(String.format(msg, "imageWidth"));
+		}
+		if (imageHeight == 0) {
+			throw new IllegalArgumentException(String.format(msg, "imageHeight"));
+		}
+	}
+
+	private void assertWidthOrHeightGiven() {
+		if ((imageHeight == 0) && (imageWidth == 0)) {
+			throw new IllegalArgumentException("Either image height oder image width must be given");
+		}
+	}
+
+	public void handleAspectRatio(AspectRatio aspectRatio) {
+		switch (aspectRatio) {
+		case IGNORE:
+			assertAllParametersGiven();
+			// Nothing more to do here, just calculate as provided
+			return;
+		case FOLLOW_IMAGE:
+			assertWidthAndHeightGiven();
+			if (countNaN() == 0) {
+				bottomRight.setCy(Double.NaN);
+			}
+			calculateAspectRatioForCalculation();
+			return;
+		case FOLLOW_CALCULATION:
+			assertCalculationCompletelyGiven();
+			assertWidthOrHeightGiven();
+			if ((imageWidth > 0) && (imageHeight > 0)) {
+				imageHeight = 0;
+			}
+			calculateAspectRatioForImage();
+		default:
+			break;
+		}
+	}
+
 	/**
 	 * Calculates the properties, that are not given such as aspect ratio.
 	 */

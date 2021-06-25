@@ -36,7 +36,7 @@ class ImageAttributesDTOTest {
 		assertEquals(459, cut.getImageWidth());
 		assertEquals(405, cut.getImageHeight());
 		assertNull(cut.getImageFilename());
-		assertEquals(AspectRatio.FILL, cut.getAspectRatioHandle());
+		assertEquals(AspectRatio.FITIN, cut.getAspectRatioHandle());
 	}
 
 }

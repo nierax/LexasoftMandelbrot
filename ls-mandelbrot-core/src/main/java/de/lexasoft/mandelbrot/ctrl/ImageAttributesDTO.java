@@ -89,7 +89,7 @@ public class ImageAttributesDTO {
 		ImageAttributesDTO image = new ImageAttributesDTO();
 		image.setImageWidth(459);
 		image.setImageHeight(405);
-		image.setAspectRatioHandle(AspectRatio.FILL);
+		image.setAspectRatioHandle(AspectRatio.FITIN);
 		return image;
 	}
 

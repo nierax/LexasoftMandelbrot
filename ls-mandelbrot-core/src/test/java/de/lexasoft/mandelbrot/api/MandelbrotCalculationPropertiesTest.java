@@ -168,6 +168,87 @@ class MandelbrotCalculationPropertiesTest {
 		});
 	}
 
+	private static Stream<Arguments> testAspectRatioError() {
+		return Stream.of(
+		    // Single parameters not given
+		    Arguments.of(point(Double.NaN, 1.2), point(0.7, -1.2), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(-2.02, Double.NaN), point(0.7, -1.2), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(-2.02, 1.2), point(Double.NaN, -1.2), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, Double.NaN), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 0, AspectRatio.IGNORE),
+		    // Several parameters not given
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 0, AspectRatio.IGNORE),
+		    Arguments.of(point(Double.NaN, 1.2), point(Double.NaN, -1.2), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(Double.NaN, Double.NaN), point(0.7, -1.2), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(Double.NaN, Double.NaN), point(Double.NaN, -1.2), 459, 405, AspectRatio.IGNORE),
+		    Arguments.of(point(Double.NaN, Double.NaN), point(Double.NaN, Double.NaN), 459, 405, AspectRatio.IGNORE),
+		    // Follow image: Allowed to omit one calculation parameter.
+		    Arguments.of(point(Double.NaN, Double.NaN), point(0.7, -1.2), 459, 405, AspectRatio.FOLLOW_IMAGE),
+		    Arguments.of(point(-2.02, 1.2), point(Double.NaN, Double.NaN), 459, 405, AspectRatio.FOLLOW_IMAGE),
+		    Arguments.of(point(-2.02, Double.NaN), point(Double.NaN, -1.2), 459, 405, AspectRatio.FOLLOW_IMAGE),
+		    // Follow image: Both image and height must be given
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 405, AspectRatio.FOLLOW_IMAGE),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 0, AspectRatio.FOLLOW_IMAGE),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 0, AspectRatio.FOLLOW_IMAGE),
+		    // Follow calculation: All calculation parameters must be given.
+		    Arguments.of(point(Double.NaN, 1.2), point(0.7, -1.2), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    Arguments.of(point(-2.02, 1.2), point(Double.NaN, -1.2), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    Arguments.of(point(-2.02, Double.NaN), point(0.7, -1.2), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -Double.NaN), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    Arguments.of(point(Double.NaN, Double.NaN), point(0.7, -1.2), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    Arguments.of(point(-2.02, 1.2), point(Double.NaN, Double.NaN), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    Arguments.of(point(-2.02, Double.NaN), point(Double.NaN, -1.2), 459, 405, AspectRatio.FOLLOW_CALCULATION),
+		    // Follow image: One parameter image width or height must be given
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 0, AspectRatio.FOLLOW_CALCULATION));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	void testAspectRatioError(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight, int imageWidth,
+	    int imageHeight, AspectRatio ar) {
+		cut.setTopLeft(topLeft);
+		cut.setBottomRight(bottomRight);
+		cut.setImageWidth(imageWidth);
+		cut.setImageHeight(imageHeight);
+		assertThrows(IllegalArgumentException.class, () -> {
+			cut.handleAspectRatio(ar);
+		});
+	}
+
+	private final static Stream<Arguments> testAspectRatio() {
+		return Stream.of(
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 405, AspectRatio.IGNORE, point(-2.02, 1.2),
+		        point(0.7, -1.2), 459, 405),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 459, AspectRatio.FOLLOW_IMAGE, point(-2.02, 1.2),
+		        point(0.7, -1.52), 459, 459),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 300, AspectRatio.FOLLOW_IMAGE, point(-2.02, 1.2),
+		        point(0.7, -0.5777777), 459, 300),
+		    Arguments.of(point(Double.NaN, 1.2), point(0.7, -1.2), 459, 459, AspectRatio.FOLLOW_IMAGE, point(-1.7, 1.2),
+		        point(0.7, -1.2), 459, 459),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 459, AspectRatio.FOLLOW_CALCULATION, point(-2.02, 1.2),
+		        point(0.7, -1.2), 459, 405));
+
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	final void testAspectRatio(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight, int imageWidth,
+	    int imageHeight, AspectRatio ar, MandelbrotPointPosition expTL, MandelbrotPointPosition expBR, int expWidth,
+	    int expHeight) {
+		cut.setTopLeft(topLeft);
+		cut.setBottomRight(bottomRight);
+		cut.setImageWidth(imageWidth);
+		cut.setImageHeight(imageHeight);
+		cut.handleAspectRatio(ar);
+		assertEquals(expTL.cx(), cut.getTopLeft().cx(), 0.0001);
+		assertEquals(expTL.cy(), cut.getTopLeft().cy(), 0.0001);
+		assertEquals(expBR.cx(), cut.getBottomRight().cx(), 0.0001);
+		assertEquals(expBR.cy(), cut.getBottomRight().cy(), 0.0001);
+		assertEquals(expWidth, cut.getImageWidth());
+		assertEquals(expHeight, cut.getImageHeight());
+	}
+
 	/**
 	 * Copy should include new objects, but same values.
 	 */
@@ -276,6 +357,9 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(expected, changedFilename);
 	}
 
+	/**
+	 * Does ofDefault() produce the right values?
+	 */
 	@Test
 	void testOfDefault() {
 		MandelbrotCalculationProperties cut = MandelbrotCalculationProperties.ofDefault();
