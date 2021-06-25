@@ -1,15 +1,16 @@
 calculation:
   topLeft:
-    cx: -2.02
-    cy: 1.2
+   cx: -2.02
+   cy: 1.2
   bottomRight:
-    cx: 0.7
-    cy: -1.2
-  maximumIterations: 50
+   cx: 0.7
+   cy: -1.2
+  maximumIterations: 500
 image:
   imageWidth: 4590
   imageHeight: 4050
-  imageFilename: "./junit-tmp/mandelbrot-general-100.tiff"
+  imageFilename: "./junit-tmp/mandelbrot-test.tiff"
+  aspectRatioHandle: FILL
 color:
   paletteVariant: "CUSTOM"
   customColorPalette:
@@ -23,6 +24,6 @@ color:
     style: LINE
     colorsTotal: 5 
   mandelbrotColor:
-    red: 0
-    green: 0
-    blue: 64
+     red: 0
+     green: 0
+     blue: 0

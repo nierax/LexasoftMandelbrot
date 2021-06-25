@@ -8,9 +8,10 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.api.ValidationAPI;
+import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
@@ -31,16 +32,17 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	/**
 	 * 
 	 */
-	public ColorController(MandelbrotCalculationProperties initialModel, ColorControlPanel view) {
+	public ColorController(MandelbrotAttributesDTO initialModel, ColorControlPanel view) {
 		initModel(initialModel);
 		this.view = view;
 		initView();
 	}
 
-	void initModel(MandelbrotCalculationProperties initialModel) {
-		this.paletteVariant = initialModel.getPaletteVariant();
-		this.colorGradingStyle = initialModel.getColorGrading().getStyle();
-		this.totalNrOfColors = initialModel.getColorGrading().getColorsTotal();
+	void initModel(MandelbrotAttributesDTO initialModel) {
+		ColorAttributesDTO color = initialModel.getColor();
+		this.paletteVariant = color.getPaletteVariant();
+		this.colorGradingStyle = color.getColorGrading().getStyle();
+		this.totalNrOfColors = color.getColorGrading().getColorsTotal();
 	}
 
 	/**
@@ -83,7 +85,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 //		if (variant == PaletteVariant.CUSTOM) {
 //			return model.getCustomColorPalette().size();
 //		}
-		return variant.getNrOfColorsUngraded();
+		return variant.nrOfColorsUngraded();
 	}
 
 	/**

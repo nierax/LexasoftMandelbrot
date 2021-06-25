@@ -8,10 +8,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import de.lexasoft.mandelbrot.api.TransitionVariant;
 
 /**
+ * Contains the attributes to control transitions.
+ * 
  * @author nierax
  *
  */
-public class TransitionPropertiesDTO extends CalculationPropertiesDTO {
+public class TransitionAttributesDTO extends MandelbrotAttributesDTO {
 
 	class TransitionDTO {
 		public TransitionDTO() {

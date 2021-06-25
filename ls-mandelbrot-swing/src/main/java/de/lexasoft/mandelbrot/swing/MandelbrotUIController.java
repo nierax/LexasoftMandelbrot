@@ -3,7 +3,7 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
  * Controller for Mandelbrot Swing application according the MVC pattern.
@@ -14,9 +14,9 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
  * @author nierax
  *
  */
-public class MandelbrotController {
+public class MandelbrotUIController {
 
-	private MandelbrotCalculationProperties model;
+	private MandelbrotAttributesDTO model;
 	private MandelbrotSwingView view;
 	private ColorController colorController;
 	private MandelbrotImageController imageController;
@@ -25,7 +25,7 @@ public class MandelbrotController {
 	/**
 	 * 
 	 */
-	public MandelbrotController(MandelbrotCalculationProperties model, MandelbrotSwingView view) {
+	public MandelbrotUIController(MandelbrotAttributesDTO model, MandelbrotSwingView view) {
 		this.model = model;
 		this.view = view;
 		this.colorController = new ColorController(this.model, this.view.getColorControlPanel());

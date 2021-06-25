@@ -23,4 +23,12 @@ public class ColorDTO {
 	public Color getColor() {
 		return new Color(red, green, blue);
 	}
+
+	public static final ColorDTO of(int red, int green, int blue) {
+		ColorDTO color = new ColorDTO();
+		color.red = red;
+		color.green = green;
+		color.blue = blue;
+		return color;
+	}
 }

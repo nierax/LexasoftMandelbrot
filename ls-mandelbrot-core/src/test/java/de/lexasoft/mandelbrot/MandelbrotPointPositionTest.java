@@ -4,10 +4,13 @@
 package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -68,6 +71,16 @@ class MandelbrotPointPositionTest {
 		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
 		MandelbrotPointPosition other = MandelbrotPointPosition.of(otherCx, otherCy);
 		assertEquals(cut.equals(other), expected);
+	}
+
+	@Test
+	void testOfCopy() {
+		MandelbrotPointPosition source = MandelbrotPointPosition.of(1.0, 1.5);
+		MandelbrotPointPosition other = MandelbrotPointPosition.of(source);
+		assertNotNull(other);
+		assertNotSame(source, other);
+		assertEquals(1.0, other.cx());
+		assertEquals(1.5, other.cy());
 	}
 
 }

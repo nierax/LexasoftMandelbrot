@@ -23,9 +23,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
+import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -37,7 +38,7 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 @ExtendWith(MockitoExtension.class)
 class MandelbrotImageControllerTest {
 
-	private MandelbrotCalculationProperties model;
+	private MandelbrotAttributesDTO model;
 	private MandelbrotImageController cut;
 	@Mock
 	private ImagePanel view;
@@ -54,7 +55,7 @@ class MandelbrotImageControllerTest {
 	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
-		model = MandelbrotCalculationProperties.ofDefault();
+		model = MandelbrotAttributesDTO.ofDefaults();
 		view = mock(ImagePanel.class);
 		calcModel = mock(CalculationControllerModel.class);
 		cut = new MandelbrotImageController(model, view);
@@ -137,9 +138,10 @@ class MandelbrotImageControllerTest {
 		cut.colorModelChanged(colorEvent);
 
 		// Check
-		assertEquals(nrOfC, model.getColorGrading().getColorsTotal());
-		assertEquals(style, model.getColorGrading().getStyle());
-		assertEquals(variant, model.getPaletteVariant());
+		ColorAttributesDTO color = model.getColor();
+		assertEquals(nrOfC, color.getColorGrading().getColorsTotal());
+		assertEquals(style, color.getColorGrading().getStyle());
+		assertEquals(variant, color.getPaletteVariant());
 	}
 
 	private CalculationControllerModel createCalculationControllerModel(MandelbrotPointPosition tl,
@@ -180,8 +182,7 @@ class MandelbrotImageControllerTest {
 	}
 
 	private static Stream<Arguments> testCalculationModelChanged() {
-		return Stream.of(
-		    Arguments.of(point(1, -1), point(0.5, -0.5), AspectRatio.FILL, 25, point(0.5, -1.4411764705882353)),
+		return Stream.of(Arguments.of(point(1, -1), point(0.5, -0.5), AspectRatio.FILL, 25, point(0.5, Double.NaN)),
 		    Arguments.of(point(1.2, 0), point(0.8, -0.5), AspectRatio.IGNORE, 50, point(0.8, -0.5)));
 	}
 
@@ -200,9 +201,9 @@ class MandelbrotImageControllerTest {
 		cut.calculationModelChanged(calcEvent);
 
 		// Check
-		assertEquals(tl, model.getTopLeft());
-		assertEquals(expBr, model.getBottomRight());
-		assertEquals(maxIter, model.getMaximumIterations());
+		assertEquals(tl, model.getCalculation().getTopLeft());
+		assertEquals(expBr, model.getCalculation().getBottomRight());
+		assertEquals(maxIter, model.getCalculation().getMaximumIterations());
 	}
 
 }

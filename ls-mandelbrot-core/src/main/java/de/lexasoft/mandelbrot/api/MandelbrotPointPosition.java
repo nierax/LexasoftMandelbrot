@@ -47,6 +47,10 @@ public class MandelbrotPointPosition {
 		return new MandelbrotPointPosition(cx, cy);
 	}
 
+	public static final MandelbrotPointPosition of(MandelbrotPointPosition other) {
+		return of(other.cx, other.cy);
+	}
+
 	public double cx() {
 		return cx;
 	}

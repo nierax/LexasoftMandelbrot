@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.MandelbrotImage;
-
 /**
  * @author nierax
  *
@@ -21,7 +19,6 @@ public class MandelbrotCalculationProperties {
 	private int imageWidth;
 	private int imageHeight;
 	private String imageFilename;
-	private MandelbrotImage image;
 	private PaletteVariant paletteVariant;
 	private List<Color> customColorPalette;
 	private MandelbrotColorGrading colorGrading;
@@ -97,20 +94,6 @@ public class MandelbrotCalculationProperties {
 
 	public void setImageFilename(String imageFilename) {
 		this.imageFilename = imageFilename;
-	}
-
-	/**
-	 * @return the image
-	 */
-	public MandelbrotImage getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(MandelbrotImage image) {
-		this.image = image;
 	}
 
 	/**

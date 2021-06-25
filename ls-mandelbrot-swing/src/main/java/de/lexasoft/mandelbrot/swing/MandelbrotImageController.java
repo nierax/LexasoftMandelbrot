@@ -9,10 +9,10 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.api.MandelbrotRunner;
-import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -27,17 +27,17 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 public class MandelbrotImageController {
 
 	private ImagePanel view;
-	private MandelbrotCalculationProperties model;
+	private MandelbrotAttributesDTO model;
 	private CalculationControllerModel calcModel;
 
-	public MandelbrotImageController(MandelbrotCalculationProperties model, ImagePanel view) {
+	public MandelbrotImageController(MandelbrotAttributesDTO model, ImagePanel view) {
 		this.view = view;
 		this.model = model;
 		initView();
 	}
 
 	public void initView() {
-		this.view.setPreferredSize(new Dimension(model.getImageWidth(), model.getImageHeight()));
+		this.view.setPreferredSize(new Dimension(model.getImage().getImageWidth(), model.getImage().getImageHeight()));
 	}
 
 	public void initController(CalculationControllerModel calcModel) {
@@ -66,29 +66,28 @@ public class MandelbrotImageController {
 		});
 	}
 
+	/**
+	 * Calculate with current model.
+	 * 
+	 * @return
+	 */
 	BufferedImage calculate() {
-		try {
-			handleAspectRatio(getCalcModel().aspectRatio());
-			model.setImage(MandelbrotImage.of(model.getImageWidth(), model.getImageHeight()));
-			MandelbrotRunner.of(model).run();
-			return model.getImage().getImage();
-		} catch (MandelbrotRunnerException e) {
-			throw new IllegalArgumentException("Something went wrong", e);
-		}
-
+		handleAspectRatio(getCalcModel().aspectRatio());
+		MandelbrotImage image = MandelbrotController.of().executeSingleCalculation(model);
+		return image.getImage();
 	}
 
 	private void assignColorCM(ColorControllerModel colorCM) {
-		model.setPaletteVariant(colorCM.paletteVariant());
-		model.getColorGrading().setStyle(colorCM.gradingStyle());
-		model.getColorGrading().setColorsTotal(colorCM.totalNrOfColors());
+		model.getColor().setPaletteVariant(colorCM.paletteVariant());
+		model.getColor().getColorGrading().setStyle(colorCM.gradingStyle());
+		model.getColor().getColorGrading().setColorsTotal(colorCM.totalNrOfColors());
 	}
 
 	/**
 	 * Has to be called, when the underlying color controller model has changed.
 	 * <p>
 	 * To ensure a lightweight message communication, the link is set within the
-	 * {@link MandelbrotController} with a lambda expression.
+	 * {@link MandelbrotUIController} with a lambda expression.
 	 * 
 	 * @param event The event connected with the change.
 	 */
@@ -98,10 +97,8 @@ public class MandelbrotImageController {
 	}
 
 	private void assignDimensions(CalculationControllerModel calcCM) {
-		model.getTopLeft().setCx(calcCM.topLeft().cx());
-		model.getTopLeft().setCy(calcCM.topLeft().cy());
-		model.getBottomRight().setCx(calcCM.bottomRight().cx());
-		model.getBottomRight().setCy(calcCM.bottomRight().cy());
+		model.getCalculation().setTopLeft(calcCM.topLeft());
+		model.getCalculation().setBottomRight(calcCM.bottomRight());
 	}
 
 	private void handleAspectRatio(AspectRatio ar) {
@@ -109,8 +106,8 @@ public class MandelbrotImageController {
 		int height = view.getHeight();
 		switch (ar) {
 		case IGNORE:
-			model.setImageWidth(width);
-			model.setImageHeight(height);
+			model.getImage().setImageWidth(width);
+			model.getImage().setImageHeight(height);
 			return;
 		case FILL:
 			// Use height and width as calculated above
@@ -119,15 +116,15 @@ public class MandelbrotImageController {
 			height = (int) Math.round(width / ar.getRatioX2Y());
 			break;
 		}
-		model.setImageWidth(width);
-		model.setImageHeight(height);
-		model.setBottomRight(MandelbrotPointPosition.of(model.getBottomRight().cx(), Double.NaN));
-		model.normalize();
+		model.getImage().setImageWidth(width);
+		model.getImage().setImageHeight(height);
+		CalculationAttributesDTO calc = model.getCalculation();
+		calc.setBottomRight(MandelbrotPointPosition.of(calc.getBottomRight().cx(), Double.NaN));
 	}
 
 	private void assignCalculationCM(CalculationControllerModel calcCM) {
 		assignDimensions(calcCM);
-		model.setMaximumIterations(calcCM.maximumIterations());
+		model.getCalculation().setMaximumIterations(calcCM.maximumIterations());
 	}
 
 	/**
@@ -135,7 +132,7 @@ public class MandelbrotImageController {
 	 * changed.
 	 * <p>
 	 * To ensure a lightweight message communication, the link is set within the
-	 * {@link MandelbrotController} with a lambda expression.
+	 * {@link MandelbrotUIController} with a lambda expression.
 	 * 
 	 * @param event The event connected with the change.
 	 */

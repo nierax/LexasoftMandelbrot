@@ -3,6 +3,8 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -60,6 +62,28 @@ public class MandelbrotColorGrading {
 
 	public static MandelbrotColorGrading of(ColorGradingStyle style, int colorsTotal) {
 		return new MandelbrotColorGrading(style, colorsTotal);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(colorsTotal, style);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MandelbrotColorGrading other = (MandelbrotColorGrading) obj;
+		return colorsTotal == other.colorsTotal && style == other.style;
+	}
+
+	@Override
+	public String toString() {
+		return "MandelbrotColorGrading [style=" + style + ", colorsTotal=" + colorsTotal + "]";
 	}
 
 }

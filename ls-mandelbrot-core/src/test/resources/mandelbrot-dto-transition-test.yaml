@@ -24,6 +24,19 @@ color:
     style: LINE
     colorsTotal: 5 
   mandelbrotColor:
-    red: 0
-    green: 0
-    blue: 0
+     red: 0
+     green: 0
+     blue: 0
+following:
+-  transition: 
+     steps: 2
+     variant: LINEAR
+   calculation:
+     # Change 0.9 in 3 steps: 0.3 per step
+     topLeft:
+       cx: -1.12
+       cy: 0.3
+     bottomRight:
+       cx: -0.2
+       cy: -0.3
+     maximumIterations: 40

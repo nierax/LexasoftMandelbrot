@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
@@ -18,10 +18,10 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
  * @author nierax
  *
  */
-class MandelbrotControllerTest {
+class MandelbrotUIControllerTest {
 
-	private MandelbrotController cut;
-	private MandelbrotCalculationProperties model;
+	private MandelbrotUIController cut;
+	private MandelbrotAttributesDTO model;
 	private MandelbrotSwingView view;
 
 	/**
@@ -29,9 +29,9 @@ class MandelbrotControllerTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		model = MandelbrotCalculationProperties.ofDefault();
+		model = MandelbrotAttributesDTO.ofDefaults();
 		view = new MandelbrotSwingView();
-		cut = new MandelbrotController(model, view);
+		cut = new MandelbrotUIController(model, view);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class MandelbrotControllerTest {
 	 * this controller and is very important for the application to work correctly.
 	 * <p>
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.swing.MandelbrotController#initController()}.
+	 * {@link de.lexasoft.mandelbrot.swing.MandelbrotUIController#initController()}.
 	 */
 	@Test
 	final void testInitController() {
