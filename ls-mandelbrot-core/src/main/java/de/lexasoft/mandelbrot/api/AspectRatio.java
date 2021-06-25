@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.lexasoft.mandelbrot.ctrl;
+package de.lexasoft.mandelbrot.api;
 
 /**
  * Controls how to react on different aspect ratios between the given
@@ -10,7 +10,7 @@ package de.lexasoft.mandelbrot.ctrl;
  * @author nierax
  *
  */
-public enum AspectRatioDTO {
+public enum AspectRatio {
 
 	/**
 	 * Ignore aspect ratio, the image might be stretched or compressed
