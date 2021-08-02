@@ -239,6 +239,28 @@ public class MandelbrotCalculationProperties {
 		}
 	}
 
+	private void calculateAspectRatioFitIn() {
+		double widthCalc0 = Math.abs(bottomRight.cx() - topLeft.cx());
+		double heightCalc0 = Math.abs(topLeft.cy() - bottomRight.cy());
+		double aspectRatioImage = (double) imageWidth / (double) imageHeight;
+		double aspectRatioCalc = widthCalc0 / heightCalc0;
+		int relation = Double.compare(aspectRatioImage, aspectRatioCalc);
+		// aspect ratio of image and calculation are identical
+		if (relation == 0) {
+			// Nothing to do here
+			return;
+		}
+		if (relation > 0) {
+			double widthCalc1 = heightCalc0 * aspectRatioImage;
+			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
+			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
+		} else {
+			double heightCalc1 = widthCalc0 * aspectRatioImage;
+			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
+			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
+		}
+	}
+
 	public void handleAspectRatio(AspectRatio aspectRatio) {
 		switch (aspectRatio) {
 		case IGNORE:
@@ -259,6 +281,10 @@ public class MandelbrotCalculationProperties {
 				imageHeight = 0;
 			}
 			calculateAspectRatioForImage();
+			return;
+		case FITIN:
+			assertAllParametersGiven();
+			calculateAspectRatioFitIn();
 		default:
 			break;
 		}

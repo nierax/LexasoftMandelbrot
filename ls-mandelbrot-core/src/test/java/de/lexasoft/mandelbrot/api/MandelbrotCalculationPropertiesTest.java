@@ -177,6 +177,7 @@ class MandelbrotCalculationPropertiesTest {
 		    Arguments.of(point(-2.02, 1.2), point(0.7, Double.NaN), 459, 405, AspectRatio.IGNORE),
 		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 405, AspectRatio.IGNORE),
 		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 0, AspectRatio.IGNORE),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 0, AspectRatio.FITIN),
 		    // Several parameters not given
 		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 0, 0, AspectRatio.IGNORE),
 		    Arguments.of(point(Double.NaN, 1.2), point(Double.NaN, -1.2), 459, 405, AspectRatio.IGNORE),
@@ -227,8 +228,13 @@ class MandelbrotCalculationPropertiesTest {
 		    Arguments.of(point(Double.NaN, 1.2), point(0.7, -1.2), 459, 459, AspectRatio.FOLLOW_IMAGE, point(-1.7, 1.2),
 		        point(0.7, -1.2), 459, 459),
 		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 459, AspectRatio.FOLLOW_CALCULATION, point(-2.02, 1.2),
-		        point(0.7, -1.2), 459, 405));
-
+		        point(0.7, -1.2), 459, 405),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 405, AspectRatio.FITIN, point(-2.02, 1.2),
+		        point(0.7, -1.2), 459, 405),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 720, 405, AspectRatio.FITIN, point(-2.7933, 1.2),
+		        point(1.4733, -1.2), 720, 405),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 459, AspectRatio.FITIN, point(-2.02, 1.36),
+		        point(0.7, -1.36), 459, 459));
 	}
 
 	@ParameterizedTest
