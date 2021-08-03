@@ -5,7 +5,7 @@ package de.lexasoft.mandelbrot.ctrl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import de.lexasoft.mandelbrot.api.AspectRatio;
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 
 /**
  * All attributes, describing the image and its properties.
@@ -22,7 +22,7 @@ public class ImageAttributesDTO {
 	@JsonProperty
 	private String imageFilename;
 	@JsonProperty
-	private AspectRatio aspectRatioHandle;
+	private AspectRatioHandle aspectRatioHandle;
 
 	/**
 	 * @return the imageWidth
@@ -69,14 +69,14 @@ public class ImageAttributesDTO {
 	/**
 	 * @return the aspectRatioHandle
 	 */
-	public AspectRatio getAspectRatioHandle() {
+	public AspectRatioHandle getAspectRatioHandle() {
 		return aspectRatioHandle;
 	}
 
 	/**
 	 * @param aspectRatioHandle the aspectRatioHandle to set
 	 */
-	public void setAspectRatioHandle(AspectRatio aspectRatioHandle) {
+	public void setAspectRatioHandle(AspectRatioHandle aspectRatioHandle) {
 		this.aspectRatioHandle = aspectRatioHandle;
 	}
 
@@ -89,7 +89,7 @@ public class ImageAttributesDTO {
 		ImageAttributesDTO image = new ImageAttributesDTO();
 		image.setImageWidth(459);
 		image.setImageHeight(405);
-		image.setAspectRatioHandle(AspectRatio.FITIN);
+		image.setAspectRatioHandle(AspectRatioHandle.FITIN);
 		return image;
 	}
 

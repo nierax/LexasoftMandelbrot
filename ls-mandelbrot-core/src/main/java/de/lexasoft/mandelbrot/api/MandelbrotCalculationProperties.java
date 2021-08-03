@@ -23,6 +23,7 @@ public class MandelbrotCalculationProperties {
 	private List<Color> customColorPalette;
 	private MandelbrotColorGrading colorGrading;
 	private Color mandelbrotColor;
+	private AspectRatioHandle aspectRatioHandle;
 
 	public MandelbrotPointPosition getTopLeft() {
 		return topLeft;
@@ -97,6 +98,20 @@ public class MandelbrotCalculationProperties {
 	}
 
 	/**
+	 * @return the aspectRatioHandle
+	 */
+	public AspectRatioHandle getAspectRatio() {
+		return aspectRatioHandle;
+	}
+
+	/**
+	 * @param aspectRatioHandle the aspectRatioHandle to set
+	 */
+	public void setAspectRatio(AspectRatioHandle aspectRatioHandle) {
+		this.aspectRatioHandle = aspectRatioHandle;
+	}
+
+	/**
 	 * The index will be added, divided by "_" before the file type in the filename.
 	 * It is filled up with "0" to the length of nrOfDigits digits. If the index has
 	 * more than nrOfDigits digits, the index will be added in its original length.
@@ -124,21 +139,6 @@ public class MandelbrotCalculationProperties {
 
 	private double difference(double v0, double v1) {
 		return Math.abs(v0 - v1);
-	}
-
-	/**
-	 * Determine aspect ratio from either calculation to image or the other way
-	 * round.
-	 */
-	private void calculateAspectRatio() {
-		if ((imageHeight == 0) && (imageWidth == 0)) {
-			throw new IllegalArgumentException("Either image height oder image width must be given");
-		}
-		if ((imageHeight > 0) && (imageWidth > 0)) {
-			calculateAspectRatioForCalculation();
-			return;
-		}
-		calculateAspectRatioForImage();
 	}
 
 	private void calculateAspectRatioForImage() {
@@ -239,6 +239,9 @@ public class MandelbrotCalculationProperties {
 		}
 	}
 
+	/**
+	 * Handle the aspect ratio fit in strategy.
+	 */
 	private void calculateAspectRatioFitIn() {
 		double widthCalc0 = Math.abs(bottomRight.cx() - topLeft.cx());
 		double heightCalc0 = Math.abs(topLeft.cy() - bottomRight.cy());
@@ -250,19 +253,26 @@ public class MandelbrotCalculationProperties {
 			// Nothing to do here
 			return;
 		}
+		// aspect ratio of image is wider than aspect ratio of calculation
 		if (relation > 0) {
 			double widthCalc1 = heightCalc0 * aspectRatioImage;
 			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
 			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
 		} else {
+			// aspect ratio of image is higher than aspect ratio of calculation
 			double heightCalc1 = widthCalc0 * aspectRatioImage;
 			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
 			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
 		}
 	}
 
-	public void handleAspectRatio(AspectRatio aspectRatio) {
-		switch (aspectRatio) {
+	/**
+	 * Control aspect ratio correction, depending on the aspect ratio handle.
+	 * 
+	 * @param aspectRatioHandle
+	 */
+	void handleAspectRatio(AspectRatioHandle aspectRatioHandle) {
+		switch (aspectRatioHandle) {
 		case IGNORE:
 			assertAllParametersGiven();
 			// Nothing more to do here, just calculate as provided
@@ -294,7 +304,7 @@ public class MandelbrotCalculationProperties {
 	 * Calculates the properties, that are not given such as aspect ratio.
 	 */
 	public void normalize() {
-		calculateAspectRatio();
+		handleAspectRatio(aspectRatioHandle);
 	}
 
 	/**

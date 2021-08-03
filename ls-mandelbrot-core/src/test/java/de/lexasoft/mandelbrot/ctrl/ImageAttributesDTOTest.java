@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import de.lexasoft.mandelbrot.api.AspectRatio;
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 
 /**
  * @author admin
@@ -36,7 +36,7 @@ class ImageAttributesDTOTest {
 		assertEquals(459, cut.getImageWidth());
 		assertEquals(405, cut.getImageHeight());
 		assertNull(cut.getImageFilename());
-		assertEquals(AspectRatio.FITIN, cut.getAspectRatioHandle());
+		assertEquals(AspectRatioHandle.FITIN, cut.getAspectRatioHandle());
 	}
 
 }

@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.api.AspectRatio;
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.api.TransitionVariant;
@@ -57,7 +57,7 @@ class MandelbrotAttributesDTOTest {
 		assertEquals(4590, cut.getImage().getImageWidth());
 		assertEquals(4050, cut.getImage().getImageHeight());
 		assertEquals("./junit-tmp/mandelbrot-test.tiff", cut.getImage().getImageFilename());
-		assertEquals(AspectRatio.FITIN, cut.getImage().getAspectRatioHandle());
+		assertEquals(AspectRatioHandle.FITIN, cut.getImage().getAspectRatioHandle());
 
 		// Color
 		assertSame(PaletteVariant.CUSTOM, cut.getColor().getPaletteVariant());

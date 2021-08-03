@@ -10,7 +10,7 @@ package de.lexasoft.mandelbrot.api;
  * @author nierax
  *
  */
-public enum AspectRatio {
+public enum AspectRatioHandle {
 
 	/**
 	 * Ignore aspect ratio, the image might be stretched or compressed
@@ -49,7 +49,7 @@ public enum AspectRatio {
 	/**
 	 * @param message
 	 */
-	private AspectRatio(String message) {
+	private AspectRatioHandle(String message) {
 		this.message = message;
 	}
 
