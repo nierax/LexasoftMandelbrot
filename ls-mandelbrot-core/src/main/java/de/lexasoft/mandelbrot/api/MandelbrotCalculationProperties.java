@@ -326,6 +326,7 @@ public class MandelbrotCalculationProperties {
 		newProps.setImageWidth(imageWidth);
 		newProps.setImageHeight(imageHeight);
 		newProps.setImageFilename(imageFilename);
+		newProps.setAspectRatio(aspectRatioHandle);
 		newProps.setPaletteVariant(paletteVariant);
 		if (customColorPalette != null) {
 			newProps.setCustomColorPalette(new ArrayList<>());

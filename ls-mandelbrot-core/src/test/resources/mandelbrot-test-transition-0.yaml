@@ -11,6 +11,7 @@ image:
   imageWidth: 459
   imageHeight: 405
   imageFilename: "./junit-tmp/mandelbrot-ctrl-trans-test-01.tiff"
+  aspectRatioHandle: FOLLOW_IMAGE
 color:
   paletteVariant: "CUSTOM"
   customColorPalette:
