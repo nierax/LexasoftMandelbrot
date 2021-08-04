@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -55,6 +56,7 @@ class VariantsDTO2PropertiesMapperTest {
 		assertEquals(100, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());
+		assertEquals(AspectRatioHandle.IGNORE, props.getAspectRatio());
 		assertEquals("./junit-tmp/mandelbrot-test-list-01.tiff", props.getImageFilename());
 		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
 		assertEquals(2, props.getCustomColorPalette().size());
@@ -74,6 +76,7 @@ class VariantsDTO2PropertiesMapperTest {
 		assertEquals(500, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());
+		assertEquals(AspectRatioHandle.IGNORE, props.getAspectRatio());
 		assertEquals("./junit-tmp/mandelbrot-test-list-02.tiff", props.getImageFilename());
 		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
 		assertEquals(2, props.getCustomColorPalette().size());
@@ -93,6 +96,7 @@ class VariantsDTO2PropertiesMapperTest {
 		assertEquals(300, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());
+		assertEquals(AspectRatioHandle.IGNORE, props.getAspectRatio());
 		assertEquals("./junit-tmp/mandelbrot-test-list-03.tiff", props.getImageFilename());
 		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
 		assertEquals(2, props.getCustomColorPalette().size());

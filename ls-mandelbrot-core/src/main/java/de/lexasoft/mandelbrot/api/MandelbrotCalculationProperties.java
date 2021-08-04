@@ -98,9 +98,14 @@ public class MandelbrotCalculationProperties {
 	}
 
 	/**
+	 * Default value is {@link AspectRatioHandle#FITIN}
+	 * 
 	 * @return the aspectRatioHandle
 	 */
 	public AspectRatioHandle getAspectRatio() {
+		if (aspectRatioHandle == null) {
+			aspectRatioHandle = AspectRatioHandle.FITIN;
+		}
 		return aspectRatioHandle;
 	}
 
@@ -304,7 +309,7 @@ public class MandelbrotCalculationProperties {
 	 * Calculates the properties, that are not given such as aspect ratio.
 	 */
 	public void normalize() {
-		handleAspectRatio(aspectRatioHandle);
+		handleAspectRatio(getAspectRatio());
 	}
 
 	/**
@@ -326,7 +331,7 @@ public class MandelbrotCalculationProperties {
 		newProps.setImageWidth(imageWidth);
 		newProps.setImageHeight(imageHeight);
 		newProps.setImageFilename(imageFilename);
-		newProps.setAspectRatio(aspectRatioHandle);
+		newProps.setAspectRatio(getAspectRatio());
 		newProps.setPaletteVariant(paletteVariant);
 		if (customColorPalette != null) {
 			newProps.setCustomColorPalette(new ArrayList<>());
@@ -357,6 +362,7 @@ public class MandelbrotCalculationProperties {
 		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
 		props.setImageHeight(405);
 		props.setImageWidth(459);
+		props.setAspectRatio(AspectRatioHandle.FITIN);
 		props.setMaximumIterations(25);
 		return props;
 	}

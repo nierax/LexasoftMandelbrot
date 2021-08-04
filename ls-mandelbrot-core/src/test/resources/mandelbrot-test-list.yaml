@@ -10,6 +10,7 @@ image:
   imageWidth: 4590
   imageHeight: 4050
   imageFilename: "./junit-tmp/mandelbrot-test-list-01.tiff"
+  aspectRatioHandle: IGNORE
 color:
   paletteVariant: "CUSTOM"
   customColorPalette:
@@ -32,6 +33,7 @@ following:
     maximumIterations: 500
   image:
     imageFilename: "./junit-tmp/mandelbrot-test-list-02.tiff"
+#    aspectRatioHandle: IGNORE 
 - calculation: 
     topLeft:
       cx: -0.2
@@ -42,4 +44,5 @@ following:
     maximumIterations: 300
   image: 
     imageFilename: "./junit-tmp/mandelbrot-test-list-03.tiff"
-  
+#    aspectRatioHandle: IGNORE
+ 

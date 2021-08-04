@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
@@ -116,8 +115,10 @@ public abstract class AbstractDTO2PropertiesMapper {
 		if (imageDTO.getImageFilename() != null && !"".equals(imageDTO.getImageFilename())) {
 			props.setImageFilename(imageDTO.getImageFilename());
 		}
-		AspectRatioHandle arHandle = imageDTO.getAspectRatioHandle();
-		props.setAspectRatio((arHandle == null) ? AspectRatioHandle.FITIN : imageDTO.getAspectRatioHandle());
+		if (imageDTO.getAspectRatioHandle() != null) {
+			props.setAspectRatio(imageDTO.getAspectRatioHandle());
+		}
+
 	}
 
 	/**
