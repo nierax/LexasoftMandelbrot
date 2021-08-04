@@ -9,6 +9,7 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
@@ -108,6 +109,7 @@ public class MandelbrotImageController {
 		case IGNORE:
 			model.getImage().setImageWidth(width);
 			model.getImage().setImageHeight(height);
+			model.getImage().setAspectRatioHandle(AspectRatioHandle.IGNORE);
 			return;
 		case FILL:
 			// Use height and width as calculated above
@@ -118,6 +120,7 @@ public class MandelbrotImageController {
 		}
 		model.getImage().setImageWidth(width);
 		model.getImage().setImageHeight(height);
+		model.getImage().setAspectRatioHandle(AspectRatioHandle.FOLLOW_IMAGE);
 		CalculationAttributesDTO calc = model.getCalculation();
 		calc.setBottomRight(MandelbrotPointPosition.of(calc.getBottomRight().cx(), Double.NaN));
 	}
