@@ -115,6 +115,10 @@ public abstract class AbstractDTO2PropertiesMapper {
 		if (imageDTO.getImageFilename() != null && !"".equals(imageDTO.getImageFilename())) {
 			props.setImageFilename(imageDTO.getImageFilename());
 		}
+		if (imageDTO.getAspectRatioHandle() != null) {
+			props.setAspectRatio(imageDTO.getAspectRatioHandle());
+		}
+
 	}
 
 	/**
