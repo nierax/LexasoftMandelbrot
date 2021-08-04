@@ -182,7 +182,7 @@ class MandelbrotImageControllerTest {
 	}
 
 	private static Stream<Arguments> testCalculationModelChanged() {
-		return Stream.of(Arguments.of(point(1, -1), point(0.5, -0.5), AspectRatio.FILL, 25, point(0.5, Double.NaN)),
+		return Stream.of(Arguments.of(point(1, -1), point(0.5, -0.5), AspectRatio.FILL, 25, point(0.5, -0.5)),
 		    Arguments.of(point(1.2, 0), point(0.8, -0.5), AspectRatio.IGNORE, 50, point(0.8, -0.5)));
 	}
 
