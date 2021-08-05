@@ -121,6 +121,6 @@ class MandelbrotControllerTest {
 		assertNotNull(image);
 		// Check dimensions of the image. We can't check more here
 		assertEquals(459, image.getImage().getWidth());
-		assertEquals(405, image.getImage().getHeight());
+		assertEquals(800, image.getImage().getHeight());
 	}
 }

@@ -265,7 +265,7 @@ public class MandelbrotCalculationProperties {
 			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
 		} else {
 			// aspect ratio of image is higher than aspect ratio of calculation
-			double heightCalc1 = widthCalc0 * aspectRatioImage;
+			double heightCalc1 = widthCalc0 / aspectRatioImage;
 			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
 			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
 		}
