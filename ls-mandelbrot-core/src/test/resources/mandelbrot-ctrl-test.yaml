@@ -8,7 +8,7 @@ calculation:
   maximumIterations: 50
 image:
   imageWidth: 459
-  imageHeight: 405
+  imageHeight: 800
   imageFilename: "./junit-tmp/mandelbrot-ctrl-test.tiff"
 color:
   paletteVariant: "CUSTOM"

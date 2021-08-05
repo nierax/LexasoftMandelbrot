@@ -238,7 +238,9 @@ class MandelbrotCalculationPropertiesTest {
 		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 720, 405, AspectRatioHandle.FITIN, point(-2.7933, 1.2),
 		        point(1.4733, -1.2), 720, 405),
 		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 459, AspectRatioHandle.FITIN, point(-2.02, 1.36),
-		        point(0.7, -1.36), 459, 459));
+		        point(0.7, -1.36), 459, 459),
+		    Arguments.of(point(-2.02, 1.2), point(0.7, -1.2), 459, 800, AspectRatioHandle.FITIN, point(-2.02, 2.3704),
+		        point(0.7, -2.3704), 459, 800));
 	}
 
 	@ParameterizedTest
