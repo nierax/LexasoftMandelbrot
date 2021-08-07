@@ -47,6 +47,10 @@ public class MandelbrotPointPosition {
 		return new MandelbrotPointPosition(cx, cy);
 	}
 
+	public static final MandelbrotPointPosition of(MandelbrotPointPosition other) {
+		return of(other.cx, other.cy);
+	}
+
 	public double cx() {
 		return cx;
 	}
@@ -85,6 +89,11 @@ public class MandelbrotPointPosition {
 		}
 		MandelbrotPointPosition other = (MandelbrotPointPosition) obj;
 		return ((Double.compare(cx, other.cx) == 0) && (Double.compare(cy, other.cy) == 0));
+	}
+
+	@Override
+	public String toString() {
+		return "[cx=" + cx + ", cy=" + cy + "]";
 	}
 
 }

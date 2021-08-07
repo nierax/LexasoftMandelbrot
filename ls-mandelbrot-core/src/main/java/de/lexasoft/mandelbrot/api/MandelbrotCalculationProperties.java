@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.lexasoft.mandelbrot.MandelbrotImage;
-
 /**
  * @author nierax
  *
@@ -21,11 +19,11 @@ public class MandelbrotCalculationProperties {
 	private int imageWidth;
 	private int imageHeight;
 	private String imageFilename;
-	private MandelbrotImage image;
 	private PaletteVariant paletteVariant;
 	private List<Color> customColorPalette;
 	private MandelbrotColorGrading colorGrading;
 	private Color mandelbrotColor;
+	private AspectRatioHandle aspectRatioHandle;
 
 	public MandelbrotPointPosition getTopLeft() {
 		return topLeft;
@@ -100,17 +98,22 @@ public class MandelbrotCalculationProperties {
 	}
 
 	/**
-	 * @return the image
+	 * Default value is {@link AspectRatioHandle#FITIN}
+	 * 
+	 * @return the aspectRatioHandle
 	 */
-	public MandelbrotImage getImage() {
-		return image;
+	public AspectRatioHandle getAspectRatio() {
+		if (aspectRatioHandle == null) {
+			aspectRatioHandle = AspectRatioHandle.FITIN;
+		}
+		return aspectRatioHandle;
 	}
 
 	/**
-	 * @param image the image to set
+	 * @param aspectRatioHandle the aspectRatioHandle to set
 	 */
-	public void setImage(MandelbrotImage image) {
-		this.image = image;
+	public void setAspectRatio(AspectRatioHandle aspectRatioHandle) {
+		this.aspectRatioHandle = aspectRatioHandle;
 	}
 
 	/**
@@ -141,21 +144,6 @@ public class MandelbrotCalculationProperties {
 
 	private double difference(double v0, double v1) {
 		return Math.abs(v0 - v1);
-	}
-
-	/**
-	 * Determine aspect ratio from either calculation to image or the other way
-	 * round.
-	 */
-	private void calculateAspectRatio() {
-		if ((imageHeight == 0) && (imageWidth == 0)) {
-			throw new IllegalArgumentException("Either image height oder image width must be given");
-		}
-		if ((imageHeight > 0) && (imageWidth > 0)) {
-			calculateAspectRatioForCalculation();
-			return;
-		}
-		calculateAspectRatioForImage();
 	}
 
 	private void calculateAspectRatioForImage() {
@@ -216,11 +204,112 @@ public class MandelbrotCalculationProperties {
 		return count;
 	}
 
+	private void assertAllParametersGiven() {
+		assertCalculationCompletelyGiven();
+		assertWidthAndHeightGiven();
+	}
+
+	/**
+	 * 
+	 */
+	private void assertCalculationCompletelyGiven() {
+		String msg = "Not all parameters given. %s missing.";
+		if (Double.isNaN(topLeft.cx())) {
+			throw new IllegalArgumentException(String.format(msg, "topLeft.cx"));
+		}
+		if (Double.isNaN(topLeft.cy())) {
+			throw new IllegalArgumentException(String.format(msg, "topLeft.cy"));
+		}
+		if (Double.isNaN(bottomRight.cx())) {
+			throw new IllegalArgumentException(String.format(msg, "bottomRight.cx"));
+		}
+		if (Double.isNaN(bottomRight.cy())) {
+			throw new IllegalArgumentException(String.format(msg, "bottomRight.cy"));
+		}
+	}
+
+	private void assertWidthAndHeightGiven() {
+		String msg = "Image width and height must be given. %s missing.";
+		if (imageWidth == 0) {
+			throw new IllegalArgumentException(String.format(msg, "imageWidth"));
+		}
+		if (imageHeight == 0) {
+			throw new IllegalArgumentException(String.format(msg, "imageHeight"));
+		}
+	}
+
+	private void assertWidthOrHeightGiven() {
+		if ((imageHeight == 0) && (imageWidth == 0)) {
+			throw new IllegalArgumentException("Either image height oder image width must be given");
+		}
+	}
+
+	/**
+	 * Handle the aspect ratio fit in strategy.
+	 */
+	private void calculateAspectRatioFitIn() {
+		double widthCalc0 = Math.abs(bottomRight.cx() - topLeft.cx());
+		double heightCalc0 = Math.abs(topLeft.cy() - bottomRight.cy());
+		double aspectRatioImage = (double) imageWidth / (double) imageHeight;
+		double aspectRatioCalc = widthCalc0 / heightCalc0;
+		int relation = Double.compare(aspectRatioImage, aspectRatioCalc);
+		// aspect ratio of image and calculation are identical
+		if (relation == 0) {
+			// Nothing to do here
+			return;
+		}
+		// aspect ratio of image is wider than aspect ratio of calculation
+		if (relation > 0) {
+			double widthCalc1 = heightCalc0 * aspectRatioImage;
+			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
+			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
+		} else {
+			// aspect ratio of image is higher than aspect ratio of calculation
+			double heightCalc1 = widthCalc0 / aspectRatioImage;
+			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
+			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
+		}
+	}
+
+	/**
+	 * Control aspect ratio correction, depending on the aspect ratio handle.
+	 * 
+	 * @param aspectRatioHandle
+	 */
+	void handleAspectRatio(AspectRatioHandle aspectRatioHandle) {
+		switch (aspectRatioHandle) {
+		case IGNORE:
+			assertAllParametersGiven();
+			// Nothing more to do here, just calculate as provided
+			return;
+		case FOLLOW_IMAGE:
+			assertWidthAndHeightGiven();
+			if (countNaN() == 0) {
+				bottomRight.setCy(Double.NaN);
+			}
+			calculateAspectRatioForCalculation();
+			return;
+		case FOLLOW_CALCULATION:
+			assertCalculationCompletelyGiven();
+			assertWidthOrHeightGiven();
+			if ((imageWidth > 0) && (imageHeight > 0)) {
+				imageHeight = 0;
+			}
+			calculateAspectRatioForImage();
+			return;
+		case FITIN:
+			assertAllParametersGiven();
+			calculateAspectRatioFitIn();
+		default:
+			break;
+		}
+	}
+
 	/**
 	 * Calculates the properties, that are not given such as aspect ratio.
 	 */
 	public void normalize() {
-		calculateAspectRatio();
+		handleAspectRatio(getAspectRatio());
 	}
 
 	/**
@@ -242,6 +331,7 @@ public class MandelbrotCalculationProperties {
 		newProps.setImageWidth(imageWidth);
 		newProps.setImageHeight(imageHeight);
 		newProps.setImageFilename(imageFilename);
+		newProps.setAspectRatio(getAspectRatio());
 		newProps.setPaletteVariant(paletteVariant);
 		if (customColorPalette != null) {
 			newProps.setCustomColorPalette(new ArrayList<>());
@@ -272,6 +362,7 @@ public class MandelbrotCalculationProperties {
 		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
 		props.setImageHeight(405);
 		props.setImageWidth(459);
+		props.setAspectRatio(AspectRatioHandle.FITIN);
 		props.setMaximumIterations(25);
 		return props;
 	}

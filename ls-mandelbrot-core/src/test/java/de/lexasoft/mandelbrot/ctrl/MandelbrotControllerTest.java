@@ -3,6 +3,9 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -16,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
+import de.lexasoft.mandelbrot.MandelbrotImage;
 
 /**
  * Integration test for the controller to check the correctness of the
@@ -27,62 +30,97 @@ import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
 class MandelbrotControllerTest {
 
 	private MandelbrotController cut;
+	private MandelbrotAttributesDTO singleCalc;
+	private MandelbrotAttributesDTO multiCalc;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
+		singleCalc = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-ctrl-test.yaml");
+		multiCalc = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-ctrl-list-test.yaml");
+		cut = MandelbrotController.of();
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.ctrl.MandelbrotController#flowCalculation()}.
+	 * {@link de.lexasoft.mandelbrot.ctrl.MandelbrotController#executeSingleCalculation()}.
 	 * 
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
-	 * @throws MandelbrotRunnerException
 	 */
 	@Test
-	void testFlowCalculationOneCalculation()
-	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
-		CalculationPropertiesDTO propsDTO = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-ctrl-test.yaml");
-		File imageFile = new File(propsDTO.getImageFilename());
+	void testExecuteMultiCalculationOneCalculation() throws JsonParseException, JsonMappingException, IOException {
+		File imageFile = new File(singleCalc.getImage().getImageFilename());
 		if (imageFile.exists()) {
 			imageFile.delete();
 		}
-		cut = MandelbrotController.of(propsDTO);
-		cut.flowCalculation();
+		cut.executeMultiCalculation(singleCalc);
 
 		assertTrue(imageFile.exists());
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.ctrl.MandelbrotController#flowCalculation()}.
+	 * {@link de.lexasoft.mandelbrot.ctrl.MandelbrotController#executeSingleCalculation()}.
 	 * 
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
-	 * @throws MandelbrotRunnerException
 	 */
 	@Test
-	void testFlowCalculationFollowingCalculation()
-	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
-		CalculationPropertiesDTO propsDTO = CalculationPropertiesDTO
-		    .of("src/test/resources/mandelbrot-ctrl-list-test.yaml");
+	void testExecuteMultiCalculationFollowingCalculation() throws JsonParseException, JsonMappingException, IOException {
 		// Get all files in the list and delete them before the test
 		List<File> files = new ArrayList<>();
-		files.add(new File(propsDTO.getImageFilename()));
-		propsDTO.getFollowing().stream().forEach((p) -> files.add(new File(p.getImageFilename())));
+		files.add(new File(multiCalc.getImage().getImageFilename()));
+		multiCalc.getFollowing().stream().forEach((p) -> files.add(new File(p.getImage().getImageFilename())));
 		files.stream().forEach((f) -> f.delete());
 
-		cut = MandelbrotController.of(propsDTO);
-		cut.flowCalculation();
+		cut.executeMultiCalculation(multiCalc);
 
 		// Check, whether all files exists
 		files.stream().forEach((f) -> assertTrue(f.exists()));
 	}
 
+	/**
+	 * The method
+	 * {@link MandelbrotController#executeMultiCalculation(MandelbrotAttributesDTO)}
+	 * needs a file name with every single calculation. Otherwise a
+	 * {@link MandelbrotControllerException} is thrown
+	 */
+	@Test
+	void testExecuteMultiCalculationNoFilenameBasisCalculation() {
+		multiCalc.getImage().setImageFilename(null);
+		assertThrows(MandelbrotControllerException.class, () -> {
+			cut.executeMultiCalculation(multiCalc);
+		});
+	}
+
+	/**
+	 * When the method
+	 * {@link MandelbrotController#executeSingleCalculation(MandelbrotAttributesDTO)}
+	 * is called with a multiple calculation set, an exception is expected.
+	 */
+	@Test
+	void testExecuteSingleCalculationWithMultiCalc() {
+		assertThrows(MandelbrotControllerException.class, () -> {
+			cut.executeSingleCalculation(multiCalc);
+		});
+	}
+
+	/**
+	 * The method
+	 * {@link MandelbrotController#executeSingleCalculation(MandelbrotAttributesDTO)}
+	 * must deliver an image with the calculation in it.
+	 */
+	@Test
+	void testExecuteSingleCalculationWithSingleCalc() {
+		MandelbrotImage image = cut.executeSingleCalculation(singleCalc);
+		assertNotNull(image);
+		// Check dimensions of the image. We can't check more here
+		assertEquals(459, image.getImage().getWidth());
+		assertEquals(800, image.getImage().getHeight());
+	}
 }

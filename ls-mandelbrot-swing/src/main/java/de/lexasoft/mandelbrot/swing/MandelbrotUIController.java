@@ -3,7 +3,7 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
  * Controller for Mandelbrot Swing application according the MVC pattern.
@@ -14,20 +14,22 @@ import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
  * @author nierax
  *
  */
-public class MandelbrotController {
+public class MandelbrotUIController {
 
-	private MandelbrotCalculationProperties model;
+	private MandelbrotAttributesDTO model;
 	private MandelbrotSwingView view;
 	private ColorController colorController;
 	private MandelbrotImageController imageController;
+	private CalculationController calculationController;
 
 	/**
 	 * 
 	 */
-	public MandelbrotController(MandelbrotCalculationProperties model, MandelbrotSwingView view) {
+	public MandelbrotUIController(MandelbrotAttributesDTO model, MandelbrotSwingView view) {
 		this.model = model;
 		this.view = view;
 		this.colorController = new ColorController(this.model, this.view.getColorControlPanel());
+		this.calculationController = new CalculationController(model, this.view.getCalculationPanel());
 		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
 		initView();
 	}
@@ -42,9 +44,11 @@ public class MandelbrotController {
 	 * Registers the listeners to promote changes of the attributes.
 	 */
 	public void initController() {
-		colorController.addModelChangedListener(imageController);
+		colorController.addModelChangedListener(e -> imageController.colorModelChanged(e));
 		colorController.initController();
-		imageController.initController();
+		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
+		calculationController.initController();
+		imageController.initController(calculationController);
 	}
 
 	/**
@@ -59,6 +63,10 @@ public class MandelbrotController {
 	 */
 	MandelbrotImageController getImageController() {
 		return imageController;
+	}
+
+	CalculationController getCalculationController() {
+		return calculationController;
 	}
 
 }

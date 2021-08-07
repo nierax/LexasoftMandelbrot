@@ -1,26 +1,35 @@
-topLeft:
- cx: -2.02
- cy: 1.2
-bottomRight:
- cx: 0.7
- cy: -1.2
-maximumIterations: 20
-imageWidth: 459
-imageHeight: 405
-imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-020.tiff"
-paletteVariant: "BLUEWHITE"
-colorGrading: 
-  style: LINE
-  colorsTotal: 5 
-mandelbrotColor:
-   red: 0
-   green: 0
-   blue: 0
+calculation:
+  topLeft:
+    cx: -2.02
+    cy: 1.2
+  bottomRight:
+    cx: 0.7
+    cy: -1.2
+  maximumIterations: 20
+image:
+  imageWidth: 459
+  imageHeight: 405
+  imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-020.tiff"
+color:
+  paletteVariant: "BLUEWHITE"
+  colorGrading: 
+    style: LINE
+    colorsTotal: 5 
+  mandelbrotColor:
+    red: 0
+    green: 0
+    blue: 0
 following:
--  maximumIterations: 30
-   imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-030.tiff"
--  maximumIterations: 50
-   imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-050.tiff"
--  maximumIterations: 100
-   imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-100.tiff"
+- calculation:
+    maximumIterations: 30
+  image:
+    imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-030.tiff"
+- calculation:
+    maximumIterations: 50
+  image:
+    imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-050.tiff"
+- calculation:
+    maximumIterations: 100
+  image: 
+    imageFilename: "./junit-tmp/mandelbrot-ctrl-list-test-100.tiff"
    

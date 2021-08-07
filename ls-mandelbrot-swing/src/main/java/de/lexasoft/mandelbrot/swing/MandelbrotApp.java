@@ -5,7 +5,7 @@ package de.lexasoft.mandelbrot.swing;
 
 import java.awt.EventQueue;
 
-import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
  * The app, starting the Mandelbrot Swing Application
@@ -25,9 +25,9 @@ public class MandelbrotApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MandelbrotCalculationProperties model = MandelbrotCalculationProperties.ofDefault();
+					MandelbrotAttributesDTO model = MandelbrotAttributesDTO.ofDefaults();
 					MandelbrotSwingView view = new MandelbrotSwingView();
-					MandelbrotController ctrl = new MandelbrotController(model, view);
+					MandelbrotUIController ctrl = new MandelbrotUIController(model, view);
 					ctrl.initController();
 					view.getFrmLexasoftMandelbrotApplication().setVisible(true);
 				} catch (Exception e) {

@@ -1,6 +1,7 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
@@ -24,7 +25,7 @@ public class ImagePanel extends JPanel {
 	 * Create the panel with the background color white.
 	 */
 	public ImagePanel() {
-		this(Color.WHITE);
+		this(Color.LIGHT_GRAY);
 	}
 
 	/**
@@ -34,6 +35,7 @@ public class ImagePanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (image != null) {
+			setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
 			g.drawImage(image, 0, 0, this);
 		} else {
 			g.drawString("No image", getWidth() / 2, getHeight() / 2);
