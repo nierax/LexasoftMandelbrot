@@ -32,6 +32,20 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	// The view, being connected to.
 	private CalculationPanel view;
 
+	class CalculationFocusListener implements FocusListener {
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			// Nothing to do here.
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			calculate();
+		}
+
+	}
+
 	/**
 	 * Create the controller with the given objects.
 	 * <p>
@@ -89,6 +103,10 @@ public class CalculationController extends ModelChangingController<CalculationCo
 			}
 		});
 		this.view.getAspectRatio().addItemListener(e -> handleAspectRatio(e));
+		this.view.getTlcx().addFocusListener(new CalculationFocusListener());
+		this.view.getTlcy().addFocusListener(new CalculationFocusListener());
+		this.view.getBrcx().addFocusListener(new CalculationFocusListener());
+		this.view.getBrcy().addFocusListener(new CalculationFocusListener());
 	}
 
 	private void doHandleMaximumIterations(int maximumIterations) {
@@ -110,6 +128,14 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 */
 	void fireModelChanged() {
 		fireModelChangedEvent(new ModelChangedEvent<CalculationControllerModel>(this, this));
+	}
+
+	public void calculate() {
+		topLeft.setCx(Double.parseDouble(view.getTlcx().getText()));
+		topLeft.setCy(Double.parseDouble(view.getTlcy().getText()));
+		bottomRight.setCx(Double.parseDouble(view.getBrcx().getText()));
+		bottomRight.setCy(Double.parseDouble(view.getBrcy().getText()));
+		fireModelChanged();
 	}
 
 	@Override

@@ -29,9 +29,9 @@ public class CalculationPanel extends JPanel {
 		setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblNewLabel = new JLabel("Calculation");
@@ -134,7 +134,7 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_7.gridx = 1;
-		gbc_lblNewLabel_7.gridy = 5;
+		gbc_lblNewLabel_7.gridy = 7;
 		add(lblNewLabel_7, gbc_lblNewLabel_7);
 
 		aspectRatio = new JComboBox();
@@ -143,7 +143,7 @@ public class CalculationPanel extends JPanel {
 		gbc_aspectRatio.insets = new Insets(0, 0, 5, 0);
 		gbc_aspectRatio.fill = GridBagConstraints.HORIZONTAL;
 		gbc_aspectRatio.gridx = 3;
-		gbc_aspectRatio.gridy = 5;
+		gbc_aspectRatio.gridy = 7;
 		add(aspectRatio, gbc_aspectRatio);
 
 		JLabel lblNewLabel_5 = new JLabel("Max. iterations");
@@ -152,14 +152,14 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 0, 5);
 		gbc_lblNewLabel_5.gridx = 1;
-		gbc_lblNewLabel_5.gridy = 6;
+		gbc_lblNewLabel_5.gridy = 8;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 
 		maxIter = new JTextField();
 		GridBagConstraints gbc_maxIter = new GridBagConstraints();
 		gbc_maxIter.fill = GridBagConstraints.HORIZONTAL;
 		gbc_maxIter.gridx = 3;
-		gbc_maxIter.gridy = 6;
+		gbc_maxIter.gridy = 8;
 		add(maxIter, gbc_maxIter);
 		maxIter.setColumns(5);
 
@@ -188,4 +188,5 @@ public class CalculationPanel extends JPanel {
 	public JComboBox getAspectRatio() {
 		return aspectRatio;
 	}
+
 }

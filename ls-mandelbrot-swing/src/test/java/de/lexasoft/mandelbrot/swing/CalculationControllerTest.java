@@ -5,10 +5,12 @@ package de.lexasoft.mandelbrot.swing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -21,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 
 /**
  * @author nierax
@@ -43,7 +46,11 @@ class CalculationControllerTest {
 	@Mock
 	private JTextField maxIter;
 	@Mock
-	private JComboBox<AspectRatio> aspetRatio;
+	private JComboBox<AspectRatio> aspectRatio;
+	@Mock
+	private JButton btnCalculate;
+	@Mock
+	private ModelChangedListener<CalculationControllerModel> listener;
 
 	/**
 	 * @throws java.lang.Exception
@@ -57,13 +64,14 @@ class CalculationControllerTest {
 		tlCy = mock(JTextField.class);
 		brCx = mock(JTextField.class);
 		brCy = mock(JTextField.class);
-		aspetRatio = mock(JComboBox.class);
+		btnCalculate = mock(JButton.class);
+		aspectRatio = mock(JComboBox.class);
 		when(view.getTlcx()).thenReturn(tlCx);
 		when(view.getTlcy()).thenReturn(tlCy);
 		when(view.getBrcx()).thenReturn(brCx);
 		when(view.getBrcy()).thenReturn(brCy);
 		when(view.getMaxIter()).thenReturn(maxIter);
-		when(view.getAspectRatio()).thenReturn(aspetRatio);
+		when(view.getAspectRatio()).thenReturn(aspectRatio);
 	}
 
 	/**
@@ -88,7 +96,42 @@ class CalculationControllerTest {
 		verify(brCx).setText(Double.toString(calc.getBottomRight().cx()));
 		verify(brCy).setText(Double.toString(calc.getBottomRight().cy()));
 		verify(maxIter).setText(Integer.toString(calc.getMaximumIterations()));
-		verify(aspetRatio).setSelectedItem(AspectRatio.FILL);
+		verify(aspectRatio).setSelectedItem(AspectRatio.FILL);
+	}
+
+	/**
+	 * What happens, when the calculate button is pressed?
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	final void testBtnClaculationPressed() {
+		// Simulate input values
+		when(tlCx.getText()).thenReturn("-0.15");
+		when(tlCy.getText()).thenReturn("-0.1");
+		when(brCx.getText()).thenReturn("-0.05");
+		when(brCy.getText()).thenReturn("0");
+
+		// Call constructor and initialize
+		CalculationController cut = new CalculationController(model, view);
+		cut.initController();
+		cut.addModelChangedListener(listener);
+
+		// Simulate calculate button
+		cut.calculate();
+
+		// Check
+		// Are values set correctly from view to controller model?
+		verify(tlCx).getText();
+		verify(tlCy).getText();
+		verify(brCx).getText();
+		verify(brCy).getText();
+		// Have listeners been informed?
+		verify(listener).modelChanged(any(ModelChangedEvent.class));
+		// Check, whether the values in controller model are set correctly
+		assertEquals(-0.15, cut.topLeft().cx());
+		assertEquals(-0.1, cut.topLeft().cy());
+		assertEquals(-0.05, cut.bottomRight().cx());
+		assertEquals(0, cut.bottomRight().cy());
 	}
 
 }
