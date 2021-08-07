@@ -9,6 +9,9 @@ import java.awt.Insets;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
@@ -18,6 +21,10 @@ public class MandelbrotSwingView {
 	private ImagePanel imagePanel;
 	private ColorControlPanel colorControlPanel;
 	private CalculationPanel calculationPanel;
+	private JMenuBar menuBar;
+	private JMenu mnFile;
+	private JMenuItem mntmSave;
+	private JMenuItem mntmLoad;
 
 	/**
 	 * Create the application.
@@ -67,6 +74,18 @@ public class MandelbrotSwingView {
 		gbc_colorControlPanel.gridx = 0;
 		gbc_colorControlPanel.gridy = 1;
 		rightPanel.add(colorControlPanel, gbc_colorControlPanel);
+
+		menuBar = new JMenuBar();
+		frmLexasoftMandelbrotApplication.setJMenuBar(menuBar);
+
+		mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+
+		mntmSave = new JMenuItem("Save...");
+		mnFile.add(mntmSave);
+
+		mntmLoad = new JMenuItem("Load...");
+		mnFile.add(mntmLoad);
 	}
 
 	protected ImagePanel getImagePanel() {
