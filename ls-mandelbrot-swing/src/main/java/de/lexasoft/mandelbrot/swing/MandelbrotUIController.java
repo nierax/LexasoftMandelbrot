@@ -21,6 +21,7 @@ public class MandelbrotUIController {
 	private ColorController colorController;
 	private MandelbrotImageController imageController;
 	private CalculationController calculationController;
+	private FileMenuController fileMenuController;
 
 	/**
 	 * 
@@ -31,6 +32,7 @@ public class MandelbrotUIController {
 		this.colorController = new ColorController(this.model, this.view.getColorControlPanel());
 		this.calculationController = new CalculationController(model, this.view.getCalculationPanel());
 		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
+		this.fileMenuController = new FileMenuController(this.view.getMnFile());
 		initView();
 	}
 
@@ -49,6 +51,7 @@ public class MandelbrotUIController {
 		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
 		imageController.initController(calculationController);
+		fileMenuController.initController();
 	}
 
 	/**
