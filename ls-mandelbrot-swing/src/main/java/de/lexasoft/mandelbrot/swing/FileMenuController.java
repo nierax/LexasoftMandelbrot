@@ -14,6 +14,13 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+
 /**
  * This class controls the file menu.
  * 
@@ -22,22 +29,45 @@ package de.lexasoft.mandelbrot.swing;
  */
 public class FileMenuController {
 
-	private FileMenuView view;
+	private FileMenuView menuView;
+	private JFrame parentFrame;
+	private MandelbrotAttributesDTO model;
 
 	/**
 	 * 
 	 */
-	public FileMenuController(FileMenuView view) {
-		this.view = view;
+	public FileMenuController(MandelbrotSwingView view, MandelbrotAttributesDTO model) {
+		this.menuView = view.getMnFile();
+		this.parentFrame = view.getFrmLexasoftMandelbrotApplication();
+		this.model = model;
 	}
 
 	public void initController() {
-		view.getMntmSave().addActionListener(l -> saveFile());
-		view.getMntmLoad().addActionListener(l -> loadFile());
+		menuView.getMntmSave().addActionListener(l -> saveFile());
+		menuView.getMntmLoad().addActionListener(l -> loadFile());
+	}
+
+	private void doSaveFile(File file2Save) {
+		System.out.println(String.format("tbd: implement save action for file %s ...", file2Save.getAbsolutePath()));
 	}
 
 	public void saveFile() {
-		System.out.println("tbd: save file...");
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Specify a file to save");
+
+		int userSelection = fileChooser.showSaveDialog(parentFrame);
+		switch (userSelection) {
+		case JFileChooser.CANCEL_OPTION: {
+			return;
+		}
+		case JFileChooser.APPROVE_OPTION: {
+			doSaveFile(fileChooser.getSelectedFile());
+			break;
+		}
+		case JFileChooser.ERROR_OPTION: {
+			System.out.println("Error occured...");
+		}
+		}
 	}
 
 	public void loadFile() {
