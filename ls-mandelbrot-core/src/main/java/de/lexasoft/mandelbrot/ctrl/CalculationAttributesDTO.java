@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot.ctrl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
@@ -16,9 +17,9 @@ import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
  */
 public class CalculationAttributesDTO {
 
-	@JsonProperty
+	@JsonSerialize
 	private MandelbrotPointPosition topLeft;
-	@JsonProperty
+	@JsonSerialize
 	private MandelbrotPointPosition bottomRight;
 	@JsonProperty
 	private int maximumIterations;

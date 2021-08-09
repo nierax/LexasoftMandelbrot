@@ -100,6 +100,13 @@ class MandelbrotAttributesDTOTest {
 	void testOfTransitions() throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotAttributesDTO cut = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-dto-transition-test.yaml");
 		// We do not care about the single calculations's attributes
+		assertValuesMultiCalculation(cut);
+	}
+
+	/**
+	 * @param cut
+	 */
+	private void assertValuesMultiCalculation(MandelbrotAttributesDTO cut) {
 		// Check the transitions
 		List<TransitionAttributesDTO> following = cut.getFollowing();
 		assertNotNull(following);
@@ -132,15 +139,16 @@ class MandelbrotAttributesDTOTest {
 	}
 
 	/**
-	 * Is the content of the model written to a yaml file correctly?
+	 * Is the content of the model written to a yaml file correctly in case of a
+	 * single calculation?
 	 * 
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
 	 */
 	@Test
-	void testWriteToYamlFile() throws JsonParseException, JsonMappingException, IOException {
-		String fileName2Write2 = "./junit-tmp/MandelbrotAttributesDTOTest-01.yaml";
+	void testWriteToYamlFileSingle() throws JsonParseException, JsonMappingException, IOException {
+		String fileName2Write2 = "./junit-tmp/MandelbrotAttributesDTOTest-testWriteToYamlFileSingle.yaml";
 		File file2Write2 = new File(fileName2Write2);
 		if (file2Write2.exists()) {
 			file2Write2.delete();
@@ -153,6 +161,31 @@ class MandelbrotAttributesDTOTest {
 		MandelbrotAttributesDTO read = MandelbrotAttributesDTO.of(file2Write2);
 		// Compare values. Should all be the same.
 		assertValuesSingleCalculation(read);
+	}
+
+	/**
+	 * Is the content of the model written to a yaml file correctly in case of a
+	 * multi calculation?
+	 * 
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
+	 */
+	@Test
+	void testWriteToYamlFileMulti() throws JsonParseException, JsonMappingException, IOException {
+		String fileName2Write2 = "./junit-tmp/MandelbrotAttributesDTOTest-testWriteToYamlFileMulti.yaml";
+		File file2Write2 = new File(fileName2Write2);
+		if (file2Write2.exists()) {
+			file2Write2.delete();
+		}
+		MandelbrotAttributesDTO cut = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-dto-transition-test.yaml");
+		cut.writeToYamlFile(file2Write2);
+		assertTrue(file2Write2.exists(), "Yaml file was not created correctly.");
+
+		// Now read the attributes into another model object.
+		MandelbrotAttributesDTO read = MandelbrotAttributesDTO.of(file2Write2);
+		// Compare values. Should all be the same.
+		assertValuesMultiCalculation(read);
 	}
 
 }
