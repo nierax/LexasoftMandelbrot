@@ -3,6 +3,8 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents a position of a point in the MandelbrotIterator calculation.
  * 
@@ -13,10 +15,12 @@ public class MandelbrotPointPosition {
 	/**
 	 * x position
 	 */
+	@JsonProperty
 	private double cx;
 	/**
 	 * y position
 	 */
+	@JsonProperty
 	private double cy;
 
 	public MandelbrotPointPosition() {

@@ -18,6 +18,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
@@ -36,9 +37,9 @@ public class FileMenuController {
 	/**
 	 * 
 	 */
-	public FileMenuController(MandelbrotSwingView view, MandelbrotAttributesDTO model) {
-		this.menuView = view.getMnFile();
-		this.parentFrame = view.getFrmLexasoftMandelbrotApplication();
+	public FileMenuController(FileMenuView view, JFrame parent, MandelbrotAttributesDTO model) {
+		this.menuView = view;
+		this.parentFrame = parent;
 		this.model = model;
 	}
 
@@ -52,7 +53,7 @@ public class FileMenuController {
 	}
 
 	public void saveFile() {
-		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooser = createFileChooser();
 		fileChooser.setDialogTitle("Specify a file to save");
 
 		int userSelection = fileChooser.showSaveDialog(parentFrame);
@@ -65,9 +66,14 @@ public class FileMenuController {
 			break;
 		}
 		case JFileChooser.ERROR_OPTION: {
-			System.out.println("Error occured...");
+			JOptionPane.showMessageDialog(parentFrame, "An error occured saving the calculation. Please try again.", "Error",
+			    JOptionPane.ERROR_MESSAGE);
 		}
 		}
+	}
+
+	protected JFileChooser createFileChooser() {
+		return new JFileChooser();
 	}
 
 	public void loadFile() {

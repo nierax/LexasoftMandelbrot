@@ -7,8 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -47,6 +49,13 @@ class MandelbrotAttributesDTOTest {
 	@Test
 	void testOfSingle() throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotAttributesDTO cut = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-dto-test.yaml");
+		assertValuesSingleCalculation(cut);
+	}
+
+	/**
+	 * @param cut
+	 */
+	private void assertValuesSingleCalculation(MandelbrotAttributesDTO cut) {
 		// Calculation
 		assertEquals(-2.02, cut.getCalculation().getTopLeft().cx());
 		assertEquals(1.2, cut.getCalculation().getTopLeft().cy());
@@ -120,6 +129,30 @@ class MandelbrotAttributesDTOTest {
 		assertNotNull(cut.getColor());
 		// Following should not be used by default.
 		assertNull(cut.getFollowing());
+	}
+
+	/**
+	 * Is the content of the model written to a yaml file correctly?
+	 * 
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
+	 */
+	@Test
+	void testWriteToYamlFile() throws JsonParseException, JsonMappingException, IOException {
+		String fileName2Write2 = "./junit-tmp/MandelbrotAttributesDTOTest-01.yaml";
+		File file2Write2 = new File(fileName2Write2);
+		if (file2Write2.exists()) {
+			file2Write2.delete();
+		}
+		MandelbrotAttributesDTO cut = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-dto-test.yaml");
+		cut.writeToYamlFile(file2Write2);
+		assertTrue(file2Write2.exists(), "Yaml file was not created correctly.");
+
+		// Now read the attributes into another model object.
+		MandelbrotAttributesDTO read = MandelbrotAttributesDTO.of(file2Write2);
+		// Compare values. Should all be the same.
+		assertValuesSingleCalculation(read);
 	}
 
 }
