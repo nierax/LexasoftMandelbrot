@@ -3,8 +3,6 @@
  */
 package de.lexasoft.mandelbrot.api;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * Represents a position of a point in the MandelbrotIterator calculation.
  * 
@@ -15,12 +13,10 @@ public class MandelbrotPointPosition {
 	/**
 	 * x position
 	 */
-	@JsonProperty
 	private double cx;
 	/**
 	 * y position
 	 */
-	@JsonProperty
 	private double cy;
 
 	public MandelbrotPointPosition() {
@@ -71,6 +67,30 @@ public class MandelbrotPointPosition {
 
 	public double cy() {
 		return cy;
+	}
+
+	/**
+	 * This method is needed to fulfill java bean convention.
+	 * <p>
+	 * Prefer to use {@link MandelbrotPointPosition#cx()}
+	 * 
+	 * @return the cx
+	 */
+	@Deprecated
+	public double getCx() {
+		return cx();
+	}
+
+	/**
+	 * This method is needed to fulfill java bean convention.
+	 * <p>
+	 * Prefer to use {@link MandelbrotPointPosition#cy()}
+	 * 
+	 * @return the cy
+	 */
+	@Deprecated
+	public double getCy() {
+		return cy();
 	}
 
 	public double setCy(double cy) {
