@@ -119,8 +119,6 @@ public class MandelbrotAttributesDTO {
 	public void writeToYamlFile(File yamlFile) throws JsonGenerationException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory().disable(Feature.WRITE_DOC_START_MARKER));
 		mapper.findAndRegisterModules();
-//		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS, SerializationFeature.FAIL_ON_UNWRAPPED_TYPE_IDENTIFIERS,
-//		    SerializationFeature.FAIL_ON_SELF_REFERENCES);
 		mapper.writeValue(yamlFile, this);
 	}
 

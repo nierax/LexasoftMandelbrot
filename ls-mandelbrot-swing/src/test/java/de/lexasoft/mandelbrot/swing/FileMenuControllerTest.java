@@ -14,15 +14,18 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -34,6 +37,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
@@ -50,7 +56,7 @@ class FileMenuControllerTest {
 		}
 
 		@Override
-		protected JFileChooser createFileChooser() {
+		protected JFileChooser createFileChooser(String dialogTitle) {
 			return fileChooser;
 		}
 	}
@@ -65,7 +71,10 @@ class FileMenuControllerTest {
 	private JFrame parentFrame;
 	@Mock
 	private FileMenuView view;
+	@Mock
 	private MandelbrotAttributesDTO model;
+	@Mock
+	private File file;
 
 	@BeforeAll
 	static void init() {
@@ -84,8 +93,9 @@ class FileMenuControllerTest {
 	void setUp() throws Exception {
 		fileChooser = mock(JFileChooser.class);
 		parentFrame = mock(JFrame.class);
-		model = MandelbrotAttributesDTO.ofDefaults();
+		model = mock(MandelbrotAttributesDTO.class);
 		view = mock(FileMenuView.class);
+		file = mock(File.class);
 		cut = new CUT(view, parentFrame, model);
 	}
 
@@ -110,7 +120,7 @@ class FileMenuControllerTest {
 	 */
 	@Test
 	final void testSaveFileExitCancel() {
-		// Get error, when the dialog should open
+		// Cancel, as the dialog should disappear
 		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.CANCEL_OPTION);
 		// call the method.
 		cut.saveFile();
@@ -120,15 +130,43 @@ class FileMenuControllerTest {
 	/**
 	 * A file to save has been successfully chosen.
 	 * {@link de.lexasoft.mandelbrot.swing.FileMenuController#saveFile()}.
+	 * 
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonGenerationException
 	 */
 	@Test
-	final void testSaveFileExitOk() {
-		// Get error, when the dialog should open
+	final void testSaveFileExitOk() throws JsonGenerationException, JsonMappingException, IOException {
+		// Go on with the save process
 		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.APPROVE_OPTION);
-		when(fileChooser.getSelectedFile()).thenReturn(new File("any"));
+		when(fileChooser.getSelectedFile()).thenReturn(file);
 		// call the method.
 		cut.saveFile();
-		fail("not yet impelemented");
+		// Check, whether the save method on the model is called with the given file.
+		verify(model, times(1)).writeToYamlFile(file);
+	}
+
+	/**
+	 * A file to save has been chosen, but an I/O error occurred.
+	 * {@link de.lexasoft.mandelbrot.swing.FileMenuController#saveFile()}.
+	 * 
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonGenerationException
+	 */
+	@Test
+	final void testSaveFileWriteError() throws JsonGenerationException, JsonMappingException, IOException {
+		// Go on with the save process
+		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.APPROVE_OPTION);
+		when(fileChooser.getSelectedFile()).thenReturn(file);
+		doThrow(new IOException("Something went wrong")).when(model).writeToYamlFile(file);
+		// call the method.
+		cut.saveFile();
+		// Check, whether the save method on the model is called with the given file.
+		verify(model, times(1)).writeToYamlFile(file);
+		// Verify, whether the error dialog is called.
+		staticJOptionPane.verify(() -> JOptionPane.showMessageDialog(same(parentFrame), anyString(), eq("Error"),
+		    eq(JOptionPane.ERROR_MESSAGE)));
 	}
 
 }

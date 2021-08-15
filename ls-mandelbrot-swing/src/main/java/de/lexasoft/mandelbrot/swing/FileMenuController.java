@@ -15,10 +15,15 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
@@ -48,13 +53,12 @@ public class FileMenuController {
 		menuView.getMntmLoad().addActionListener(l -> loadFile());
 	}
 
-	private void doSaveFile(File file2Save) {
-		System.out.println(String.format("tbd: implement save action for file %s ...", file2Save.getAbsolutePath()));
+	private void doSaveFile(File file2Save) throws JsonGenerationException, JsonMappingException, IOException {
+		model.writeToYamlFile(file2Save);
 	}
 
 	public void saveFile() {
-		JFileChooser fileChooser = createFileChooser();
-		fileChooser.setDialogTitle("Specify a file to save");
+		JFileChooser fileChooser = createFileChooser("Specify a file to save");
 
 		int userSelection = fileChooser.showSaveDialog(parentFrame);
 		switch (userSelection) {
@@ -62,8 +66,12 @@ public class FileMenuController {
 			return;
 		}
 		case JFileChooser.APPROVE_OPTION: {
-			doSaveFile(fileChooser.getSelectedFile());
-			break;
+			try {
+				doSaveFile(fileChooser.getSelectedFile());
+				break;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		case JFileChooser.ERROR_OPTION: {
 			JOptionPane.showMessageDialog(parentFrame, "An error occured saving the calculation. Please try again.", "Error",
@@ -72,8 +80,11 @@ public class FileMenuController {
 		}
 	}
 
-	protected JFileChooser createFileChooser() {
-		return new JFileChooser();
+	protected JFileChooser createFileChooser(String dialogTitle) {
+		JFileChooser fileChooserDialog = new JFileChooser();
+		fileChooserDialog.setDialogTitle(dialogTitle);
+		fileChooserDialog.setFileFilter(new FileNameExtensionFilter("Mandelbrot calculation files", "yaml"));
+		return fileChooserDialog;
 	}
 
 	public void loadFile() {
