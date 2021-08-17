@@ -110,6 +110,13 @@ class FileMenuControllerTest {
 		// call the method.
 		cut.saveFile();
 		// Verify, whether the error dialog is called.
+		assertErrorDialogShown();
+	}
+
+	/**
+	 * 
+	 */
+	private void assertErrorDialogShown() {
 		staticJOptionPane.verify(() -> JOptionPane.showMessageDialog(same(parentFrame), anyString(), eq("Error"),
 		    eq(JOptionPane.ERROR_MESSAGE)));
 	}
@@ -164,9 +171,7 @@ class FileMenuControllerTest {
 		cut.saveFile();
 		// Check, whether the save method on the model is called with the given file.
 		verify(model, times(1)).writeToYamlFile(file);
-		// Verify, whether the error dialog is called.
-		staticJOptionPane.verify(() -> JOptionPane.showMessageDialog(same(parentFrame), anyString(), eq("Error"),
-		    eq(JOptionPane.ERROR_MESSAGE)));
+		assertErrorDialogShown();
 	}
 
 }

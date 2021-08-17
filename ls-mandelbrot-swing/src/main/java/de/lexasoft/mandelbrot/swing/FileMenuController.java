@@ -48,7 +48,7 @@ public class FileMenuController {
 		this.model = model;
 	}
 
-	public void initController() {
+	void initController() {
 		menuView.getMntmSave().addActionListener(l -> saveFile());
 		menuView.getMntmLoad().addActionListener(l -> loadFile());
 	}
@@ -57,6 +57,9 @@ public class FileMenuController {
 		model.writeToYamlFile(file2Save);
 	}
 
+	/**
+	 * API method to save the calculation, called by the listener.
+	 */
 	public void saveFile() {
 		JFileChooser fileChooser = createFileChooser("Specify a file to save");
 
@@ -73,14 +76,14 @@ public class FileMenuController {
 				e.printStackTrace();
 			}
 		}
-		case JFileChooser.ERROR_OPTION: {
+		default: {
 			JOptionPane.showMessageDialog(parentFrame, "An error occured saving the calculation. Please try again.", "Error",
 			    JOptionPane.ERROR_MESSAGE);
 		}
 		}
 	}
 
-	protected JFileChooser createFileChooser(String dialogTitle) {
+	JFileChooser createFileChooser(String dialogTitle) {
 		JFileChooser fileChooserDialog = new JFileChooser();
 		fileChooserDialog.setDialogTitle(dialogTitle);
 		fileChooserDialog.setFileFilter(new FileNameExtensionFilter("Mandelbrot calculation files", "yaml"));
