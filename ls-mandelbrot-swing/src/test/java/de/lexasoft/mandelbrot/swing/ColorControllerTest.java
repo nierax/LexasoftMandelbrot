@@ -43,7 +43,7 @@ class ColorControllerTest {
 	void setUp() throws Exception {
 		model = MandelbrotAttributesDTO.ofDefaults();
 		view = new ColorControlPanel();
-		cut = new ColorController(model, view);
+		cut = new ColorController(model.getColor(), view);
 		focusEvent = new FocusEvent(view, 0);
 		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, model.getColor().getColorGrading().getStyle(),
 		    ItemEvent.SELECTED);
@@ -235,7 +235,7 @@ class ColorControllerTest {
 		color.setPaletteVariant(PaletteVariant.RAINBOW7);
 
 		// Now call replaceModel()
-		cut.replaceModel(model);
+		cut.replaceModel(color);
 
 		// Than check, whether the controller model has the new values.
 		assertEquals(ColorGradingStyle.CIRCLE, view.getColorGradingStyle().getSelectedItem());

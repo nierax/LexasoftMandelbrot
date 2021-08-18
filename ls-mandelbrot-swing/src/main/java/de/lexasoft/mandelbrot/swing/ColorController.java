@@ -11,7 +11,6 @@ import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.api.ValidationAPI;
 import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
-import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
 /**
@@ -32,17 +31,16 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	/**
 	 * 
 	 */
-	public ColorController(MandelbrotAttributesDTO initialModel, ColorControlPanel view) {
-		initModel(initialModel);
+	public ColorController(ColorAttributesDTO colorModel, ColorControlPanel view) {
+		initModel(colorModel);
 		this.view = view;
 		initView();
 	}
 
-	void initModel(MandelbrotAttributesDTO initialModel) {
-		ColorAttributesDTO color = initialModel.getColor();
-		this.paletteVariant = color.getPaletteVariant();
-		this.colorGradingStyle = color.getColorGrading().getStyle();
-		this.totalNrOfColors = color.getColorGrading().getColorsTotal();
+	void initModel(ColorAttributesDTO colorModel) {
+		this.paletteVariant = colorModel.getPaletteVariant();
+		this.colorGradingStyle = colorModel.getColorGrading().getStyle();
+		this.totalNrOfColors = colorModel.getColorGrading().getColorsTotal();
 	}
 
 	/**
@@ -228,7 +226,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	 * 
 	 * @param newModel
 	 */
-	public void replaceModel(MandelbrotAttributesDTO newModel) {
+	public void replaceModel(ColorAttributesDTO newModel) {
 		initModel(newModel);
 		initView();
 	}
