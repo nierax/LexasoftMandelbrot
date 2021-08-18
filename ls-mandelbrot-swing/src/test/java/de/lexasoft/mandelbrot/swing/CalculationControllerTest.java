@@ -81,7 +81,7 @@ class CalculationControllerTest {
 	@Test
 	final void testCalculationController() {
 		// Call constructor
-		CalculationController cut = new CalculationController(model, view);
+		CalculationController cut = new CalculationController(model.getCalculation(), view);
 
 		// Check the result
 		assertNotNull(cut); // Should never fail
@@ -112,7 +112,7 @@ class CalculationControllerTest {
 		when(brCy.getText()).thenReturn("0");
 
 		// Call constructor and initialize
-		CalculationController cut = new CalculationController(model, view);
+		CalculationController cut = new CalculationController(model.getCalculation(), view);
 		cut.initController();
 		cut.addModelChangedListener(listener);
 

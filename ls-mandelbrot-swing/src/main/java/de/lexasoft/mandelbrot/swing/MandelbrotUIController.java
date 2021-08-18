@@ -30,7 +30,7 @@ public class MandelbrotUIController {
 		this.model = model;
 		this.view = view;
 		this.colorController = new ColorController(this.model.getColor(), this.view.getColorControlPanel());
-		this.calculationController = new CalculationController(model, this.view.getCalculationPanel());
+		this.calculationController = new CalculationController(model.getCalculation(), this.view.getCalculationPanel());
 		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
 		this.fileMenuController = new FileMenuController(this.view.getMnFile(),
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.model);
