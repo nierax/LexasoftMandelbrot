@@ -221,4 +221,15 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	public int totalNrOfColors(int totalNrofColors) {
 		return this.totalNrOfColors = totalNrofColors;
 	}
+
+	/**
+	 * Replace the current model by reinitializing the controller and the
+	 * corresponding view.
+	 * 
+	 * @param newModel
+	 */
+	public void replaceModel(MandelbrotAttributesDTO newModel) {
+		initModel(newModel);
+		initView();
+	}
 }

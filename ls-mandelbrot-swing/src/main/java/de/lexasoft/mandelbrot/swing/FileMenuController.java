@@ -33,7 +33,7 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
  * @author nierax
  *
  */
-public class FileMenuController {
+public class FileMenuController extends ModelChangingController<MandelbrotAttributesDTO> {
 
 	private FileMenuView menuView;
 	private JFrame parentFrame;
