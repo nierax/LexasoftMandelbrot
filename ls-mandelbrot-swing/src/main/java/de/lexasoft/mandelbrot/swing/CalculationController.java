@@ -165,6 +165,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	}
 
 	public void replaceModel(CalculationAttributesDTO newModel) {
-
+		initModel(newModel);
+		initView();
 	}
 }
