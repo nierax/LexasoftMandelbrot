@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
 public class MandelbrotSwingView {
@@ -96,5 +97,9 @@ public class MandelbrotSwingView {
 
 	public FileMenuView getMnFile() {
 		return mnFile;
+	}
+
+	public void repaint() {
+		SwingUtilities.updateComponentTreeUI(frmLexasoftMandelbrotApplication);
 	}
 }

@@ -53,6 +53,10 @@ public class MandelbrotUIController {
 		calculationController.initController();
 		imageController.initController(calculationController);
 		fileMenuController.initController();
+		fileMenuController.addModelChangedListener(e -> colorController.replaceModel(model.getColor()));
+		fileMenuController.addModelChangedListener(e -> calculationController.replaceModel(model.getCalculation()));
+		fileMenuController.addModelChangedListener(e -> imageController.replaceModel(model, calculationController));
+		fileMenuController.addModelChangedListener(e -> view.repaint());
 	}
 
 	/**
