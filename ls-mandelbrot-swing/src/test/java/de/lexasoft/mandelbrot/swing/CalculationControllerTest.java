@@ -6,7 +6,6 @@ package de.lexasoft.mandelbrot.swing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -58,17 +57,9 @@ class CalculationControllerTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
 		model = MandelbrotAttributesDTO.ofDefaults();
-		view = mock(CalculationPanel.class);
-		tlCx = mock(JTextField.class);
-		tlCy = mock(JTextField.class);
-		brCx = mock(JTextField.class);
-		brCy = mock(JTextField.class);
-		btnCalculate = mock(JButton.class);
-		aspectRatio = mock(JComboBox.class);
 		when(view.getTlcx()).thenReturn(tlCx);
 		when(view.getTlcy()).thenReturn(tlCy);
 		when(view.getBrcx()).thenReturn(brCx);
