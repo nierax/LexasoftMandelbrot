@@ -15,14 +15,7 @@ import java.util.List;
  */
 public class ModelChangingController<T> implements ModelChanger<T> {
 
-	private List<ModelChangedListener<T>> queue;
-
-	/**
-	 * 
-	 */
-	public ModelChangingController() {
-		queue = new ArrayList<>();
-	}
+	private List<ModelChangedListener<T>> queue = new ArrayList<>();
 
 	/**
 	 * Add a listener to the queue of listeners.

@@ -14,12 +14,13 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,12 +32,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -47,6 +48,7 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
  * @author nierax
  *
  */
+@ExtendWith(MockitoExtension.class)
 class FileMenuControllerTest {
 
 	class CUT extends FileMenuController {
@@ -56,7 +58,7 @@ class FileMenuControllerTest {
 		}
 
 		@Override
-		protected JFileChooser createFileChooser(String dialogTitle) {
+		JFileChooser createFileChooser(String dialogTitle) {
 			return fileChooser;
 		}
 	}
@@ -74,28 +76,17 @@ class FileMenuControllerTest {
 	@Mock
 	private MandelbrotAttributesDTO model;
 	@Mock
+	private static MockedStatic<MandelbrotAttributesDTO> staticModel;
+	@Mock
 	private File file;
-
-	@BeforeAll
-	static void init() {
-		staticJOptionPane = mockStatic(JOptionPane.class);
-	}
-
-	@AfterAll
-	static void close() {
-		staticJOptionPane.close();
-	}
+	@Mock
+	private ModelChangedListener<MandelbrotAttributesDTO> listener;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		fileChooser = mock(JFileChooser.class);
-		parentFrame = mock(JFrame.class);
-		model = mock(MandelbrotAttributesDTO.class);
-		view = mock(FileMenuView.class);
-		file = mock(File.class);
 		cut = new CUT(view, parentFrame, model);
 	}
 
@@ -131,6 +122,8 @@ class FileMenuControllerTest {
 		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.CANCEL_OPTION);
 		// call the method.
 		cut.saveFile();
+		// Make sure, the dialog was opened.
+		verify(fileChooser).showSaveDialog(parentFrame);
 		// Nothing happens, when the cancel button was pressed.
 	}
 
@@ -171,6 +164,64 @@ class FileMenuControllerTest {
 		cut.saveFile();
 		// Check, whether the save method on the model is called with the given file.
 		verify(model, times(1)).writeToYamlFile(file);
+		assertErrorDialogShown();
+	}
+
+	/**
+	 * Load file when everything is ok.
+	 */
+	@SuppressWarnings("unchecked")
+	@Test
+	final void testLoadFileOk() {
+		// Mock the choice of a file
+		when(fileChooser.showOpenDialog(parentFrame)).thenReturn(JFileChooser.APPROVE_OPTION);
+		when(fileChooser.getSelectedFile()).thenReturn(file);
+		// Create a new model for the test.
+		model = mock(MandelbrotAttributesDTO.class);
+		staticModel.when(() -> MandelbrotAttributesDTO.of(file)).thenReturn(model);
+		// Register a listener for the event
+		cut.addModelChangedListener(listener);
+
+		// Call the method
+		cut.loadFile();
+
+		// Verify, whether the model was loaded.
+		verify(fileChooser).showOpenDialog(parentFrame);
+		verify(fileChooser).getSelectedFile();
+		staticModel.verify(() -> MandelbrotAttributesDTO.of(file));
+		assertSame(model, cut.getModel());
+		// Check, whether the event was fired
+		verify(listener, times(1)).modelChanged(any(ModelChangedEvent.class));
+	}
+
+	/**
+	 * Choosing a file to load has been cancelled.
+	 * {@link de.lexasoft.mandelbrot.swing.FileMenuController#saveFile()}.
+	 */
+	@Test
+	final void testLoadFileExitCancel() {
+		// Cancel, as the dialog should disappear
+		when(fileChooser.showOpenDialog(parentFrame)).thenReturn(JFileChooser.CANCEL_OPTION);
+		// call the method.
+		cut.loadFile();
+		// Make sure, the dialog was opened.
+		verify(fileChooser).showOpenDialog(parentFrame);
+		// Nothing happens, when the cancel button was pressed.
+	}
+
+	/**
+	 * Error occurred choosing a file to load.
+	 * {@link de.lexasoft.mandelbrot.swing.FileMenuController#saveFile()}.
+	 */
+	@Test
+	final void testLoadFileExitError() {
+		// Get error, when the dialog should open
+		when(fileChooser.showOpenDialog(parentFrame)).thenReturn(JFileChooser.ERROR_OPTION);
+		// call the method.
+		cut.loadFile();
+		// Make sure, the dialog was opened.
+		verify(fileChooser).showOpenDialog(parentFrame);
+		// Verify, whether the error dialog is called.
 		assertErrorDialogShown();
 	}
 

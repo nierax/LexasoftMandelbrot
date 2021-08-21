@@ -27,7 +27,7 @@ public class MandelbrotUIController {
 	 * 
 	 */
 	public MandelbrotUIController(MandelbrotAttributesDTO model, MandelbrotSwingView view) {
-		this.model = model;
+		initModel(model);
 		this.view = view;
 		this.colorController = new ColorController(this.model.getColor(), this.view.getColorControlPanel());
 		this.calculationController = new CalculationController(model.getCalculation(), this.view.getCalculationPanel());
@@ -35,6 +35,13 @@ public class MandelbrotUIController {
 		this.fileMenuController = new FileMenuController(this.view.getMnFile(),
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.model);
 		initView();
+	}
+
+	/**
+	 * @param model
+	 */
+	private void initModel(MandelbrotAttributesDTO model) {
+		this.model = model;
 	}
 
 	/**
@@ -53,9 +60,17 @@ public class MandelbrotUIController {
 		calculationController.initController();
 		imageController.initController(calculationController);
 		fileMenuController.initController();
-		fileMenuController.addModelChangedListener(e -> colorController.replaceModel(model.getColor()));
-		fileMenuController.addModelChangedListener(e -> calculationController.replaceModel(model.getCalculation()));
-		fileMenuController.addModelChangedListener(e -> imageController.replaceModel(model, calculationController));
+		initLoadEventhandling();
+	}
+
+	/**
+	 * 
+	 */
+	private void initLoadEventhandling() {
+		fileMenuController.addModelChangedListener(e -> initModel(e.getModel()));
+		fileMenuController.addModelChangedListener(e -> colorController.replaceModel(e.getModel().getColor()));
+		fileMenuController.addModelChangedListener(e -> calculationController.replaceModel(e.getModel().getCalculation()));
+		fileMenuController.addModelChangedListener(e -> imageController.replaceModel(e.getModel(), calculationController));
 		fileMenuController.addModelChangedListener(e -> view.repaint());
 	}
 

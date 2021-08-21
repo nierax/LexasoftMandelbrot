@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
@@ -45,6 +46,10 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	public FileMenuController(FileMenuView view, JFrame parent, MandelbrotAttributesDTO model) {
 		this.menuView = view;
 		this.parentFrame = parent;
+		initModel(model);
+	}
+
+	void initModel(MandelbrotAttributesDTO model) {
 		this.model = model;
 	}
 
@@ -90,8 +95,39 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 		return fileChooserDialog;
 	}
 
+	private void doLoadFile(File file2Load) throws JsonParseException, JsonMappingException, IOException {
+		MandelbrotAttributesDTO newModel = MandelbrotAttributesDTO.of(file2Load);
+		initModel(newModel);
+		fireModelChangedEvent(new ModelChangedEvent<MandelbrotAttributesDTO>(this, newModel));
+	}
+
+	/**
+	 * @return the model
+	 */
+	MandelbrotAttributesDTO getModel() {
+		return model;
+	}
+
 	public void loadFile() {
-		System.out.println("tbd: load file...");
+		JFileChooser fileChooser = createFileChooser("Choose file to load from...");
+		int userSelection = fileChooser.showOpenDialog(parentFrame);
+		switch (userSelection) {
+		case JFileChooser.APPROVE_OPTION: {
+			try {
+				doLoadFile(fileChooser.getSelectedFile());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+		case JFileChooser.CANCEL_OPTION: {
+			return;
+		}
+		default: {
+			JOptionPane.showMessageDialog(parentFrame, "An error occured loading the calculation. Please try again.", "Error",
+			    JOptionPane.ERROR_MESSAGE);
+		}
+		}
 	}
 
 }
