@@ -6,7 +6,6 @@ package de.lexasoft.mandelbrot.swing;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -20,6 +19,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
@@ -31,6 +31,8 @@ import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
  */
 @ExtendWith(MockitoExtension.class)
 class CalculationControllerTest {
+
+	private CalculationController cut;
 
 	private MandelbrotAttributesDTO model;
 	@Mock
@@ -55,23 +57,16 @@ class CalculationControllerTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
 		model = MandelbrotAttributesDTO.ofDefaults();
-		view = mock(CalculationPanel.class);
-		tlCx = mock(JTextField.class);
-		tlCy = mock(JTextField.class);
-		brCx = mock(JTextField.class);
-		brCy = mock(JTextField.class);
-		btnCalculate = mock(JButton.class);
-		aspectRatio = mock(JComboBox.class);
 		when(view.getTlcx()).thenReturn(tlCx);
 		when(view.getTlcy()).thenReturn(tlCy);
 		when(view.getBrcx()).thenReturn(brCx);
 		when(view.getBrcy()).thenReturn(brCy);
 		when(view.getMaxIter()).thenReturn(maxIter);
 		when(view.getAspectRatio()).thenReturn(aspectRatio);
+		cut = new CalculationController(model.getCalculation(), view);
 	}
 
 	/**
@@ -80,9 +75,6 @@ class CalculationControllerTest {
 	 */
 	@Test
 	final void testCalculationController() {
-		// Call constructor
-		CalculationController cut = new CalculationController(model, view);
-
 		// Check the result
 		assertNotNull(cut); // Should never fail
 		// Controller model
@@ -111,8 +103,7 @@ class CalculationControllerTest {
 		when(brCx.getText()).thenReturn("-0.05");
 		when(brCy.getText()).thenReturn("0");
 
-		// Call constructor and initialize
-		CalculationController cut = new CalculationController(model, view);
+		// Initialize
 		cut.initController();
 		cut.addModelChangedListener(listener);
 
@@ -132,6 +123,25 @@ class CalculationControllerTest {
 		assertEquals(-0.1, cut.topLeft().cy());
 		assertEquals(-0.05, cut.bottomRight().cx());
 		assertEquals(0, cut.bottomRight().cy());
+	}
+
+	@Test
+	final void testReplaceModel() {
+		// Set new values in calculation model
+		CalculationAttributesDTO calc = model.getCalculation();
+		calc.setTopLeft(MandelbrotPointPosition.of(0.6, 0.4));
+		calc.setBottomRight(MandelbrotPointPosition.of(-0.5, 0.2));
+		calc.setMaximumIterations(53);
+
+		// fire event
+		cut.replaceModel(calc);
+
+		// Then check, whether the values are set correctly.
+		verify(tlCx).setText("0.6");
+		verify(tlCy).setText("0.4");
+		verify(brCx).setText("-0.5");
+		verify(brCy).setText("0.2");
+		verify(maxIter).setText("53");
 	}
 
 }

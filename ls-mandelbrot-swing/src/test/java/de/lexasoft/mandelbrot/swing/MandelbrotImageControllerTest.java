@@ -5,6 +5,7 @@ package de.lexasoft.mandelbrot.swing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -23,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
+import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
@@ -204,6 +206,24 @@ class MandelbrotImageControllerTest {
 		assertEquals(tl, model.getCalculation().getTopLeft());
 		assertEquals(expBr, model.getCalculation().getBottomRight());
 		assertEquals(maxIter, model.getCalculation().getMaximumIterations());
+	}
+
+	@Test
+	final void testReplaceModel() {
+		// Define another model.
+		MandelbrotAttributesDTO otherModel = MandelbrotAttributesDTO.ofDefaults();
+		otherModel.getCalculation().setTopLeft(MandelbrotPointPosition.of(1, -1));
+		otherModel.getCalculation().setBottomRight(MandelbrotPointPosition.of(0.5, -0.5));
+		otherModel.getCalculation().setMaximumIterations(53);
+		otherModel.getColor().setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.CIRCLE, 63));
+		otherModel.getColor().setPaletteVariant(PaletteVariant.RAINBOW7);
+
+		// Run
+		cut.replaceModel(otherModel, calcModel);
+
+		// Check
+		assertSame(otherModel, cut.getModel());
+		assertSame(calcModel, cut.getCalcModel());
 	}
 
 }

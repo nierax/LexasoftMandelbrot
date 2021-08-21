@@ -31,11 +31,15 @@ public class MandelbrotImageController {
 
 	public MandelbrotImageController(MandelbrotAttributesDTO model, ImagePanel view) {
 		this.view = view;
-		this.model = model;
+		initModel(model);
 		initView();
 	}
 
-	public void initView() {
+	void initModel(MandelbrotAttributesDTO model) {
+		this.model = model;
+	}
+
+	void initView() {
 		this.view.setPreferredSize(new Dimension(model.getImage().getImageWidth(), model.getImage().getImageHeight()));
 	}
 
@@ -152,6 +156,18 @@ public class MandelbrotImageController {
 	 */
 	void setCalcModel(CalculationControllerModel calcModel) {
 		this.calcModel = calcModel;
+	}
+
+	public void replaceModel(MandelbrotAttributesDTO model, CalculationControllerModel calcCtrlModel) {
+		initModel(model);
+		setCalcModel(calcCtrlModel);
+	}
+
+	/**
+	 * @return the model
+	 */
+	MandelbrotAttributesDTO getModel() {
+		return model;
 	}
 
 }

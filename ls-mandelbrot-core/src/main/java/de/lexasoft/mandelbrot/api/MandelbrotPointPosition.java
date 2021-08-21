@@ -69,6 +69,30 @@ public class MandelbrotPointPosition {
 		return cy;
 	}
 
+	/**
+	 * This method is needed to fulfill java bean convention.
+	 * <p>
+	 * Prefer to use {@link MandelbrotPointPosition#cx()}
+	 * 
+	 * @return the cx
+	 */
+	@Deprecated
+	public double getCx() {
+		return cx();
+	}
+
+	/**
+	 * This method is needed to fulfill java bean convention.
+	 * <p>
+	 * Prefer to use {@link MandelbrotPointPosition#cy()}
+	 * 
+	 * @return the cy
+	 */
+	@Deprecated
+	public double getCy() {
+		return cy();
+	}
+
 	public double setCy(double cy) {
 		this.cy = cy;
 		return cy;

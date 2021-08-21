@@ -18,8 +18,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
+import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.ColorDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
@@ -41,7 +43,7 @@ class ColorControllerTest {
 	void setUp() throws Exception {
 		model = MandelbrotAttributesDTO.ofDefaults();
 		view = new ColorControlPanel();
-		cut = new ColorController(model, view);
+		cut = new ColorController(model.getColor(), view);
 		focusEvent = new FocusEvent(view, 0);
 		itemEvent = new ItemEvent(view.getColorGradingStyle(), 0, model.getColor().getColorGrading().getStyle(),
 		    ItemEvent.SELECTED);
@@ -219,6 +221,27 @@ class ColorControllerTest {
 		// Is the number of colors set correctly, changed, if needed?
 		assertEquals(expNrOfColors, cut.totalNrOfColors());
 		assertEquals(expNrOfColors, Integer.parseInt(view.getTotalColors().getText()));
+	}
+
+	/**
+	 * Will the controller reinitialize correctly, when the model is replaced?
+	 */
+	@Test
+	final void testReplaceModel() {
+		// First change color values in the model
+		ColorAttributesDTO color = model.getColor();
+		color.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.CIRCLE, 20));
+		color.setMandelbrotColor(ColorDTO.of(10, 10, 10));
+		color.setPaletteVariant(PaletteVariant.RAINBOW7);
+
+		// Now call replaceModel()
+		cut.replaceModel(color);
+
+		// Than check, whether the controller model has the new values.
+		assertEquals(ColorGradingStyle.CIRCLE, view.getColorGradingStyle().getSelectedItem());
+		assertEquals(20, Integer.valueOf(view.getTotalColors().getText()));
+		// assertEquals(new Color(10,10,10), view.get) Not yet implemented
+		assertEquals(PaletteVariant.RAINBOW7, view.getPaletteVariant().getSelectedItem());
 	}
 
 }
