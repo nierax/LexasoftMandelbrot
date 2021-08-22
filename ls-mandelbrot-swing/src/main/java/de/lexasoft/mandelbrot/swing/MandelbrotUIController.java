@@ -60,20 +60,20 @@ public class MandelbrotUIController {
 		calculationController.initController();
 		imageController.initController(calculationController);
 		fileMenuController.initController();
-		fileMenuController.addModelChangedListener(e -> loadEventhandling(e));
+		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 	}
 
 	/**
 	 * 
 	 */
-	private void loadEventhandling(ModelChangedEvent<MandelbrotAttributesDTO> event) {
-//		view.getFrmLexasoftMandelbrotApplication().setVisible(false);
+	private void handleLoadEvent(ModelChangedEvent<MandelbrotAttributesDTO> event) {
+		view.setEnabled(false);
 		initModel(event.getModel());
 		calculationController.replaceModel(event.getModel().getCalculation());
 		colorController.replaceModel(event.getModel().getColor());
 		imageController.replaceModel(event.getModel(), calculationController);
-//		view.getFrmLexasoftMandelbrotApplication().setVisible(true);
 		view.repaint();
+		view.setEnabled(true);
 	}
 
 	/**
