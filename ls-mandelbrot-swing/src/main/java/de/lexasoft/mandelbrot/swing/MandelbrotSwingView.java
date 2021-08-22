@@ -2,6 +2,7 @@ package de.lexasoft.mandelbrot.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -101,5 +102,22 @@ public class MandelbrotSwingView {
 
 	public void repaint() {
 		SwingUtilities.updateComponentTreeUI(frmLexasoftMandelbrotApplication);
+	}
+
+	public void setEnabled(boolean b) {
+		frmLexasoftMandelbrotApplication.setEnabled(b);
+		enableAllChilds(frmLexasoftMandelbrotApplication, b);
+	}
+
+	/**
+	 * @param b
+	 */
+	private void enableAllChilds(Container root, boolean b) {
+		for (Component c : root.getComponents()) {
+			c.setEnabled(b);
+			if (c instanceof Container) {
+				enableAllChilds((Container) c, b);
+			}
+		}
 	}
 }

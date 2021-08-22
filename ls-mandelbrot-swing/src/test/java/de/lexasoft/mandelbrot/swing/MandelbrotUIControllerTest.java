@@ -49,10 +49,12 @@ class MandelbrotUIControllerTest {
 		// Check, whether they are correct
 		List<ModelChangedListener<ColorControllerModel>> queueColor = cut.getColorController().getQueue();
 		List<ModelChangedListener<CalculationControllerModel>> queueCalc = cut.getCalculationController().getQueue();
+		List<ModelChangedListener<MandelbrotAttributesDTO>> queueLoad = cut.getFileMenuController().getQueue();
 
 		// Exactly one entry
 		assertEquals(1, queueColor.size());
 		assertEquals(1, queueCalc.size());
+		assertEquals(1, queueLoad.size());
 		// Since we are using lambda expressions here, we don't know anything about the
 		// instances.
 	}
