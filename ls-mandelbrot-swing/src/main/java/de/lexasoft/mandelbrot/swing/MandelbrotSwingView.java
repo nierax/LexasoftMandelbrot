@@ -105,6 +105,7 @@ public class MandelbrotSwingView {
 	}
 
 	public void setEnabled(boolean b) {
+		frmLexasoftMandelbrotApplication.setEnabled(b);
 		enableAllChilds(frmLexasoftMandelbrotApplication, b);
 	}
 

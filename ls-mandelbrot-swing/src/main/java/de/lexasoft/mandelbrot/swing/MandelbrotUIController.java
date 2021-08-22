@@ -67,13 +67,15 @@ public class MandelbrotUIController {
 	 * 
 	 */
 	private void handleLoadEvent(ModelChangedEvent<MandelbrotAttributesDTO> event) {
+		// Initialize model newly
 		view.setEnabled(false);
 		initModel(event.getModel());
-		calculationController.replaceModel(event.getModel().getCalculation());
-		colorController.replaceModel(event.getModel().getColor());
 		imageController.replaceModel(event.getModel(), calculationController);
 		view.repaint();
 		view.setEnabled(true);
+		// Set new values in controllers (the right values in UI).
+		colorController.replaceModel(event.getModel().getColor());
+		calculationController.replaceModel(event.getModel().getCalculation());
 	}
 
 	/**
