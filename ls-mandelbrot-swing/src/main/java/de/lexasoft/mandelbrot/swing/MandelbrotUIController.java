@@ -60,18 +60,20 @@ public class MandelbrotUIController {
 		calculationController.initController();
 		imageController.initController(calculationController);
 		fileMenuController.initController();
-		initLoadEventhandling();
+		fileMenuController.addModelChangedListener(e -> loadEventhandling(e));
 	}
 
 	/**
 	 * 
 	 */
-	private void initLoadEventhandling() {
-		fileMenuController.addModelChangedListener(e -> initModel(e.getModel()));
-		fileMenuController.addModelChangedListener(e -> colorController.replaceModel(e.getModel().getColor()));
-		fileMenuController.addModelChangedListener(e -> calculationController.replaceModel(e.getModel().getCalculation()));
-		fileMenuController.addModelChangedListener(e -> imageController.replaceModel(e.getModel(), calculationController));
-		fileMenuController.addModelChangedListener(e -> view.repaint());
+	private void loadEventhandling(ModelChangedEvent<MandelbrotAttributesDTO> event) {
+//		view.getFrmLexasoftMandelbrotApplication().setVisible(false);
+		initModel(event.getModel());
+		calculationController.replaceModel(event.getModel().getCalculation());
+		colorController.replaceModel(event.getModel().getColor());
+		imageController.replaceModel(event.getModel(), calculationController);
+//		view.getFrmLexasoftMandelbrotApplication().setVisible(true);
+		view.repaint();
 	}
 
 	/**
@@ -90,6 +92,13 @@ public class MandelbrotUIController {
 
 	CalculationController getCalculationController() {
 		return calculationController;
+	}
+
+	/**
+	 * @return the fileMenuController
+	 */
+	FileMenuController getFileMenuController() {
+		return fileMenuController;
 	}
 
 }
