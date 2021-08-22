@@ -59,11 +59,21 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	}
 
 	private void doSaveFile(File file2Save) throws JsonGenerationException, JsonMappingException, IOException {
+		String absolutePath = file2Save.getAbsolutePath();
+		if (!absolutePath.endsWith(".yaml")) {
+			file2Save = new File(absolutePath + ".yaml");
+		}
 		model.writeToYamlFile(file2Save);
 	}
 
 	/**
 	 * API method to save the calculation, called by the listener.
+	 * <p>
+	 * The method opens the dialog for the user to choose a file to save the
+	 * calculation to.
+	 * <p>
+	 * If the file name chosen does not end with ".yaml", this suffix will be added
+	 * automatically.
 	 */
 	public void saveFile() {
 		JFileChooser fileChooser = createFileChooser("Specify a file to save");

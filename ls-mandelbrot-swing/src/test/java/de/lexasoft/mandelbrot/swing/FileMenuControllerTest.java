@@ -17,6 +17,7 @@ package de.lexasoft.mandelbrot.swing;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doThrow;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -35,6 +37,10 @@ import javax.swing.JOptionPane;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -140,6 +146,7 @@ class FileMenuControllerTest {
 		// Go on with the save process
 		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.APPROVE_OPTION);
 		when(fileChooser.getSelectedFile()).thenReturn(file);
+		when(file.getAbsolutePath()).thenReturn("/somewhere/my-filename.yaml");
 		// call the method.
 		cut.saveFile();
 		// Check, whether the save method on the model is called with the given file.
@@ -159,6 +166,7 @@ class FileMenuControllerTest {
 		// Go on with the save process
 		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.APPROVE_OPTION);
 		when(fileChooser.getSelectedFile()).thenReturn(file);
+		when(file.getAbsolutePath()).thenReturn("/somewhere/my-filename.yaml");
 		doThrow(new IOException("Something went wrong")).when(model).writeToYamlFile(file);
 		// call the method.
 		cut.saveFile();
@@ -223,6 +231,72 @@ class FileMenuControllerTest {
 		verify(fileChooser).showOpenDialog(parentFrame);
 		// Verify, whether the error dialog is called.
 		assertErrorDialogShown();
+	}
+
+	/**
+	 * Necessary to test the changed file name, because lambda expressions don't
+	 * work due to the ambiguous method
+	 * {@link MandelbrotAttributesDTO#writeToYamlFile(String)}
+	 * 
+	 * @author nierax
+	 *
+	 */
+	class FileNameTester implements ArgumentMatcher<File> {
+
+		/**
+		 * @param expectedFilename
+		 */
+		public FileNameTester(String expectedFilename) {
+			this.expectedFilename = expectedFilename;
+		}
+
+		private String expectedFilename;
+
+		@Override
+		public boolean matches(File argument) {
+			return argument.getName().equals(expectedFilename);
+		}
+
+	}
+
+	private static Stream<Arguments> testSaveFilenameExtension() {
+		return Stream.of(
+		    // Given without any extension
+		    Arguments.of("/somewhere/my-filename", "my-filename.yaml", true),
+		    // Given with other extension
+		    Arguments.of("/somewhere/my-filename.doc", "my-filename.doc.yaml", true),
+		    // Given with the right extension - don't change anything
+		    Arguments.of("/somewhere/my-filename.yaml", "my-filename.yaml", false));
+	}
+
+	/**
+	 * Check, whether the automatic change of file name works.
+	 * 
+	 * @param filename         The file name, chosen by the user
+	 * @param expectedFilename The file name, expected after being corrected
+	 * @param renameExpected   Is it necessary to call rename action?
+	 * @throws JsonGenerationException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testSaveFilenameExtension(String filename, String expectedFilename, boolean renameExpected)
+	    throws JsonGenerationException, JsonMappingException, IOException {
+		// Simulate users interaction
+		when(fileChooser.showSaveDialog(parentFrame)).thenReturn(JFileChooser.APPROVE_OPTION);
+		when(fileChooser.getSelectedFile()).thenReturn(file);
+		// Which file name is chosen?
+		when(file.getAbsolutePath()).thenReturn(filename);
+
+		cut.saveFile();
+
+		if (renameExpected) {
+			// Was the expected file name used?
+			verify(model).writeToYamlFile(argThat(new FileNameTester(expectedFilename)));
+		} else {
+			verify(model).writeToYamlFile(file);
+		}
 	}
 
 }
