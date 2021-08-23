@@ -10,6 +10,7 @@ import java.awt.Insets;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -19,6 +20,7 @@ public class MandelbrotSwingView {
 
 	private JFrame frmLexasoftMandelbrotApplication;
 	private ImagePanel imagePanel;
+	private JLayeredPane imageLayeredPane;
 	private ColorControlPanel colorControlPanel;
 	private CalculationPanel calculationPanel;
 	private JMenuBar menuBar;
@@ -42,8 +44,13 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.getContentPane()
 		    .setLayout(new BoxLayout(frmLexasoftMandelbrotApplication.getContentPane(), BoxLayout.X_AXIS));
 
+		imageLayeredPane = new JLayeredPane();
+		imageLayeredPane.setPreferredSize(new Dimension(450, 405));
+		frmLexasoftMandelbrotApplication.getContentPane().add(imageLayeredPane);
+		imageLayeredPane.setLayout(new BoxLayout(imageLayeredPane, BoxLayout.X_AXIS));
 		imagePanel = new ImagePanel();
-		frmLexasoftMandelbrotApplication.getContentPane().add(imagePanel);
+		imageLayeredPane.add(imagePanel);
+		imagePanel.setPreferredSize(new Dimension(450, 405));
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
 		JPanel rightPanel = new JPanel();
