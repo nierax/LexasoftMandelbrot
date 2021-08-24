@@ -20,7 +20,7 @@ public class CalculationPanel extends JPanel {
 	private JTextField brcx;
 	private JTextField brcy;
 	private JTextField maxIter;
-	private JComboBox aspectRatio;
+	private JComboBox<AspectRatio> aspectRatio;
 
 	/**
 	 * Create the panel.
@@ -137,8 +137,8 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_7.gridy = 7;
 		add(lblNewLabel_7, gbc_lblNewLabel_7);
 
-		aspectRatio = new JComboBox();
-		aspectRatio.setModel(new DefaultComboBoxModel(AspectRatio.values()));
+		aspectRatio = new JComboBox<AspectRatio>();
+		aspectRatio.setModel(new DefaultComboBoxModel<AspectRatio>(AspectRatio.values()));
 		GridBagConstraints gbc_aspectRatio = new GridBagConstraints();
 		gbc_aspectRatio.insets = new Insets(0, 0, 5, 0);
 		gbc_aspectRatio.fill = GridBagConstraints.HORIZONTAL;
@@ -185,7 +185,7 @@ public class CalculationPanel extends JPanel {
 		return maxIter;
 	}
 
-	public JComboBox getAspectRatio() {
+	public JComboBox<AspectRatio> getAspectRatio() {
 		return aspectRatio;
 	}
 
