@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -24,7 +25,7 @@ public class MandelbrotSwingView {
 	private CalculationPanel calculationPanel;
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
-	private JPanel panel;
+	private CalculationAreaPanel calculationAreaPanel;
 
 	/**
 	 * Create the application.
@@ -49,9 +50,10 @@ public class MandelbrotSwingView {
 		imagePanel.setPreferredSize(new Dimension(450, 405));
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
-		panel = new TransparentPanel();
-		panel.setBackground(new Color(0, 0, 0, 0));
-		imagePanel.add(panel);
+		calculationAreaPanel = new CalculationAreaPanel();
+		calculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
+		calculationAreaPanel.drawRect(new Rectangle(400, 200));
+		imagePanel.add(calculationAreaPanel);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -126,5 +128,9 @@ public class MandelbrotSwingView {
 				enableAllChilds((Container) c, b);
 			}
 		}
+	}
+
+	public CalculationAreaPanel getCalculationAreaPanel() {
+		return calculationAreaPanel;
 	}
 }

@@ -14,57 +14,39 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.Rectangle;
 
-import javax.swing.JPanel;
-
 /**
+ * This panel paints the rectangle with the calculation area.
+ * 
  * @author nierax
  *
  */
 @SuppressWarnings("serial")
-public class TransparentPanel extends JPanel {
+public class CalculationAreaPanel extends TransparentPanel {
 
-	/**
-	 * 
-	 */
-	public TransparentPanel() {
-		setOpaque(false);
+	private Rectangle calculationArea;
+	private Color color;
+
+	public void drawRect(Rectangle calculationArea, Color color) {
+		this.calculationArea = calculationArea;
+		this.color = color;
+		validate();
+		repaint();
 	}
 
-	/**
-	 * @param layout
-	 */
-	public TransparentPanel(LayoutManager layout) {
-		super(layout);
-		setOpaque(false);
-	}
-
-	/**
-	 * @param isDoubleBuffered
-	 */
-	public TransparentPanel(boolean isDoubleBuffered) {
-		super(isDoubleBuffered);
-		setOpaque(false);
-	}
-
-	/**
-	 * @param layout
-	 * @param isDoubleBuffered
-	 */
-	public TransparentPanel(LayoutManager layout, boolean isDoubleBuffered) {
-		super(layout, isDoubleBuffered);
-		setOpaque(false);
+	public void drawRect(Rectangle calculationArea) {
+		drawRect(calculationArea, Color.WHITE);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		g.setColor(getBackground());
-		Rectangle r = g.getClipBounds();
-		g.fillRect(r.x, r.y, r.width, r.height);
 		super.paintComponent(g);
+		if ((color != null) && (calculationArea != null)) {
+			g.setXORMode(color);
+			g.drawRect(calculationArea.x, calculationArea.y, calculationArea.width, calculationArea.height);
+		}
 	}
-
 }
