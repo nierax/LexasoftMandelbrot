@@ -1,6 +1,7 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -10,7 +11,6 @@ import java.awt.Insets;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -20,11 +20,11 @@ public class MandelbrotSwingView {
 
 	private JFrame frmLexasoftMandelbrotApplication;
 	private ImagePanel imagePanel;
-	private JLayeredPane imageLayeredPane;
 	private ColorControlPanel colorControlPanel;
 	private CalculationPanel calculationPanel;
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
+	private JPanel panel;
 
 	/**
 	 * Create the application.
@@ -44,14 +44,14 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.getContentPane()
 		    .setLayout(new BoxLayout(frmLexasoftMandelbrotApplication.getContentPane(), BoxLayout.X_AXIS));
 
-		imageLayeredPane = new JLayeredPane();
-		imageLayeredPane.setPreferredSize(new Dimension(450, 405));
-		frmLexasoftMandelbrotApplication.getContentPane().add(imageLayeredPane);
-		imageLayeredPane.setLayout(new BoxLayout(imageLayeredPane, BoxLayout.X_AXIS));
 		imagePanel = new ImagePanel();
-		imageLayeredPane.add(imagePanel);
+		frmLexasoftMandelbrotApplication.getContentPane().add(imagePanel);
 		imagePanel.setPreferredSize(new Dimension(450, 405));
 		imagePanel.setLayout(new BorderLayout(0, 0));
+
+		panel = new TransparentPanel();
+		panel.setBackground(new Color(0, 0, 0, 0));
+		imagePanel.add(panel);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
