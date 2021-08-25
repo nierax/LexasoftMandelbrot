@@ -49,7 +49,7 @@ public class MandelbrotIterator {
 		double xend = bottomRight.cx();
 		double ystart = topLeft.cy();
 		double yend = bottomRight.cy();
-		MandelbrotImage image = MandelbrotImage.of(imageWidth, imageHeight);
+		MandelbrotImage image = MandelbrotImage.of(imageWidth, imageHeight, topLeft, bottomRight);
 
 		// Steps for calculations are orientated on the width / height of the image
 		double dx = (xend - xstart) / (imageWidth - 1);

@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+
 /**
  * @author nierax
  *
@@ -23,13 +25,17 @@ import org.junit.jupiter.params.provider.ValueSource;
 class MandelbrotImageTest {
 
 	private MandelbrotImage cut;
+	private MandelbrotPointPosition topLeft;
+	private MandelbrotPointPosition bottomRight;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = MandelbrotImage.of(459, 405);
+		topLeft = MandelbrotPointPosition.of(-2.02, 1.2);
+		bottomRight = MandelbrotPointPosition.of(0.8, -1.2);
+		cut = MandelbrotImage.of(459, 405, topLeft, bottomRight);
 	}
 
 	/**
@@ -38,11 +44,12 @@ class MandelbrotImageTest {
 	 */
 	@Test
 	final void testof() {
-		MandelbrotImage cut = MandelbrotImage.of(459, 405);
 		BufferedImage image = cut.getImage();
 		assertNotNull(image);
 		assertEquals(459, image.getWidth());
 		assertEquals(405, image.getHeight());
+		assertEquals(topLeft, cut.topLeft());
+		assertEquals(bottomRight, cut.bottomRight());
 	}
 
 	@ParameterizedTest
