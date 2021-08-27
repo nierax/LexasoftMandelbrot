@@ -49,12 +49,12 @@ public class MandelbrotImageController {
 
 			@Override
 			public void componentShown(ComponentEvent e) {
-				view.drawImage(calculate());
+				calculateAndDraw();
 			}
 
 			@Override
 			public void componentResized(ComponentEvent e) {
-				view.drawImage(calculate());
+				calculateAndDraw();
 			}
 
 			@Override
@@ -80,6 +80,13 @@ public class MandelbrotImageController {
 		return image.getImage();
 	}
 
+	/**
+	 * 
+	 */
+	private void calculateAndDraw() {
+		view.drawImage(calculate());
+	}
+
 	private void assignColorCM(ColorControllerModel colorCM) {
 		model.getColor().setPaletteVariant(colorCM.paletteVariant());
 		model.getColor().getColorGrading().setStyle(colorCM.gradingStyle());
@@ -96,7 +103,7 @@ public class MandelbrotImageController {
 	 */
 	public void colorModelChanged(ModelChangedEvent<ColorControllerModel> event) {
 		assignColorCM((ColorControllerModel) event.getModel());
-		view.drawImage(calculate());
+		calculateAndDraw();
 	}
 
 	private void assignDimensions(CalculationControllerModel calcCM) {
@@ -141,7 +148,7 @@ public class MandelbrotImageController {
 	 */
 	public void calculationModelChanged(ModelChangedEvent<CalculationControllerModel> event) {
 		assignCalculationCM(event.getModel());
-		view.drawImage(calculate());
+		calculateAndDraw();
 	}
 
 	/**
