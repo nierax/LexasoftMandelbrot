@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -52,7 +51,6 @@ public class MandelbrotSwingView {
 
 		calculationAreaPanel = new CalculationAreaPanel();
 		calculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
-		calculationAreaPanel.drawRect(new Rectangle(400, 200));
 		imagePanel.add(calculationAreaPanel);
 
 		JPanel rightPanel = new JPanel();

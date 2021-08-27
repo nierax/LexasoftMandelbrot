@@ -6,13 +6,14 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.image.BufferedImage;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.AspectRatioHandle;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
+import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 
@@ -23,7 +24,7 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
  * @author nierax
  *
  */
-public class MandelbrotImageController {
+public class MandelbrotImageController extends ModelChangingController<CalculationAreaControllerModel> {
 
 	private ImagePanel view;
 	private MandelbrotAttributesDTO model;
@@ -74,17 +75,51 @@ public class MandelbrotImageController {
 	 * 
 	 * @return
 	 */
-	BufferedImage calculate() {
+	MandelbrotImage calculate() {
 		handleAspectRatio(getCalcModel().aspectRatio());
 		MandelbrotImage image = MandelbrotController.of().executeSingleCalculation(model);
-		return image.getImage();
+		return image;
 	}
 
 	/**
 	 * 
 	 */
 	private void calculateAndDraw() {
-		view.drawImage(calculate());
+		MandelbrotImage image = calculate();
+		view.drawImage(image.getImage());
+		CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
+
+			@Override
+			public int imageWidth() {
+				return image.getImage().getWidth();
+			}
+
+			@Override
+			public int imageHeight() {
+				return image.getImage().getHeight();
+			}
+
+			@Override
+			public MandelbrotPointPosition calcTopLeft() {
+				return calcModel.topLeft();
+			}
+
+			@Override
+			public MandelbrotPointPosition calcBottomRight() {
+				return calcModel.bottomRight();
+			}
+
+			@Override
+			public MandelbrotPointPosition adoptTopLeft() {
+				return image.topLeft();
+			}
+
+			@Override
+			public MandelbrotPointPosition adoptBottomRight() {
+				return image.bottomRight();
+			}
+		};
+		fireModelChangedEvent(new ModelChangedEvent<CalculationAreaControllerModel>(this, calcAreaModel));
 	}
 
 	private void assignColorCM(ColorControllerModel colorCM) {
