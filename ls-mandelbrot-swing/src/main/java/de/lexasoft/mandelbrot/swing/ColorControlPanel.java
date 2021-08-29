@@ -26,8 +26,8 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
 @SuppressWarnings("serial")
 public class ColorControlPanel extends JPanel {
 	private JTextField totalColors;
-	private JComboBox paletteVariant;
-	private JComboBox colorGradingStyle;
+	private JComboBox<PaletteVariant> paletteVariant;
+	private JComboBox<ColorGradingStyle> colorGradingStyle;
 	private JLabel errorText;
 
 	/**
@@ -59,9 +59,9 @@ public class ColorControlPanel extends JPanel {
 		gbc_lblNewLabel_1.gridy = 1;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		paletteVariant = new JComboBox();
+		paletteVariant = new JComboBox<PaletteVariant>();
 		lblNewLabel_1.setLabelFor(paletteVariant);
-		paletteVariant.setModel(new DefaultComboBoxModel(PaletteVariant.values()));
+		paletteVariant.setModel(new DefaultComboBoxModel<PaletteVariant>(PaletteVariant.values()));
 		GridBagConstraints gbc_paletteVariant = new GridBagConstraints();
 		gbc_paletteVariant.insets = new Insets(0, 0, 5, 0);
 		gbc_paletteVariant.fill = GridBagConstraints.HORIZONTAL;
@@ -77,9 +77,9 @@ public class ColorControlPanel extends JPanel {
 		gbc_lblNewLabel_2.gridy = 2;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		colorGradingStyle = new JComboBox();
+		colorGradingStyle = new JComboBox<ColorGradingStyle>();
 		lblNewLabel_2.setLabelFor(colorGradingStyle);
-		colorGradingStyle.setModel(new DefaultComboBoxModel(ColorGradingStyle.values()));
+		colorGradingStyle.setModel(new DefaultComboBoxModel<ColorGradingStyle>(ColorGradingStyle.values()));
 		GridBagConstraints gbc_colorGradingStyle = new GridBagConstraints();
 		gbc_colorGradingStyle.insets = new Insets(0, 0, 5, 0);
 		gbc_colorGradingStyle.fill = GridBagConstraints.HORIZONTAL;
@@ -119,11 +119,11 @@ public class ColorControlPanel extends JPanel {
 
 	}
 
-	public JComboBox getPaletteVariant() {
+	public JComboBox<PaletteVariant> getPaletteVariant() {
 		return paletteVariant;
 	}
 
-	public JComboBox getColorGradingStyle() {
+	public JComboBox<ColorGradingStyle> getColorGradingStyle() {
 		return colorGradingStyle;
 	}
 

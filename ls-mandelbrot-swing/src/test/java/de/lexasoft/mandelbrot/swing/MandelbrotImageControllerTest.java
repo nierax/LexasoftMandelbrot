@@ -88,7 +88,7 @@ class MandelbrotImageControllerTest {
 		when(view.getHeight()).thenReturn(405);
 
 		// Run
-		BufferedImage result = cut.calculate();
+		BufferedImage result = cut.calculate().getImage();
 
 		// Check
 		assertNotNull(result);

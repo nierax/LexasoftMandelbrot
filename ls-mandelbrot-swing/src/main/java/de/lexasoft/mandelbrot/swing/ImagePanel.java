@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+/**
+ * This panel paints the Mandelbrot set image itself.
+ * 
+ * @author nierax
+ *
+ */
 @SuppressWarnings("serial")
 public class ImagePanel extends JPanel {
 

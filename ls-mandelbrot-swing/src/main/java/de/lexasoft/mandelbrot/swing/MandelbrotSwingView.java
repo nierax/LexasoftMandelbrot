@@ -1,6 +1,7 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -23,6 +24,7 @@ public class MandelbrotSwingView {
 	private CalculationPanel calculationPanel;
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
+	private CalculationAreaPanel calculationAreaPanel;
 
 	/**
 	 * Create the application.
@@ -44,7 +46,14 @@ public class MandelbrotSwingView {
 
 		imagePanel = new ImagePanel();
 		frmLexasoftMandelbrotApplication.getContentPane().add(imagePanel);
+		imagePanel.setPreferredSize(new Dimension(450, 405));
 		imagePanel.setLayout(new BorderLayout(0, 0));
+
+		calculationAreaPanel = new CalculationAreaPanel();
+		calculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
+		imagePanel.add(calculationAreaPanel);
+		calculationAreaPanel.setLayout(new BorderLayout(0, 0));
+		calculationAreaPanel.setVisible(false);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -119,5 +128,9 @@ public class MandelbrotSwingView {
 				enableAllChilds((Container) c, b);
 			}
 		}
+	}
+
+	public CalculationAreaPanel getCalculationAreaPanel() {
+		return calculationAreaPanel;
 	}
 }

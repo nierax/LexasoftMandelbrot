@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,7 +21,8 @@ public class CalculationPanel extends JPanel {
 	private JTextField brcx;
 	private JTextField brcy;
 	private JTextField maxIter;
-	private JComboBox aspectRatio;
+	private JComboBox<AspectRatio> aspectRatio;
+	private JCheckBox chckbxShowCalculationArea;
 
 	/**
 	 * Create the panel.
@@ -129,6 +131,15 @@ public class CalculationPanel extends JPanel {
 		add(brcy, gbc_brcy);
 		brcy.setColumns(5);
 
+		chckbxShowCalculationArea = new JCheckBox("Show calculation area");
+		GridBagConstraints gbc_chckbxShowCalculationArea = new GridBagConstraints();
+		gbc_chckbxShowCalculationArea.gridwidth = 3;
+		gbc_chckbxShowCalculationArea.anchor = GridBagConstraints.WEST;
+		gbc_chckbxShowCalculationArea.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxShowCalculationArea.gridx = 1;
+		gbc_chckbxShowCalculationArea.gridy = 5;
+		add(chckbxShowCalculationArea, gbc_chckbxShowCalculationArea);
+
 		JLabel lblNewLabel_7 = new JLabel("Aspect Ratio");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
@@ -137,8 +148,8 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_7.gridy = 7;
 		add(lblNewLabel_7, gbc_lblNewLabel_7);
 
-		aspectRatio = new JComboBox();
-		aspectRatio.setModel(new DefaultComboBoxModel(AspectRatio.values()));
+		aspectRatio = new JComboBox<AspectRatio>();
+		aspectRatio.setModel(new DefaultComboBoxModel<AspectRatio>(AspectRatio.values()));
 		GridBagConstraints gbc_aspectRatio = new GridBagConstraints();
 		gbc_aspectRatio.insets = new Insets(0, 0, 5, 0);
 		gbc_aspectRatio.fill = GridBagConstraints.HORIZONTAL;
@@ -185,8 +196,11 @@ public class CalculationPanel extends JPanel {
 		return maxIter;
 	}
 
-	public JComboBox getAspectRatio() {
+	public JComboBox<AspectRatio> getAspectRatio() {
 		return aspectRatio;
 	}
 
+	public JCheckBox getChckbxShowCalculationArea() {
+		return chckbxShowCalculationArea;
+	}
 }
