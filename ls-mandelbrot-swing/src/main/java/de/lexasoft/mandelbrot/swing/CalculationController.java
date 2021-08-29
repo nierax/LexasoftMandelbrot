@@ -28,6 +28,8 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	private AspectRatio aspectRatio;
 	private int maximumIterations;
 
+	private ShowCalculationArea showCalculationArea;
+
 	// The view, being connected to.
 	private CalculationPanel view;
 
@@ -82,6 +84,7 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		this.view.getBrcy().setText(Double.toString(bottomRight().cy()));
 		this.view.getMaxIter().setText(Integer.toString(maximumIterations()));
 		this.view.getAspectRatio().setSelectedItem(aspectRatio());
+		this.view.getChckbxShowCalculationArea().setSelected(false);
 	}
 
 	/**
@@ -105,6 +108,8 @@ public class CalculationController extends ModelChangingController<CalculationCo
 		this.view.getTlcy().addFocusListener(new CalculationFocusListener());
 		this.view.getBrcx().addFocusListener(new CalculationFocusListener());
 		this.view.getBrcy().addFocusListener(new CalculationFocusListener());
+		this.view.getChckbxShowCalculationArea()
+		    .addChangeListener(l -> showCalculationArea.show(this.view.getChckbxShowCalculationArea().isSelected()));
 	}
 
 	private void doHandleMaximumIterations(int maximumIterations) {
@@ -167,5 +172,19 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	public void replaceModel(CalculationAttributesDTO newModel) {
 		initModel(newModel);
 		initView();
+	}
+
+	/**
+	 * @return the showCalculationArea
+	 */
+	public ShowCalculationArea getShowCalculationArea() {
+		return showCalculationArea;
+	}
+
+	/**
+	 * @param showCalculationArea the showCalculationArea to set
+	 */
+	public void setShowCalculationArea(ShowCalculationArea showCalculationArea) {
+		this.showCalculationArea = showCalculationArea;
 	}
 }

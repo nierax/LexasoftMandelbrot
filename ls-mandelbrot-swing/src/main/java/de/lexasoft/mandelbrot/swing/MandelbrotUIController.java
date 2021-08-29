@@ -60,6 +60,7 @@ public class MandelbrotUIController {
 		colorController.initController();
 		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
+		calculationController.setShowCalculationArea(calcAreaController);
 		imageController.initController(calculationController);
 		imageController.addModelChangedListener(e -> calcAreaController.calculationAreaModelChanged(e.getModel()));
 		fileMenuController.initController();

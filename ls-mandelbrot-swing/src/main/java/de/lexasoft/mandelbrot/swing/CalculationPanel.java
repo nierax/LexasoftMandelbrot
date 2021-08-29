@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,6 +22,7 @@ public class CalculationPanel extends JPanel {
 	private JTextField brcy;
 	private JTextField maxIter;
 	private JComboBox<AspectRatio> aspectRatio;
+	private JCheckBox chckbxShowCalculationArea;
 
 	/**
 	 * Create the panel.
@@ -129,6 +131,15 @@ public class CalculationPanel extends JPanel {
 		add(brcy, gbc_brcy);
 		brcy.setColumns(5);
 
+		chckbxShowCalculationArea = new JCheckBox("Show calculation area");
+		GridBagConstraints gbc_chckbxShowCalculationArea = new GridBagConstraints();
+		gbc_chckbxShowCalculationArea.gridwidth = 3;
+		gbc_chckbxShowCalculationArea.anchor = GridBagConstraints.WEST;
+		gbc_chckbxShowCalculationArea.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxShowCalculationArea.gridx = 1;
+		gbc_chckbxShowCalculationArea.gridy = 5;
+		add(chckbxShowCalculationArea, gbc_chckbxShowCalculationArea);
+
 		JLabel lblNewLabel_7 = new JLabel("Aspect Ratio");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
@@ -189,4 +200,7 @@ public class CalculationPanel extends JPanel {
 		return aspectRatio;
 	}
 
+	public JCheckBox getChckbxShowCalculationArea() {
+		return chckbxShowCalculationArea;
+	}
 }

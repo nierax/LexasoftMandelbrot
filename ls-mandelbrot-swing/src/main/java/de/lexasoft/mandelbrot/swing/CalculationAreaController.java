@@ -22,7 +22,7 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
  * @author nierax
  *
  */
-public class CalculationAreaController {
+public class CalculationAreaController implements ShowCalculationArea {
 
 	private CalculationAreaPanel view;
 
@@ -78,6 +78,11 @@ public class CalculationAreaController {
 	 */
 	public void calculationAreaModelChanged(CalculationAreaControllerModel model) {
 		view.drawRect(calculateArea(model));
+	}
+
+	@Override
+	public void show(boolean flag) {
+		this.view.setVisible(flag);
 	}
 
 }

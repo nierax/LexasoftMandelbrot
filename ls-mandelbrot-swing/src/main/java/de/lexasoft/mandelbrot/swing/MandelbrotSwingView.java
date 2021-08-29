@@ -52,6 +52,8 @@ public class MandelbrotSwingView {
 		calculationAreaPanel = new CalculationAreaPanel();
 		calculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
 		imagePanel.add(calculationAreaPanel);
+		calculationAreaPanel.setLayout(new BorderLayout(0, 0));
+		calculationAreaPanel.setVisible(false);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
