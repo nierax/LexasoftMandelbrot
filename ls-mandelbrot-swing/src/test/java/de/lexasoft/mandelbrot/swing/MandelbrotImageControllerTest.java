@@ -76,25 +76,38 @@ class MandelbrotImageControllerTest {
 		verify(view).setPreferredSize(new Dimension(459, 405));
 	}
 
+	private static Stream<Arguments> testCalculate() {
+		return Stream.of(
+		    // Fill without any changes to the image dimensions
+		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.FILL, 25, 459, 405, 459, 405),
+		    // Cut to 4:3. The format becomes longer than before.
+		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.AR4x3, 25, 459, 405, 459, 344),
+		    // Cut to 1:1. The format becomes higher than before.
+		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.AR1x1, 25, 459, 405, 405, 405),
+		    // Cut to 3:2 with longer image format: Width must be adopted.
+		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.AR3x2, 25, 459, 200, 300, 200));
+	}
+
 	/**
 	 * Test method for
 	 * {@link de.lexasoft.mandelbrot.swing.MandelbrotImageController#calculate()}.
 	 */
-	@Test
-	final void testCalculate() {
+	@ParameterizedTest
+	@MethodSource
+	final void testCalculate(MandelbrotPointPosition tl, MandelbrotPointPosition br, AspectRatio ar, int maxIter,
+	    int width, int height, int expWidth, int expHeight) {
 		// Prepare
-		cut.setCalcModel(createCalculationControllerModel(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.FILL, 25));
-		when(view.getWidth()).thenReturn(459);
-		when(view.getHeight()).thenReturn(405);
+		cut.setCalcModel(createCalculationControllerModel(tl, br, ar, maxIter));
+		when(view.getWidth()).thenReturn(width);
+		when(view.getHeight()).thenReturn(height);
 
 		// Run
 		BufferedImage result = cut.calculate().getImage();
 
 		// Check
 		assertNotNull(result);
-		assertEquals(459, result.getWidth());
-		assertEquals(405, result.getHeight());
-		verify(view).setPreferredSize(new Dimension(459, 405));
+		assertEquals(expWidth, result.getWidth());
+		assertEquals(expHeight, result.getHeight());
 	}
 
 	private ColorControllerModel createColorControlModel(int nrOfC, PaletteVariant paletteVariant,

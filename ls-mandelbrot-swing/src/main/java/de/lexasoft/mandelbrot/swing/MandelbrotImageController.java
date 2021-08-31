@@ -159,7 +159,12 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 			// Use height and width as calculated above
 			break;
 		default:
-			height = (int) Math.round(width / ar.getRatioX2Y());
+			double ard = ar.getRatioX2Y();
+			if (ard > (width / height)) {
+				height = (int) Math.round(width / ar.getRatioX2Y());
+			} else {
+				width = (int) Math.round(height * ar.getRatioX2Y());
+			}
 			break;
 		}
 		model.getImage().setImageWidth(width);
