@@ -4,16 +4,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.lexasoft</groupId>
 	<artifactId>mandelbrot</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Lexasoft-Mandelbrot</name>
 
 	<modules>
 		<module>ls-mandelbrot-core</module>
+		<module>ls-mandelbrot-swing</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>de.lexasoft</groupId>
+				<artifactId>ls-mandelbrot-core</artifactId>
+				<version>0.1.2-SNAPSHOT</version>
+			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter</artifactId>
@@ -34,6 +40,24 @@
 				<groupId>de.lexasoft</groupId>
 				<artifactId>ls-commons</artifactId>
 				<version>0.1.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>3.11.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-inline</artifactId>
+				<version>3.11.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>3.11.1</version>
+				<scope>test</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

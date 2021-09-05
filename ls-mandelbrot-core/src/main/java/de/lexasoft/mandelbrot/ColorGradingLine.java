@@ -4,6 +4,8 @@
 package de.lexasoft.mandelbrot;
 
 import de.lexasoft.mandelbrot.api.ColorGrading;
+import de.lexasoft.mandelbrot.api.ColorGradingStyle;
+import de.lexasoft.mandelbrot.api.ValidationAPI;
 
 /**
  * Implements the color line grading.
@@ -36,7 +38,7 @@ public class ColorGradingLine extends AbstractColorGrading {
 	 */
 	@Override
 	protected int minimumGrading(int noCUngraded) {
-		return 2 * noCUngraded - 1;
+		return ValidationAPI.of().minimumNrOfColorsForGrading(noCUngraded, ColorGradingStyle.LINE);
 	}
 
 	/**

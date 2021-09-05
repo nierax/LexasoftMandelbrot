@@ -10,9 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
@@ -137,13 +141,21 @@ class MandelbrotColorizeFactoryTest {
 		assertEquals(Color.WHITE, palette.get(2));
 	}
 
+	private static Stream<Arguments> testOfCustomNotGraded() {
+		return Stream.of(null, Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 0)),
+		    Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.CIRCLE, 0)),
+		    Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.NONE, 0)),
+		    Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.NONE, 50)));
+	}
+
 	/**
 	 * Test method for {@link de.lexasoft.mandelbrot.MandelbrotColorize#of()} with
 	 * color variant custom in 2 steps, not graded.
 	 */
-	@Test
-	void testOfCustomNotGraded() {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.CUSTOM, colors, null);
+	@ParameterizedTest
+	@MethodSource
+	void testOfCustomNotGraded(MandelbrotColorGrading grading) {
+		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.CUSTOM, colors, grading);
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();

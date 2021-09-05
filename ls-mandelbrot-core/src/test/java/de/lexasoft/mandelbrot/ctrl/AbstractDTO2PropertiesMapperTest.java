@@ -28,12 +28,12 @@ class AbstractDTO2PropertiesMapperTest {
 
 	class CUT extends AbstractDTO2PropertiesMapper {
 
-		public CUT(CalculationPropertiesDTO propsDTO) {
+		public CUT(MandelbrotAttributesDTO propsDTO) {
 			super(propsDTO);
 		}
 
 		@Override
-		protected void mapFollowingCalculations(List<TransitionPropertiesDTO> dto,
+		protected void mapFollowingCalculations(List<TransitionAttributesDTO> dto,
 		    List<MandelbrotCalculationProperties> listOfProps) {
 		}
 
@@ -48,15 +48,15 @@ class AbstractDTO2PropertiesMapperTest {
 
 	private static Stream<Arguments> testOf() throws JsonParseException, JsonMappingException, IOException {
 		return Stream.of(
-		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test.yaml"),
+		    Arguments.of(MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test.yaml"),
 		        SingleDTO2PropertiesMapper.class),
-		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-list.yaml"),
+		    Arguments.of(MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test-list.yaml"),
 		        VariantsDTO2PropertiesMapper.class),
-		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-1.yaml"),
+		    Arguments.of(MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test-transition-1.yaml"),
 		        TransitionDTO2PropertiesMapper.class),
-		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-2.yaml"),
+		    Arguments.of(MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test-transition-2.yaml"),
 		        TransitionDTO2PropertiesMapper.class),
-		    Arguments.of(CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test-transition-3.yaml"),
+		    Arguments.of(MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test-transition-3.yaml"),
 		        TransitionDTO2PropertiesMapper.class));
 	}
 
@@ -66,7 +66,7 @@ class AbstractDTO2PropertiesMapperTest {
 	 */
 	@ParameterizedTest
 	@MethodSource
-	void testOf(CalculationPropertiesDTO props, Class<AbstractDTO2PropertiesMapper> expectedInstance) {
+	void testOf(MandelbrotAttributesDTO props, Class<AbstractDTO2PropertiesMapper> expectedInstance) {
 		AbstractDTO2PropertiesMapper cut = CUT.of(props);
 		assertNotNull(cut);
 		assertEquals(expectedInstance, cut.getClass());

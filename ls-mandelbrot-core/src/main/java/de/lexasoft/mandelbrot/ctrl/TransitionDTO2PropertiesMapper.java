@@ -23,7 +23,7 @@ import de.lexasoft.mandelbrot.api.TransitionFactory;
  */
 public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper {
 
-	private TransitionDTO2PropertiesMapper(CalculationPropertiesDTO propsDTO) {
+	private TransitionDTO2PropertiesMapper(MandelbrotAttributesDTO propsDTO) {
 		super(propsDTO);
 	}
 
@@ -55,10 +55,10 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 	 * @param listOfProps  List of properties, containing the base entry.
 	 */
 	@Override
-	protected void mapFollowingCalculations(List<TransitionPropertiesDTO> followingDTO,
+	protected void mapFollowingCalculations(List<TransitionAttributesDTO> followingDTO,
 	    List<MandelbrotCalculationProperties> listOfProps) {
 		MandelbrotCalculationProperties start = listOfProps.get(0);
-		for (TransitionPropertiesDTO calc : followingDTO) {
+		for (TransitionAttributesDTO calc : followingDTO) {
 			// Figure transition parameters
 			Transition transition = Transition.of(calc.getTransition().steps(), calc.getTransition().variant());
 			TransitionFactory transitionFactory = TransitionFactory.of(transition);
@@ -78,7 +78,7 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 		}
 	}
 
-	public static TransitionDTO2PropertiesMapper of(CalculationPropertiesDTO propsDTO) {
+	public static TransitionDTO2PropertiesMapper of(MandelbrotAttributesDTO propsDTO) {
 		return new TransitionDTO2PropertiesMapper(propsDTO);
 	}
 }

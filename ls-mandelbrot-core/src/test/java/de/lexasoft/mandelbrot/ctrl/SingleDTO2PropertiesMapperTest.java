@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -24,14 +25,14 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
 class SingleDTO2PropertiesMapperTest {
 
 	private AbstractDTO2PropertiesMapper cut;
-	private CalculationPropertiesDTO dtoSingle;
+	private MandelbrotAttributesDTO dtoSingle;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		dtoSingle = CalculationPropertiesDTO.of("src/test/resources/mandelbrot-test.yaml");
+		dtoSingle = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-test.yaml");
 		cut = SingleDTO2PropertiesMapper.of(dtoSingle);
 	}
 
@@ -53,6 +54,7 @@ class SingleDTO2PropertiesMapperTest {
 		assertEquals(500, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());
+		assertEquals(AspectRatioHandle.IGNORE, props.getAspectRatio());
 		assertEquals("./junit-tmp/mandelbrot-test.tiff", props.getImageFilename());
 
 		assertSame(PaletteVariant.CUSTOM, props.getPaletteVariant());
@@ -63,6 +65,23 @@ class SingleDTO2PropertiesMapperTest {
 		assertEquals(5, props.getColorGrading().getColorsTotal());
 
 		assertEquals(Color.BLACK, props.getMandelbrotColor());
+	}
+
+	/**
+	 * Default for aspect ratio handler is "FITIN".
+	 */
+	@Test
+	void testMapDTO2PropertiesAspectRatioDefault() {
+		// Reset the aspect ratio handle.
+		cut.getAttribsDTO().getImage().setAspectRatioHandle(null);
+		// Now run the mapping
+		List<MandelbrotCalculationProperties> listOfProps = cut.mapDTO2Properties();
+		assertNotNull(listOfProps);
+		assertEquals(1, listOfProps.size());
+		MandelbrotCalculationProperties props = listOfProps.get(0);
+		assertNotNull(props);
+
+		assertEquals(AspectRatioHandle.FITIN, props.getAspectRatio());
 	}
 
 }

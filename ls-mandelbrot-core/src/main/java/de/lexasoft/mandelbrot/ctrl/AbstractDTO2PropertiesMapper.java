@@ -13,10 +13,10 @@ public abstract class AbstractDTO2PropertiesMapper {
 		SINGLE, VARIANT, TRANSITION
 	}
 
-	private CalculationPropertiesDTO propsDTO;
+	private MandelbrotAttributesDTO attribsDTO;
 
-	public AbstractDTO2PropertiesMapper(CalculationPropertiesDTO propsDTO) {
-		this.propsDTO = propsDTO;
+	public AbstractDTO2PropertiesMapper(MandelbrotAttributesDTO propsDTO) {
+		this.attribsDTO = propsDTO;
 	}
 
 	/**
@@ -26,18 +26,8 @@ public abstract class AbstractDTO2PropertiesMapper {
 	 * @param dto
 	 * @param listOfProps
 	 */
-	protected abstract void mapFollowingCalculations(List<TransitionPropertiesDTO> followingDTO,
+	protected abstract void mapFollowingCalculations(List<TransitionAttributesDTO> followingDTO,
 	    List<MandelbrotCalculationProperties> listOfProps);
-
-	private Double mapDoubleFromString(String val) {
-		return ((val == null) || ("".equals(val) || ("auto".equals(val))) ? Double.NaN : Double.parseDouble(val));
-	}
-
-	private MandelbrotPointPosition mapPoint(PointDTO point) {
-		double cx = mapDoubleFromString(point.getCx());
-		double cy = mapDoubleFromString(point.getCy());
-		return MandelbrotPointPosition.of(cx, cy);
-	}
 
 	private List<Color> mapListOfColorDTO2(List<ColorDTO> listOfColorDTO) {
 		List<Color> colors = new ArrayList<>();
@@ -56,11 +46,14 @@ public abstract class AbstractDTO2PropertiesMapper {
 	public List<MandelbrotCalculationProperties> mapDTO2Properties() {
 		List<MandelbrotCalculationProperties> listOfProps = new ArrayList<>();
 		// Set first calculation directly
-		MandelbrotCalculationProperties baseProps = mapSingleCalculation(propsDTO, MandelbrotCalculationProperties.of());
+		MandelbrotCalculationProperties baseProps = mapSingleCalculation(attribsDTO, MandelbrotCalculationProperties.of());
 		listOfProps.add(baseProps);
-		mapFollowingCalculations(propsDTO.getFollowing(), listOfProps);
+		mapFollowingCalculations(attribsDTO.getFollowing(), listOfProps);
 		// At last: Normalize all properties in list
-		listOfProps.stream().forEach((p) -> p.normalize());
+		listOfProps.stream().forEach((p) -> {
+			p.normalize();
+		});
+
 		return listOfProps;
 	}
 
@@ -72,49 +65,86 @@ public abstract class AbstractDTO2PropertiesMapper {
 	 * @param props Calculation properties, where the values are set to.
 	 * @return Calculation properties, same object as given
 	 */
-	protected MandelbrotCalculationProperties mapSingleCalculation(CalculationPropertiesDTO dto,
+	protected MandelbrotCalculationProperties mapSingleCalculation(MandelbrotAttributesDTO dto,
 	    MandelbrotCalculationProperties props) {
-		if (dto.getTopLeft() != null) {
-			props.setTopLeft(mapPoint(dto.getTopLeft()));
+		CalculationAttributesDTO calcDTO = dto.getCalculation();
+		if (calcDTO != null) {
+			mapCalculation(props, calcDTO);
 		}
-		if (dto.getBottomRight() != null) {
-			props.setBottomRight(mapPoint(dto.getBottomRight()));
+		ImageAttributesDTO imageDTO = dto.getImage();
+		if (imageDTO != null) {
+			mapImage(props, imageDTO);
 		}
-		if (dto.getMaximumIterations() > 0) {
-			props.setMaximumIterations(dto.getMaximumIterations());
-		}
-		if (dto.getImageWidth() > 0) {
-			props.setImageWidth(dto.getImageWidth());
-		}
-		if (dto.getImageHeight() > 0) {
-			props.setImageHeight(dto.getImageHeight());
-		}
-		if (dto.getImageFilename() != null && !"".equals(dto.getImageFilename())) {
-			props.setImageFilename(dto.getImageFilename());
-		}
-		if (dto.getPaletteVariant() != null) {
-			props.setPaletteVariant(dto.getPaletteVariant());
-		}
-		if (dto.getCustomColorPalette() != null) {
-			props.setCustomColorPalette(mapListOfColorDTO2(dto.getCustomColorPalette()));
-		}
-		if (dto.getColorGrading() != null && dto.getColorGrading().getColorsTotal() > 0) {
-			props.setColorGrading(dto.getColorGrading());
-		}
-		if (dto.getMandelbrotColor() != null) {
-			props.setMandelbrotColor(dto.getMandelbrotColor().getColor());
+		ColorAttributesDTO colorDTO = dto.getColor();
+		if (colorDTO != null) {
+			mapColors(props, colorDTO);
 		}
 		return props;
 	}
 
-	private static Type determineType(CalculationPropertiesDTO propsDTO) {
+	/**
+	 * @param props
+	 * @param colorDTO
+	 */
+	private void mapColors(MandelbrotCalculationProperties props, ColorAttributesDTO colorDTO) {
+		if (colorDTO.getPaletteVariant() != null) {
+			props.setPaletteVariant(colorDTO.getPaletteVariant());
+		}
+		if (colorDTO.getCustomColorPalette() != null) {
+			props.setCustomColorPalette(mapListOfColorDTO2(colorDTO.getCustomColorPalette()));
+		}
+		if (colorDTO.getColorGrading() != null && colorDTO.getColorGrading().getColorsTotal() > 0) {
+			props.setColorGrading(colorDTO.getColorGrading());
+		}
+		if (colorDTO.getMandelbrotColor() != null) {
+			props.setMandelbrotColor(colorDTO.getMandelbrotColor().getColor());
+		}
+	}
+
+	/**
+	 * @param props
+	 * @param imageDTO
+	 */
+	private void mapImage(MandelbrotCalculationProperties props, ImageAttributesDTO imageDTO) {
+		if (imageDTO.getImageWidth() > 0) {
+			props.setImageWidth(imageDTO.getImageWidth());
+		}
+		if (imageDTO.getImageHeight() > 0) {
+			props.setImageHeight(imageDTO.getImageHeight());
+		}
+		if (imageDTO.getImageFilename() != null && !"".equals(imageDTO.getImageFilename())) {
+			props.setImageFilename(imageDTO.getImageFilename());
+		}
+		if (imageDTO.getAspectRatioHandle() != null) {
+			props.setAspectRatio(imageDTO.getAspectRatioHandle());
+		}
+
+	}
+
+	/**
+	 * @param props
+	 * @param calcDTO
+	 */
+	private void mapCalculation(MandelbrotCalculationProperties props, CalculationAttributesDTO calcDTO) {
+		if (calcDTO.getTopLeft() != null) {
+			props.setTopLeft(MandelbrotPointPosition.of(calcDTO.getTopLeft()));
+		}
+		if (calcDTO.getBottomRight() != null) {
+			props.setBottomRight(MandelbrotPointPosition.of(calcDTO.getBottomRight()));
+		}
+		if (calcDTO.getMaximumIterations() > 0) {
+			props.setMaximumIterations(calcDTO.getMaximumIterations());
+		}
+	}
+
+	private static Type determineType(MandelbrotAttributesDTO propsDTO) {
 		if ((propsDTO.getFollowing() == null)) {
 			return Type.SINGLE;
 		}
 		if (propsDTO.getFollowing().isEmpty()) {
 			return Type.SINGLE;
 		}
-		for (TransitionPropertiesDTO props : propsDTO.getFollowing()) {
+		for (TransitionAttributesDTO props : propsDTO.getFollowing()) {
 			if (props.getTransition() != null && props.getTransition().steps() > 0) {
 				return Type.TRANSITION;
 			}
@@ -122,7 +152,7 @@ public abstract class AbstractDTO2PropertiesMapper {
 		return Type.VARIANT;
 	}
 
-	public static AbstractDTO2PropertiesMapper of(CalculationPropertiesDTO propsDTO) {
+	public static AbstractDTO2PropertiesMapper of(MandelbrotAttributesDTO propsDTO) {
 		Type type = determineType(propsDTO);
 		switch (type) {
 		case SINGLE:
@@ -137,8 +167,8 @@ public abstract class AbstractDTO2PropertiesMapper {
 		return null;
 	}
 
-	protected CalculationPropertiesDTO getPropsDTO() {
-		return propsDTO;
+	protected MandelbrotAttributesDTO getAttribsDTO() {
+		return attribsDTO;
 	}
 
 }

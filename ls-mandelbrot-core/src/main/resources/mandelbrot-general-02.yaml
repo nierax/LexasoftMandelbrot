@@ -1,25 +1,28 @@
-topLeft:
- cx: -1.82
- cy: 0.0722963
-bottomRight:
- cx: -1.71
- cy: -0.071111
-maximumIterations: 100
-imageWidth: 4590
-imageHeight: 5940
-imageFilename: "./junit-tmp/mandelbrot-general-02-100.tiff"
-paletteVariant: "RAINBOW7"
-customColorPalette:
-- red: 25
-  green: 140
-  blue: 255
-- red: 255
-  green: 255
-  blue: 255
-colorGrading: 
-  style: LINE
-  colorsTotal: 26 
-mandelbrotColor:
-   red: 0
-   green: 0
-   blue: 64
+calculation:
+  topLeft:
+    cx: -1.82
+    cy: 0.0722963
+  bottomRight:
+    cx: -1.71
+    cy: -0.071111
+  maximumIterations: 100
+image:
+  imageWidth: 4590
+  imageHeight: 5940
+  imageFilename: "./junit-tmp/mandelbrot-general-02-100.tiff"
+color:
+  paletteVariant: "RAINBOW7"
+  customColorPalette:
+  - red: 25
+    green: 140
+    blue: 255
+  - red: 255
+    green: 255
+    blue: 255
+  colorGrading: 
+    style: LINE
+    colorsTotal: 26 
+  mandelbrotColor:
+    red: 0
+    green: 0
+    blue: 64

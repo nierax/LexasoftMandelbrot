@@ -47,6 +47,10 @@ public class MandelbrotPointPosition {
 		return new MandelbrotPointPosition(cx, cy);
 	}
 
+	public static final MandelbrotPointPosition of(MandelbrotPointPosition other) {
+		return of(other.cx, other.cy);
+	}
+
 	public double cx() {
 		return cx;
 	}
@@ -65,6 +69,30 @@ public class MandelbrotPointPosition {
 		return cy;
 	}
 
+	/**
+	 * This method is needed to fulfill java bean convention.
+	 * <p>
+	 * Prefer to use {@link MandelbrotPointPosition#cx()}
+	 * 
+	 * @return the cx
+	 */
+	@Deprecated
+	public double getCx() {
+		return cx();
+	}
+
+	/**
+	 * This method is needed to fulfill java bean convention.
+	 * <p>
+	 * Prefer to use {@link MandelbrotPointPosition#cy()}
+	 * 
+	 * @return the cy
+	 */
+	@Deprecated
+	public double getCy() {
+		return cy();
+	}
+
 	public double setCy(double cy) {
 		this.cy = cy;
 		return cy;
@@ -73,6 +101,23 @@ public class MandelbrotPointPosition {
 	public double movey(double delta) {
 		this.cy += delta;
 		return this.cy;
+	}
+
+	/**
+	 * Equality means, that the point positions are numerically identical.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof MandelbrotPointPosition)) {
+			return false;
+		}
+		MandelbrotPointPosition other = (MandelbrotPointPosition) obj;
+		return ((Double.compare(cx, other.cx) == 0) && (Double.compare(cy, other.cy) == 0));
+	}
+
+	@Override
+	public String toString() {
+		return "[cx=" + cx + ", cy=" + cy + "]";
 	}
 
 }

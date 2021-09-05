@@ -8,9 +8,9 @@ import java.io.IOException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import de.lexasoft.mandelbrot.api.MandelbrotRunnerException;
-import de.lexasoft.mandelbrot.ctrl.CalculationPropertiesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotControllerException;
 
 /**
  * CLI application for MandelbrotIterator calculation.
@@ -23,11 +23,10 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
  */
 public class MandelbrotCLI {
 
-	private void doRun(String yamlFilename)
-	    throws JsonParseException, JsonMappingException, IOException, MandelbrotRunnerException {
+	private void doRun(String yamlFilename) throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("Starting to calculate...");
-		CalculationPropertiesDTO propDTO = CalculationPropertiesDTO.of(yamlFilename);
-		MandelbrotController.of(propDTO).flowCalculation();
+		MandelbrotAttributesDTO propDTO = MandelbrotAttributesDTO.of(yamlFilename);
+		MandelbrotController.of().executeMultiCalculation(propDTO);
 		System.out.println("Done.");
 	}
 
@@ -50,7 +49,7 @@ public class MandelbrotCLI {
 		} catch (IOException e) {
 			System.err.println("Unknown IO error occured. Check console for details. (" + e.getLocalizedMessage() + ")");
 			e.printStackTrace();
-		} catch (MandelbrotRunnerException e) {
+		} catch (MandelbrotControllerException e) {
 			System.err.println("Could not run the calculation. Check console for details. (" + e.getLocalizedMessage() + ")");
 			e.printStackTrace();
 		}

@@ -75,7 +75,7 @@ class MandelbrotIteratorTest {
 		MandelbrotIterator cut = MandelbrotIterator.of(col);
 		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT);
 		assertNotNull(image, "Image could not be created");
-		image.writeAsFile(filename);
+		image.writeToFile(filename);
 	}
 
 }

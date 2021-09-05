@@ -4,7 +4,7 @@
 package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,8 +20,12 @@ import javax.imageio.ImageWriter;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
+import de.lexasoft.mandelbrot.api.InfoCallbackAPI;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+
 /**
- * This class represents an image of a MandelbrotIterator set calculation.
+ * Encapsulates the handling of an image of a Mandelbrot set.
  * 
  * @author nierax
  *
@@ -29,12 +33,17 @@ import javax.imageio.stream.ImageOutputStream;
 public class MandelbrotImage {
 
 	private BufferedImage image;
-	private Graphics2D g2d;
+	private MandelbrotPointPosition topLeft;
+	private MandelbrotPointPosition bottomRight;
 
-	public MandelbrotImage(int width, int height) {
-		super();
-		this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		g2d = image.createGraphics();
+	/**
+	 * 
+	 */
+	MandelbrotImage(int width, int height, MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight,
+	    int imageType) {
+		image = new BufferedImage(width, height, imageType);
+		this.topLeft = topLeft;
+		this.bottomRight = bottomRight;
 	}
 
 	/**
@@ -45,13 +54,18 @@ public class MandelbrotImage {
 	 * @return The color used.
 	 */
 	public Color colorizePoint(Point point, Color color) {
+		Graphics g2d = image.getGraphics();
 		g2d.setColor(color);
 		g2d.drawLine(point.x, point.y, point.x, point.y);
 		return color;
 	}
 
+	private String fileType(String qualifiedFilename) {
+		return qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
+	}
+
 	/**
-	 * Should compress the output, but doesn't work yet properly.
+	 * Experimental: Compress the output.
 	 * 
 	 * @param image
 	 * @param file
@@ -90,26 +104,76 @@ public class MandelbrotImage {
 		imageOutputStream.close();
 	}
 
-	/**
-	 * Writes the image into a file with the given filename.
-	 * <p>
-	 * The file type (*.tiff, *.png, *.jpg,...) is used to define the type of the
-	 * image.
-	 * 
-	 * @param qualifiedFilename
-	 * @throws IOException
-	 */
-	public void writeAsFile(String qualifiedFilename) throws IOException {
-		File file = new File(qualifiedFilename);
-		String filetype = qualifiedFilename.substring(qualifiedFilename.lastIndexOf(".") + 1);
-
-		if (filetype.startsWith("tif")) {
+	public void writeToFile(String fileName) throws IOException {
+		String fileType = fileType(fileName);
+		File file = new File(fileName);
+		if (fileType.startsWith("tif")) {
 			handleTiff(image, file);
 		} else {
-			if (!ImageIO.write(image, filetype, file)) {
-				throw new IOException("Image could not be written to file \"" + qualifiedFilename + "\"");
+			if (!ImageIO.write(image, fileType, file)) {
+				throw new IOException("Image could not be written to file \"" + file.getAbsolutePath() + "\"");
 			}
 		}
+		InfoCallbackAPI.of().outFileWritten(file.getCanonicalPath());
+	}
+
+	/**
+	 * Creates a Mandelbrot image with the given height and width and imageType.
+	 * 
+	 * @param width     The width of the image.
+	 * @param height    The height of the image.
+	 * @param imageType The type of the image (according {@link BufferedImage})
+	 * @return The MandelbrotImage object.
+	 */
+	public final static MandelbrotImage of(int width, int height, MandelbrotPointPosition topLeft,
+	    MandelbrotPointPosition bottomRight, int imageType) {
+		return new MandelbrotImage(width, height, topLeft, bottomRight, imageType);
+	}
+
+	/**
+	 * Creates a Mandelbrot image with the given height and width and the image type
+	 * RGB.
+	 * 
+	 * @param width  The width of the image.
+	 * @param height The height of the image.
+	 * @return The MandelbrotImage object.
+	 */
+	public final static MandelbrotImage of(int width, int height, MandelbrotPointPosition topLeft,
+	    MandelbrotPointPosition bottomRight) {
+		return of(width, height, topLeft, bottomRight, BufferedImage.TYPE_INT_RGB);
+	}
+
+	/**
+	 * @return the image
+	 */
+	public BufferedImage getImage() {
+		return image;
+	}
+
+	/**
+	 * The top left position, this image was calculated with.
+	 * <p>
+	 * This is the real position, can differ from users input, depending on the
+	 * aspect ratio handling.
+	 * 
+	 * @see AspectRatioHandle
+	 * @return The topLeft (on image position 0, 0).
+	 */
+	public MandelbrotPointPosition topLeft() {
+		return topLeft;
+	}
+
+	/**
+	 * The bottom right position, this image was calculated with.
+	 * <p>
+	 * This is the real position, can differ from users input, depending on the
+	 * aspect ratio handling.
+	 * 
+	 * @see AspectRatioHandle
+	 * @return The bottomRight (on image position width, height).
+	 */
+	public MandelbrotPointPosition bottomRight() {
+		return bottomRight;
 	}
 
 }

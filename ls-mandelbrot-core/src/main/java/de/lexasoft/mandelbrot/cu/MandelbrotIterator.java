@@ -41,6 +41,7 @@ public class MandelbrotIterator {
 	 *                    considered to be in the MandelbrotIterator set.
 	 * @param imageWidth  The width of the image in pixel.
 	 * @param imageHeight The height of the image in pixel.
+	 * @return The image with the graphics written in.
 	 */
 	public MandelbrotImage drawMandelbrot(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight, int maxIt,
 	    int imageWidth, int imageHeight) {
@@ -48,13 +49,13 @@ public class MandelbrotIterator {
 		double xend = bottomRight.cx();
 		double ystart = topLeft.cy();
 		double yend = bottomRight.cy();
+		MandelbrotImage image = MandelbrotImage.of(imageWidth, imageHeight, topLeft, bottomRight);
 
 		// Steps for calculations are orientated on the width / height of the image
 		double dx = (xend - xstart) / (imageWidth - 1);
 		double dy = (yend - ystart) / (imageHeight - 1);
 
 		MandelbrotFormula point = new MandelbrotFormula();
-		MandelbrotImage image = new MandelbrotImage(imageWidth, imageHeight);
 
 		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, ystart);
