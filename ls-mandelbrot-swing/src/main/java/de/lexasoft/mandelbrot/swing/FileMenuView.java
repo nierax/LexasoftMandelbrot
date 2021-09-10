@@ -16,6 +16,7 @@ package de.lexasoft.mandelbrot.swing;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 
 /**
  * Represents the file menu
@@ -39,6 +40,12 @@ public class FileMenuView extends JMenu {
 
 		mntmSave = new JMenuItem("Save...");
 		add(mntmSave);
+
+		JSeparator separator = new JSeparator();
+		add(separator);
+
+		JMenuItem mntmExportImageItem = new JMenuItem("Export image...");
+		add(mntmExportImageItem);
 	}
 
 	public JMenuItem getMntmLoad() {
