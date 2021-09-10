@@ -39,6 +39,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	private FileMenuView menuView;
 	private JFrame parentFrame;
 	private MandelbrotAttributesDTO model;
+	private ExportImageDialog exportImageDialog;
 
 	/**
 	 * 
@@ -46,6 +47,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	public FileMenuController(FileMenuView view, JFrame parent, MandelbrotAttributesDTO model) {
 		this.menuView = view;
 		this.parentFrame = parent;
+		this.exportImageDialog = new ExportImageDialog(this.parentFrame);
 		initModel(model);
 	}
 
@@ -56,6 +58,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	void initController() {
 		menuView.getMntmSave().addActionListener(l -> saveFile());
 		menuView.getMntmLoad().addActionListener(l -> loadFile());
+		menuView.getMntmExportImage().addActionListener(l -> exportImage());
 	}
 
 	private void doSaveFile(File file2Save) throws JsonGenerationException, JsonMappingException, IOException {
@@ -138,6 +141,13 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 			    JOptionPane.ERROR_MESSAGE);
 		}
 		}
+	}
+
+	/**
+	 * Starts the export dialog.
+	 */
+	public void exportImage() {
+		exportImageDialog.popupDialog();
 	}
 
 }
