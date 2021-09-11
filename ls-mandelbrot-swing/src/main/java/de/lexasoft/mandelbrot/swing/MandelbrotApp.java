@@ -29,6 +29,7 @@ public class MandelbrotApp {
 					MandelbrotSwingView view = new MandelbrotSwingView();
 					MandelbrotUIController ctrl = new MandelbrotUIController(model, view);
 					ctrl.initController();
+					view.getFrmLexasoftMandelbrotApplication().pack();
 					view.getFrmLexasoftMandelbrotApplication().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
