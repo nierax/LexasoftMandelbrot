@@ -31,9 +31,9 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class ExportImagePanel extends JPanel {
 	private JTextField imageWidth;
-	private JTextField textField;
+	private JTextField imageHeight;
 	private JLabel lblFileName;
-	private JTextField textField_1;
+	private JTextField imageFilename;
 	private JButton chooseButton;
 	private JButton btnExportImage;
 	private JSeparator separator;
@@ -83,15 +83,15 @@ public class ExportImagePanel extends JPanel {
 		gbc_lblImageHeight.gridy = 1;
 		add(lblImageHeight, gbc_lblImageHeight);
 
-		textField = new JTextField();
-		textField.setText("1080");
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 5;
-		gbc_textField.gridy = 1;
-		add(textField, gbc_textField);
-		textField.setColumns(10);
+		imageHeight = new JTextField();
+		imageHeight.setText("1080");
+		GridBagConstraints gbc_imageHeight = new GridBagConstraints();
+		gbc_imageHeight.insets = new Insets(0, 0, 5, 5);
+		gbc_imageHeight.fill = GridBagConstraints.HORIZONTAL;
+		gbc_imageHeight.gridx = 5;
+		gbc_imageHeight.gridy = 1;
+		add(imageHeight, gbc_imageHeight);
+		imageHeight.setColumns(10);
 
 		lblFileName = new JLabel("File name");
 		GridBagConstraints gbc_lblFileName = new GridBagConstraints();
@@ -101,17 +101,17 @@ public class ExportImagePanel extends JPanel {
 		gbc_lblFileName.gridy = 2;
 		add(lblFileName, gbc_lblFileName);
 
-		textField_1 = new JTextField();
-		textField_1.setEnabled(false);
-		textField_1.setEditable(false);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 3;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 2;
-		add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		imageFilename = new JTextField();
+		imageFilename.setEnabled(false);
+		imageFilename.setEditable(false);
+		GridBagConstraints gbc_imageFilename = new GridBagConstraints();
+		gbc_imageFilename.gridwidth = 3;
+		gbc_imageFilename.insets = new Insets(0, 0, 5, 5);
+		gbc_imageFilename.fill = GridBagConstraints.HORIZONTAL;
+		gbc_imageFilename.gridx = 2;
+		gbc_imageFilename.gridy = 2;
+		add(imageFilename, gbc_imageFilename);
+		imageFilename.setColumns(10);
 
 		chooseButton = new JButton("Choose...");
 		GridBagConstraints gbc_chooseButton = new GridBagConstraints();
@@ -138,4 +138,23 @@ public class ExportImagePanel extends JPanel {
 		add(separator_1, gbc_separator_1);
 	}
 
+	public JTextField getImageWidth() {
+		return imageWidth;
+	}
+
+	public JTextField getImageHeight() {
+		return imageHeight;
+	}
+
+	public JTextField getImageFilename() {
+		return imageFilename;
+	}
+
+	public JButton getChooseButton() {
+		return chooseButton;
+	}
+
+	public JButton getBtnExportImage() {
+		return btnExportImage;
+	}
 }
