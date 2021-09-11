@@ -5,6 +5,9 @@ package de.lexasoft.mandelbrot.swing;
 
 import java.awt.EventQueue;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
@@ -29,6 +32,10 @@ public class MandelbrotApp {
 					MandelbrotSwingView view = new MandelbrotSwingView();
 					MandelbrotUIController ctrl = new MandelbrotUIController(model, view);
 					ctrl.initController();
+					String laf = UIManager.getSystemLookAndFeelClassName();
+					System.out.println("Using system look and feel " + laf);
+					UIManager.setLookAndFeel(laf);
+					SwingUtilities.updateComponentTreeUI(view.getFrmLexasoftMandelbrotApplication());
 					view.getFrmLexasoftMandelbrotApplication().pack();
 					view.getFrmLexasoftMandelbrotApplication().setVisible(true);
 				} catch (Exception e) {
