@@ -39,7 +39,6 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	private FileMenuView menuView;
 	private JFrame parentFrame;
 	private MandelbrotAttributesDTO model;
-	private ExportImageDialog exportImageDialog;
 
 	/**
 	 * 
@@ -47,7 +46,6 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	public FileMenuController(FileMenuView view, JFrame parent, MandelbrotAttributesDTO model) {
 		this.menuView = view;
 		this.parentFrame = parent;
-//		this.exportImageDialog = new ExportImageDialog(this.parentFrame);
 		initModel(model);
 	}
 
@@ -147,6 +145,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	 * Starts the export dialog.
 	 */
 	public void exportImage() {
+		ExportImageDialog exportImageDialog = new ExportImageDialog(this.parentFrame);
 		exportImageDialog.popupDialog();
 	}
 
