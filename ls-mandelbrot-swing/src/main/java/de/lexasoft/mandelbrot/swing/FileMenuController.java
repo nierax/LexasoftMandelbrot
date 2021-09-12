@@ -27,6 +27,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+import de.lexasoft.mandelbrot.swing.model.APIModelFactory;
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
 
 /**
  * This class controls the file menu.
@@ -38,19 +42,31 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 
 	private FileMenuView menuView;
 	private JFrame parentFrame;
-	private MandelbrotAttributesDTO model;
+	private CalculationControllerModel calcModel;
+	private ColorControllerModel colModel;
+	private ImageControllerModel imgModel;
 
 	/**
+	 * Create the file menu controller.
+	 * <p>
+	 * It's being initialized with the menu view and the parent. This is necessary
+	 * to center the pop dialogs exactly over the application.
+	 * <p>
+	 * The complete controller model is needed to save all relevant data.
 	 * 
+	 * @param view      The file menu view.
+	 * @param parent    The parent frame (top frame of the application)
+	 * @param calcModel The controller calculation model
+	 * @param colModel  The controller color model
+	 * @param imgModel  The controller image model
 	 */
-	public FileMenuController(FileMenuView view, JFrame parent, MandelbrotAttributesDTO model) {
+	public FileMenuController(FileMenuView view, JFrame parent, CalculationControllerModel calcModel,
+	    ColorControllerModel colModel, ImageControllerModel imgModel) {
 		this.menuView = view;
 		this.parentFrame = parent;
-		initModel(model);
-	}
-
-	void initModel(MandelbrotAttributesDTO model) {
-		this.model = model;
+		this.calcModel = calcModel;
+		this.colModel = colModel;
+		this.imgModel = imgModel;
 	}
 
 	void initController() {
@@ -64,7 +80,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 		if (!absolutePath.endsWith(".yaml")) {
 			file2Save = new File(absolutePath + ".yaml");
 		}
-		model.writeToYamlFile(file2Save);
+		APIModelFactory.of().createFromCM(calcModel, colModel, imgModel).writeToYamlFile(file2Save);
 	}
 
 	/**
@@ -108,15 +124,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 
 	private void doLoadFile(File file2Load) throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotAttributesDTO newModel = MandelbrotAttributesDTO.of(file2Load);
-		initModel(newModel);
 		fireModelChangedEvent(new ModelChangedEvent<MandelbrotAttributesDTO>(this, newModel));
-	}
-
-	/**
-	 * @return the model
-	 */
-	MandelbrotAttributesDTO getModel() {
-		return model;
 	}
 
 	public void loadFile() {
