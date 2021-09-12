@@ -14,18 +14,77 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
+import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
+
 /**
  * @author nierax
  *
  */
-public class ExportImageController {
+public class ExportImageController implements ImageControllerModel {
 
-	ExportImagePanel view;
+	private ExportImagePanel view;
+
+	private int imageWidth;
+	private int imageHeight;
+	private String imageFilename;
 
 	/**
 	 * 
 	 */
 	public ExportImageController(ExportImagePanel view) {
+	}
+
+	public void initController() {
+		view.getImageWidth().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				imageWidth = Integer.parseInt(view.getImageWidth().getText());
+			}
+		});
+		view.getImageHeight().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				imageHeight = Integer.parseInt(view.getImageHeight().getText());
+			}
+		});
+		view.getImageFilename().addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				imageFilename = view.getImageFilename().getText();
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+		});
+	}
+
+	@Override
+	public int imageWidth() {
+		return imageWidth;
+	}
+
+	@Override
+	public int imageHeight() {
+		return imageHeight;
+	}
+
+	@Override
+	public String imageFilename() {
+		return imageFilename;
 	}
 
 }

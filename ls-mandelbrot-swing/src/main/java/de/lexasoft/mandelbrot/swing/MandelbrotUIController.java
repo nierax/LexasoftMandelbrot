@@ -3,6 +3,8 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import java.awt.Dimension;
+
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
 /**
@@ -32,7 +34,10 @@ public class MandelbrotUIController {
 		this.view = view;
 		this.colorController = new ColorController(this.model.getColor(), this.view.getColorControlPanel());
 		this.calculationController = new CalculationController(model.getCalculation(), this.view.getCalculationPanel());
-		this.imageController = new MandelbrotImageController(this.model, this.view.getImagePanel());
+		Dimension initialImageSize = new Dimension(this.model.getImage().getImageWidth(),
+		    this.model.getImage().getImageHeight());
+		this.imageController = new MandelbrotImageController(this.calculationController, this.colorController,
+		    initialImageSize, this.view.getImagePanel());
 		this.fileMenuController = new FileMenuController(this.view.getMnFile(),
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.model);
 		this.calcAreaController = new CalculationAreaController(this.view.getCalculationAreaPanel());
@@ -72,14 +77,13 @@ public class MandelbrotUIController {
 	 */
 	private void handleLoadEvent(ModelChangedEvent<MandelbrotAttributesDTO> event) {
 		// Initialize model newly
-		view.setEnabled(false);
 		initModel(event.getModel());
-		imageController.replaceModel(event.getModel(), calculationController);
-		view.repaint();
-		view.setEnabled(true);
 		// Set new values in controllers (the right values in UI).
 		colorController.replaceModel(event.getModel().getColor());
 		calculationController.replaceModel(event.getModel().getCalculation());
+		imageController.setCalcModel(calculationController);
+		imageController.reCalculate();
+		view.repaint();
 	}
 
 	/**

@@ -8,14 +8,11 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
-import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
-import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
-import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
 
 /**
  * This controller does the calculation of the Mandelbrot set and sets it as
@@ -24,24 +21,25 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
  * @author nierax
  *
  */
-public class MandelbrotImageController extends ModelChangingController<CalculationAreaControllerModel> {
+public class MandelbrotImageController extends ModelChangingController<CalculationAreaControllerModel>
+    implements ImageControllerModel {
 
 	private ImagePanel view;
-	private MandelbrotAttributesDTO model;
 	private CalculationControllerModel calcModel;
+	private ColorControllerModel colorCM;
+	private RunCalculationAdapter calculationAdapter;
 
-	public MandelbrotImageController(MandelbrotAttributesDTO model, ImagePanel view) {
+	public MandelbrotImageController(CalculationControllerModel calcCM, ColorControllerModel colorCM,
+	    Dimension initialSize, ImagePanel view) {
 		this.view = view;
-		initModel(model);
-		initView();
+		this.calcModel = calcCM;
+		this.colorCM = colorCM;
+		this.calculationAdapter = RunCalculationAdapter.of();
+		initView(initialSize);
 	}
 
-	void initModel(MandelbrotAttributesDTO model) {
-		this.model = model;
-	}
-
-	void initView() {
-		this.view.setPreferredSize(new Dimension(model.getImage().getImageWidth(), model.getImage().getImageHeight()));
+	void initView(Dimension initialSize) {
+		this.view.setPreferredSize(initialSize);
 	}
 
 	public void initController(CalculationControllerModel calcModel) {
@@ -71,21 +69,10 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	}
 
 	/**
-	 * Calculate with current model.
-	 * 
-	 * @return
-	 */
-	MandelbrotImage calculate() {
-		handleAspectRatio(getCalcModel().aspectRatio());
-		MandelbrotImage image = MandelbrotController.of().executeSingleCalculation(model);
-		return image;
-	}
-
-	/**
 	 * 
 	 */
 	private void calculateAndDraw() {
-		MandelbrotImage image = calculate();
+		MandelbrotImage image = calculationAdapter.calculate(calcModel, colorCM, this);
 		view.drawImage(image.getImage());
 		CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
 
@@ -122,10 +109,11 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 		fireModelChangedEvent(new ModelChangedEvent<CalculationAreaControllerModel>(this, calcAreaModel));
 	}
 
-	private void assignColorCM(ColorControllerModel colorCM) {
-		model.getColor().setPaletteVariant(colorCM.paletteVariant());
-		model.getColor().getColorGrading().setStyle(colorCM.gradingStyle());
-		model.getColor().getColorGrading().setColorsTotal(colorCM.totalNrOfColors());
+	/**
+	 * Calculates and redraws the component.
+	 */
+	public void reCalculate() {
+		calculateAndDraw();
 	}
 
 	/**
@@ -137,44 +125,8 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 * @param event The event connected with the change.
 	 */
 	public void colorModelChanged(ModelChangedEvent<ColorControllerModel> event) {
-		assignColorCM((ColorControllerModel) event.getModel());
+		this.colorCM = (ColorControllerModel) event.getModel();
 		calculateAndDraw();
-	}
-
-	private void assignDimensions(CalculationControllerModel calcCM) {
-		model.getCalculation().setTopLeft(calcCM.topLeft());
-		model.getCalculation().setBottomRight(calcCM.bottomRight());
-	}
-
-	private void handleAspectRatio(AspectRatio ar) {
-		int width = view.getWidth();
-		int height = view.getHeight();
-		switch (ar) {
-		case IGNORE:
-			model.getImage().setImageWidth(width);
-			model.getImage().setImageHeight(height);
-			model.getImage().setAspectRatioHandle(AspectRatioHandle.IGNORE);
-			return;
-		case FILL:
-			// Use height and width as calculated above
-			break;
-		default:
-			double ard = ar.getRatioX2Y();
-			if (ard > (width / height)) {
-				height = (int) Math.round(width / ar.getRatioX2Y());
-			} else {
-				width = (int) Math.round(height * ar.getRatioX2Y());
-			}
-			break;
-		}
-		model.getImage().setImageWidth(width);
-		model.getImage().setImageHeight(height);
-		model.getImage().setAspectRatioHandle(AspectRatioHandle.FITIN);
-	}
-
-	private void assignCalculationCM(CalculationControllerModel calcCM) {
-		assignDimensions(calcCM);
-		model.getCalculation().setMaximumIterations(calcCM.maximumIterations());
 	}
 
 	/**
@@ -187,7 +139,7 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 * @param event The event connected with the change.
 	 */
 	public void calculationModelChanged(ModelChangedEvent<CalculationControllerModel> event) {
-		assignCalculationCM(event.getModel());
+		setCalcModel(event.getModel());
 		calculateAndDraw();
 	}
 
@@ -198,6 +150,10 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 		return calcModel;
 	}
 
+	ColorControllerModel getColorModel() {
+		return colorCM;
+	}
+
 	/**
 	 * @param calcModel the calcModel to set
 	 */
@@ -205,16 +161,24 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 		this.calcModel = calcModel;
 	}
 
-	public void replaceModel(MandelbrotAttributesDTO model, CalculationControllerModel calcCtrlModel) {
-		initModel(model);
+	public void replaceModel(CalculationControllerModel calcCtrlModel) {
 		setCalcModel(calcCtrlModel);
 	}
 
-	/**
-	 * @return the model
-	 */
-	MandelbrotAttributesDTO getModel() {
-		return model;
+	@Override
+	public int imageWidth() {
+		return view.getWidth();
+	}
+
+	@Override
+	public int imageHeight() {
+		return view.getHeight();
+	}
+
+	@Override
+	public String imageFilename() {
+		// Image file name not supported here.
+		return null;
 	}
 
 }
