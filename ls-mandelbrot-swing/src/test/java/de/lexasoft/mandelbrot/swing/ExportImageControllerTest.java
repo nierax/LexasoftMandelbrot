@@ -19,12 +19,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.stream.Stream;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -99,14 +103,30 @@ class ExportImageControllerTest {
 		when(colorModel.gradingStyle()).thenReturn(ColorGradingStyle.LINE);
 	}
 
+	private static Stream<Arguments> testExportImageFor() {
+		return Stream.of(
+		    // With FILL the image size is unchanged
+		    Arguments.of(459, 405, AspectRatio.FILL, 459, 405),
+		    // With IGNORE the image size is unchanged
+		    Arguments.of(459, 405, AspectRatio.IGNORE, 459, 405),
+		    // With 1x1 both sides should have the same value (smaller value)
+		    Arguments.of(459, 405, AspectRatio.AR1x1, 405, 405), Arguments.of(405, 459, AspectRatio.AR1x1, 405, 405),
+		    // With 3x2 the with is wider than the height.
+		    Arguments.of(600, 459, AspectRatio.AR3x2, 600, 400));
+	}
+
 	/**
 	 * Should initialize the the export dialog with the image size from the image
 	 * model and open it.
 	 */
-	@Test
-	final void testExportImageFor() {
-		when(imgModel.imageWidth()).thenReturn(459);
-		when(imgModel.imageHeight()).thenReturn(405);
+	@ParameterizedTest
+	@MethodSource
+	final void testExportImageFor(int imgWidth, int imgHeight, AspectRatio ar, int expWidth, int expHeight) {
+		mockCalculationModel();
+		when(calcModel.aspectRatio()).thenReturn(ar);
+		mockColorModel();
+		when(imgModel.imageWidth()).thenReturn(imgWidth);
+		when(imgModel.imageHeight()).thenReturn(imgHeight);
 
 		// Run
 		cut.exportImageFor(calcModel, colorModel, imgModel);
@@ -114,11 +134,11 @@ class ExportImageControllerTest {
 		// Check
 		verify(imgModel).imageHeight();
 		verify(imgModel).imageWidth();
-		verify(imageWidth).setText("459");
-		verify(imageHeight).setText("405");
+		verify(imageWidth).setText(Integer.toString(expWidth));
+		verify(imageHeight).setText(Integer.toString(expHeight));
 		verify(exportDlg).popupDialog();
-		assertEquals(459, cut.imageWidth());
-		assertEquals(405, cut.imageHeight());
+		assertEquals(expWidth, cut.imageWidth());
+		assertEquals(expHeight, cut.imageHeight());
 		assertNull(cut.imageFilename());
 	}
 

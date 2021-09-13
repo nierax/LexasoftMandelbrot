@@ -19,11 +19,18 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JFrame;
 
+import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+import de.lexasoft.mandelbrot.swing.model.APIModelFactory;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
 
 /**
+ * Controller for exporting a calculation into an image file.
+ * <p>
+ * Uses the @ExportImageDialog to ask for image width and height and file to
+ * save to.
+ * 
  * @author nierax
  *
  */
@@ -34,6 +41,7 @@ public class ExportImageController implements ImageControllerModel {
 	private int imageWidth;
 	private int imageHeight;
 	private String imageFilename;
+	private MandelbrotAttributesDTO model;
 
 	/**
 	 * 
@@ -96,11 +104,22 @@ public class ExportImageController implements ImageControllerModel {
 		return imageFilename;
 	}
 
+	/**
+	 * Prepares the calculation by translating the model into the api model and
+	 * popping up the export dialog.
+	 * <p>
+	 * Corrects the image sizes, that they fit to the aspect ratio.
+	 * 
+	 * @param calcModel
+	 * @param colModel
+	 * @param imgModel
+	 */
 	public void exportImageFor(CalculationControllerModel calcModel, ColorControllerModel colModel,
 	    ImageControllerModel imgModel) {
-		imageWidth = imgModel.imageWidth();
-		imageHeight = imgModel.imageHeight();
-		imageFilename = imgModel.imageFilename();
+		model = APIModelFactory.of().createFromCM(calcModel, colModel, imgModel);
+		imageWidth = model.getImage().getImageWidth();
+		imageHeight = model.getImage().getImageHeight();
+		imageFilename = model.getImage().getImageFilename();
 		view.getPanel().getImageWidth().setText(Integer.toString(imageWidth));
 		view.getPanel().getImageHeight().setText(Integer.toString(imageHeight));
 		view.popupDialog();
