@@ -17,6 +17,10 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JFrame;
+
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
 
 /**
@@ -25,7 +29,7 @@ import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
  */
 public class ExportImageController implements ImageControllerModel {
 
-	private ExportImagePanel view;
+	private ExportImageDialog view;
 
 	private int imageWidth;
 	private int imageHeight;
@@ -34,11 +38,16 @@ public class ExportImageController implements ImageControllerModel {
 	/**
 	 * 
 	 */
-	public ExportImageController(ExportImagePanel view) {
+	public ExportImageController(JFrame parent) {
+		this.view = createDialog(parent);
+	}
+
+	ExportImageDialog createDialog(JFrame parent) {
+		return new ExportImageDialog(parent);
 	}
 
 	public void initController() {
-		view.getImageWidth().addFocusListener(new FocusListener() {
+		view.getPanel().getImageWidth().addFocusListener(new FocusListener() {
 
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -46,10 +55,10 @@ public class ExportImageController implements ImageControllerModel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				imageWidth = Integer.parseInt(view.getImageWidth().getText());
+				imageWidth = Integer.parseInt(view.getPanel().getImageWidth().getText());
 			}
 		});
-		view.getImageHeight().addFocusListener(new FocusListener() {
+		view.getPanel().getImageHeight().addFocusListener(new FocusListener() {
 
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -57,13 +66,13 @@ public class ExportImageController implements ImageControllerModel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				imageHeight = Integer.parseInt(view.getImageHeight().getText());
+				imageHeight = Integer.parseInt(view.getPanel().getImageHeight().getText());
 			}
 		});
-		view.getImageFilename().addFocusListener(new FocusListener() {
+		view.getPanel().getImageFilename().addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				imageFilename = view.getImageFilename().getText();
+				imageFilename = view.getPanel().getImageFilename().getText();
 			}
 
 			@Override
@@ -87,4 +96,13 @@ public class ExportImageController implements ImageControllerModel {
 		return imageFilename;
 	}
 
+	public void exportImageFor(CalculationControllerModel calcModel, ColorControllerModel colModel,
+	    ImageControllerModel imgModel) {
+		imageWidth = imgModel.imageWidth();
+		imageHeight = imgModel.imageHeight();
+		imageFilename = imgModel.imageFilename();
+		view.getPanel().getImageWidth().setText(Integer.toString(imageWidth));
+		view.getPanel().getImageHeight().setText(Integer.toString(imageHeight));
+		view.popupDialog();
+	}
 }

@@ -25,6 +25,7 @@ import javax.swing.JFrame;
  */
 @SuppressWarnings("serial")
 public class ExportImageDialog extends JDialog {
+	private ExportImagePanel panel;
 
 	/**
 	 * 
@@ -34,7 +35,7 @@ public class ExportImageDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setTitle("Export image file");
 
-		ExportImagePanel panel = new ExportImagePanel();
+		panel = new ExportImagePanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 	}
 
@@ -45,4 +46,7 @@ public class ExportImageDialog extends JDialog {
 		setVisible(true);
 	}
 
+	public ExportImagePanel getPanel() {
+		return panel;
+	}
 }

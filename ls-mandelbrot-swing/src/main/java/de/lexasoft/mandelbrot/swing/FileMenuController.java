@@ -45,6 +45,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	private CalculationControllerModel calcModel;
 	private ColorControllerModel colModel;
 	private ImageControllerModel imgModel;
+	private ExportImageController exportController;
 
 	/**
 	 * Create the file menu controller.
@@ -67,6 +68,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 		this.calcModel = calcModel;
 		this.colModel = colModel;
 		this.imgModel = imgModel;
+		this.exportController = new ExportImageController(null);
 	}
 
 	void initController() {
@@ -153,8 +155,8 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	 * Starts the export dialog.
 	 */
 	public void exportImage() {
-		ExportImageDialog exportImageDialog = new ExportImageDialog(this.parentFrame);
-		exportImageDialog.popupDialog();
+		ExportImageController exportCtrl = new ExportImageController(parentFrame);
+		exportCtrl.exportImageFor(calcModel, colModel, imgModel);
 	}
 
 }

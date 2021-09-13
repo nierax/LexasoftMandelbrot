@@ -66,7 +66,6 @@ public class ExportImagePanel extends JPanel {
 		add(lblImageWidth, gbc_lblImageWidth);
 
 		imageWidth = new JTextField();
-		imageWidth.setText("1920");
 		GridBagConstraints gbc_imageWidth = new GridBagConstraints();
 		gbc_imageWidth.insets = new Insets(0, 0, 5, 5);
 		gbc_imageWidth.fill = GridBagConstraints.HORIZONTAL;
@@ -84,7 +83,6 @@ public class ExportImagePanel extends JPanel {
 		add(lblImageHeight, gbc_lblImageHeight);
 
 		imageHeight = new JTextField();
-		imageHeight.setText("1080");
 		GridBagConstraints gbc_imageHeight = new GridBagConstraints();
 		gbc_imageHeight.insets = new Insets(0, 0, 5, 5);
 		gbc_imageHeight.fill = GridBagConstraints.HORIZONTAL;
