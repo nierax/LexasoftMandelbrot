@@ -156,6 +156,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	 */
 	public void exportImage() {
 		ExportImageController exportCtrl = new ExportImageController(parentFrame);
+		exportCtrl.initController();
 		exportCtrl.exportImageFor(calcModel, colModel, imgModel);
 	}
 

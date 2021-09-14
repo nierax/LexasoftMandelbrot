@@ -142,4 +142,86 @@ class ExportImageControllerTest {
 		assertNull(cut.imageFilename());
 	}
 
+	private static final Stream<Arguments> testImageWidthChanged() {
+		return Stream.of(
+		    // Export 10 times as high
+		    Arguments.of(459, 405, AspectRatio.FILL, 4590, 4050),
+		    // Export with 2048 px, quadratic
+		    Arguments.of(459, 405, AspectRatio.AR1x1, 2048, 2048),
+		    // Export with 2048 px, same aspect ratio
+		    Arguments.of(459, 405, AspectRatio.IGNORE, 2048, 1807));
+	}
+
+	/**
+	 * 
+	 * @param imgWidth
+	 * @param imgHeight
+	 * @param ar
+	 * @param expWidth
+	 * @param expHeight
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testImageWidthChanged(int imgWidth, int imgHeight, AspectRatio ar, int newWidth, int expHeight) {
+		mockCalculationModel();
+		when(calcModel.aspectRatio()).thenReturn(ar);
+		mockColorModel();
+		when(imgModel.imageWidth()).thenReturn(imgWidth);
+		when(imgModel.imageHeight()).thenReturn(imgHeight);
+
+		// Initialize controller
+		cut.exportImageFor(calcModel, colorModel, imgModel);
+		// Change width
+		cut.imageWidthChanged(newWidth);
+
+		// Verify
+		// Model corrected?
+		assertEquals(newWidth, cut.imageWidth());
+		assertEquals(expHeight, cut.imageHeight());
+		// Entered in text fields?
+		verify(imageWidth).setText(Integer.toString(newWidth));
+		verify(imageHeight).setText(Integer.toString(expHeight));
+	}
+
+	private static final Stream<Arguments> testImageHeightChanged() {
+		return Stream.of(
+		    // Export 10 times as high
+		    Arguments.of(459, 405, AspectRatio.FILL, 4590, 4050),
+		    // Export with 2048 px, quadratic
+		    Arguments.of(459, 405, AspectRatio.AR1x1, 2048, 2048),
+		    // Export with 2048 px, same aspect ratio
+		    Arguments.of(459, 405, AspectRatio.IGNORE, 2048, 1807));
+	}
+
+	/**
+	 * 
+	 * @param imgWidth
+	 * @param imgHeight
+	 * @param ar
+	 * @param expWidth
+	 * @param newHeight
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testImageHeightChanged(int imgWidth, int imgHeight, AspectRatio ar, int expWidth, int newHeight) {
+		mockCalculationModel();
+		when(calcModel.aspectRatio()).thenReturn(ar);
+		mockColorModel();
+		when(imgModel.imageWidth()).thenReturn(imgWidth);
+		when(imgModel.imageHeight()).thenReturn(imgHeight);
+
+		// Initialize controller
+		cut.exportImageFor(calcModel, colorModel, imgModel);
+		// Change width
+		cut.imageHeightChanged(newHeight);
+
+		// Verify
+		// Model corrected?
+		assertEquals(expWidth, cut.imageWidth());
+		assertEquals(newHeight, cut.imageHeight());
+		// Entered in text fields?
+		verify(imageWidth).setText(Integer.toString(expWidth));
+		verify(imageHeight).setText(Integer.toString(newHeight));
+	}
+
 }

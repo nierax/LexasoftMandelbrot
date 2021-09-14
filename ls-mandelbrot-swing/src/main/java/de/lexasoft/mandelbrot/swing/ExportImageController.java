@@ -42,12 +42,14 @@ public class ExportImageController implements ImageControllerModel {
 	private int imageHeight;
 	private String imageFilename;
 	private MandelbrotAttributesDTO model;
+	private double aspectRatio;
 
 	/**
 	 * 
 	 */
 	public ExportImageController(JFrame parent) {
 		this.view = createDialog(parent);
+		this.aspectRatio = Double.NaN;
 	}
 
 	ExportImageDialog createDialog(JFrame parent) {
@@ -63,7 +65,7 @@ public class ExportImageController implements ImageControllerModel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				imageWidth = Integer.parseInt(view.getPanel().getImageWidth().getText());
+				imageWidthChanged(Integer.parseInt(view.getPanel().getImageWidth().getText()));
 			}
 		});
 		view.getPanel().getImageHeight().addFocusListener(new FocusListener() {
@@ -74,7 +76,7 @@ public class ExportImageController implements ImageControllerModel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				imageHeight = Integer.parseInt(view.getPanel().getImageHeight().getText());
+				imageHeightChanged(Integer.parseInt(view.getPanel().getImageHeight().getText()));
 			}
 		});
 		view.getPanel().getImageFilename().addFocusListener(new FocusListener() {
@@ -87,6 +89,33 @@ public class ExportImageController implements ImageControllerModel {
 			public void focusGained(FocusEvent e) {
 			}
 		});
+	}
+
+	private void ensureAspectRatioSet() {
+		if (Double.isNaN(aspectRatio)) {
+			aspectRatio = (double) imageWidth() / imageHeight();
+		}
+	}
+
+	private void resetTextFields() {
+		this.view.getPanel().getImageWidth().setText(Integer.toString(this.imageWidth));
+		this.view.getPanel().getImageHeight().setText(Integer.toString(this.imageHeight));
+//		this.view.getPanel().getImageWidth().repaint();
+//		this.view.getPanel().getImageHeight().repaint();
+	}
+
+	void imageWidthChanged(int imageWidth) {
+		ensureAspectRatioSet();
+		this.imageWidth = imageWidth;
+		this.imageHeight = (int) Math.round(this.imageWidth / aspectRatio);
+		resetTextFields();
+	}
+
+	void imageHeightChanged(int imageHeight) {
+		ensureAspectRatioSet();
+		this.imageHeight = imageHeight;
+		this.imageWidth = (int) Math.round(this.imageHeight * aspectRatio);
+		resetTextFields();
 	}
 
 	@Override
@@ -120,6 +149,8 @@ public class ExportImageController implements ImageControllerModel {
 		imageWidth = model.getImage().getImageWidth();
 		imageHeight = model.getImage().getImageHeight();
 		imageFilename = model.getImage().getImageFilename();
+		aspectRatio = (double) imageWidth() / imageHeight();
+
 		view.getPanel().getImageWidth().setText(Integer.toString(imageWidth));
 		view.getPanel().getImageHeight().setText(Integer.toString(imageHeight));
 		view.popupDialog();
