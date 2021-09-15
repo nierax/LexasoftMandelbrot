@@ -46,6 +46,11 @@ public class ExportImageDialog extends JDialog {
 		setVisible(true);
 	}
 
+	public void closeDialog() {
+		setVisible(false);
+		dispose();
+	}
+
 	public ExportImagePanel getPanel() {
 		return panel;
 	}

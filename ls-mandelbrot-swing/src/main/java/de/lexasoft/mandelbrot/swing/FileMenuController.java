@@ -20,7 +20,6 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -61,14 +60,14 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	 * @param colModel  The controller color model
 	 * @param imgModel  The controller image model
 	 */
-	public FileMenuController(FileMenuView view, JFrame parent, CalculationControllerModel calcModel,
-	    ColorControllerModel colModel, ImageControllerModel imgModel) {
+	public FileMenuController(FileMenuView view, JFrame parent, ExportImageController exportController,
+	    CalculationControllerModel calcModel, ColorControllerModel colModel, ImageControllerModel imgModel) {
 		this.menuView = view;
 		this.parentFrame = parent;
 		this.calcModel = calcModel;
 		this.colModel = colModel;
 		this.imgModel = imgModel;
-		this.exportController = new ExportImageController(null);
+		this.exportController = exportController;
 	}
 
 	void initController() {
@@ -118,10 +117,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	}
 
 	JFileChooser createFileChooser(String dialogTitle) {
-		JFileChooser fileChooserDialog = new JFileChooser();
-		fileChooserDialog.setDialogTitle(dialogTitle);
-		fileChooserDialog.setFileFilter(new FileNameExtensionFilter("Mandelbrot calculation files", "yaml"));
-		return fileChooserDialog;
+		return FileChooserAction.of().createYamlFileChooser(dialogTitle);
 	}
 
 	private void doLoadFile(File file2Load) throws JsonParseException, JsonMappingException, IOException {
@@ -155,9 +151,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	 * Starts the export dialog.
 	 */
 	public void exportImage() {
-		ExportImageController exportCtrl = new ExportImageController(parentFrame);
-		exportCtrl.initController();
-		exportCtrl.exportImageFor(calcModel, colModel, imgModel);
+		exportController.exportImageFor(calcModel, colModel, imgModel);
 	}
 
 }

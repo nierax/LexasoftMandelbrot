@@ -65,13 +65,15 @@ class FileMenuControllerTest {
 		/**
 		 * @param view
 		 * @param parent
+		 * @param exportController
 		 * @param calcModel
 		 * @param colModel
 		 * @param imgModel
 		 */
-		public CUT(FileMenuView view, JFrame parent, CalculationControllerModel calcModel, ColorControllerModel colModel,
-		    ImageControllerModel imgModel) {
-			super(view, parent, calcModel, colModel, imgModel);
+		public CUT(FileMenuView view, JFrame parent, ExportImageController exportController,
+		    CalculationControllerModel calcModel, ColorControllerModel colModel, ImageControllerModel imgModel) {
+			super(view, parent, exportController, calcModel, colModel, imgModel);
+			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -108,13 +110,15 @@ class FileMenuControllerTest {
 	private ColorControllerModel colModel;
 	@Mock
 	private ImageControllerModel imgModel;
+	@Mock
+	private ExportImageController exportController;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new CUT(view, parentFrame, calcModel, colModel, imgModel);
+		cut = new CUT(view, parentFrame, exportController, calcModel, colModel, imgModel);
 
 	}
 

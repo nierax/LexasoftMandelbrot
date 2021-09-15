@@ -16,10 +16,13 @@ package de.lexasoft.mandelbrot.swing;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import de.lexasoft.mandelbrot.swing.model.APIModelFactory;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -43,12 +46,15 @@ public class ExportImageController implements ImageControllerModel {
 	private String imageFilename;
 	private MandelbrotAttributesDTO model;
 	private double aspectRatio;
+	private JFrame parent;
+	private File file2Exort;
 
 	/**
 	 * 
 	 */
 	public ExportImageController(JFrame parent) {
 		this.view = createDialog(parent);
+		this.parent = parent;
 		this.aspectRatio = Double.NaN;
 	}
 
@@ -79,16 +85,8 @@ public class ExportImageController implements ImageControllerModel {
 				imageHeightChanged(Integer.parseInt(view.getPanel().getImageHeight().getText()));
 			}
 		});
-		view.getPanel().getImageFilename().addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				imageFilename = view.getPanel().getImageFilename().getText();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-			}
-		});
+		view.getPanel().getChooseButton().addActionListener((e) -> chooseImageFileToSave());
+		view.getPanel().getBtnExportImage().addActionListener((e) -> exportImageFile());
 	}
 
 	private void ensureAspectRatioSet() {
@@ -100,8 +98,6 @@ public class ExportImageController implements ImageControllerModel {
 	private void resetTextFields() {
 		this.view.getPanel().getImageWidth().setText(Integer.toString(this.imageWidth));
 		this.view.getPanel().getImageHeight().setText(Integer.toString(this.imageHeight));
-//		this.view.getPanel().getImageWidth().repaint();
-//		this.view.getPanel().getImageHeight().repaint();
 	}
 
 	void imageWidthChanged(int imageWidth) {
@@ -118,6 +114,12 @@ public class ExportImageController implements ImageControllerModel {
 		resetTextFields();
 	}
 
+	private void enableDisableApproveButton() {
+		ExportImagePanel panel = view.getPanel();
+		String fileName = panel.getImageFilename().getText();
+		panel.getBtnExportImage().setEnabled((fileName != null) && !"".equals(fileName));
+	}
+
 	@Override
 	public int imageWidth() {
 		return imageWidth;
@@ -130,7 +132,7 @@ public class ExportImageController implements ImageControllerModel {
 
 	@Override
 	public String imageFilename() {
-		return imageFilename;
+		return (file2Exort == null) ? "" : file2Exort.getAbsolutePath();
 	}
 
 	/**
@@ -154,5 +156,24 @@ public class ExportImageController implements ImageControllerModel {
 		view.getPanel().getImageWidth().setText(Integer.toString(imageWidth));
 		view.getPanel().getImageHeight().setText(Integer.toString(imageHeight));
 		view.popupDialog();
+	}
+
+	private void setFileToExportTo(File file) {
+		this.file2Exort = file;
+		this.view.getPanel().getImageFilename().setText(imageFilename());
+		enableDisableApproveButton();
+	}
+
+	public void chooseImageFileToSave() {
+		JFileChooser chooser = FileChooserAction.of().createImageFileChooser("Choose a file to export to");
+		FileChooserAction.of().fileSaveAction(chooser, parent, (f) -> setFileToExportTo(f), imageFilename);
+	}
+
+	public void exportImageFile() {
+		model.getImage().setImageFilename(imageFilename());
+		model.getImage().setImageWidth(imageWidth());
+		model.getImage().setImageHeight(imageHeight());
+		MandelbrotController.of().executeMultiCalculation(model);
+		view.closeDialog();
 	}
 }
