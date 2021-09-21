@@ -15,7 +15,6 @@
 package de.lexasoft.mandelbrot.swing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -139,7 +138,7 @@ class ExportImageControllerTest {
 		verify(exportDlg).popupDialog();
 		assertEquals(expWidth, cut.imageWidth());
 		assertEquals(expHeight, cut.imageHeight());
-		assertNull(cut.imageFilename());
+		assertEquals("", cut.imageFilename());
 	}
 
 	private static final Stream<Arguments> testImageWidthChanged() {
