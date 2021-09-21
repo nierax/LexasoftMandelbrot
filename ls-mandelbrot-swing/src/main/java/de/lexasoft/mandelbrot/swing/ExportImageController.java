@@ -18,11 +18,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
 
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
-import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import de.lexasoft.mandelbrot.swing.model.APIModelFactory;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -169,11 +170,26 @@ public class ExportImageController implements ImageControllerModel {
 		FileChooserAction.of().fileSaveAction(chooser, parent, (f) -> setFileToExportTo(f), imageFilename);
 	}
 
+	private JDialog createWaitDialog(String fileName) {
+		JOptionPane jOptionPane = new JOptionPane("Exporting image to " + fileName + ". \n\rPlease wait...",
+		    JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[] {}, null);
+		JDialog dialog = new JDialog(parent);
+		dialog.setTitle("Exporting...");
+		dialog.setModal(true);
+		dialog.setContentPane(jOptionPane);
+		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		dialog.pack();
+		dialog.setLocationRelativeTo(parent);
+		return dialog;
+	}
+
 	public void exportImageFile() {
 		model.getImage().setImageFilename(imageFilename());
 		model.getImage().setImageWidth(imageWidth());
 		model.getImage().setImageHeight(imageHeight());
-		MandelbrotController.of().executeMultiCalculation(model);
+		JDialog waitDialog = createWaitDialog(imageFilename());
+		ExportImageTask.of(model, () -> waitDialog.setVisible(false)).execute();
 		view.closeDialog();
+		waitDialog.setVisible(true);
 	}
 }
