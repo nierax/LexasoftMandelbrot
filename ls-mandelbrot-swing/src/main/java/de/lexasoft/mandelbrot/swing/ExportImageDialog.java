@@ -14,53 +14,44 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
+import java.awt.BorderLayout;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 /**
- * Represents the file menu
- * 
  * @author nierax
  *
  */
 @SuppressWarnings("serial")
-public class FileMenuView extends JMenu {
-	private JMenuItem mntmLoad;
-	private JMenuItem mntmSave;
-	private JMenuItem mntmExportImage;
+public class ExportImageDialog extends JDialog {
+	private ExportImagePanel panel;
 
 	/**
 	 * 
 	 */
-	public FileMenuView() {
-		super("File");
+	public ExportImageDialog(JFrame parent) {
+		super(parent);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		setTitle("Export image file");
 
-		mntmLoad = new JMenuItem("Load...");
-		add(mntmLoad);
-
-		mntmSave = new JMenuItem("Save...");
-		add(mntmSave);
-
-		JSeparator separator = new JSeparator();
-		add(separator);
-
-		mntmExportImage = new JMenuItem("Export image...");
-		add(mntmExportImage);
+		panel = new ExportImagePanel();
+		getContentPane().add(panel, BorderLayout.CENTER);
 	}
 
-	public JMenuItem getMntmLoad() {
-		return mntmLoad;
+	public void popupDialog() {
+		setModal(true);
+		pack();
+		setLocationRelativeTo(getParent());
+		setVisible(true);
 	}
 
-	public JMenuItem getMntmSave() {
-		return mntmSave;
+	public void closeDialog() {
+		setVisible(false);
+		dispose();
 	}
 
-	/**
-	 * @return the mntmExportImage
-	 */
-	public JMenuItem getMntmExportImage() {
-		return mntmExportImage;
+	public ExportImagePanel getPanel() {
+		return panel;
 	}
 }

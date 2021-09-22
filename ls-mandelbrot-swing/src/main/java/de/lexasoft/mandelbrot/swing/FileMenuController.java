@@ -20,13 +20,16 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+import de.lexasoft.mandelbrot.swing.model.APIModelFactory;
+import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
+import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
 
 /**
  * This class controls the file menu.
@@ -38,24 +41,39 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 
 	private FileMenuView menuView;
 	private JFrame parentFrame;
-	private MandelbrotAttributesDTO model;
+	private CalculationControllerModel calcModel;
+	private ColorControllerModel colModel;
+	private ImageControllerModel imgModel;
+	private ExportImageController exportController;
 
 	/**
+	 * Create the file menu controller.
+	 * <p>
+	 * It's being initialized with the menu view and the parent. This is necessary
+	 * to center the pop dialogs exactly over the application.
+	 * <p>
+	 * The complete controller model is needed to save all relevant data.
 	 * 
+	 * @param view      The file menu view.
+	 * @param parent    The parent frame (top frame of the application)
+	 * @param calcModel The controller calculation model
+	 * @param colModel  The controller color model
+	 * @param imgModel  The controller image model
 	 */
-	public FileMenuController(FileMenuView view, JFrame parent, MandelbrotAttributesDTO model) {
+	public FileMenuController(FileMenuView view, JFrame parent, ExportImageController exportController,
+	    CalculationControllerModel calcModel, ColorControllerModel colModel, ImageControllerModel imgModel) {
 		this.menuView = view;
 		this.parentFrame = parent;
-		initModel(model);
-	}
-
-	void initModel(MandelbrotAttributesDTO model) {
-		this.model = model;
+		this.calcModel = calcModel;
+		this.colModel = colModel;
+		this.imgModel = imgModel;
+		this.exportController = exportController;
 	}
 
 	void initController() {
 		menuView.getMntmSave().addActionListener(l -> saveFile());
 		menuView.getMntmLoad().addActionListener(l -> loadFile());
+		menuView.getMntmExportImage().addActionListener(l -> exportImage());
 	}
 
 	private void doSaveFile(File file2Save) throws JsonGenerationException, JsonMappingException, IOException {
@@ -63,7 +81,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 		if (!absolutePath.endsWith(".yaml")) {
 			file2Save = new File(absolutePath + ".yaml");
 		}
-		model.writeToYamlFile(file2Save);
+		APIModelFactory.of().createFromCM(calcModel, colModel, imgModel).writeToYamlFile(file2Save);
 	}
 
 	/**
@@ -99,23 +117,12 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	}
 
 	JFileChooser createFileChooser(String dialogTitle) {
-		JFileChooser fileChooserDialog = new JFileChooser();
-		fileChooserDialog.setDialogTitle(dialogTitle);
-		fileChooserDialog.setFileFilter(new FileNameExtensionFilter("Mandelbrot calculation files", "yaml"));
-		return fileChooserDialog;
+		return FileChooserAction.of().createYamlFileChooser(dialogTitle);
 	}
 
 	private void doLoadFile(File file2Load) throws JsonParseException, JsonMappingException, IOException {
 		MandelbrotAttributesDTO newModel = MandelbrotAttributesDTO.of(file2Load);
-		initModel(newModel);
 		fireModelChangedEvent(new ModelChangedEvent<MandelbrotAttributesDTO>(this, newModel));
-	}
-
-	/**
-	 * @return the model
-	 */
-	MandelbrotAttributesDTO getModel() {
-		return model;
 	}
 
 	public void loadFile() {
@@ -138,6 +145,13 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 			    JOptionPane.ERROR_MESSAGE);
 		}
 		}
+	}
+
+	/**
+	 * Starts the export dialog.
+	 */
+	public void exportImage() {
+		exportController.exportImageFor(calcModel, colModel, imgModel);
 	}
 
 }
