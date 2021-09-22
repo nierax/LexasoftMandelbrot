@@ -2,6 +2,9 @@
 
 ## Unpublished
 
+## Version 0.1.3
+* UI allows to export calculation to image files
+
 ## Version 0.1.2
 * MandelbrotCalculationProperties allows to specify an abstract MandelbrotImage.
 * First version of a swing gui added
