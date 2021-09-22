@@ -16,40 +16,65 @@ package de.lexasoft.mandelbrot.swing;
 
 import javax.swing.SwingWorker;
 
-import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
-import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
-
 /**
+ * This task can be used to export an image to a file in a separate thread.
+ * <p>
+ * It uses the worker pattern from swing to ensure, the long running export task
+ * does not freeze the ui.
+ * <p>
+ * Simply create an object of this task with an execution and a done action.
+ * These actions usually are lambda expressions.
+ * <p>
+ * Then call the execute() method of the worker.
+ * 
  * @author nierax
- * @param <V>
- * @param <T>
  *
  */
 public class ExportImageTask extends SwingWorker<Void, Void> {
 
+	/**
+	 * Interface, that represents the execution action
+	 *
+	 */
 	interface WorkerDone {
 		void done();
 	}
 
-	private MandelbrotAttributesDTO model;
+	/**
+	 * Interface, that represents the done action
+	 *
+	 */
+	interface WorkerExecute {
+		void execute();
+	}
+
 	private WorkerDone done;
+	private WorkerExecute execute;
 
 	/**
 	 * @param model
 	 */
-	private ExportImageTask(MandelbrotAttributesDTO model, WorkerDone done) {
-		this.model = model;
+	private ExportImageTask(WorkerExecute execute, WorkerDone done) {
 		this.done = done;
+		this.execute = execute;
 	}
 
 	@Override
 	protected Void doInBackground() throws Exception {
-		MandelbrotController.of().executeMultiCalculation(model);
+		execute.execute();
 		return null;
 	}
 
-	public static ExportImageTask of(MandelbrotAttributesDTO model, WorkerDone done) {
-		return new ExportImageTask(model, done);
+	/**
+	 * Create a task object with an execution and a done action.
+	 * 
+	 * @param execute The action with the long running task.
+	 * @param done    The action, that should be taken, when the long running task
+	 *                ends.
+	 * @return New object of export image task.
+	 */
+	public static ExportImageTask of(WorkerExecute execute, WorkerDone done) {
+		return new ExportImageTask(execute, done);
 	}
 
 	@Override

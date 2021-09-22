@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
+import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import de.lexasoft.mandelbrot.swing.model.APIModelFactory;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -188,7 +189,12 @@ public class ExportImageController implements ImageControllerModel {
 		model.getImage().setImageWidth(imageWidth());
 		model.getImage().setImageHeight(imageHeight());
 		JDialog waitDialog = createWaitDialog(imageFilename());
-		ExportImageTask.of(model, () -> waitDialog.setVisible(false)).execute();
+		ExportImageTask
+		    // Execute export and save image file
+		    .of(() -> MandelbrotController.of().executeMultiCalculation(model),
+		        // Close message dialog when ready
+		        () -> waitDialog.setVisible(false))
+		    .execute();
 		view.closeDialog();
 		waitDialog.setVisible(true);
 	}
