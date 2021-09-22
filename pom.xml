@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.lexasoft</groupId>
 	<artifactId>mandelbrot</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
+	<version>0.1.3</version>
 	<packaging>pom</packaging>
 	<name>Lexasoft-Mandelbrot</name>
 
@@ -18,7 +18,7 @@
 			<dependency>
 				<groupId>de.lexasoft</groupId>
 				<artifactId>ls-mandelbrot-core</artifactId>
-				<version>0.1.2-SNAPSHOT</version>
+				<version>0.1.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -29,12 +29,12 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-jdk14</artifactId>
-				<version>1.7.30</version>
+				<version>1.7.32</version>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.dataformat</groupId>
 				<artifactId>jackson-dataformat-yaml</artifactId>
-				<version>2.12.3</version>
+				<version>2.12.5</version>
 			</dependency>
 			<dependency>
 				<groupId>de.lexasoft</groupId>
@@ -44,19 +44,19 @@
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>3.11.1</version>
+				<version>3.11.2</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-inline</artifactId>
-				<version>3.11.1</version>
+				<version>3.11.2</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-junit-jupiter</artifactId>
-				<version>3.11.1</version>
+				<version>3.11.2</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
