@@ -4,14 +4,11 @@
 package de.lexasoft.mandelbrot.swing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -24,11 +21,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
-import de.lexasoft.mandelbrot.api.MandelbrotColorGrading;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
-import de.lexasoft.mandelbrot.ctrl.ColorAttributesDTO;
-import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -40,7 +34,6 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 @ExtendWith(MockitoExtension.class)
 class MandelbrotImageControllerTest {
 
-	private MandelbrotAttributesDTO model;
 	private MandelbrotImageController cut;
 	@Mock
 	private ImagePanel view;
@@ -50,6 +43,8 @@ class MandelbrotImageControllerTest {
 	private ModelChangedEvent<CalculationControllerModel> calcEvent;
 	@Mock
 	private CalculationControllerModel calcModel;
+	@Mock
+	private ColorControllerModel colorModel;
 
 	/**
 	 * @throws java.lang.Exception
@@ -57,10 +52,10 @@ class MandelbrotImageControllerTest {
 	@SuppressWarnings("unchecked")
 	@BeforeEach
 	void setUp() throws Exception {
-		model = MandelbrotAttributesDTO.ofDefaults();
 		view = mock(ImagePanel.class);
 		calcModel = mock(CalculationControllerModel.class);
-		cut = new MandelbrotImageController(model, view);
+		Dimension initialSize = new Dimension(450, 405);
+		cut = new MandelbrotImageController(calcModel, colorModel, initialSize, view);
 		colorEvent = mock(ModelChangedEvent.class);
 		calcEvent = mock(ModelChangedEvent.class);
 	}
@@ -73,41 +68,7 @@ class MandelbrotImageControllerTest {
 	final void testInitView() {
 		// initView() is called within the constructor, so we can check immediately.
 		// Is the size set correctly?
-		verify(view).setPreferredSize(new Dimension(459, 405));
-	}
-
-	private static Stream<Arguments> testCalculate() {
-		return Stream.of(
-		    // Fill without any changes to the image dimensions
-		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.FILL, 25, 459, 405, 459, 405),
-		    // Cut to 4:3. The format becomes longer than before.
-		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.AR4x3, 25, 459, 405, 459, 344),
-		    // Cut to 1:1. The format becomes higher than before.
-		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.AR1x1, 25, 459, 405, 405, 405),
-		    // Cut to 3:2 with longer image format: Width must be adopted.
-		    Arguments.of(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.AR3x2, 25, 459, 200, 300, 200));
-	}
-
-	/**
-	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.swing.MandelbrotImageController#calculate()}.
-	 */
-	@ParameterizedTest
-	@MethodSource
-	final void testCalculate(MandelbrotPointPosition tl, MandelbrotPointPosition br, AspectRatio ar, int maxIter,
-	    int width, int height, int expWidth, int expHeight) {
-		// Prepare
-		cut.setCalcModel(createCalculationControllerModel(tl, br, ar, maxIter));
-		when(view.getWidth()).thenReturn(width);
-		when(view.getHeight()).thenReturn(height);
-
-		// Run
-		BufferedImage result = cut.calculate().getImage();
-
-		// Check
-		assertNotNull(result);
-		assertEquals(expWidth, result.getWidth());
-		assertEquals(expHeight, result.getHeight());
+		verify(view).setPreferredSize(new Dimension(450, 405));
 	}
 
 	private ColorControllerModel createColorControlModel(int nrOfC, PaletteVariant paletteVariant,
@@ -153,10 +114,10 @@ class MandelbrotImageControllerTest {
 		cut.colorModelChanged(colorEvent);
 
 		// Check
-		ColorAttributesDTO color = model.getColor();
-		assertEquals(nrOfC, color.getColorGrading().getColorsTotal());
-		assertEquals(style, color.getColorGrading().getStyle());
-		assertEquals(variant, color.getPaletteVariant());
+		ColorControllerModel color = cut.getColorModel();
+		assertEquals(nrOfC, color.totalNrOfColors());
+		assertEquals(style, color.gradingStyle());
+		assertEquals(variant, color.paletteVariant());
 	}
 
 	private CalculationControllerModel createCalculationControllerModel(MandelbrotPointPosition tl,
@@ -211,32 +172,17 @@ class MandelbrotImageControllerTest {
 		when(calcEvent.getModel()).thenReturn(calcModel);
 		when(view.getWidth()).thenReturn(459);
 		when(view.getHeight()).thenReturn(405);
+		when(colorModel.gradingStyle()).thenReturn(ColorGradingStyle.LINE);
+		when(colorModel.paletteVariant()).thenReturn(PaletteVariant.BLUEWHITE);
+		when(colorModel.totalNrOfColors()).thenReturn(7);
 
 		// Run
 		cut.calculationModelChanged(calcEvent);
 
 		// Check
-		assertEquals(tl, model.getCalculation().getTopLeft());
-		assertEquals(expBr, model.getCalculation().getBottomRight());
-		assertEquals(maxIter, model.getCalculation().getMaximumIterations());
-	}
-
-	@Test
-	final void testReplaceModel() {
-		// Define another model.
-		MandelbrotAttributesDTO otherModel = MandelbrotAttributesDTO.ofDefaults();
-		otherModel.getCalculation().setTopLeft(MandelbrotPointPosition.of(1, -1));
-		otherModel.getCalculation().setBottomRight(MandelbrotPointPosition.of(0.5, -0.5));
-		otherModel.getCalculation().setMaximumIterations(53);
-		otherModel.getColor().setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.CIRCLE, 63));
-		otherModel.getColor().setPaletteVariant(PaletteVariant.RAINBOW7);
-
-		// Run
-		cut.replaceModel(otherModel, calcModel);
-
-		// Check
-		assertSame(otherModel, cut.getModel());
-		assertSame(calcModel, cut.getCalcModel());
+		assertEquals(tl, cut.getCalcModel().topLeft());
+		assertEquals(expBr, cut.getCalcModel().bottomRight());
+		assertEquals(maxIter, cut.getCalcModel().maximumIterations());
 	}
 
 }

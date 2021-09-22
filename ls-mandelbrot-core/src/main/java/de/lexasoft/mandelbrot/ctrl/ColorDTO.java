@@ -75,4 +75,19 @@ public class ColorDTO {
 	public void setBlue(int blue) {
 		this.blue = blue;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ColorDTO)) {
+			return false;
+		}
+		ColorDTO other = (ColorDTO) obj;
+		return ((this.blue == other.blue) && (this.red == other.red) && (this.green) == other.green);
+	}
+
+	@Override
+	public String toString() {
+		return "ColorDTO [red=" + red + ", green=" + green + ", blue=" + blue + "]";
+	}
+
 }

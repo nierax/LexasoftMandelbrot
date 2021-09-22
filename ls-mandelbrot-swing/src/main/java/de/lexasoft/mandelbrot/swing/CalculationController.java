@@ -53,11 +53,11 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 * The model is needed for initial assignment of the controller model. It is not
 	 * kept as reference.
 	 * 
-	 * @param initalModel
+	 * @param initialModel
 	 * @param view
 	 */
-	public CalculationController(CalculationAttributesDTO initalModel, CalculationPanel view) {
-		initModel(initalModel);
+	public CalculationController(CalculationAttributesDTO initialModel, CalculationPanel view) {
+		initModel(initialModel);
 		this.view = view;
 		initView();
 	}

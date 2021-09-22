@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
@@ -53,6 +54,8 @@ class CalculationControllerTest {
 	private JButton btnCalculate;
 	@Mock
 	private ModelChangedListener<CalculationControllerModel> listener;
+	@Mock
+	private JCheckBox chckbxShowCalculationArea;
 
 	/**
 	 * @throws java.lang.Exception
@@ -66,6 +69,7 @@ class CalculationControllerTest {
 		when(view.getBrcy()).thenReturn(brCy);
 		when(view.getMaxIter()).thenReturn(maxIter);
 		when(view.getAspectRatio()).thenReturn(aspectRatio);
+		when(view.getChckbxShowCalculationArea()).thenReturn(chckbxShowCalculationArea);
 		cut = new CalculationController(model.getCalculation(), view);
 	}
 
