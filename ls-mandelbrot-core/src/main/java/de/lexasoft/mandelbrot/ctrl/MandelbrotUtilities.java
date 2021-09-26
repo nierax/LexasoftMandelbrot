@@ -41,10 +41,6 @@ public class MandelbrotUtilities {
 		return new MandelbrotUtilities();
 	}
 
-	private double dimension2PointRatio(double dimension, double posCoord) {
-		return (posCoord == 0) ? 0d : posCoord / dimension;
-	}
-
 	/**
 	 * Calculates the point on the calculation area in respect to the position of
 	 * the point on the image.
@@ -60,12 +56,8 @@ public class MandelbrotUtilities {
 	 */
 	public MandelbrotPointPosition calculatePointFromImagePosition(MandelbrotPointPosition topLeft,
 	    MandelbrotPointPosition bottomRight, Dimension imgDim, Point imgPoint) {
-		double cx;
-		double cy;
-		double horizontalAspectRatio = dimension2PointRatio(imgDim.getWidth(), imgPoint.getX());
-		double verticalAspectRatio = dimension2PointRatio(imgDim.getHeight(), imgPoint.getY());
-		cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * horizontalAspectRatio);
-		cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * verticalAspectRatio);
+		double cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * (imgPoint.getX() / imgDim.getWidth()));
+		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * (imgPoint.getY() / imgDim.getHeight()));
 		return MandelbrotPointPosition.of(cx, cy);
 	}
 
