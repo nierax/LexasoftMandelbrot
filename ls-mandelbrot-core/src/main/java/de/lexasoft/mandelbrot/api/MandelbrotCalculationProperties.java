@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot.api;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,14 @@ public class MandelbrotCalculationProperties {
 	private MandelbrotColorGrading colorGrading;
 	private Color mandelbrotColor;
 	private AspectRatioHandle aspectRatioHandle;
+	private MandelbrotUtilityAPI utility;
+
+	/**
+	 * 
+	 */
+	MandelbrotCalculationProperties() {
+		utility = MandelbrotUtilityAPI.of();
+	}
 
 	public MandelbrotPointPosition getTopLeft() {
 		return topLeft;
@@ -144,15 +153,6 @@ public class MandelbrotCalculationProperties {
 
 	private double difference(double v0, double v1) {
 		return Math.abs(v0 - v1);
-	}
-
-	private void calculateAspectRatioForImage() {
-		double ratioXtoY = difference(topLeft.cx(), bottomRight.cx()) / difference(topLeft.cy(), bottomRight.cy());
-		if (imageHeight == 0) {
-			imageHeight = (int) (imageWidth / ratioXtoY);
-		} else {
-			imageWidth = (int) (imageHeight * ratioXtoY);
-		}
 	}
 
 	private void calculateAspectRatioForCalculation() {
@@ -292,10 +292,10 @@ public class MandelbrotCalculationProperties {
 		case FOLLOW_CALCULATION:
 			assertCalculationCompletelyGiven();
 			assertWidthOrHeightGiven();
-			if ((imageWidth > 0) && (imageHeight > 0)) {
-				imageHeight = 0;
-			}
-			calculateAspectRatioForImage();
+			Dimension result = utility.calculateAspectRatioForImage(topLeft, bottomRight,
+			    new Dimension(imageWidth, imageHeight));
+			imageWidth = (int) result.getWidth();
+			imageHeight = (int) result.getHeight();
 			return;
 		case FITIN:
 			assertAllParametersGiven();
