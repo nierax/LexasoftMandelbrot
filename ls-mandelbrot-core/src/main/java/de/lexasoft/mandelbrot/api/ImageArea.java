@@ -33,6 +33,14 @@ public class ImageArea {
 		this.height = height;
 	}
 
+	/**
+	 * Extends or reduces the dimensions of this image to let it fit in the aspect
+	 * ratio of the calculation area, given.
+	 * <p>
+	 * In case width and height are given, height will be recalculated.
+	 * 
+	 * @param calculation
+	 */
 	public void followAspectRatio(CalculationArea calculation) {
 		double ratioXtoY = Math.abs(calculation.topLeft().cx() - calculation.bottomRight().cx())
 		    / Math.abs(calculation.topLeft().cy() - calculation.bottomRight().cy());
