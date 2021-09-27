@@ -28,7 +28,7 @@ public class ImageArea {
 	/**
 	 * 
 	 */
-	public ImageArea(int width, int height) {
+	private ImageArea(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
@@ -63,6 +63,10 @@ public class ImageArea {
 	 */
 	public int height() {
 		return height;
+	}
+
+	public final static ImageArea of(int width, int height) {
+		return new ImageArea(width, height);
 	}
 
 }

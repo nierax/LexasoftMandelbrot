@@ -35,6 +35,103 @@ public class CalculationArea {
 		this.bottomRight = bottomRight;
 	}
 
+	private int countNaN() {
+		int count = 0;
+		if (Double.isNaN(topLeft.cx())) {
+			count++;
+		}
+		if (Double.isNaN(topLeft.cy())) {
+			count++;
+		}
+		if (Double.isNaN(bottomRight.cx())) {
+			count++;
+		}
+		if (Double.isNaN(bottomRight.cy())) {
+			count++;
+		}
+		return count;
+	}
+
+	private double difference(double v0, double v1) {
+		return Math.abs(v0 - v1);
+	}
+
+	/**
+	 * Adapt aspect ratio of calculation area to the aspect ratio of the image given
+	 * by recalculating one of the point coordinates in to left or bottom right
+	 * coordinate.
+	 * <p>
+	 * Set one of the coordinates to <code>Double.NaN</code> to define the
+	 * coordinate to be adapted.
+	 * <p>
+	 * Default parameter to be adapted is bottom right y.
+	 * 
+	 * @param image The image to adapt the aspect ratio to.
+	 * @throws IllegalArgumentException if more than one parameter is set to
+	 *                                  <code>Double.NaN</code>
+	 */
+	public void followAspectRatio(ImageArea image) {
+		// Check the number of omitted parameters?
+		int count = countNaN();
+		// All parameters given, recalculate bottomRight.cy
+		if (count == 0) {
+			bottomRight.setCy(Double.NaN);
+		}
+		// More than one parameter omitted.
+		else if (count > 1) {
+			throw new IllegalArgumentException(
+			    String.format("Just one calculation parameter can be omitted, but it were %s", count));
+		}
+		double ratioXtoY = (double) image.width() / (double) image.height();
+		// width is given
+		if (!Double.isNaN(topLeft.cx()) && !Double.isNaN(bottomRight.cx())) {
+			double height = difference(topLeft.cx(), bottomRight.cx()) / ratioXtoY;
+			if (Double.isNaN(bottomRight.cy())) {
+				bottomRight.setCy(topLeft.cy() - height);
+			} else {
+				topLeft.setCy(bottomRight.cy() + height);
+			}
+			return;
+		}
+		// height is given
+		double width = difference(topLeft.cy(), bottomRight.cy()) * ratioXtoY;
+		if (Double.isNaN(bottomRight.cx())) {
+			bottomRight.setCx(topLeft.cx() + width);
+		} else {
+			topLeft.setCx(bottomRight.cx() - width);
+		}
+	}
+
+	/**
+	 * Fit the calculation area into the given image. Thus the calculation area is
+	 * always completely visible.
+	 * 
+	 * @param image The image area to fit in.
+	 */
+	public void fitIn(ImageArea image) {
+		double widthCalc0 = Math.abs(bottomRight.cx() - topLeft.cx());
+		double heightCalc0 = Math.abs(topLeft.cy() - bottomRight.cy());
+		double aspectRatioImage = (double) image.width() / (double) image.height();
+		double aspectRatioCalc = widthCalc0 / heightCalc0;
+		int relation = Double.compare(aspectRatioImage, aspectRatioCalc);
+		// aspect ratio of image and calculation are identical
+		if (relation == 0) {
+			// Nothing to do here
+			return;
+		}
+		// aspect ratio of image is wider than aspect ratio of calculation
+		if (relation > 0) {
+			double widthCalc1 = heightCalc0 * aspectRatioImage;
+			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
+			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
+		} else {
+			// aspect ratio of image is higher than aspect ratio of calculation
+			double heightCalc1 = widthCalc0 / aspectRatioImage;
+			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
+			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
+		}
+	}
+
 	/**
 	 * @return the topLeft
 	 */

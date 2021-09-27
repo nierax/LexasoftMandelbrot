@@ -63,7 +63,7 @@ class ImageAreaTest {
 	@ParameterizedTest
 	@MethodSource
 	final void testFollowAspectRatio(CalculationArea calc, int width, int height, int expWidth, int expHeight) {
-		cut = new ImageArea(width, height);
+		cut = ImageArea.of(width, height);
 		// Run
 		cut.followAspectRatio(calc);
 
