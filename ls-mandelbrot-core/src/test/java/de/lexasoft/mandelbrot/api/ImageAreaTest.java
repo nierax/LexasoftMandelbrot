@@ -39,7 +39,7 @@ class ImageAreaTest {
 	}
 
 	private static CalculationArea area(double tlCx, double tlCy, double brCx, double brCy) {
-		return new CalculationArea(MandelbrotPointPosition.of(tlCx, tlCy), MandelbrotPointPosition.of(brCx, brCy));
+		return CalculationArea.of(MandelbrotPointPosition.of(tlCx, tlCy), MandelbrotPointPosition.of(brCx, brCy));
 	}
 
 	private static final Stream<Arguments> testFollowAspectRatio() {

@@ -76,7 +76,7 @@ class CalculationAreaTest {
 	@MethodSource
 	final void testFollowAspectRatioOk(MandelbrotPointPosition tl, MandelbrotPointPosition br, ImageArea image,
 	    MandelbrotPointPosition expTl, MandelbrotPointPosition expBr) {
-		cut = new CalculationArea(tl, br);
+		cut = CalculationArea.of(tl, br);
 		// Run
 		cut.followAspectRatio(image);
 		// Check
@@ -98,7 +98,7 @@ class CalculationAreaTest {
 	@ParameterizedTest
 	@MethodSource
 	final void testFollowAspectRatioTooManyNaN(MandelbrotPointPosition tl, MandelbrotPointPosition br) {
-		cut = new CalculationArea(tl, br);
+		cut = CalculationArea.of(tl, br);
 		assertThrows(IllegalArgumentException.class, () -> cut.followAspectRatio(ImageArea.of(459, 405)));
 	}
 
@@ -126,7 +126,7 @@ class CalculationAreaTest {
 	@MethodSource
 	final void testFitIn(MandelbrotPointPosition tl, MandelbrotPointPosition br, ImageArea image,
 	    MandelbrotPointPosition expTl, MandelbrotPointPosition expBr) {
-		cut = new CalculationArea(tl, br);
+		cut = CalculationArea.of(tl, br);
 		// Run
 		cut.fitIn(image);
 		// Check

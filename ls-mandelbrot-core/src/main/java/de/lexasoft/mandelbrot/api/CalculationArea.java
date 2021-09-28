@@ -29,10 +29,20 @@ public class CalculationArea {
 	 * @param topLeft
 	 * @param bottomRight
 	 */
-	public CalculationArea(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight) {
-		super();
+	private CalculationArea(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight) {
 		this.topLeft = topLeft;
 		this.bottomRight = bottomRight;
+	}
+
+	/**
+	 * Create a new instance of calculation area.
+	 * 
+	 * @param topLeft
+	 * @param bottomRight
+	 * @return
+	 */
+	public final static CalculationArea of(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight) {
+		return new CalculationArea(topLeft, bottomRight);
 	}
 
 	private int countNaN() {
@@ -144,6 +154,10 @@ public class CalculationArea {
 	 */
 	public MandelbrotPointPosition bottomRight() {
 		return bottomRight;
+	}
+
+	public CalculationArea cloneValues() {
+		return CalculationArea.of(MandelbrotPointPosition.of(topLeft), MandelbrotPointPosition.of(bottomRight));
 	}
 
 }

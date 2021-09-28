@@ -21,6 +21,7 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  * @author nierax
  *
  */
+@SuppressWarnings("deprecation")
 class TransitionDTO2PropertiesMapperTest {
 
 	private TransitionDTO2PropertiesMapper cut;

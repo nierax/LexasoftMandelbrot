@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
  * @author nierax
  *
  */
+@SuppressWarnings("deprecation")
 class MandelbrotCalculationPropertiesTest {
 
 	private MandelbrotCalculationProperties cut;
@@ -38,11 +39,9 @@ class MandelbrotCalculationPropertiesTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		cut = new MandelbrotCalculationProperties();
-		cut.setTopLeft(MandelbrotPointPosition.of(-2.02, 1.2));
-		cut.setBottomRight(MandelbrotPointPosition.of(0.7, -1.2));
+		cut.setCalculation(CalculationArea.of(point(-2.02, 1.2), point(0.7, -1.2)));
 		cut.setMaximumIterations(500);
-		cut.setImageWidth(4590);
-		cut.setImageHeight(4050);
+		cut.setImage(ImageArea.of(4590, 4050));
 		cut.setImageFilename("./junit-tmp/mandelbrot-test.tiff");
 		cut.setPaletteVariant(PaletteVariant.CUSTOM);
 		List<Color> customPalette = new ArrayList<>();
@@ -61,8 +60,7 @@ class MandelbrotCalculationPropertiesTest {
 	 */
 	@Test
 	void testNormalizeAspectRatioError() {
-		cut.setImageHeight(0);
-		cut.setImageWidth(0);
+		cut.setImage(ImageArea.of(0, 0));
 		cut.setAspectRatio(AspectRatioHandle.FITIN);
 		assertThrows(IllegalArgumentException.class, () -> {
 			cut.normalize();
@@ -98,10 +96,8 @@ class MandelbrotCalculationPropertiesTest {
 	@MethodSource
 	void testNormalizeAspectRatioImageOk(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight,
 	    int imageWidth, int imageHeight, int expectedWidth, int expectedHeight) {
-		cut.setTopLeft(topLeft);
-		cut.setBottomRight(bottomRight);
-		cut.setImageWidth(imageWidth);
-		cut.setImageHeight(imageHeight);
+		cut.setCalculation(CalculationArea.of(topLeft, bottomRight));
+		cut.setImage(ImageArea.of(imageWidth, imageHeight));
 		cut.setAspectRatio(AspectRatioHandle.FOLLOW_CALCULATION);
 
 		cut.normalize();
@@ -146,8 +142,7 @@ class MandelbrotCalculationPropertiesTest {
 	@MethodSource
 	void testNormalizeAspectRatioCalculationOk(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight,
 	    MandelbrotPointPosition expectedTopLeft, MandelbrotPointPosition expectedBottomRight) {
-		cut.setTopLeft(topLeft);
-		cut.setBottomRight(bottomRight);
+		cut.setCalculation(CalculationArea.of(topLeft, bottomRight));
 		cut.setAspectRatio(AspectRatioHandle.FOLLOW_IMAGE);
 
 		cut.normalize();
@@ -212,10 +207,8 @@ class MandelbrotCalculationPropertiesTest {
 	@MethodSource
 	void testAspectRatioError(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight, int imageWidth,
 	    int imageHeight, AspectRatioHandle ar) {
-		cut.setTopLeft(topLeft);
-		cut.setBottomRight(bottomRight);
-		cut.setImageWidth(imageWidth);
-		cut.setImageHeight(imageHeight);
+		cut.setCalculation(CalculationArea.of(topLeft, bottomRight));
+		cut.setImage(ImageArea.of(imageWidth, imageHeight));
 		assertThrows(IllegalArgumentException.class, () -> {
 			cut.handleAspectRatio(ar);
 		});
@@ -248,10 +241,8 @@ class MandelbrotCalculationPropertiesTest {
 	final void testAspectRatio(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight, int imageWidth,
 	    int imageHeight, AspectRatioHandle ar, MandelbrotPointPosition expTL, MandelbrotPointPosition expBR, int expWidth,
 	    int expHeight) {
-		cut.setTopLeft(topLeft);
-		cut.setBottomRight(bottomRight);
-		cut.setImageWidth(imageWidth);
-		cut.setImageHeight(imageHeight);
+		cut.setCalculation(CalculationArea.of(topLeft, bottomRight));
+		cut.setImage(ImageArea.of(imageWidth, imageHeight));
 		cut.handleAspectRatio(ar);
 		assertEquals(expTL.cx(), cut.getTopLeft().cx(), 0.0001);
 		assertEquals(expTL.cy(), cut.getTopLeft().cy(), 0.0001);
