@@ -14,6 +14,8 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import java.awt.Point;
+
 /**
  * Represents the area of a calculation.
  * 
@@ -140,6 +142,12 @@ public class CalculationArea {
 			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
 			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
 		}
+	}
+
+	public MandelbrotPointPosition calculatePointFromImagePosition(ImageArea image, Point imgPoint) {
+		double cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * (imgPoint.getX() / image.width()));
+		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * (imgPoint.getY() / image.height()));
+		return MandelbrotPointPosition.of(cx, cy);
 	}
 
 	/**

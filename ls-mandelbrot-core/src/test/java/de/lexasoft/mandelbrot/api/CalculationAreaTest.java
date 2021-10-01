@@ -15,8 +15,10 @@
 package de.lexasoft.mandelbrot.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.awt.Point;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -134,6 +136,44 @@ class CalculationAreaTest {
 		assertEquals(expTl.cy(), cut.topLeft().cy(), 0.0001);
 		assertEquals(expBr.cx(), cut.bottomRight().cx(), 0.0001);
 		assertEquals(expBr.cy(), cut.bottomRight().cy(), 0.0001);
+	}
+
+	private static final Stream<Arguments> testCalculatePointFromImagePosition() {
+		return Stream.of(
+		    // Top left
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), ImageArea.of(459, 405), new Point(0, 0), point(-2.02, 1.2)),
+		    // Bottom right
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), ImageArea.of(459, 405), new Point(459, 405),
+		        point(0.8, -1.2)),
+		    // Center
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), ImageArea.of(458, 404), new Point(229, 202), point(-0.61, 0)),
+		    // Top right
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), ImageArea.of(459, 405), new Point(459, 0), point(0.8, 1.2)),
+		    // Bottom Left
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), ImageArea.of(459, 405), new Point(0, 405),
+		        point(-2.02, -1.2)),
+		    // 1/3 x, 2/3 y
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), ImageArea.of(459, 405), new Point(153, 270),
+		        point(-1.08, -0.4)));
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link de.lexasoft.mandelbrot.ctrl.MandelbrotUtilities#calculatePointFromImagePosition(de.lexasoft.mandelbrot.api.MandelbrotPointPosition, de.lexasoft.mandelbrot.api.MandelbrotPointPosition, java.awt.Dimension, de.lexasoft.common.math.Point)}.
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testCalculatePointFromImagePosition(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight,
+	    ImageArea imgDim, Point imgPoint, MandelbrotPointPosition expected) {
+		// Prepare
+		cut = CalculationArea.of(topLeft, bottomRight);
+		// Run
+		MandelbrotPointPosition result = cut.calculatePointFromImagePosition(imgDim, imgPoint);
+		// Check
+		assertNotNull(result);
+		assertEquals(expected.cx(), result.cx(), 0.00001);
+		assertEquals(expected.cy(), result.cy(), 0.00001);
 	}
 
 }

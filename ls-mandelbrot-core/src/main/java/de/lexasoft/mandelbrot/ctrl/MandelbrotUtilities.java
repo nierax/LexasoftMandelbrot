@@ -14,9 +14,10 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
-import java.awt.Dimension;
 import java.awt.Point;
 
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
@@ -55,10 +56,9 @@ public class MandelbrotUtilities {
 	 * @return The calculation point in respect to the point on the image
 	 */
 	public MandelbrotPointPosition calculatePointFromImagePosition(MandelbrotPointPosition topLeft,
-	    MandelbrotPointPosition bottomRight, Dimension imgDim, Point imgPoint) {
-		double cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * (imgPoint.getX() / imgDim.getWidth()));
-		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * (imgPoint.getY() / imgDim.getHeight()));
-		return MandelbrotPointPosition.of(cx, cy);
+	    MandelbrotPointPosition bottomRight, ImageArea imgDim, Point imgPoint) {
+		return CalculationArea.of(topLeft, bottomRight).calculatePointFromImagePosition(imgDim, imgPoint);
+
 	}
 
 }
