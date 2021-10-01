@@ -144,6 +144,19 @@ public class CalculationArea {
 		}
 	}
 
+	/**
+	 * Calculates the point on the calculation area in respect to the position of
+	 * the point on the image.
+	 * <p>
+	 * This method does NOT respect the aspect ratio. The corners of the image are
+	 * considered to be the corners of the calculation area.
+	 * 
+	 * @param topLeft     The top left point of the calculation area
+	 * @param bottomRight The bottom right point of the calculation area
+	 * @param image       The width and height of the image.
+	 * @param imgPoint    The requested position on the image
+	 * @return The calculation point in respect to the point on the image
+	 */
 	public MandelbrotPointPosition calculatePointFromImagePosition(ImageArea image, Point imgPoint) {
 		double cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * (imgPoint.getX() / image.width()));
 		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * (imgPoint.getY() / image.height()));
