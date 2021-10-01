@@ -14,12 +14,17 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
+import java.awt.Point;
 import java.io.IOException;
 import java.util.List;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationAPI;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.cli.MandelbrotCLI;
 
 /**
@@ -92,6 +97,37 @@ public class MandelbrotController {
 		}
 		MandelbrotCalculationProperties props = AbstractDTO2PropertiesMapper.of(singleCalc).mapDTO2Properties().get(0);
 		return api.calculate(props);
+	}
+
+	/**
+	 * Calculates the point on the calculation area in respect to the position of
+	 * the point on the image.
+	 * <p>
+	 * This method does respect the aspect ratio between image and calculation. It
+	 * will be corrected in respect to the @AspectRatioHandle
+	 * 
+	 * @param calc     The calculation area
+	 * @param image    The image
+	 * @param imgPoint The point in respect to the image
+	 * @param arHandle The aspect ratio method used to ensure, calculation area and
+	 *                 image area has the same aspect ratio.
+	 * @return The Mandelbrot coordinates of the given point in the image
+	 */
+	public MandelbrotPointPosition calculatePointFromImagePosition(CalculationArea calc, ImageArea image, Point imgPoint,
+	    AspectRatioHandle arHandle) {
+		switch (arHandle) {
+		case FITIN:
+			calc.fitIn(image);
+			break;
+		case FOLLOW_IMAGE:
+			calc.followAspectRatio(image);
+		case FOLLOW_CALCULATION: {
+			image.followAspectRatio(calc);
+			break;
+		}
+		default:
+		}
+		return calc.calculatePointFromImagePosition(image, imgPoint);
 	}
 
 	/**
