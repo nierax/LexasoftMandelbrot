@@ -176,4 +176,70 @@ class CalculationAreaTest {
 		assertEquals(expected.cy(), result.cy(), 0.00001);
 	}
 
+	private static final Stream<Arguments> testZoom() {
+		return Stream.of(
+		    // Zooming in with center in the middle.
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), 0.9, point(-0.61, 0), point(-1.879, 1.08),
+		        point(0.659, -1.08)),
+		    // Zooming out with center in the middle.
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), 1.1, point(-0.61, 0), point(-2.161, 1.32),
+		        point(0.941, -1.32)),
+		    // Zooming in with center in the top left corner.
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), 0.9, point(-2.02, 1.2), point(-2.02, 1.2),
+		        point(0.518, -0.96)),
+		    // Zooming in with center in the top right corner.
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), 0.9, point(0.8, 1.2), point(-1.738, 1.2), point(0.8, -0.96)),
+		    // Zooming in with center in the bottom right corner.
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), 0.9, point(0.8, -1.2), point(-1.738, 0.96), point(0.8, -1.2)),
+		    // Zooming in with center in the bottom left corner
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), 0.9, point(-2.02, -1.2), point(-2.02, 0.96),
+		        point(0.518, -1.2)));
+	}
+
+	/**
+	 * Tests the zoom functionality.
+	 * 
+	 * @param tl
+	 * @param br
+	 * @param factor
+	 * @param center
+	 * @param expTl
+	 * @param expBr
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testZoom(MandelbrotPointPosition tl, MandelbrotPointPosition br, double factor,
+	    MandelbrotPointPosition center, MandelbrotPointPosition expTl, MandelbrotPointPosition expBr) {
+		// Prepare
+		cut = CalculationArea.of(tl, br);
+		// Run
+		cut.zoom(factor, center);
+		// Check
+		assertEquals(expTl.cx(), cut.topLeft().cx(), 0.00001);
+		assertEquals(expTl.cy(), cut.topLeft().cy(), 0.00001);
+		assertEquals(expBr.cx(), cut.bottomRight().cx(), 0.00001);
+		assertEquals(expBr.cy(), cut.bottomRight().cy(), 0.00001);
+	}
+
+	private static final Stream<Arguments> testGetCenterPoint() {
+		return Stream.of(//
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), point(-0.61, 0)),
+		    Arguments.of(point(-1, 1), point(1, -1), point(0, 0)),
+		    Arguments.of(point(-1.81, 1.08), point(0.72, -1.08), point(-0.545, 0)),
+		    Arguments.of(point(-1.01, 0.6), point(0.4, -0.6), point(-0.305, 0)));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	final void testGetCenterPoint(MandelbrotPointPosition tl, MandelbrotPointPosition br,
+	    MandelbrotPointPosition expCenter) {
+		// Prepare
+		cut = CalculationArea.of(tl, br);
+		// Run
+		MandelbrotPointPosition center = cut.getCenterPoint();
+		// Check
+		assertEquals(expCenter.cx(), center.cx(), 0.0001);
+		assertEquals(expCenter.cy(), center.cy(), 0.0001);
+	}
+
 }
