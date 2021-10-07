@@ -175,6 +175,22 @@ public class CalculationArea {
 	}
 
 	/**
+	 * 
+	 * @return The width of the calculation area.
+	 */
+	public double width() {
+		return bottomRight.cx() - topLeft.cx();
+	}
+
+	/**
+	 * 
+	 * @return The height of the calculation area.
+	 */
+	public double height() {
+		return topLeft.cy() - bottomRight.cy();
+	}
+
+	/**
 	 * Zooms in or out the calculation where the center parameter defines the
 	 * midpoint of the zoom area.
 	 * 
@@ -183,31 +199,19 @@ public class CalculationArea {
 	 * @param mouse  The center point of the zoom.
 	 */
 	public void zoom(double factor, MandelbrotPointPosition mouse) {
-		// First get relative position of the center point
-		double width = bottomRight.cx() - topLeft.cx();
-		double height = topLeft.cy() - bottomRight.cy();
+		// First get relative position of the mouse point
 		// Relation to topLeft
-		double rX1 = (mouse.cx() - topLeft.cx()) / width;
-		double rY1 = (topLeft.cy() - mouse.cy()) / height;
+		double rX1 = (mouse.cx() - topLeft.cx()) / width();
+		double rY1 = (topLeft.cy() - mouse.cy()) / height();
 		// Relation to bottomRight
-		double rX2 = (bottomRight.cx() - mouse.cx()) / width;
-		double rY2 = (mouse.cy() - bottomRight.cy()) / height;
-
-		// Now zoom in / out centered to the middle of the graphics
-//		topLeft.setCx(topLeft.cx() * factor);
-//		topLeft.setCy(topLeft.cy() * factor);
-//		bottomRight.setCx(bottomRight.cx() * factor);
-//		bottomRight.setCy(bottomRight.cy() * factor);
-
-		MandelbrotPointPosition center = getCenterPoint();
+		double rX2 = (bottomRight.cx() - mouse.cx()) / width();
+		double rY2 = (mouse.cy() - bottomRight.cy()) / height();
 
 		// Now move the result in relation as calculated above.
-		double width1 = width * factor;
-		double height1 = height * factor;
+		double width1 = width() * factor;
+		double height1 = height() * factor;
 		topLeft.moveTo(mouse.cx() - (rX1 * width1), mouse.cy() + (rY1 * height1));
 		bottomRight.moveTo(mouse.cx() + (rX2 * width1), mouse.cy() - (rY2 * height1));
-
-		center = getCenterPoint();
 	}
 
 	/**
