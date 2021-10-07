@@ -36,11 +36,11 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
  *
  */
 @ExtendWith(MockitoExtension.class)
-class CalculationAreaControllerTest {
+class DrawCalculationAreaControllerTest {
 
-	class CUT extends CalculationAreaController {
+	class CUT extends DrawCalculationAreaController {
 
-		public CUT(CalculationAreaPanel view) {
+		public CUT(DrawCalculationAreaPanel view) {
 			super(view);
 		}
 
@@ -53,7 +53,7 @@ class CalculationAreaControllerTest {
 
 	private CUT cut;
 	@Mock
-	private CalculationAreaPanel view;
+	private DrawCalculationAreaPanel view;
 	private Rectangle rectangle;
 
 	/**
@@ -122,7 +122,7 @@ class CalculationAreaControllerTest {
 	 * rectangle correctly?
 	 * <p>
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.swing.CalculationAreaController#calculationAreaModelChanged(de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel)}.
+	 * {@link de.lexasoft.mandelbrot.swing.DrawCalculationAreaController#calculationAreaModelChanged(de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel)}.
 	 */
 	@ParameterizedTest
 	@MethodSource

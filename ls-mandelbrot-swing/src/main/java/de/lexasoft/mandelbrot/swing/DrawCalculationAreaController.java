@@ -19,17 +19,21 @@ import java.awt.Rectangle;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
 /**
+ * The {@link DrawCalculationAreaController} draws the rectangle, which marks
+ * the calculation area over the image.
+ * 
+ * @see DrawCalculationAreaPanel
  * @author nierax
  *
  */
-public class CalculationAreaController implements ShowCalculationArea {
+public class DrawCalculationAreaController implements ShowCalculationArea {
 
-	private CalculationAreaPanel view;
+	private DrawCalculationAreaPanel view;
 
 	/**
 	 * 
 	 */
-	public CalculationAreaController(CalculationAreaPanel view) {
+	public DrawCalculationAreaController(DrawCalculationAreaPanel view) {
 		this.view = view;
 	}
 

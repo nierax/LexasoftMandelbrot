@@ -24,7 +24,7 @@ public class MandelbrotUIController {
 	private MandelbrotImageController imageController;
 	private CalculationController calculationController;
 	private FileMenuController fileMenuController;
-	private CalculationAreaController calcAreaController;
+	private DrawCalculationAreaController calcAreaController;
 	private ExportImageController exportController;
 
 	/**
@@ -43,7 +43,7 @@ public class MandelbrotUIController {
 		this.fileMenuController = new FileMenuController(this.view.getMnFile(),
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.exportController, this.calculationController,
 		    this.colorController, this.imageController);
-		this.calcAreaController = new CalculationAreaController(this.view.getCalculationAreaPanel());
+		this.calcAreaController = new DrawCalculationAreaController(this.view.getDrawCalculationAreaPanel());
 		initView();
 	}
 

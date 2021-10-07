@@ -19,13 +19,15 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 /**
- * This panel paints the rectangle with the calculation area.
+ * This panel is used to draw the rectangle with the calculation area.
+ * 
+ * @see DrawCalculationAreaController
  * 
  * @author nierax
  *
  */
 @SuppressWarnings("serial")
-public class CalculationAreaPanel extends TransparentPanel {
+public class DrawCalculationAreaPanel extends TransparentPanel {
 
 	private Rectangle calculationArea;
 	private Color color;

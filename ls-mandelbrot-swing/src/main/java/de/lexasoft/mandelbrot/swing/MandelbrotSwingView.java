@@ -24,7 +24,7 @@ public class MandelbrotSwingView {
 	private CalculationPanel calculationPanel;
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
-	private CalculationAreaPanel calculationAreaPanel;
+	private DrawCalculationAreaPanel drawCalculationAreaPanel;
 
 	/**
 	 * Create the application.
@@ -49,11 +49,11 @@ public class MandelbrotSwingView {
 		imagePanel.setPreferredSize(new Dimension(450, 405));
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
-		calculationAreaPanel = new CalculationAreaPanel();
-		calculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
-		imagePanel.add(calculationAreaPanel);
-		calculationAreaPanel.setLayout(new BorderLayout(0, 0));
-		calculationAreaPanel.setVisible(false);
+		drawCalculationAreaPanel = new DrawCalculationAreaPanel();
+		drawCalculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
+		imagePanel.add(drawCalculationAreaPanel);
+		drawCalculationAreaPanel.setLayout(new BorderLayout(0, 0));
+		drawCalculationAreaPanel.setVisible(false);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -130,7 +130,7 @@ public class MandelbrotSwingView {
 		}
 	}
 
-	public CalculationAreaPanel getCalculationAreaPanel() {
-		return calculationAreaPanel;
+	public DrawCalculationAreaPanel getDrawCalculationAreaPanel() {
+		return drawCalculationAreaPanel;
 	}
 }
