@@ -14,7 +14,7 @@ import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 
 /**
  * Controls the calculation properties, such as the complex numbers, defining
- * the are to investigate and the maximum number of iterations to calculate.
+ * the area to investigate and the maximum number of iterations to calculate.
  * 
  * @author nierax
  *
