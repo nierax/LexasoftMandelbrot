@@ -14,7 +14,7 @@
  */
 package de.lexasoft.mandelbrot.swing.model;
 
-import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.CalculationArea;
 
 /**
  * Indicated the attributes, needed to draw the rectangle, showing the real
@@ -26,32 +26,18 @@ import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 public interface CalculationAreaControllerModel extends ControllerModel {
 
 	/**
-	 * The top left corner, given by the user to calculate.
+	 * The area, defining the original calculation.
 	 * 
-	 * @return Position of top left corner
+	 * @return
 	 */
-	MandelbrotPointPosition calcTopLeft();
+	CalculationArea calculation();
 
 	/**
-	 * The bottom right corner, given by the user to calculate.
+	 * The complete area, shown.
 	 * 
-	 * @return Position of bottom right corner
+	 * @return
 	 */
-	MandelbrotPointPosition calcBottomRight();
-
-	/**
-	 * The adopted top left corner, the image was calculated in.
-	 * 
-	 * @return Position of adopted top left corner
-	 */
-	MandelbrotPointPosition adoptTopLeft();
-
-	/**
-	 * The adopted bottom right corner, the image was calculated in.
-	 * 
-	 * @return Position of adopted bottom right corner
-	 */
-	MandelbrotPointPosition adoptBottomRight();
+	CalculationArea total();
 
 	/**
 	 * The width of the image in pixel.

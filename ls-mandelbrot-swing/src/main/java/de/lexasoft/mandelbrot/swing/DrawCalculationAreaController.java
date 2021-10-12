@@ -47,10 +47,10 @@ public class DrawCalculationAreaController implements ShowCalculationArea {
 	 */
 	private Rectangle calculateArea(CalculationAreaControllerModel model) {
 		Rectangle rect = createRectangle();
-		double adoptWidth = model.adoptBottomRight().cx() - model.adoptTopLeft().cx();
-		double adoptHeight = model.adoptTopLeft().cy() - model.adoptBottomRight().cy();
-		double calcWidth = model.calcBottomRight().cx() - model.calcTopLeft().cx();
-		double calcHeight = model.calcTopLeft().cy() - model.calcBottomRight().cy();
+		double adoptWidth = model.total().width();
+		double adoptHeight = model.total().height();
+		double calcWidth = model.calculation().width();
+		double calcHeight = model.calculation().height();
 
 		int rectWidth = (int) Math.round(model.imageWidth() - ((adoptWidth - calcWidth) * model.imageWidth() / adoptWidth));
 		int calcImageX0 = (model.imageWidth() - rectWidth) / 2;
