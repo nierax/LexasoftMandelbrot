@@ -17,6 +17,8 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
+import javax.swing.JPanel;
+
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
 /**
@@ -25,13 +27,13 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
  */
 public class MouseHandlerController implements MouseWheelListener {
 
-	private MouseHandlerPanel view;
+	private JPanel view;
 	private CalculationAreaControllerModel model;
 
 	/**
 	 * 
 	 */
-	public MouseHandlerController(MouseHandlerPanel view) {
+	public MouseHandlerController(JPanel view) {
 		this.view = view;
 		this.model = null;
 	}

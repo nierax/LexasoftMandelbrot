@@ -45,7 +45,7 @@ public class MandelbrotUIController {
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.exportController, this.calculationController,
 		    this.colorController, this.imageController);
 		this.calcAreaController = new DrawCalculationAreaController(this.view.getDrawCalculationAreaPanel());
-		this.mouseController = new MouseHandlerController(view.getMouseHandlerPanel());
+		this.mouseController = new MouseHandlerController(view.getDrawCalculationAreaPanel());
 		initView();
 	}
 

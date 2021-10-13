@@ -25,7 +25,6 @@ public class MandelbrotSwingView {
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
 	private DrawCalculationAreaPanel drawCalculationAreaPanel;
-	private MouseHandlerPanel mouseHandlerPanel;
 
 	/**
 	 * Create the application.
@@ -54,12 +53,6 @@ public class MandelbrotSwingView {
 		drawCalculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
 		imagePanel.add(drawCalculationAreaPanel);
 		drawCalculationAreaPanel.setLayout(new BorderLayout(0, 0));
-
-		mouseHandlerPanel = new MouseHandlerPanel();
-		mouseHandlerPanel.setBackground(new Color(255, 255, 255, 0));
-		drawCalculationAreaPanel.add(mouseHandlerPanel, BorderLayout.CENTER);
-		mouseHandlerPanel.setLayout(new BorderLayout(0, 0));
-		mouseHandlerPanel.setVisible(true);
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -140,7 +133,4 @@ public class MandelbrotSwingView {
 		return drawCalculationAreaPanel;
 	}
 
-	public MouseHandlerPanel getMouseHandlerPanel() {
-		return mouseHandlerPanel;
-	}
 }
