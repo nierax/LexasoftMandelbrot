@@ -86,7 +86,7 @@ public class DrawCalculationAreaController implements ShowCalculationArea {
 
 	@Override
 	public void show(boolean flag) {
-		this.view.setVisible(flag);
+		this.view.undrawRect(flag);
 	}
 
 }

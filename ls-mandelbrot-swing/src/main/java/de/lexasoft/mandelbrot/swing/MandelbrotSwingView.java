@@ -54,7 +54,6 @@ public class MandelbrotSwingView {
 		drawCalculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
 		imagePanel.add(drawCalculationAreaPanel);
 		drawCalculationAreaPanel.setLayout(new BorderLayout(0, 0));
-		drawCalculationAreaPanel.setVisible(false);
 
 		mouseHandlerPanel = new MouseHandlerPanel();
 		mouseHandlerPanel.setBackground(new Color(255, 255, 255, 0));
