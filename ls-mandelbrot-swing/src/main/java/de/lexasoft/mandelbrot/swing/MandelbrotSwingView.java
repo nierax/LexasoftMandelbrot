@@ -140,4 +140,8 @@ public class MandelbrotSwingView {
 	public DrawCalculationAreaPanel getDrawCalculationAreaPanel() {
 		return drawCalculationAreaPanel;
 	}
+
+	public MouseHandlerPanel getMouseHandlerPanel() {
+		return mouseHandlerPanel;
+	}
 }

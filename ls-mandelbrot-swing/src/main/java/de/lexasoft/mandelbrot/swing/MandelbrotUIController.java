@@ -26,6 +26,7 @@ public class MandelbrotUIController {
 	private FileMenuController fileMenuController;
 	private DrawCalculationAreaController calcAreaController;
 	private ExportImageController exportController;
+	private MouseHandlerController mouseController;
 
 	/**
 	 * 
@@ -44,6 +45,7 @@ public class MandelbrotUIController {
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.exportController, this.calculationController,
 		    this.colorController, this.imageController);
 		this.calcAreaController = new DrawCalculationAreaController(this.view.getDrawCalculationAreaPanel());
+		this.mouseController = new MouseHandlerController(view.getMouseHandlerPanel());
 		initView();
 	}
 
@@ -74,6 +76,7 @@ public class MandelbrotUIController {
 		fileMenuController.initController();
 		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 		exportController.initController();
+		mouseController.initController();
 	}
 
 	/**
