@@ -98,10 +98,10 @@ class MouseHandlerControllerTest {
 	private static Stream<Arguments> testMouseWheelMoved() {
 		return Stream.of( //
 		    // Zoom in in center for one step
-		    Arguments.of(model(-2.02, 1.2, 0.8, -1.2, -2.2, 1.5, 1, -1.5, 460, 404), new Point(230, 202), 3,
+		    Arguments.of(model(-2.02, 1.2, 0.8, -1.2, -2.2, 1.5, 1, -1.5, 460, 404), new Point(230, 202), -3,
 		        MouseWheelEvent.WHEEL_UNIT_SCROLL, CalculationArea.of(point(-1.879, 1.08), point(0.659, -1.08))),
 		    // Zoom out from center for one step
-		    Arguments.of(model(-2.02, 1.2, 0.8, -1.2, -2.2, 1.5, 1, -1.5, 460, 404), new Point(230, 202), -3,
+		    Arguments.of(model(-2.02, 1.2, 0.8, -1.2, -2.2, 1.5, 1, -1.5, 460, 404), new Point(230, 202), 3,
 		        MouseWheelEvent.WHEEL_UNIT_SCROLL, CalculationArea.of(point(-2.161, 1.32), point(0.941, -1.32))));
 	}
 

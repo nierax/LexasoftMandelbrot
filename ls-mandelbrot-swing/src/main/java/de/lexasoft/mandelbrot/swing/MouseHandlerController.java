@@ -61,7 +61,7 @@ public class MouseHandlerController extends ModelChangingController<CalculationA
 
 	private double zoomFactor(MouseWheelEvent e) {
 		double delta = (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) ? 0.1d : 0.5d;
-		return 1 - (e.getWheelRotation() * delta / 3d);
+		return 1 + (e.getWheelRotation() * delta / 3d);
 	}
 
 	/**
