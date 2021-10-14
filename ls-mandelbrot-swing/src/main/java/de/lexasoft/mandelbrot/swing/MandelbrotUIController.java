@@ -72,6 +72,7 @@ public class MandelbrotUIController {
 		calculationController.initController();
 		calculationController.setShowCalculationArea(calcAreaController);
 		mouseController.initController();
+		mouseController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
 		imageController.initController(calculationController);
 		imageController.addModelChangedListener(e -> calcAreaController.calculationAreaModelChanged(e.getModel()));
 		imageController.addModelChangedListener(e -> mouseController.modelChanged(e.getModel()));

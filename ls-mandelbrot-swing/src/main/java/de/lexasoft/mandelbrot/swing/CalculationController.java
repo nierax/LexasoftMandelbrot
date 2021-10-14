@@ -7,6 +7,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 
+import de.lexasoft.mandelbrot.api.CalculationArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.ctrl.CalculationAttributesDTO;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
@@ -186,5 +187,20 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 */
 	public void setShowCalculationArea(ShowCalculationArea showCalculationArea) {
 		this.showCalculationArea = showCalculationArea;
+	}
+
+	/**
+	 * Informs the @CalculationController about changes of the calculation area,
+	 * such as via a mouse wheel event.
+	 * 
+	 * @param calculation
+	 */
+	public void calculationAreaChanged(ModelChangedEvent<CalculationArea> event) {
+		CalculationArea calculation = event.getModel();
+		this.view.getTlcx().setText(Double.toString(calculation.topLeft().cx()));
+		this.view.getTlcy().setText(Double.toString(calculation.topLeft().cy()));
+		this.view.getBrcx().setText(Double.toString(calculation.bottomRight().cx()));
+		this.view.getBrcy().setText(Double.toString(calculation.bottomRight().cy()));
+		calculate();
 	}
 }
