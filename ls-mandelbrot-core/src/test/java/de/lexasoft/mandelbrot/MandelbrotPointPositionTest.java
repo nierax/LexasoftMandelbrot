@@ -3,6 +3,7 @@
  */
 package de.lexasoft.mandelbrot;
 
+import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -81,6 +82,18 @@ class MandelbrotPointPositionTest {
 		assertNotSame(source, other);
 		assertEquals(1.0, other.cx());
 		assertEquals(1.5, other.cy());
+	}
+
+	/**
+	 * Values should be as given, returned instance must be the same as the cut.
+	 */
+	@Test
+	void testMoveTo() {
+		MandelbrotPointPosition result = cut.moveTo(-2.02, 1.2);
+
+		assertEquals(-2.02, cut.cx());
+		assertEquals(1.2, cut.cy());
+		assertSame(cut, result);
 	}
 
 }

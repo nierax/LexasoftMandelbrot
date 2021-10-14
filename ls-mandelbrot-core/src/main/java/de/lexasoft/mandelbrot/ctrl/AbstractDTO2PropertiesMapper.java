@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
@@ -106,11 +108,22 @@ public abstract class AbstractDTO2PropertiesMapper {
 	 * @param imageDTO
 	 */
 	private void mapImage(MandelbrotCalculationProperties props, ImageAttributesDTO imageDTO) {
-		if (imageDTO.getImageWidth() > 0) {
-			props.setImageWidth(imageDTO.getImageWidth());
-		}
-		if (imageDTO.getImageHeight() > 0) {
-			props.setImageHeight(imageDTO.getImageHeight());
+		if (imageDTO != null) {
+			// Determine origin values
+			int imageWidth = 0;
+			int imageHeight = 0;
+			if (props.getImage() != null) {
+				imageWidth = props.getImage().width();
+				imageHeight = props.getImage().height();
+			}
+			// If there are new values given, override.
+			if (imageDTO.getImageWidth() > 0) {
+				imageWidth = imageDTO.getImageWidth();
+			}
+			if (imageDTO.getImageHeight() > 0) {
+				imageHeight = imageDTO.getImageHeight();
+			}
+			props.setImage(ImageArea.of(imageWidth, imageHeight));
 		}
 		if (imageDTO.getImageFilename() != null && !"".equals(imageDTO.getImageFilename())) {
 			props.setImageFilename(imageDTO.getImageFilename());
@@ -126,12 +139,21 @@ public abstract class AbstractDTO2PropertiesMapper {
 	 * @param calcDTO
 	 */
 	private void mapCalculation(MandelbrotCalculationProperties props, CalculationAttributesDTO calcDTO) {
+		// Determine origin values
+		MandelbrotPointPosition topLeft = null;
+		MandelbrotPointPosition bottomRight = null;
+		if (props.getCalculation() != null) {
+			topLeft = props.getCalculation().topLeft();
+			bottomRight = props.getCalculation().bottomRight();
+		}
+		// If there are new values given, override.
 		if (calcDTO.getTopLeft() != null) {
-			props.setTopLeft(MandelbrotPointPosition.of(calcDTO.getTopLeft()));
+			topLeft = MandelbrotPointPosition.of(calcDTO.getTopLeft());
 		}
 		if (calcDTO.getBottomRight() != null) {
-			props.setBottomRight(MandelbrotPointPosition.of(calcDTO.getBottomRight()));
+			bottomRight = MandelbrotPointPosition.of(calcDTO.getBottomRight());
 		}
+		props.setCalculation(CalculationArea.of(topLeft, bottomRight));
 		if (calcDTO.getMaximumIterations() > 0) {
 			props.setMaximumIterations(calcDTO.getMaximumIterations());
 		}

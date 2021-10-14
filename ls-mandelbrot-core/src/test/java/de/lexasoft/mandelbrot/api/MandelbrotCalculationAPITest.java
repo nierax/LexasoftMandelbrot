@@ -16,7 +16,7 @@ import de.lexasoft.mandelbrot.MandelbrotImage;
 /**
  * Checks the MandelbrotCalculationAPI.
  * 
- * @author admin
+ * @author nierax
  *
  */
 class MandelbrotCalculationAPITest {
@@ -28,11 +28,10 @@ class MandelbrotCalculationAPITest {
 	void setUp() throws Exception {
 		cut = new MandelbrotCalculationAPI();
 		model = new MandelbrotCalculationProperties();
-		model.setTopLeft(MandelbrotPointPosition.of(-2.02d, -1.02d));
-		model.setBottomRight(MandelbrotPointPosition.of(0.7d, 1.02d));
+		model.setCalculation(
+		    CalculationArea.of(MandelbrotPointPosition.of(-2.02d, -1.02d), MandelbrotPointPosition.of(0.7d, 1.02d)));
 		model.setMaximumIterations(50);
-		model.setImageWidth(459);
-		model.setImageHeight(405);
+		model.setImage(ImageArea.of(459, 405));
 		model.setImageFilename("./junit-tmp/mandelbrot-test.tiff");
 		model.setPaletteVariant(PaletteVariant.CUSTOM);
 		List<Color> colors = new ArrayList<>();

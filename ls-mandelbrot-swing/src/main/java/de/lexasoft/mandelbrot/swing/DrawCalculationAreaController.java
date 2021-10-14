@@ -19,17 +19,21 @@ import java.awt.Rectangle;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
 /**
+ * The {@link DrawCalculationAreaController} draws the rectangle, which marks
+ * the calculation area over the image.
+ * 
+ * @see DrawCalculationAreaPanel
  * @author nierax
  *
  */
-public class CalculationAreaController implements ShowCalculationArea {
+public class DrawCalculationAreaController implements ShowCalculationArea {
 
-	private CalculationAreaPanel view;
+	private DrawCalculationAreaPanel view;
 
 	/**
 	 * 
 	 */
-	public CalculationAreaController(CalculationAreaPanel view) {
+	public DrawCalculationAreaController(DrawCalculationAreaPanel view) {
 		this.view = view;
 	}
 
@@ -43,17 +47,18 @@ public class CalculationAreaController implements ShowCalculationArea {
 	 */
 	private Rectangle calculateArea(CalculationAreaControllerModel model) {
 		Rectangle rect = createRectangle();
-		double adoptWidth = model.adoptBottomRight().cx() - model.adoptTopLeft().cx();
-		double adoptHeight = model.adoptTopLeft().cy() - model.adoptBottomRight().cy();
-		double calcWidth = model.calcBottomRight().cx() - model.calcTopLeft().cx();
-		double calcHeight = model.calcTopLeft().cy() - model.calcBottomRight().cy();
+		double adoptWidth = model.total().width();
+		double adoptHeight = model.total().height();
+		double calcWidth = model.calculation().width();
+		double calcHeight = model.calculation().height();
+		int imageWidth = model.image().width();
+		int imageHeight = model.image().height();
 
-		int rectWidth = (int) Math.round(model.imageWidth() - ((adoptWidth - calcWidth) * model.imageWidth() / adoptWidth));
-		int calcImageX0 = (model.imageWidth() - rectWidth) / 2;
+		int rectWidth = (int) Math.round(imageWidth - ((adoptWidth - calcWidth) * imageWidth / adoptWidth));
+		int calcImageX0 = (imageWidth - rectWidth) / 2;
 
-		int rectHeight = (int) Math
-		    .round(model.imageHeight() - ((adoptHeight - calcHeight) * model.imageHeight() / adoptHeight));
-		int calcImageY0 = (model.imageHeight() - rectHeight) / 2;
+		int rectHeight = (int) Math.round(imageHeight - ((adoptHeight - calcHeight) * imageHeight / adoptHeight));
+		int calcImageY0 = (imageHeight - rectHeight) / 2;
 
 		rect.setBounds(calcImageX0, calcImageY0, rectWidth, rectHeight);
 		return rect;
@@ -82,7 +87,7 @@ public class CalculationAreaController implements ShowCalculationArea {
 
 	@Override
 	public void show(boolean flag) {
-		this.view.setVisible(flag);
+		this.view.undrawRect(flag);
 	}
 
 }

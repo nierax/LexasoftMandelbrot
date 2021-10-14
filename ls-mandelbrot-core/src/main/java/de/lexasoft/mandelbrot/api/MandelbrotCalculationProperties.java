@@ -13,11 +13,9 @@ import java.util.List;
  */
 public class MandelbrotCalculationProperties {
 
-	private MandelbrotPointPosition topLeft;
-	private MandelbrotPointPosition bottomRight;
+	private CalculationArea calculation;
 	private int maximumIterations;
-	private int imageWidth;
-	private int imageHeight;
+	private ImageArea image;
 	private String imageFilename;
 	private PaletteVariant paletteVariant;
 	private List<Color> customColorPalette;
@@ -25,44 +23,12 @@ public class MandelbrotCalculationProperties {
 	private Color mandelbrotColor;
 	private AspectRatioHandle aspectRatioHandle;
 
-	public MandelbrotPointPosition getTopLeft() {
-		return topLeft;
-	}
-
-	public void setTopLeft(MandelbrotPointPosition topLeft) {
-		this.topLeft = topLeft;
-	}
-
-	public MandelbrotPointPosition getBottomRight() {
-		return bottomRight;
-	}
-
-	public void setBottomRight(MandelbrotPointPosition bottomRight) {
-		this.bottomRight = bottomRight;
-	}
-
 	public int getMaximumIterations() {
 		return maximumIterations;
 	}
 
 	public void setMaximumIterations(int maximumIterations) {
 		this.maximumIterations = maximumIterations;
-	}
-
-	public int getImageWidth() {
-		return imageWidth;
-	}
-
-	public void setImageWidth(int imageWidth) {
-		this.imageWidth = imageWidth;
-	}
-
-	public int getImageHeight() {
-		return imageHeight;
-	}
-
-	public void setImageHeight(int imageHeight) {
-		this.imageHeight = imageHeight;
 	}
 
 	public PaletteVariant getPaletteVariant() {
@@ -142,68 +108,6 @@ public class MandelbrotCalculationProperties {
 		this.mandelbrotColor = mandelbrotColor;
 	}
 
-	private double difference(double v0, double v1) {
-		return Math.abs(v0 - v1);
-	}
-
-	private void calculateAspectRatioForImage() {
-		double ratioXtoY = difference(topLeft.cx(), bottomRight.cx()) / difference(topLeft.cy(), bottomRight.cy());
-		if (imageHeight == 0) {
-			imageHeight = (int) (imageWidth / ratioXtoY);
-		} else {
-			imageWidth = (int) (imageHeight * ratioXtoY);
-		}
-	}
-
-	private void calculateAspectRatioForCalculation() {
-		// Check the number of omitted parameters?
-		int count = countNaN();
-		// All parameters given
-		if (count == 0) {
-			return;
-		}
-		// More than one parameter omitted.
-		if (count > 1) {
-			throw new IllegalArgumentException(
-			    String.format("Just one calculation parameter can be omitted, but it were %s", count));
-		}
-		double ratioXtoY = (double) imageWidth / (double) imageHeight;
-		// width is given
-		if (!Double.isNaN(topLeft.cx()) && !Double.isNaN(bottomRight.cx())) {
-			double height = difference(topLeft.cx(), bottomRight.cx()) / ratioXtoY;
-			if (Double.isNaN(bottomRight.cy())) {
-				bottomRight.setCy(topLeft.cy() - height);
-			} else {
-				topLeft.setCy(bottomRight.cy() + height);
-			}
-			return;
-		}
-		// height is given
-		double width = difference(topLeft.cy(), bottomRight.cy()) * ratioXtoY;
-		if (Double.isNaN(bottomRight.cx())) {
-			bottomRight.setCx(topLeft.cx() + width);
-		} else {
-			topLeft.setCx(bottomRight.cx() - width);
-		}
-	}
-
-	private int countNaN() {
-		int count = 0;
-		if (Double.isNaN(topLeft.cx())) {
-			count++;
-		}
-		if (Double.isNaN(topLeft.cy())) {
-			count++;
-		}
-		if (Double.isNaN(bottomRight.cx())) {
-			count++;
-		}
-		if (Double.isNaN(bottomRight.cy())) {
-			count++;
-		}
-		return count;
-	}
-
 	private void assertAllParametersGiven() {
 		assertCalculationCompletelyGiven();
 		assertWidthAndHeightGiven();
@@ -214,60 +118,36 @@ public class MandelbrotCalculationProperties {
 	 */
 	private void assertCalculationCompletelyGiven() {
 		String msg = "Not all parameters given. %s missing.";
-		if (Double.isNaN(topLeft.cx())) {
+		if (calculation == null) {
+			throw new IllegalArgumentException(String.format(msg, "Calculation"));
+		}
+		if (Double.isNaN(calculation.topLeft().cx())) {
 			throw new IllegalArgumentException(String.format(msg, "topLeft.cx"));
 		}
-		if (Double.isNaN(topLeft.cy())) {
+		if (Double.isNaN(calculation.topLeft().cy())) {
 			throw new IllegalArgumentException(String.format(msg, "topLeft.cy"));
 		}
-		if (Double.isNaN(bottomRight.cx())) {
+		if (Double.isNaN(calculation.bottomRight().cx())) {
 			throw new IllegalArgumentException(String.format(msg, "bottomRight.cx"));
 		}
-		if (Double.isNaN(bottomRight.cy())) {
+		if (Double.isNaN(calculation.bottomRight().cy())) {
 			throw new IllegalArgumentException(String.format(msg, "bottomRight.cy"));
 		}
 	}
 
 	private void assertWidthAndHeightGiven() {
 		String msg = "Image width and height must be given. %s missing.";
-		if (imageWidth == 0) {
+		if (image.width() == 0) {
 			throw new IllegalArgumentException(String.format(msg, "imageWidth"));
 		}
-		if (imageHeight == 0) {
+		if (image.height() == 0) {
 			throw new IllegalArgumentException(String.format(msg, "imageHeight"));
 		}
 	}
 
 	private void assertWidthOrHeightGiven() {
-		if ((imageHeight == 0) && (imageWidth == 0)) {
+		if ((image.height() == 0) && (image.width() == 0)) {
 			throw new IllegalArgumentException("Either image height oder image width must be given");
-		}
-	}
-
-	/**
-	 * Handle the aspect ratio fit in strategy.
-	 */
-	private void calculateAspectRatioFitIn() {
-		double widthCalc0 = Math.abs(bottomRight.cx() - topLeft.cx());
-		double heightCalc0 = Math.abs(topLeft.cy() - bottomRight.cy());
-		double aspectRatioImage = (double) imageWidth / (double) imageHeight;
-		double aspectRatioCalc = widthCalc0 / heightCalc0;
-		int relation = Double.compare(aspectRatioImage, aspectRatioCalc);
-		// aspect ratio of image and calculation are identical
-		if (relation == 0) {
-			// Nothing to do here
-			return;
-		}
-		// aspect ratio of image is wider than aspect ratio of calculation
-		if (relation > 0) {
-			double widthCalc1 = heightCalc0 * aspectRatioImage;
-			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
-			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
-		} else {
-			// aspect ratio of image is higher than aspect ratio of calculation
-			double heightCalc1 = widthCalc0 / aspectRatioImage;
-			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
-			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
 		}
 	}
 
@@ -284,22 +164,16 @@ public class MandelbrotCalculationProperties {
 			return;
 		case FOLLOW_IMAGE:
 			assertWidthAndHeightGiven();
-			if (countNaN() == 0) {
-				bottomRight.setCy(Double.NaN);
-			}
-			calculateAspectRatioForCalculation();
+			calculation.followAspectRatio(image);
 			return;
 		case FOLLOW_CALCULATION:
 			assertCalculationCompletelyGiven();
 			assertWidthOrHeightGiven();
-			if ((imageWidth > 0) && (imageHeight > 0)) {
-				imageHeight = 0;
-			}
-			calculateAspectRatioForImage();
+			image.followAspectRatio(calculation);
 			return;
 		case FITIN:
 			assertAllParametersGiven();
-			calculateAspectRatioFitIn();
+			calculation.fitIn(image);
 		default:
 			break;
 		}
@@ -321,15 +195,13 @@ public class MandelbrotCalculationProperties {
 	 */
 	public MandelbrotCalculationProperties cloneValues() {
 		MandelbrotCalculationProperties newProps = MandelbrotCalculationProperties.of();
-		if (topLeft != null) {
-			newProps.setTopLeft(MandelbrotPointPosition.of(topLeft.cx(), topLeft.cy()));
-		}
-		if (bottomRight != null) {
-			newProps.setBottomRight(MandelbrotPointPosition.of(bottomRight.cx(), bottomRight.cy()));
+		if (calculation != null) {
+			newProps.setCalculation(calculation.cloneValues());
 		}
 		newProps.setMaximumIterations(maximumIterations);
-		newProps.setImageWidth(imageWidth);
-		newProps.setImageHeight(imageHeight);
+		if (image != null) {
+			newProps.setImage(ImageArea.of(image.width(), image.height()));
+		}
 		newProps.setImageFilename(imageFilename);
 		newProps.setAspectRatio(getAspectRatio());
 		newProps.setPaletteVariant(paletteVariant);
@@ -356,15 +228,80 @@ public class MandelbrotCalculationProperties {
 
 	public static MandelbrotCalculationProperties ofDefault() {
 		MandelbrotCalculationProperties props = of();
-		props.setTopLeft(MandelbrotPointPosition.of(-2.02d, 1.2d));
-		props.setBottomRight(MandelbrotPointPosition.of(0.8d, -1.2d));
+		props.setCalculation(
+		    CalculationArea.of(MandelbrotPointPosition.of(-2.02d, 1.2d), MandelbrotPointPosition.of(0.8d, -1.2d)));
 		props.setPaletteVariant(PaletteVariant.BLUEWHITE);
 		props.setColorGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 6));
-		props.setImageHeight(405);
-		props.setImageWidth(459);
+		props.setImage(ImageArea.of(459, 405));
 		props.setAspectRatio(AspectRatioHandle.FITIN);
 		props.setMaximumIterations(25);
 		return props;
+	}
+
+	/**
+	 * @return the image
+	 */
+	public ImageArea getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(ImageArea image) {
+		this.image = image;
+	}
+
+	/**
+	 * @deprecated Use {@link MandelbrotCalculationProperties#getImage#width()}
+	 *             instead.
+	 * @return
+	 */
+	@Deprecated
+	public int getImageWidth() {
+		return (image == null) ? 0 : image.width();
+	}
+
+	/**
+	 * @deprecated Use {@link MandelbrotCalculationProperties#getImage#height()}
+	 *             instead.
+	 * @return
+	 */
+	@Deprecated
+	public int getImageHeight() {
+		return (image == null) ? 0 : image.height();
+	}
+
+	/**
+	 * @return the calculation
+	 */
+	public CalculationArea getCalculation() {
+		return calculation;
+	}
+
+	/**
+	 * @param calculation the calculation to set
+	 */
+	public void setCalculation(CalculationArea calculation) {
+		this.calculation = calculation;
+	}
+
+	/**
+	 * @deprecated Use {@link #getCalculation()} instead
+	 * @return
+	 */
+	@Deprecated
+	public MandelbrotPointPosition getTopLeft() {
+		return (calculation == null) ? null : calculation.topLeft();
+	}
+
+	/**
+	 * @deprecated Use {@link #getCalculation()} instead
+	 * @return
+	 */
+	@Deprecated
+	public MandelbrotPointPosition getBottomRight() {
+		return (calculation == null) ? null : calculation.bottomRight();
 	}
 
 }

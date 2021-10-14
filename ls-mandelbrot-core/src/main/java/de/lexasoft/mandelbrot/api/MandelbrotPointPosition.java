@@ -104,6 +104,19 @@ public class MandelbrotPointPosition {
 	}
 
 	/**
+	 * Moves the point to the given new position.
+	 * 
+	 * @param cx X coordinate of the new position
+	 * @param cy Y coordinate of the new position
+	 * @return Instance of this object.
+	 */
+	public MandelbrotPointPosition moveTo(double cx, double cy) {
+		setCx(cx);
+		setCy(cy);
+		return this;
+	}
+
+	/**
 	 * Equality means, that the point positions are numerically identical.
 	 */
 	@Override

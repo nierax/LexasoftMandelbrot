@@ -8,7 +8,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -77,34 +78,20 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 		CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
 
 			@Override
-			public int imageWidth() {
-				return image.getImage().getWidth();
+			public ImageArea image() {
+				return ImageArea.of(image.getImage().getWidth(), image.getImage().getHeight());
 			}
 
 			@Override
-			public int imageHeight() {
-				return image.getImage().getHeight();
+			public CalculationArea calculation() {
+				return CalculationArea.of(calcModel.topLeft(), calcModel.bottomRight());
 			}
 
 			@Override
-			public MandelbrotPointPosition calcTopLeft() {
-				return calcModel.topLeft();
+			public CalculationArea total() {
+				return CalculationArea.of(image.topLeft(), image.bottomRight());
 			}
 
-			@Override
-			public MandelbrotPointPosition calcBottomRight() {
-				return calcModel.bottomRight();
-			}
-
-			@Override
-			public MandelbrotPointPosition adoptTopLeft() {
-				return image.topLeft();
-			}
-
-			@Override
-			public MandelbrotPointPosition adoptBottomRight() {
-				return image.bottomRight();
-			}
 		};
 		fireModelChangedEvent(new ModelChangedEvent<CalculationAreaControllerModel>(this, calcAreaModel));
 	}
