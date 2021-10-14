@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.lexasoft</groupId>
 	<artifactId>mandelbrot</artifactId>
-	<version>0.1.4</version>
+	<version>0.1.5-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Lexasoft-Mandelbrot</name>
 
@@ -18,7 +18,7 @@
 			<dependency>
 				<groupId>de.lexasoft</groupId>
 				<artifactId>ls-mandelbrot-core</artifactId>
-				<version>0.1.4</version>
+				<version>0.1.5-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
