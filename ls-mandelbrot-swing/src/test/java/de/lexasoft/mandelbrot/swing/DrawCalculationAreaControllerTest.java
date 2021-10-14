@@ -28,6 +28,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
@@ -36,11 +38,11 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
  *
  */
 @ExtendWith(MockitoExtension.class)
-class CalculationAreaControllerTest {
+class DrawCalculationAreaControllerTest {
 
-	class CUT extends CalculationAreaController {
+	class CUT extends DrawCalculationAreaController {
 
-		public CUT(CalculationAreaPanel view) {
+		public CUT(DrawCalculationAreaPanel view) {
 			super(view);
 		}
 
@@ -53,7 +55,7 @@ class CalculationAreaControllerTest {
 
 	private CUT cut;
 	@Mock
-	private CalculationAreaPanel view;
+	private DrawCalculationAreaPanel view;
 	private Rectangle rectangle;
 
 	/**
@@ -70,34 +72,20 @@ class CalculationAreaControllerTest {
 		return new CalculationAreaControllerModel() {
 
 			@Override
-			public int imageWidth() {
-				return imageWidth;
+			public ImageArea image() {
+				return ImageArea.of(imageWidth, imageHeight);
 			}
 
 			@Override
-			public int imageHeight() {
-				return imageHeight;
+			public CalculationArea calculation() {
+				return CalculationArea.of(MandelbrotPointPosition.of(ctlX, ctlY), MandelbrotPointPosition.of(cbrX, cbrY));
 			}
 
 			@Override
-			public MandelbrotPointPosition calcTopLeft() {
-				return MandelbrotPointPosition.of(ctlX, ctlY);
+			public CalculationArea total() {
+				return CalculationArea.of(MandelbrotPointPosition.of(atlX, atlY), MandelbrotPointPosition.of(abrX, abrY));
 			}
 
-			@Override
-			public MandelbrotPointPosition calcBottomRight() {
-				return MandelbrotPointPosition.of(cbrX, cbrY);
-			}
-
-			@Override
-			public MandelbrotPointPosition adoptTopLeft() {
-				return MandelbrotPointPosition.of(atlX, atlY);
-			}
-
-			@Override
-			public MandelbrotPointPosition adoptBottomRight() {
-				return MandelbrotPointPosition.of(abrX, abrY);
-			}
 		};
 	}
 
@@ -122,7 +110,7 @@ class CalculationAreaControllerTest {
 	 * rectangle correctly?
 	 * <p>
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.swing.CalculationAreaController#calculationAreaModelChanged(de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel)}.
+	 * {@link de.lexasoft.mandelbrot.swing.DrawCalculationAreaController#calculationAreaModelChanged(de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel)}.
 	 */
 	@ParameterizedTest
 	@MethodSource

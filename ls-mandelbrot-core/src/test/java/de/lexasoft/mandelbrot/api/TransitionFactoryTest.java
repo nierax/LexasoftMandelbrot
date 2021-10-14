@@ -23,6 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author nierax
  *
  */
+@SuppressWarnings("deprecation")
 class TransitionFactoryTest {
 
 	private TransitionFactory cut;
@@ -37,8 +38,7 @@ class TransitionFactoryTest {
 	void setUp() throws Exception {
 		// Transition starts at
 		start = new MandelbrotCalculationProperties();
-		start.setImageWidth(459);
-		start.setImageHeight(405);
+		start.setImage(ImageArea.of(459, 405));
 		start.setImageFilename("./junit-tmp/mandelbrot-test-transition.tiff");
 		start.setPaletteVariant(PaletteVariant.CUSTOM);
 		List<Color> customPalette = new ArrayList<>();
@@ -78,11 +78,9 @@ class TransitionFactoryTest {
 	@MethodSource
 	void testCreateTransitionsOk(MandelbrotPointPosition tlStart, MandelbrotPointPosition brStart,
 	    MandelbrotPointPosition tlEnd, MandelbrotPointPosition brEnd, int mTStart, int mTEnd) {
-		start.setTopLeft(tlStart);
-		start.setBottomRight(brStart);
+		start.setCalculation(CalculationArea.of(tlStart, brStart));
 		start.setMaximumIterations(mTStart);
-		end.setTopLeft(tlEnd);
-		end.setBottomRight(brEnd);
+		end.setCalculation(CalculationArea.of(tlEnd, brEnd));
 		end.setMaximumIterations(mTEnd);
 
 		List<MandelbrotCalculationProperties> transitions = cut.createTransitions(start, end);
