@@ -15,6 +15,7 @@
 package de.lexasoft.mandelbrot.swing.model;
 
 import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 
 /**
  * Indicated the attributes, needed to draw the rectangle, showing the real
@@ -40,17 +41,10 @@ public interface CalculationAreaControllerModel extends ControllerModel {
 	CalculationArea total();
 
 	/**
-	 * The width of the image in pixel.
+	 * Image in which the calculation is shown
 	 * 
-	 * @return The width of the image.
+	 * @return
 	 */
-	int imageWidth();
-
-	/**
-	 * The height of the image in pixel.
-	 * 
-	 * @return The height of the image.
-	 */
-	int imageHeight();
+	ImageArea image();
 
 }

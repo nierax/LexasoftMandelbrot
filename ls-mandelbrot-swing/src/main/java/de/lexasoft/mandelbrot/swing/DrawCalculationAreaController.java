@@ -51,13 +51,14 @@ public class DrawCalculationAreaController implements ShowCalculationArea {
 		double adoptHeight = model.total().height();
 		double calcWidth = model.calculation().width();
 		double calcHeight = model.calculation().height();
+		int imageWidth = model.image().width();
+		int imageHeight = model.image().height();
 
-		int rectWidth = (int) Math.round(model.imageWidth() - ((adoptWidth - calcWidth) * model.imageWidth() / adoptWidth));
-		int calcImageX0 = (model.imageWidth() - rectWidth) / 2;
+		int rectWidth = (int) Math.round(imageWidth - ((adoptWidth - calcWidth) * imageWidth / adoptWidth));
+		int calcImageX0 = (imageWidth - rectWidth) / 2;
 
-		int rectHeight = (int) Math
-		    .round(model.imageHeight() - ((adoptHeight - calcHeight) * model.imageHeight() / adoptHeight));
-		int calcImageY0 = (model.imageHeight() - rectHeight) / 2;
+		int rectHeight = (int) Math.round(imageHeight - ((adoptHeight - calcHeight) * imageHeight / adoptHeight));
+		int calcImageY0 = (imageHeight - rectHeight) / 2;
 
 		rect.setBounds(calcImageX0, calcImageY0, rectWidth, rectHeight);
 		return rect;

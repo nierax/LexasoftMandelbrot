@@ -29,6 +29,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
@@ -71,13 +72,8 @@ class DrawCalculationAreaControllerTest {
 		return new CalculationAreaControllerModel() {
 
 			@Override
-			public int imageWidth() {
-				return imageWidth;
-			}
-
-			@Override
-			public int imageHeight() {
-				return imageHeight;
+			public ImageArea image() {
+				return ImageArea.of(imageWidth, imageHeight);
 			}
 
 			@Override
@@ -89,6 +85,7 @@ class DrawCalculationAreaControllerTest {
 			public CalculationArea total() {
 				return CalculationArea.of(MandelbrotPointPosition.of(atlX, atlY), MandelbrotPointPosition.of(abrX, abrY));
 			}
+
 		};
 	}
 

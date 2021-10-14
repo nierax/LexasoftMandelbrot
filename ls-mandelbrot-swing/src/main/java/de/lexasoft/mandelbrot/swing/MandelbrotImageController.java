@@ -9,6 +9,7 @@ import java.awt.event.ComponentListener;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
@@ -77,13 +78,8 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 		CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
 
 			@Override
-			public int imageWidth() {
-				return image.getImage().getWidth();
-			}
-
-			@Override
-			public int imageHeight() {
-				return image.getImage().getHeight();
+			public ImageArea image() {
+				return ImageArea.of(image.getImage().getWidth(), image.getImage().getHeight());
 			}
 
 			@Override
@@ -95,6 +91,7 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 			public CalculationArea total() {
 				return CalculationArea.of(image.topLeft(), image.bottomRight());
 			}
+
 		};
 		fireModelChangedEvent(new ModelChangedEvent<CalculationAreaControllerModel>(this, calcAreaModel));
 	}
