@@ -24,6 +24,10 @@ import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
 /**
+ * Controller to handle the mouse wheel action.
+ * <p>
+ * Mouse wheel is used to zoom in or out the calculation.
+ * 
  * @author nierax
  *
  */
@@ -33,13 +37,24 @@ public class MouseHandlerController extends ModelChangingController<CalculationA
 	private CalculationAreaControllerModel model;
 
 	/**
+	 * The view is given with the constructor. It is used to register this
+	 * controller as a mouse wheel listener to it.
+	 * <p>
+	 * The internal model is null, as it is not known in the phase of initializing
+	 * this component. To get the model, the @MouseHandlerController must be
+	 * registered with the @CalculationAreaControllerModel change event, which is
+	 * done in @MandelbrotUIController
 	 * 
+	 * @param view
 	 */
 	public MouseHandlerController(JPanel view) {
 		this.view = view;
 		this.model = null;
 	}
 
+	/**
+	 * Implementation of the init controller phase.
+	 */
 	public void initController() {
 		this.view.addMouseWheelListener(this);
 	}
@@ -49,6 +64,12 @@ public class MouseHandlerController extends ModelChangingController<CalculationA
 		return 1 - (e.getWheelRotation() * delta / 3d);
 	}
 
+	/**
+	 * Connected to the mouse wheel event.
+	 * <p>
+	 * Calculates the boundaries by zooming in or out and sends
+	 * a @ModelChangedEvent.
+	 */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if (model != null) {
