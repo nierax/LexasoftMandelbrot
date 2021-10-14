@@ -99,11 +99,13 @@ class MandelbrotImageControllerTest {
 	}
 
 	/**
+	 * @throws InterruptedException
 	 * 
 	 */
 	@ParameterizedTest
 	@MethodSource
-	final void testColorModelChanged(int nrOfC, PaletteVariant variant, ColorGradingStyle style) {
+	final void testColorModelChanged(int nrOfC, PaletteVariant variant, ColorGradingStyle style)
+	    throws InterruptedException {
 		// Prepare
 		when(colorEvent.getModel()).thenReturn(createColorControlModel(nrOfC, variant, style));
 		when(view.getWidth()).thenReturn(459);
@@ -112,6 +114,7 @@ class MandelbrotImageControllerTest {
 
 		// Run test
 		cut.colorModelChanged(colorEvent);
+		Thread.sleep(100); // Wait for the executor to finish
 
 		// Check
 		ColorControllerModel color = cut.getColorModel();
@@ -165,7 +168,7 @@ class MandelbrotImageControllerTest {
 	@ParameterizedTest
 	@MethodSource
 	final void testCalculationModelChanged(MandelbrotPointPosition tl, MandelbrotPointPosition br, AspectRatio ar,
-	    int maxIter, MandelbrotPointPosition expBr) {
+	    int maxIter, MandelbrotPointPosition expBr) throws InterruptedException {
 		// Prepare
 		calcModel = createCalculationControllerModel(tl, br, ar, maxIter);
 		cut.setCalcModel(calcModel);
@@ -178,6 +181,7 @@ class MandelbrotImageControllerTest {
 
 		// Run
 		cut.calculationModelChanged(calcEvent);
+		Thread.sleep(100); // Wait for the executor to finish
 
 		// Check
 		assertEquals(tl, cut.getCalcModel().topLeft());

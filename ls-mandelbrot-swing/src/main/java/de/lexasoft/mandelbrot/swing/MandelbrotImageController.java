@@ -6,6 +6,9 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.Dimension;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.util.concurrent.ExecutionException;
+
+import javax.swing.SwingWorker;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.CalculationArea;
@@ -24,6 +27,48 @@ import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
  */
 public class MandelbrotImageController extends ModelChangingController<CalculationAreaControllerModel>
     implements ImageControllerModel {
+
+	class RunCalculationTask extends SwingWorker<MandelbrotImage, Void> {
+
+		@Override
+		protected MandelbrotImage doInBackground() throws Exception {
+			return calculationAdapter.calculate(calcModel, colorCM, MandelbrotImageController.this);
+		}
+
+		@Override
+		protected void done() {
+			try {
+				MandelbrotImage image = get();
+				view.drawImage(image.getImage());
+				CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
+
+					@Override
+					public ImageArea image() {
+						return ImageArea.of(image.getImage().getWidth(), image.getImage().getHeight());
+					}
+
+					@Override
+					public CalculationArea calculation() {
+						return CalculationArea.of(calcModel.topLeft(), calcModel.bottomRight());
+					}
+
+					@Override
+					public CalculationArea total() {
+						return CalculationArea.of(image.topLeft(), image.bottomRight());
+					}
+
+				};
+				fireModelChangedEvent(
+				    new ModelChangedEvent<CalculationAreaControllerModel>(MandelbrotImageController.this, calcAreaModel));
+
+			} catch (InterruptedException e) {
+				// Just let the task end.
+			} catch (ExecutionException e) {
+				// Just let the task end.
+			}
+		}
+
+	}
 
 	private ImagePanel view;
 	private CalculationControllerModel calcModel;
@@ -73,27 +118,7 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 * 
 	 */
 	private void calculateAndDraw() {
-		MandelbrotImage image = calculationAdapter.calculate(calcModel, colorCM, this);
-		view.drawImage(image.getImage());
-		CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
-
-			@Override
-			public ImageArea image() {
-				return ImageArea.of(image.getImage().getWidth(), image.getImage().getHeight());
-			}
-
-			@Override
-			public CalculationArea calculation() {
-				return CalculationArea.of(calcModel.topLeft(), calcModel.bottomRight());
-			}
-
-			@Override
-			public CalculationArea total() {
-				return CalculationArea.of(image.topLeft(), image.bottomRight());
-			}
-
-		};
-		fireModelChangedEvent(new ModelChangedEvent<CalculationAreaControllerModel>(this, calcAreaModel));
+		new RunCalculationTask().execute();
 	}
 
 	/**
