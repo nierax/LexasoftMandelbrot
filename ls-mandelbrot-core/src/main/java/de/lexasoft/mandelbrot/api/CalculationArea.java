@@ -198,7 +198,7 @@ public class CalculationArea {
 	 *               zoom out.
 	 * @param mouse  The center point of the zoom.
 	 */
-	public void zoom(double factor, MandelbrotPointPosition mouse) {
+	public CalculationArea zoom(double factor, MandelbrotPointPosition mouse) {
 		// First get relative position of the mouse point
 		// Relation to topLeft
 		double rX1 = (mouse.cx() - topLeft.cx()) / width();
@@ -212,6 +212,7 @@ public class CalculationArea {
 		double height1 = height() * factor;
 		topLeft.moveTo(mouse.cx() - (rX1 * width1), mouse.cy() + (rY1 * height1));
 		bottomRight.moveTo(mouse.cx() + (rX2 * width1), mouse.cy() - (rY2 * height1));
+		return this;
 	}
 
 	/**

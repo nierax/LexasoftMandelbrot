@@ -19,13 +19,15 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JPanel;
 
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
 /**
  * @author nierax
  *
  */
-public class MouseHandlerController implements MouseWheelListener {
+public class MouseHandlerController extends ModelChangingController<CalculationArea> implements MouseWheelListener {
 
 	private JPanel view;
 	private CalculationAreaControllerModel model;
@@ -42,9 +44,22 @@ public class MouseHandlerController implements MouseWheelListener {
 		this.view.addMouseWheelListener(this);
 	}
 
+	private double zoomFactor(MouseWheelEvent e) {
+		double delta = (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) ? 0.1d : 0.5d;
+		return 1 - (e.getWheelRotation() * delta / 3d);
+	}
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		System.out.println("MouseWheel " + e);
+		if (model != null) {
+			CalculationArea calculation = model.calculation();
+			MandelbrotPointPosition point = calculation.calculatePointFromImagePosition(model.image(), e.getPoint());
+			fireModelChangedEvent(new ModelChangedEvent<CalculationArea>(this, calculation.zoom(zoomFactor(e), point)));
+		}
+	}
+
+	void modelChanged(CalculationAreaControllerModel model) {
+		this.model = model;
 	}
 
 }
