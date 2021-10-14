@@ -28,13 +28,24 @@ import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
 public class MandelbrotImageController extends ModelChangingController<CalculationAreaControllerModel>
     implements ImageControllerModel {
 
+	/**
+	 * Runs the calculation in a separate thread to keep it detached from the UI
+	 * thread.
+	 *
+	 */
 	class RunCalculationTask extends SwingWorker<MandelbrotImage, Void> {
 
+		/**
+		 * Run the calculation.
+		 */
 		@Override
 		protected MandelbrotImage doInBackground() throws Exception {
 			return calculationAdapter.calculate(calcModel, colorCM, MandelbrotImageController.this);
 		}
 
+		/**
+		 * Actions after the calculation is completed.
+		 */
 		@Override
 		protected void done() {
 			try {
@@ -171,10 +182,6 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 */
 	void setCalcModel(CalculationControllerModel calcModel) {
 		this.calcModel = calcModel;
-	}
-
-	public void replaceModel(CalculationControllerModel calcCtrlModel) {
-		setCalcModel(calcCtrlModel);
 	}
 
 	@Override
