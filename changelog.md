@@ -2,6 +2,9 @@
 
 ## Unpublished
 
+## Version 0.1.4
+Zooming in and out in calculation with mouse wheel
+
 ## Version 0.1.3
 * UI allows to export calculation to image files
 
