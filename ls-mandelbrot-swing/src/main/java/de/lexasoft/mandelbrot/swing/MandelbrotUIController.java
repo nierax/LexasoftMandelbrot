@@ -26,7 +26,8 @@ public class MandelbrotUIController {
 	private FileMenuController fileMenuController;
 	private DrawCalculationAreaController calcAreaController;
 	private ExportImageController exportController;
-	private ZoomController mouseController;
+	private ZoomController zoomController;
+	private DragController dragController;
 
 	/**
 	 * 
@@ -45,7 +46,8 @@ public class MandelbrotUIController {
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.exportController, this.calculationController,
 		    this.colorController, this.imageController);
 		this.calcAreaController = new DrawCalculationAreaController(this.view.getDrawCalculationAreaPanel());
-		this.mouseController = new ZoomController(view.getDrawCalculationAreaPanel());
+		this.zoomController = new ZoomController(view.getDrawCalculationAreaPanel());
+		this.dragController = new DragController(view.getDrawCalculationAreaPanel());
 		initView();
 	}
 
@@ -71,11 +73,12 @@ public class MandelbrotUIController {
 		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
 		calculationController.setShowCalculationArea(calcAreaController);
-		mouseController.initController();
-		mouseController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
+		zoomController.initController();
+		zoomController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
+		dragController.initController();
 		imageController.initController(calculationController);
 		imageController.addModelChangedListener(e -> calcAreaController.calculationAreaModelChanged(e.getModel()));
-		imageController.addModelChangedListener(e -> mouseController.modelChanged(e.getModel()));
+		imageController.addModelChangedListener(e -> zoomController.modelChanged(e.getModel()));
 		fileMenuController.initController();
 		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 		exportController.initController();
