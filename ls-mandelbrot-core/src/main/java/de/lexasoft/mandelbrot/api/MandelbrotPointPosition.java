@@ -117,6 +117,18 @@ public class MandelbrotPointPosition {
 	}
 
 	/**
+	 * Moves the point by the values in delta.
+	 * 
+	 * @param delta The difference, the point has to be moved.
+	 * @return Reference to this object.
+	 */
+	public MandelbrotPointPosition move(MandelbrotPointPosition delta) {
+		movex(delta.cx());
+		movey(delta.cy());
+		return this;
+	}
+
+	/**
 	 * Equality means, that the point positions are numerically identical.
 	 */
 	@Override

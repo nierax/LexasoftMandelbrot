@@ -96,4 +96,40 @@ class MandelbrotPointPositionTest {
 		assertSame(cut, result);
 	}
 
+	private final static Stream<Arguments> testMove() {
+		return Stream.of(//
+		    // Don't move anything
+		    Arguments.of(0.2, 0.3, 0, 0, 0.2, 0.3),
+		    // Move to right and down
+		    Arguments.of(0.2, 0.3, 1, 0.5, 1.2, 0.8),
+		    // Move to left and down
+		    Arguments.of(0.2, 0.3, -1, 0.5, -0.8, 0.8),
+		    // Move to left and up
+		    Arguments.of(0.2, 0.3, -1, -0.5, -0.8, -0.2),
+		    // Move to right and up
+		    Arguments.of(0.2, 0.3, 1, -0.5, 1.2, -0.2));
+	}
+
+	/**
+	 * 
+	 * @param cx     Initial x
+	 * @param cy     Initial y
+	 * @param deltaX Delta in x dimension
+	 * @param deltaY Delta in y dimension
+	 * @param expX   Expected x value
+	 * @param expY   Expected y value
+	 */
+	@ParameterizedTest
+	@MethodSource
+	void testMove(double cx, double cy, double deltaX, double deltaY, double expX, double expY) {
+		// Prepare
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
+		// Run
+		MandelbrotPointPosition result = cut.move(MandelbrotPointPosition.of(deltaX, deltaY));
+		// Check
+		assertSame(cut, result);
+		assertEquals(expX, result.cx(), 0.0001);
+		assertEquals(expY, result.cy(), 0.0001);
+	}
+
 }
