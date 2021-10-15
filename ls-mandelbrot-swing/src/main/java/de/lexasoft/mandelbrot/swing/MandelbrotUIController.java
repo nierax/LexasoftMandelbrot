@@ -76,9 +76,11 @@ public class MandelbrotUIController {
 		zoomController.initController();
 		zoomController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
 		dragController.initController();
+		dragController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
 		imageController.initController(calculationController);
 		imageController.addModelChangedListener(e -> calcAreaController.calculationAreaModelChanged(e.getModel()));
 		imageController.addModelChangedListener(e -> zoomController.modelChanged(e.getModel()));
+		imageController.addModelChangedListener(e -> dragController.modelChanged(e.getModel()));
 		fileMenuController.initController();
 		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 		exportController.initController();

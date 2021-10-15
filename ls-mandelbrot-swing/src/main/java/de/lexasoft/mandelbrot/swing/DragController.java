@@ -14,12 +14,15 @@
  */
 package de.lexasoft.mandelbrot.swing;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 
 /**
  * Controls the drag of the image with the mouse.
@@ -31,6 +34,7 @@ public class DragController extends ModelChangingController<CalculationArea> {
 
 	private JPanel view;
 	private DragListener dragListener;
+	private CalculationAreaControllerModel model;
 
 	/**
 	 * @param view
@@ -48,7 +52,6 @@ public class DragController extends ModelChangingController<CalculationArea> {
 		public void mousePressed(MouseEvent e) {
 			this.x = e.getX();
 			this.y = e.getY();
-			System.out.println("Point set to " + x + ", " + y);
 		}
 
 		@Override
@@ -60,7 +63,7 @@ public class DragController extends ModelChangingController<CalculationArea> {
 		public void mouseDragged(MouseEvent e) {
 			int x1 = e.getX();
 			int y1 = e.getY();
-			System.out.println(String.format("Dragged from %s, %s to %s, %s", this.x, this.y, x1, y1));
+			dragCalculation(new Point(x, y), new Point(x1, y1));
 			this.x = x1;
 			this.y = y1;
 		}
@@ -87,10 +90,34 @@ public class DragController extends ModelChangingController<CalculationArea> {
 	}
 
 	/**
+	 * Does the dragging of the calculation area.
+	 * 
+	 * @param from
+	 * @param to
+	 */
+	private void dragCalculation(Point from, Point to) {
+		MandelbrotPointPosition cFrom = model.calculation().calculatePointFromImagePosition(model.image(), from);
+		MandelbrotPointPosition cTo = model.calculation().calculatePointFromImagePosition(model.image(), to);
+		MandelbrotPointPosition diff = cFrom.subtract(cTo);
+		model.calculation().move(diff);
+		fireModelChangedEvent(new ModelChangedEvent<CalculationArea>(this, model.calculation()));
+	}
+
+	/**
 	 * @return the dragListener
 	 */
 	DragListener getDragListener() {
 		return dragListener;
+	}
+
+	/**
+	 * Must be informed about changes to the @CalculationAreaControllerModel. This
+	 * is implemented in {@link MandelbrotUIController}
+	 * 
+	 * @param model
+	 */
+	void modelChanged(CalculationAreaControllerModel model) {
+		this.model = model;
 	}
 
 }
