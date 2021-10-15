@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 class MandelbrotPointPositionTest {
@@ -130,6 +130,41 @@ class MandelbrotPointPositionTest {
 		assertSame(cut, result);
 		assertEquals(expX, result.cx(), 0.0001);
 		assertEquals(expY, result.cy(), 0.0001);
+	}
+
+	private final static Stream<Arguments> testSubtract() {
+		return Stream.of( //
+		    // x and y +
+		    Arguments.of(0.2, 0.3, 0.1, 0.05, 0.1, 0.25),
+		    // x - and y +
+		    Arguments.of(0.2, 0.3, -0.1, 0.05, 0.3, 0.25),
+		    // x and y -
+		    Arguments.of(0.2, 0.3, -0.1, -0.05, 0.3, 0.35),
+		    // x + and y -
+		    Arguments.of(0.2, 0.3, 0.1, -0.05, 0.1, 0.35));
+	}
+
+	/**
+	 * 
+	 * @param cx     The initial x value
+	 * @param cy     The initial y value
+	 * @param sX     The x value to be subtracted
+	 * @param sY     The y value to be subtracted
+	 * @param deltaX The expected delta in x value
+	 * @param deltaY The expected delta in y value
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testSubtract(double cx, double cy, double sX, double sY, double deltaX, double deltaY) {
+		// Prepare
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
+		// Run
+		MandelbrotPointPosition result = cut.subtract(MandelbrotPointPosition.of(sX, sY));
+		// Check
+		assertNotNull(result);
+		assertNotSame(cut, result);
+		assertEquals(deltaX, result.cx(), 0.0001);
+		assertEquals(deltaY, result.cy(), 0.0001);
 	}
 
 }
