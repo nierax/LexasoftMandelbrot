@@ -96,11 +96,13 @@ public class DragController extends ModelChangingController<CalculationArea> {
 	 * @param to
 	 */
 	private void dragCalculation(Point from, Point to) {
-		MandelbrotPointPosition cFrom = model.calculation().calculatePointFromImagePosition(model.image(), from);
-		MandelbrotPointPosition cTo = model.calculation().calculatePointFromImagePosition(model.image(), to);
-		MandelbrotPointPosition diff = cFrom.subtract(cTo);
-		model.calculation().move(diff);
-		fireModelChangedEvent(new ModelChangedEvent<CalculationArea>(this, model.calculation()));
+		if (model != null) {
+			MandelbrotPointPosition cFrom = model.calculation().calculatePointFromImagePosition(model.image(), from);
+			MandelbrotPointPosition cTo = model.calculation().calculatePointFromImagePosition(model.image(), to);
+			MandelbrotPointPosition diff = cFrom.subtract(cTo);
+			model.calculation().move(diff);
+			fireModelChangedEvent(new ModelChangedEvent<CalculationArea>(this, model.calculation()));
+		}
 	}
 
 	/**
@@ -118,6 +120,10 @@ public class DragController extends ModelChangingController<CalculationArea> {
 	 */
 	void modelChanged(CalculationAreaControllerModel model) {
 		this.model = model;
+	}
+
+	void resetModel() {
+		this.model = null;
 	}
 
 }

@@ -84,20 +84,30 @@ public class MandelbrotUIController {
 		fileMenuController.initController();
 		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 		exportController.initController();
+
+		// Now we can start calculating the image
+		imageController.startRunning();
 	}
 
 	/**
 	 * 
 	 */
 	private void handleLoadEvent(ModelChangedEvent<MandelbrotAttributesDTO> event) {
+		// Stop calculating the image
+		imageController.stopRunning();
+
 		// Initialize model newly
 		initModel(event.getModel());
+		// Reset Models in controller without keeping data
+		zoomController.resetModel();
+		dragController.resetModel();
 		// Set new values in controllers (the right values in UI).
 		colorController.replaceModel(event.getModel().getColor());
 		calculationController.replaceModel(event.getModel().getCalculation());
 		imageController.setCalcModel(calculationController);
-		imageController.reCalculate();
-		view.repaint();
+
+		// Now start calculating again
+		imageController.startRunning();
 	}
 
 	/**

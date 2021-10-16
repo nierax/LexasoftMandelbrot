@@ -41,9 +41,9 @@ public class ZoomController extends ModelChangingController<CalculationArea> imp
 	 * controller as a mouse wheel listener to it.
 	 * <p>
 	 * The internal model is null, as it is not known in the phase of initializing
-	 * this component. To get the model, the @ZoomController must be
-	 * registered with the @CalculationAreaControllerModel change event, which is
-	 * done in @MandelbrotUIController
+	 * this component. To get the model, the @ZoomController must be registered with
+	 * the @CalculationAreaControllerModel change event, which is done
+	 * in @MandelbrotUIController
 	 * 
 	 * @param view
 	 */
@@ -81,6 +81,10 @@ public class ZoomController extends ModelChangingController<CalculationArea> imp
 
 	void modelChanged(CalculationAreaControllerModel model) {
 		this.model = model;
+	}
+
+	void resetModel() {
+		this.model = null;
 	}
 
 }

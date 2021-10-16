@@ -111,6 +111,7 @@ class MandelbrotImageControllerTest {
 		when(view.getWidth()).thenReturn(459);
 		when(view.getHeight()).thenReturn(405);
 		cut.setCalcModel(createCalculationControllerModel(point(-2.2, 1.2), point(0.8, -1.2), AspectRatio.FILL, 25));
+		cut.startRunning();
 
 		// Run test
 		cut.colorModelChanged(colorEvent);
@@ -178,6 +179,7 @@ class MandelbrotImageControllerTest {
 		when(colorModel.gradingStyle()).thenReturn(ColorGradingStyle.LINE);
 		when(colorModel.paletteVariant()).thenReturn(PaletteVariant.BLUEWHITE);
 		when(colorModel.totalNrOfColors()).thenReturn(7);
+		cut.startRunning();
 
 		// Run
 		cut.calculationModelChanged(calcEvent);
