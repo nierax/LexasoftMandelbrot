@@ -4,6 +4,7 @@
 **Enhancements**
 * Improved UI performance by running calculation in a separate thread
 * Image can be dragged with the mouse
+* Text input fields for calculation and colors made error resistant and type safe. Lexasoft commons 0.1.1 and up is needed.
 **Bug fixes**
 * After loading a calculation, the old one was shown sometimes
 
