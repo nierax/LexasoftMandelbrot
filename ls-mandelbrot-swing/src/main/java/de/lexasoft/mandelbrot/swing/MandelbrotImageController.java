@@ -132,8 +132,12 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 */
 	private void calculateAndDraw() {
 		if (isRunning()) {
-			new RunCalculationTask().execute();
+			createWorker().execute();
 		}
+	}
+
+	SwingWorker<MandelbrotImage, Void> createWorker() {
+		return new RunCalculationTask();
 	}
 
 	/**

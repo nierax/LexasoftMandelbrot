@@ -5,11 +5,14 @@ package de.lexasoft.mandelbrot.swing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.awt.Dimension;
 import java.util.stream.Stream;
+
+import javax.swing.SwingWorker;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -34,6 +38,21 @@ import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 @ExtendWith(MockitoExtension.class)
 class MandelbrotImageControllerTest {
 
+	/**
+	 * Mocks the worker object. Just needed for @testStartStopRunning, only.
+	 */
+	class CUT extends MandelbrotImageController {
+
+		CUT(MandelbrotImageController ctrl) {
+			super(calcModel, colorModel, new Dimension(ctrl.imageWidth(), ctrl.imageHeight()), view);
+		}
+
+		@Override
+		SwingWorker<MandelbrotImage, Void> createWorker() {
+			return worker;
+		}
+	}
+
 	private MandelbrotImageController cut;
 	@Mock
 	private ImagePanel view;
@@ -45,6 +64,8 @@ class MandelbrotImageControllerTest {
 	private CalculationControllerModel calcModel;
 	@Mock
 	private ColorControllerModel colorModel;
+	@Mock
+	private SwingWorker<MandelbrotImage, Void> worker;
 
 	/**
 	 * @throws java.lang.Exception
@@ -189,6 +210,32 @@ class MandelbrotImageControllerTest {
 		assertEquals(tl, cut.getCalcModel().topLeft());
 		assertEquals(expBr, cut.getCalcModel().bottomRight());
 		assertEquals(maxIter, cut.getCalcModel().maximumIterations());
+	}
+
+	private static final Stream<Arguments> testStartStopRunning() {
+		return Stream.of(//
+		    // Stop running - no calculation at all.
+		    Arguments.of(false, 0),
+		    // Start running - One run while calling startRunning(), the other one while
+		    // calling reCalculate()
+		    Arguments.of(true, 2));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	final void testStartStopRunning(boolean toRun, int nrOfCalcCalls) {
+		CUT cut = new CUT(this.cut);
+		// Start or stop running
+		if (toRun) {
+			// Starts calculation as well
+			cut.startRunning();
+		} else {
+			cut.stopRunning();
+		}
+		// Every next calculation should run (or not)
+		cut.reCalculate();
+		// Check, how many times the calculation was called
+		verify(worker, times(nrOfCalcCalls)).execute();
 	}
 
 }
