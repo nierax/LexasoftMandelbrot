@@ -3,9 +3,9 @@
 ## Unpublished
 **Enhancements**
 * Improved UI performance by running calculation in a separate thread
-* Image can be dragged via mouse
+* Image can be dragged with the mouse
 **Bug fixes**
-* After loading the old calculation was shown sometimes
+* After loading a calculation, the old one was shown sometimes
 
 ## Version 0.1.4
 * Zooming in and out in calculation with mouse wheel
