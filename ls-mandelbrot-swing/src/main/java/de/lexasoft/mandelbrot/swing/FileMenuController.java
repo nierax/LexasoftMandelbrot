@@ -45,6 +45,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	private ColorControllerModel colModel;
 	private ImageControllerModel imgModel;
 	private ExportImageController exportController;
+	private File currentDir;
 
 	/**
 	 * Create the file menu controller.
@@ -104,6 +105,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 		case JFileChooser.APPROVE_OPTION: {
 			try {
 				doSaveFile(fileChooser.getSelectedFile());
+				currentDir = fileChooser.getCurrentDirectory();
 				break;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -117,7 +119,9 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 	}
 
 	JFileChooser createFileChooser(String dialogTitle) {
-		return FileChooserAction.of().createYamlFileChooser(dialogTitle);
+		JFileChooser fc = FileChooserAction.of().createYamlFileChooser(dialogTitle);
+		fc.setCurrentDirectory(currentDir);
+		return fc;
 	}
 
 	private void doLoadFile(File file2Load) throws JsonParseException, JsonMappingException, IOException {
@@ -132,6 +136,7 @@ public class FileMenuController extends ModelChangingController<MandelbrotAttrib
 		case JFileChooser.APPROVE_OPTION: {
 			try {
 				doLoadFile(fileChooser.getSelectedFile());
+				currentDir = fileChooser.getCurrentDirectory();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

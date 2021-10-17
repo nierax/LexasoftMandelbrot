@@ -50,6 +50,7 @@ public class ExportImageController implements ImageControllerModel {
 	private double aspectRatio;
 	private JFrame parent;
 	private File file2Exort;
+	private File currentDir;
 
 	/**
 	 * 
@@ -168,7 +169,9 @@ public class ExportImageController implements ImageControllerModel {
 
 	public void chooseImageFileToSave() {
 		JFileChooser chooser = FileChooserAction.of().createImageFileChooser("Choose a file to export to");
+		chooser.setCurrentDirectory(currentDir);
 		FileChooserAction.of().fileSaveAction(chooser, parent, (f) -> setFileToExportTo(f), imageFilename);
+		currentDir = chooser.getCurrentDirectory();
 	}
 
 	private JDialog createWaitDialog(String fileName) {
