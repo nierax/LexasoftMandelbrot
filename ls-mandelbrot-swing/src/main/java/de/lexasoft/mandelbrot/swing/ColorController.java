@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
+import java.text.ParseException;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -49,7 +50,11 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	void initView() {
 		view.getPaletteVariant().setSelectedItem(paletteVariant());
 		view.getColorGradingStyle().setSelectedItem(gradingStyle());
-		view.getTotalColors().setText(Integer.toString(totalNrOfColors()));
+		try {
+			view.getTotalColors().setBasicValue(totalNrOfColors());
+		} catch (ParseException e) {
+			throw new MandelbrotException("Error parsing total number of colors", e);
+		}
 		view.getErrorText().setText("");
 	}
 
@@ -95,7 +100,11 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 		int minNrOfC = ValidationAPI.of().minimumNrOfColorsForGrading(nrOfCUngraded, gradingStyle());
 		if (nrOfC < minNrOfC) {
 			nrOfC = minNrOfC;
-			view.getTotalColors().setText(Integer.toString(nrOfC));
+			try {
+				view.getTotalColors().setBasicValue(nrOfC);
+			} catch (ParseException e) {
+				view.getErrorText().setText(String.format("Error parsing value for total number of colors \"%s\"", nrOfC));
+			}
 			view.getErrorText().setText(String.format("Minimum number of colors set to minimum value %s.", minNrOfC));
 		} else {
 			view.getErrorText().setText("");
@@ -180,12 +189,14 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	 * @param evt
 	 */
 	void changeTotalColors(FocusEvent evt) {
-		String sNrOfC = view.getTotalColors().getText();
-		if (!"".equals(sNrOfC)) {
-			int nrOfC = Integer.parseInt(view.getTotalColors().getText());
+		int nrOfC = -1;
+		try {
+			nrOfC = view.getTotalColors().getBasicValue();
 			nrOfC = handleTotalNrOfColorsCorrection(nrOfC);
 			totalNrOfColors(nrOfC);
 			fireEvent();
+		} catch (ParseException e) {
+			throw new MandelbrotException(String.format("Error parsing value \"%s\" for total number of colors.", nrOfC));
 		}
 	}
 
