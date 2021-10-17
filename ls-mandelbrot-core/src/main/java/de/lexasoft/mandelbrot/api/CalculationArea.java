@@ -215,6 +215,12 @@ public class CalculationArea {
 		return this;
 	}
 
+	public CalculationArea move(MandelbrotPointPosition delta) {
+		topLeft.move(delta);
+		bottomRight.move(delta);
+		return this;
+	}
+
 	/**
 	 * @return the topLeft
 	 */

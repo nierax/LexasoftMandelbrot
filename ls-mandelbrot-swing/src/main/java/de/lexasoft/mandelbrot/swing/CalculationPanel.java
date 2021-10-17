@@ -9,18 +9,19 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
+import de.lexasoft.common.swing.JFormatterFactory;
+import de.lexasoft.common.swing.LSJFormattedTextField;
 import de.lexasoft.mandelbrot.swing.model.AspectRatio;
 
 @SuppressWarnings("serial")
 public class CalculationPanel extends JPanel {
-	private JTextField tlcx;
-	private JTextField tlcy;
-	private JTextField brcx;
-	private JTextField brcy;
-	private JTextField maxIter;
+	private LSJFormattedTextField<Double> tlcx;
+	private LSJFormattedTextField<Double> tlcy;
+	private LSJFormattedTextField<Double> brcx;
+	private LSJFormattedTextField<Double> brcy;
+	private LSJFormattedTextField<Integer> maxIter;
 	private JComboBox<AspectRatio> aspectRatio;
 	private JCheckBox chckbxShowCalculationArea;
 
@@ -62,7 +63,7 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_2.gridy = 2;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		tlcx = new JTextField();
+		tlcx = new LSJFormattedTextField<>(JFormatterFactory.createDoubleFormatter());
 		GridBagConstraints gbc_tlcx = new GridBagConstraints();
 		gbc_tlcx.insets = new Insets(0, 0, 5, 5);
 		gbc_tlcx.fill = GridBagConstraints.HORIZONTAL;
@@ -79,7 +80,7 @@ public class CalculationPanel extends JPanel {
 		gbc_LabelTlcy.gridy = 2;
 		add(LabelTlcy, gbc_LabelTlcy);
 
-		tlcy = new JTextField();
+		tlcy = new LSJFormattedTextField<>(JFormatterFactory.createDoubleFormatter());
 		GridBagConstraints gbc_tlcy = new GridBagConstraints();
 		gbc_tlcy.insets = new Insets(0, 0, 5, 0);
 		gbc_tlcy.fill = GridBagConstraints.HORIZONTAL;
@@ -105,7 +106,7 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_4.gridy = 4;
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 
-		brcx = new JTextField();
+		brcx = new LSJFormattedTextField<>(JFormatterFactory.createDoubleFormatter());
 		GridBagConstraints gbc_brcx = new GridBagConstraints();
 		gbc_brcx.insets = new Insets(0, 0, 5, 5);
 		gbc_brcx.fill = GridBagConstraints.HORIZONTAL;
@@ -122,7 +123,7 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_6.gridy = 4;
 		add(lblNewLabel_6, gbc_lblNewLabel_6);
 
-		brcy = new JTextField();
+		brcy = new LSJFormattedTextField<>(JFormatterFactory.createDoubleFormatter());
 		GridBagConstraints gbc_brcy = new GridBagConstraints();
 		gbc_brcy.insets = new Insets(0, 0, 5, 0);
 		gbc_brcy.fill = GridBagConstraints.HORIZONTAL;
@@ -166,7 +167,7 @@ public class CalculationPanel extends JPanel {
 		gbc_lblNewLabel_5.gridy = 8;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 
-		maxIter = new JTextField();
+		maxIter = new LSJFormattedTextField<>(JFormatterFactory.createIntegerFormatter());
 		GridBagConstraints gbc_maxIter = new GridBagConstraints();
 		gbc_maxIter.fill = GridBagConstraints.HORIZONTAL;
 		gbc_maxIter.gridx = 3;
@@ -176,23 +177,23 @@ public class CalculationPanel extends JPanel {
 
 	}
 
-	public JTextField getTlcx() {
+	public LSJFormattedTextField<Double> getTlcx() {
 		return tlcx;
 	}
 
-	public JTextField getTlcy() {
+	public LSJFormattedTextField<Double> getTlcy() {
 		return tlcy;
 	}
 
-	public JTextField getBrcx() {
+	public LSJFormattedTextField<Double> getBrcx() {
 		return brcx;
 	}
 
-	public JTextField getBrcy() {
+	public LSJFormattedTextField<Double> getBrcy() {
 		return brcy;
 	}
 
-	public JTextField getMaxIter() {
+	public LSJFormattedTextField<Integer> getMaxIter() {
 		return maxIter;
 	}
 

@@ -85,9 +85,11 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	private CalculationControllerModel calcModel;
 	private ColorControllerModel colorCM;
 	private RunCalculationAdapter calculationAdapter;
+	private boolean running;
 
 	public MandelbrotImageController(CalculationControllerModel calcCM, ColorControllerModel colorCM,
 	    Dimension initialSize, ImagePanel view) {
+		this.running = false;
 		this.view = view;
 		this.calcModel = calcCM;
 		this.colorCM = colorCM;
@@ -129,7 +131,13 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 * 
 	 */
 	private void calculateAndDraw() {
-		new RunCalculationTask().execute();
+		if (isRunning()) {
+			createWorker().execute();
+		}
+	}
+
+	SwingWorker<MandelbrotImage, Void> createWorker() {
+		return new RunCalculationTask();
 	}
 
 	/**
@@ -198,6 +206,19 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	public String imageFilename() {
 		// Image file name not supported here.
 		return null;
+	}
+
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void stopRunning() {
+		this.running = false;
+	}
+
+	public void startRunning() {
+		this.running = true;
+		reCalculate();
 	}
 
 }

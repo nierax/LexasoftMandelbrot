@@ -26,7 +26,8 @@ public class MandelbrotUIController {
 	private FileMenuController fileMenuController;
 	private DrawCalculationAreaController calcAreaController;
 	private ExportImageController exportController;
-	private MouseHandlerController mouseController;
+	private ZoomController zoomController;
+	private DragController dragController;
 
 	/**
 	 * 
@@ -45,7 +46,8 @@ public class MandelbrotUIController {
 		    this.view.getFrmLexasoftMandelbrotApplication(), this.exportController, this.calculationController,
 		    this.colorController, this.imageController);
 		this.calcAreaController = new DrawCalculationAreaController(this.view.getDrawCalculationAreaPanel());
-		this.mouseController = new MouseHandlerController(view.getDrawCalculationAreaPanel());
+		this.zoomController = new ZoomController(view.getDrawCalculationAreaPanel());
+		this.dragController = new DragController(view.getDrawCalculationAreaPanel());
 		initView();
 	}
 
@@ -71,28 +73,41 @@ public class MandelbrotUIController {
 		calculationController.addModelChangedListener(e -> imageController.calculationModelChanged(e));
 		calculationController.initController();
 		calculationController.setShowCalculationArea(calcAreaController);
-		mouseController.initController();
-		mouseController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
+		zoomController.initController();
+		zoomController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
+		dragController.initController();
+		dragController.addModelChangedListener(e -> calculationController.calculationAreaChanged(e));
 		imageController.initController(calculationController);
 		imageController.addModelChangedListener(e -> calcAreaController.calculationAreaModelChanged(e.getModel()));
-		imageController.addModelChangedListener(e -> mouseController.modelChanged(e.getModel()));
+		imageController.addModelChangedListener(e -> zoomController.modelChanged(e.getModel()));
+		imageController.addModelChangedListener(e -> dragController.modelChanged(e.getModel()));
 		fileMenuController.initController();
 		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 		exportController.initController();
+
+		// Now we can start calculating the image
+		imageController.startRunning();
 	}
 
 	/**
 	 * 
 	 */
 	private void handleLoadEvent(ModelChangedEvent<MandelbrotAttributesDTO> event) {
+		// Stop calculating the image
+		imageController.stopRunning();
+
 		// Initialize model newly
 		initModel(event.getModel());
+		// Reset Models in controller without keeping data
+		zoomController.resetModel();
+		dragController.resetModel();
 		// Set new values in controllers (the right values in UI).
 		colorController.replaceModel(event.getModel().getColor());
 		calculationController.replaceModel(event.getModel().getCalculation());
 		imageController.setCalcModel(calculationController);
-		imageController.reCalculate();
-		view.repaint();
+
+		// Now start calculating again
+		imageController.startRunning();
 	}
 
 	/**

@@ -117,6 +117,30 @@ public class MandelbrotPointPosition {
 	}
 
 	/**
+	 * Moves the point by the values in delta.
+	 * 
+	 * @param delta The difference, the point has to be moved.
+	 * @return Reference to this object.
+	 */
+	public MandelbrotPointPosition move(MandelbrotPointPosition delta) {
+		movex(delta.cx());
+		movey(delta.cy());
+		return this;
+	}
+
+	/**
+	 * Subtract the given value (subtrahend) from this object (minuend).
+	 * 
+	 * @param subtrahend The value, that will be subtracted from this object.
+	 * @return The difference between this object and @subtrahend in a new object
+	 */
+	public MandelbrotPointPosition subtract(MandelbrotPointPosition subtrahend) {
+		double deltax = cx() - subtrahend.cx();
+		double deltay = cy() - subtrahend.cy();
+		return MandelbrotPointPosition.of(deltax, deltay);
+	}
+
+	/**
 	 * Equality means, that the point positions are numerically identical.
 	 */
 	@Override

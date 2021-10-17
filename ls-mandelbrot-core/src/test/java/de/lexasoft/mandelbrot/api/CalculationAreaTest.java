@@ -14,6 +14,7 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import static org.junit.Assert.assertSame;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -240,6 +241,42 @@ class CalculationAreaTest {
 		// Check
 		assertEquals(expCenter.cx(), center.cx(), 0.0001);
 		assertEquals(expCenter.cy(), center.cy(), 0.0001);
+	}
+
+	private final static Stream<Arguments> testMove() {
+		return Stream.of( //
+		    // Move to right and up
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), point(0.5, 1), point(-1.52, 2.2), point(1.3, -0.2)),
+		    // Move to left and up
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), point(-0.1, 0.2), point(-2.12, 1.4), point(0.7, -1)),
+		    // Move to left and down
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), point(-0.1, -0.2), point(-2.12, 1), point(0.7, -1.4)),
+		    // Move to right and down
+		    Arguments.of(point(-2.02, 1.2), point(0.8, -1.2), point(0.1, -0.2), point(-1.92, 1), point(0.9, -1.4)));
+	}
+
+	/**
+	 * 
+	 * @param tl    Initial top left position
+	 * @param br    Initial bottom right position
+	 * @param delta Delta by which the calculation area should be moved
+	 * @param expTl Expected top left position
+	 * @param expBr Expected bottom right position
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testMove(MandelbrotPointPosition tl, MandelbrotPointPosition br, MandelbrotPointPosition delta,
+	    MandelbrotPointPosition expTl, MandelbrotPointPosition expBr) {
+		// Prepare
+		cut = CalculationArea.of(tl, br);
+		// Run
+		CalculationArea result = cut.move(delta);
+		// Check
+		assertSame(cut, result);
+		assertEquals(expTl.cx(), result.topLeft().cx(), 0.0001);
+		assertEquals(expTl.cy(), result.topLeft().cy(), 0.0001);
+		assertEquals(expBr.cx(), result.bottomRight().cx(), 0.0001);
+		assertEquals(expBr.cy(), result.bottomRight().cy(), 0.0001);
 	}
 
 }
