@@ -44,7 +44,17 @@ public enum PaletteVariant {
 	/**
 	 * 2 colors sky blue and white
 	 */
-	BLUEWHITE("Blue and White", new Color(25, 140, 255), Color.WHITE),
+	BLUEWHITE("Frozen", new Color(25, 140, 255), Color.WHITE),
+
+	/**
+	 * 3 Colors from white over yellow to red.
+	 */
+	FIRE("Fire", new Color(250, 255, 128), Color.ORANGE, Color.RED),
+
+	/**
+	 * 3 Colors different sand tones
+	 */
+	SAND("Sand", Color.WHITE, new Color(205, 186, 136), new Color(165, 127, 78)),
 
 	/**
 	 * Custom palette, defined by user (f.ex. in YAML file)
