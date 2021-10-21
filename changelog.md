@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unpublished
+
+## Version 0.1.5
 **Enhancements**
 * Improved UI performance by running calculation in a separate thread
 * Image can be dragged with the mouse
