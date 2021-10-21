@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unpublished
+**Enhancements**
+** Bug Fixes**
+Corrected: Use of older JUnit packages.
 
 ## Version 0.1.5
 **Enhancements**
