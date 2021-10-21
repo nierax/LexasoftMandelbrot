@@ -31,7 +31,7 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
  * @author nierax
  *
  */
-public class MouseHandlerController extends ModelChangingController<CalculationArea> implements MouseWheelListener {
+public class ZoomController extends ModelChangingController<CalculationArea> implements MouseWheelListener {
 
 	private JPanel view;
 	private CalculationAreaControllerModel model;
@@ -41,13 +41,13 @@ public class MouseHandlerController extends ModelChangingController<CalculationA
 	 * controller as a mouse wheel listener to it.
 	 * <p>
 	 * The internal model is null, as it is not known in the phase of initializing
-	 * this component. To get the model, the @MouseHandlerController must be
-	 * registered with the @CalculationAreaControllerModel change event, which is
-	 * done in @MandelbrotUIController
+	 * this component. To get the model, the @ZoomController must be registered with
+	 * the @CalculationAreaControllerModel change event, which is done
+	 * in @MandelbrotUIController
 	 * 
 	 * @param view
 	 */
-	public MouseHandlerController(JPanel view) {
+	public ZoomController(JPanel view) {
 		this.view = view;
 		this.model = null;
 	}
@@ -81,6 +81,10 @@ public class MouseHandlerController extends ModelChangingController<CalculationA
 
 	void modelChanged(CalculationAreaControllerModel model) {
 		this.model = model;
+	}
+
+	void resetModel() {
+		this.model = null;
 	}
 
 }

@@ -20,7 +20,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
- * @author admin
+ * @author nierax
  *
  */
 class MandelbrotPointPositionTest {
@@ -94,6 +94,77 @@ class MandelbrotPointPositionTest {
 		assertEquals(-2.02, cut.cx());
 		assertEquals(1.2, cut.cy());
 		assertSame(cut, result);
+	}
+
+	private final static Stream<Arguments> testMove() {
+		return Stream.of(//
+		    // Don't move anything
+		    Arguments.of(0.2, 0.3, 0, 0, 0.2, 0.3),
+		    // Move to right and down
+		    Arguments.of(0.2, 0.3, 1, 0.5, 1.2, 0.8),
+		    // Move to left and down
+		    Arguments.of(0.2, 0.3, -1, 0.5, -0.8, 0.8),
+		    // Move to left and up
+		    Arguments.of(0.2, 0.3, -1, -0.5, -0.8, -0.2),
+		    // Move to right and up
+		    Arguments.of(0.2, 0.3, 1, -0.5, 1.2, -0.2));
+	}
+
+	/**
+	 * 
+	 * @param cx     Initial x
+	 * @param cy     Initial y
+	 * @param deltaX Delta in x dimension
+	 * @param deltaY Delta in y dimension
+	 * @param expX   Expected x value
+	 * @param expY   Expected y value
+	 */
+	@ParameterizedTest
+	@MethodSource
+	void testMove(double cx, double cy, double deltaX, double deltaY, double expX, double expY) {
+		// Prepare
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
+		// Run
+		MandelbrotPointPosition result = cut.move(MandelbrotPointPosition.of(deltaX, deltaY));
+		// Check
+		assertSame(cut, result);
+		assertEquals(expX, result.cx(), 0.0001);
+		assertEquals(expY, result.cy(), 0.0001);
+	}
+
+	private final static Stream<Arguments> testSubtract() {
+		return Stream.of( //
+		    // x and y +
+		    Arguments.of(0.2, 0.3, 0.1, 0.05, 0.1, 0.25),
+		    // x - and y +
+		    Arguments.of(0.2, 0.3, -0.1, 0.05, 0.3, 0.25),
+		    // x and y -
+		    Arguments.of(0.2, 0.3, -0.1, -0.05, 0.3, 0.35),
+		    // x + and y -
+		    Arguments.of(0.2, 0.3, 0.1, -0.05, 0.1, 0.35));
+	}
+
+	/**
+	 * 
+	 * @param cx     The initial x value
+	 * @param cy     The initial y value
+	 * @param sX     The x value to be subtracted
+	 * @param sY     The y value to be subtracted
+	 * @param deltaX The expected delta in x value
+	 * @param deltaY The expected delta in y value
+	 */
+	@ParameterizedTest
+	@MethodSource
+	final void testSubtract(double cx, double cy, double sX, double sY, double deltaX, double deltaY) {
+		// Prepare
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
+		// Run
+		MandelbrotPointPosition result = cut.subtract(MandelbrotPointPosition.of(sX, sY));
+		// Check
+		assertNotNull(result);
+		assertNotSame(cut, result);
+		assertEquals(deltaX, result.cx(), 0.0001);
+		assertEquals(deltaY, result.cy(), 0.0001);
 	}
 
 }

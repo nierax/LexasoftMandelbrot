@@ -10,10 +10,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import de.lexasoft.common.swing.JFormatterFactory;
+import de.lexasoft.common.swing.LSJFormattedTextField;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
@@ -25,7 +26,7 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  */
 @SuppressWarnings("serial")
 public class ColorControlPanel extends JPanel {
-	private JTextField totalColors;
+	private LSJFormattedTextField<Integer> totalColors;
 	private JComboBox<PaletteVariant> paletteVariant;
 	private JComboBox<ColorGradingStyle> colorGradingStyle;
 	private JLabel errorText;
@@ -95,7 +96,7 @@ public class ColorControlPanel extends JPanel {
 		gbc_lblNewLabel_3.gridy = 3;
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 
-		totalColors = new JTextField();
+		totalColors = new LSJFormattedTextField<>(JFormatterFactory.createIntegerFormatter());
 		lblNewLabel_3.setLabelFor(totalColors);
 		GridBagConstraints gbc_totalColors = new GridBagConstraints();
 		gbc_totalColors.insets = new Insets(0, 0, 5, 0);
@@ -127,7 +128,7 @@ public class ColorControlPanel extends JPanel {
 		return colorGradingStyle;
 	}
 
-	public JTextField getTotalColors() {
+	public LSJFormattedTextField<Integer> getTotalColors() {
 		return totalColors;
 	}
 

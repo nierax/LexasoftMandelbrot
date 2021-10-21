@@ -41,7 +41,7 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
  *
  */
 @ExtendWith(MockitoExtension.class)
-class MouseHandlerControllerTest {
+class ZoomControllerTest {
 
 	class TestListener implements ModelChangedListener<CalculationArea> {
 
@@ -54,7 +54,7 @@ class MouseHandlerControllerTest {
 
 	}
 
-	private MouseHandlerController cut;
+	private ZoomController cut;
 	@Mock
 	private JPanel view;
 	@Mock
@@ -65,7 +65,7 @@ class MouseHandlerControllerTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new MouseHandlerController(view);
+		cut = new ZoomController(view);
 	}
 
 	private static MandelbrotPointPosition point(double cx, double cy) {
@@ -107,7 +107,7 @@ class MouseHandlerControllerTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.swing.MouseHandlerController#mouseWheelMoved(java.awt.event.MouseWheelEvent)}.
+	 * {@link de.lexasoft.mandelbrot.swing.ZoomController#mouseWheelMoved(java.awt.event.MouseWheelEvent)}.
 	 */
 	@ParameterizedTest
 	@MethodSource

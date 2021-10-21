@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
+import java.text.ParseException;
 
 import de.lexasoft.mandelbrot.api.CalculationArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
@@ -79,13 +80,14 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 * Write the initial values from the
 	 */
 	private void initView() {
-		this.view.getTlcx().setText(Double.toString(topLeft().cx()));
-		this.view.getTlcy().setText(Double.toString(topLeft().cy()));
-		this.view.getBrcx().setText(Double.toString(bottomRight().cx()));
-		this.view.getBrcy().setText(Double.toString(bottomRight().cy()));
-		this.view.getMaxIter().setText(Integer.toString(maximumIterations()));
-		this.view.getAspectRatio().setSelectedItem(aspectRatio());
-		this.view.getChckbxShowCalculationArea().setSelected(false);
+		try {
+			setCalculationAreaValues(topLeft, bottomRight);
+			this.view.getMaxIter().setBasicValue(maximumIterations());
+			this.view.getAspectRatio().setSelectedItem(aspectRatio());
+			this.view.getChckbxShowCalculationArea().setSelected(false);
+		} catch (ParseException e) {
+			throw new MandelbrotException("Error initializing calculation area values.", e);
+		}
 	}
 
 	/**
@@ -118,7 +120,11 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	}
 
 	void handleMaximumIterations() {
-		doHandleMaximumIterations(Integer.parseInt(view.getMaxIter().getText()));
+		try {
+			doHandleMaximumIterations(view.getMaxIter().getBasicValue());
+		} catch (ParseException e) {
+			throw new MandelbrotException("Error parsing input value for maximum iterations.", e);
+		}
 		fireModelChanged();
 	}
 
@@ -135,10 +141,14 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	}
 
 	public void calculate() {
-		topLeft.setCx(Double.parseDouble(view.getTlcx().getText()));
-		topLeft.setCy(Double.parseDouble(view.getTlcy().getText()));
-		bottomRight.setCx(Double.parseDouble(view.getBrcx().getText()));
-		bottomRight.setCy(Double.parseDouble(view.getBrcy().getText()));
+		try {
+			topLeft.setCx(view.getTlcx().getBasicValue());
+			topLeft.setCy(view.getTlcy().getBasicValue());
+			bottomRight.setCx(view.getBrcx().getBasicValue());
+			bottomRight.setCy(view.getBrcy().getBasicValue());
+		} catch (ParseException e) {
+			throw new MandelbrotException("Error parsing calculation area values", e);
+		}
 		fireModelChanged();
 	}
 
@@ -197,10 +207,21 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 */
 	public void calculationAreaChanged(ModelChangedEvent<CalculationArea> event) {
 		CalculationArea calculation = event.getModel();
-		this.view.getTlcx().setText(Double.toString(calculation.topLeft().cx()));
-		this.view.getTlcy().setText(Double.toString(calculation.topLeft().cy()));
-		this.view.getBrcx().setText(Double.toString(calculation.bottomRight().cx()));
-		this.view.getBrcy().setText(Double.toString(calculation.bottomRight().cy()));
+		setCalculationAreaValues(calculation.topLeft(), calculation.bottomRight());
 		calculate();
+	}
+
+	/**
+	 * @param calculation
+	 */
+	private void setCalculationAreaValues(MandelbrotPointPosition tl, MandelbrotPointPosition br) {
+		try {
+			this.view.getTlcx().setBasicValue(tl.cx());
+			this.view.getTlcy().setBasicValue(tl.cy());
+			this.view.getBrcx().setBasicValue(br.cx());
+			this.view.getBrcy().setBasicValue(br.cy());
+		} catch (ParseException e) {
+			throw new MandelbrotException("Error setting calculation area values");
+		}
 	}
 }

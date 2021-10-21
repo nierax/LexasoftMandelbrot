@@ -11,6 +11,17 @@ package de.lexasoft.mandelbrot.api;
  */
 public enum ColorGradingStyle {
 
-	NONE, LINE, CIRCLE
+	NONE("None"), LINE("Line"), CIRCLE("Circle");
+
+	private String name;
+
+	private ColorGradingStyle(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }
