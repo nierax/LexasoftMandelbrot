@@ -1,0 +1,1 @@
+java -jar lib\ls-mandelbrot-swing-0.1.6-SNAPSHOT-jar-with-dependencies.jar
