@@ -1,6 +1,8 @@
-# Changelog
+# Change log
 
 ## Unpublished
+**Enhancements**
+Status bar added with duration of calculation
 
 ## Version 0.1.6
 **Enhancements**
