@@ -1,7 +1,10 @@
 # Changelog
 
 ## Unpublished
+
+## Version 0.1.6
 **Enhancements**
+Assembly of Mandelbrot swing application added.
 ** Bug Fixes**
 Corrected: Use of older JUnit packages.
 
