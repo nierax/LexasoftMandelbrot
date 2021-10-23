@@ -25,7 +25,7 @@ public class MandelbrotSwingView {
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
 	private DrawCalculationAreaPanel drawCalculationAreaPanel;
-	private JPanel statusBar;
+	private StatusbarView statusBar;
 	private JLabel lblNewLabel;
 
 	/**
@@ -82,12 +82,8 @@ public class MandelbrotSwingView {
 		gbc_colorControlPanel.gridy = 1;
 		rightPanel.add(colorControlPanel, gbc_colorControlPanel);
 
-		statusBar = new JPanel();
+		statusBar = new StatusbarView();
 		frmLexasoftMandelbrotApplication.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		statusBar.setLayout(new BorderLayout(0, 0));
-
-		lblNewLabel = new JLabel("https://github.com/nierax/LexasoftMandelbrot");
-		statusBar.add(lblNewLabel, BorderLayout.WEST);
 
 		menuBar = new JMenuBar();
 		frmLexasoftMandelbrotApplication.setJMenuBar(menuBar);
@@ -141,4 +137,7 @@ public class MandelbrotSwingView {
 		return drawCalculationAreaPanel;
 	}
 
+	StatusbarView getStatusBar() {
+		return statusBar;
+	}
 }
