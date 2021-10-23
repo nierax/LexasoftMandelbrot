@@ -1,0 +1,1 @@
+java -jar lib\ls-mandelbrot-swing-${project.version}-jar-with-dependencies.jar
