@@ -10,7 +10,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -26,7 +25,6 @@ public class MandelbrotSwingView {
 	private FileMenuView mnFile;
 	private DrawCalculationAreaPanel drawCalculationAreaPanel;
 	private StatusbarView statusBar;
-	private JLabel lblNewLabel;
 
 	/**
 	 * Create the application.
