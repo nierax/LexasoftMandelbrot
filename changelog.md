@@ -2,6 +2,12 @@
 
 ## Unpublished
 
+## Version 0.1.6
+**Enhancements**
+Assembly of Mandelbrot swing application added.
+** Bug Fixes**
+Corrected: Use of older JUnit packages.
+
 ## Version 0.1.5
 **Enhancements**
 * Improved UI performance by running calculation in a separate thread
