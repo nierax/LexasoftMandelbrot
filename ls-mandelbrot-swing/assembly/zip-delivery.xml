@@ -12,6 +12,7 @@
 	<fileSets>
 		<fileSet>
 			<outputDirectory>/</outputDirectory>
+			<filtered>true</filtered>
 			<directory>src/main/cli/</directory>
 		</fileSet>
 	</fileSets>

@@ -10,6 +10,11 @@
 		<version>0.1.6-SNAPSHOT</version>
 	</parent>
 
+	<properties>
+    	<!-- Printable version name -->
+    	<versionName>${project.version}</versionName>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>de.lexasoft</groupId>
@@ -55,6 +60,11 @@
 						</goals>
 						<configuration>
 							<archive>
+ 			                    <!-- Add version name to manifest -->
+            			        <manifestEntries>
+            			        	<project>${project.name}</project>
+                        			<version>${project.version}</version>
+                    			</manifestEntries>
 								<manifest>
 									<mainClass>
 										de.lexasoft.mandelbrot.swing.MandelbrotApp

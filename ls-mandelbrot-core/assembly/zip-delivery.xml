@@ -16,7 +16,8 @@
 		</fileSet>
 		<fileSet>
 			<outputDirectory>/</outputDirectory>
-			<directory>cli/</directory>
+			<filtered>true</filtered>
+			<directory>src/main/cli/</directory>
 		</fileSet>
 	</fileSets>
 	<files>
