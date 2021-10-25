@@ -4,6 +4,9 @@
 **Enhancements**
 Status bar added with duration of calculation
 Logging to log file with java.util.Logging
+Divider between image and control area can be slipped
+**Bug fixes**
+Resize of the image did not work properly in horizontal direction
 
 ## Version 0.1.6
 **Enhancements**
