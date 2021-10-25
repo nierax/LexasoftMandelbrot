@@ -3,6 +3,7 @@
 ## Unpublished
 **Enhancements**
 Status bar added with duration of calculation
+Logging to log file with java.util.Logging
 
 ## Version 0.1.6
 **Enhancements**
