@@ -18,7 +18,7 @@ public class DefaultInfoCallBack implements InfoCallbackAPI {
 
 	@Override
 	public void outFileWritten(String filenameWritten2) {
-		System.out.println("Image file written to: " + filenameWritten2);
+		LOGGER.info("Image file written to: " + filenameWritten2);
 	}
 
 	@Override
