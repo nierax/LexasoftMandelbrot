@@ -9,6 +9,7 @@ import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
+import de.lexasoft.util.TimeMeasureSupport;
 
 /**
  * Facade to the calculation
@@ -32,11 +33,10 @@ public class MandelbrotCalculationAPI {
 		MandelbrotColorize colorize = MandelbrotColorizeFactory.of(model.getPaletteVariant(), model.getCustomColorPalette(),
 		    model.getColorGrading(), model.getMandelbrotColor());
 		MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
-		long start = System.currentTimeMillis();
-		MandelbrotImage image = calculator.drawMandelbrot(model.getTopLeft(), model.getBottomRight(),
-		    model.getMaximumIterations(), model.getImageWidth(), model.getImageHeight());
-		long stop = System.currentTimeMillis();
-		InfoCallbackAPI.of().outCalculationReady(stop - start);
+		TimeMeasureSupport<MandelbrotImage> time = TimeMeasureSupport.of();
+		MandelbrotImage image = time.runProcess(
+		    () -> calculator.drawMandelbrot(model.getCalculation(), model.getMaximumIterations(), model.getImage()));
+		InfoCallbackAPI.of().outCalculationReady(time.getTimeElapsed());
 		return image;
 	}
 }
