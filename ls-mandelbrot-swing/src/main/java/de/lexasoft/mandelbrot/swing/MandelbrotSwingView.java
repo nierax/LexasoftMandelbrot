@@ -12,6 +12,7 @@ import java.awt.Insets;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
@@ -25,6 +26,7 @@ public class MandelbrotSwingView {
 	private FileMenuView mnFile;
 	private DrawCalculationAreaPanel drawCalculationAreaPanel;
 	private StatusbarView statusBar;
+	private JSplitPane splitPane;
 
 	/**
 	 * Create the application.
@@ -43,20 +45,26 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLexasoftMandelbrotApplication.getContentPane().setLayout(new BorderLayout(0, 0));
 
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane.setDividerLocation(0.8d);
+		splitPane.setOneTouchExpandable(true);
+		frmLexasoftMandelbrotApplication.getContentPane().add(splitPane, BorderLayout.CENTER);
+
 		imagePanel = new ImagePanel();
-		frmLexasoftMandelbrotApplication.getContentPane().add(imagePanel, BorderLayout.WEST);
+		splitPane.add(imagePanel);
 		imagePanel.setPreferredSize(new Dimension(450, 405));
+		imagePanel.setMinimumSize(new Dimension(200, 150));
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
 		drawCalculationAreaPanel = new DrawCalculationAreaPanel();
 		drawCalculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
-		imagePanel.add(drawCalculationAreaPanel);
+		imagePanel.add(drawCalculationAreaPanel, BorderLayout.CENTER);
 		drawCalculationAreaPanel.setLayout(new BorderLayout(0, 0));
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		rightPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		frmLexasoftMandelbrotApplication.getContentPane().add(rightPanel, BorderLayout.EAST);
+		splitPane.add(rightPanel);
 		GridBagLayout gbl_rightPanel = new GridBagLayout();
 		gbl_rightPanel.columnWidths = new int[] { 25 };
 		gbl_rightPanel.rowHeights = new int[] { 0, 0 };
@@ -64,6 +72,7 @@ public class MandelbrotSwingView {
 		gbl_rightPanel.rowWeights = new double[] { 1.0, 1.0 };
 		rightPanel.setLayout(gbl_rightPanel);
 		rightPanel.setPreferredSize(new Dimension(200, 0));
+		rightPanel.setMinimumSize(new Dimension(180, 150));
 
 		calculationPanel = new CalculationPanel();
 		GridBagConstraints gbc_calculationPanel = new GridBagConstraints();
