@@ -33,8 +33,8 @@ public class MandelbrotCalculationAPI {
 		    model.getColorGrading(), model.getMandelbrotColor());
 		MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
 		long start = System.currentTimeMillis();
-		MandelbrotImage image = calculator.drawMandelbrot(model.getTopLeft(), model.getBottomRight(),
-		    model.getMaximumIterations(), model.getImageWidth(), model.getImageHeight());
+		MandelbrotImage image = calculator.drawMandelbrot(model.getCalculation(), model.getMaximumIterations(),
+		    model.getImage());
 		long stop = System.currentTimeMillis();
 		InfoCallbackAPI.of().outCalculationReady(stop - start);
 		return image;
