@@ -21,8 +21,6 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.ImageOutputStream;
 
 import de.lexasoft.mandelbrot.api.AspectRatioHandle;
-import de.lexasoft.mandelbrot.api.CalculationArea;
-import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.InfoCallbackAPI;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
@@ -143,10 +141,6 @@ public class MandelbrotImage {
 	public final static MandelbrotImage of(int width, int height, MandelbrotPointPosition topLeft,
 	    MandelbrotPointPosition bottomRight) {
 		return of(width, height, topLeft, bottomRight, BufferedImage.TYPE_INT_RGB);
-	}
-
-	public final static MandelbrotImage of(ImageArea imageDim, CalculationArea calculation) {
-		return of(imageDim.width(), imageDim.height(), calculation.topLeft(), calculation.bottomRight());
 	}
 
 	/**

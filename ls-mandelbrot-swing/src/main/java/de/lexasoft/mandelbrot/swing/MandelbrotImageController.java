@@ -17,7 +17,6 @@ import de.lexasoft.mandelbrot.swing.model.CalculationAreaControllerModel;
 import de.lexasoft.mandelbrot.swing.model.CalculationControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ColorControllerModel;
 import de.lexasoft.mandelbrot.swing.model.ImageControllerModel;
-import de.lexasoft.util.TimeMeasureSupport;
 
 /**
  * This controller does the calculation of the Mandelbrot set and sets it as
@@ -36,15 +35,12 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	 */
 	class RunCalculationTask extends SwingWorker<MandelbrotImage, Void> {
 
-		private TimeMeasureSupport<MandelbrotImage> time;
-
 		/**
 		 * Run the calculation.
 		 */
 		@Override
 		protected MandelbrotImage doInBackground() throws Exception {
-			time = TimeMeasureSupport.of();
-			return time.runProcess(() -> calculationAdapter.calculate(calcModel, colorCM, MandelbrotImageController.this));
+			return calculationAdapter.calculate(calcModel, colorCM, MandelbrotImageController.this);
 		}
 
 		/**
@@ -55,7 +51,6 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 			try {
 				MandelbrotImage image = get();
 				view.drawImage(image.getImage());
-				durationChanged(time.getTimeElapsed());
 				CalculationAreaControllerModel calcAreaModel = new CalculationAreaControllerModel() {
 
 					@Override
@@ -91,7 +86,6 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	private ColorControllerModel colorCM;
 	private RunCalculationAdapter calculationAdapter;
 	private boolean running;
-	private DurationUpdater durationUpdater;
 
 	public MandelbrotImageController(CalculationControllerModel calcCM, ColorControllerModel colorCM,
 	    Dimension initialSize, ImagePanel view) {
@@ -225,26 +219,6 @@ public class MandelbrotImageController extends ModelChangingController<Calculati
 	public void startRunning() {
 		this.running = true;
 		reCalculate();
-	}
-
-	private void durationChanged(long duration) {
-		if (getDurationUpdater() != null) {
-			getDurationUpdater().updateDuration(duration);
-		}
-	}
-
-	/**
-	 * @return the durationUpdater
-	 */
-	DurationUpdater getDurationUpdater() {
-		return durationUpdater;
-	}
-
-	/**
-	 * @param durationUpdater the durationUpdater to set
-	 */
-	void setDurationUpdater(DurationUpdater durationUpdater) {
-		this.durationUpdater = durationUpdater;
 	}
 
 }
