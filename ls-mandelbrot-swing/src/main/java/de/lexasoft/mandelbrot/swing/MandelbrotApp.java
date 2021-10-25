@@ -4,9 +4,15 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.EventQueue;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
@@ -17,6 +23,17 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
  *
  */
 public class MandelbrotApp {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotApp.class);
+
+	static {
+		InputStream stream = MandelbrotApp.class.getClassLoader().getResourceAsStream("logging.properties");
+		try {
+			LogManager.getLogManager().readConfiguration(stream);
+		} catch (SecurityException | IOException e) {
+			LOGGER.error("Could not initialize logger", e);
+		}
+	}
 
 	/**
 	 * 
@@ -33,7 +50,7 @@ public class MandelbrotApp {
 					MandelbrotUIController ctrl = new MandelbrotUIController(model, view);
 					ctrl.initController();
 					String laf = UIManager.getSystemLookAndFeelClassName();
-					System.out.println("Using system look and feel " + laf);
+					LOGGER.info("Using system look and feel " + laf);
 					UIManager.setLookAndFeel(laf);
 					SwingUtilities.updateComponentTreeUI(view.getFrmLexasoftMandelbrotApplication());
 					view.getFrmLexasoftMandelbrotApplication().pack();

@@ -22,6 +22,8 @@ import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorPalette;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
@@ -29,8 +31,8 @@ import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
  */
 class MandelbrotIteratorTest {
 
-	private MandelbrotPointPosition topLeft;
-	private MandelbrotPointPosition bottomRight;
+	private CalculationArea calculation;
+	private ImageArea imageDim;
 	private static final int IMAGE_WIDTH = 459;
 	private static final int IMAGE_HEIGHT = 405;
 	private static final String IMAGE_DIRECTORY = "junit-tmp";
@@ -40,8 +42,8 @@ class MandelbrotIteratorTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		topLeft = MandelbrotPointPosition.of(-2.02, 1.2);
-		bottomRight = MandelbrotPointPosition.of(0.7, -1.2);
+		calculation = CalculationArea.of(MandelbrotPointPosition.of(-2.02, 1.2), MandelbrotPointPosition.of(0.7, -1.2));
+		imageDim = ImageArea.of(IMAGE_WIDTH, IMAGE_HEIGHT);
 	}
 
 	private static Stream<Arguments> testDrawMandelbrot() {
@@ -73,7 +75,7 @@ class MandelbrotIteratorTest {
 	@MethodSource
 	void testDrawMandelbrot(MandelbrotColorize col, int maxIter, String filename) throws IOException {
 		MandelbrotIterator cut = MandelbrotIterator.of(col);
-		MandelbrotImage image = cut.drawMandelbrot(topLeft, bottomRight, maxIter, IMAGE_WIDTH, IMAGE_HEIGHT);
+		MandelbrotImage image = cut.drawMandelbrot(calculation, maxIter, imageDim);
 		assertNotNull(image, "Image could not be created");
 		image.writeToFile(filename);
 	}

@@ -8,6 +8,8 @@ import java.awt.Point;
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.api.CalculationArea;
+import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
@@ -43,13 +45,14 @@ public class MandelbrotIterator {
 	 * @param imageHeight The height of the image in pixel.
 	 * @return The image with the graphics written in.
 	 */
-	public MandelbrotImage drawMandelbrot(MandelbrotPointPosition topLeft, MandelbrotPointPosition bottomRight, int maxIt,
-	    int imageWidth, int imageHeight) {
-		double xstart = topLeft.cx();
-		double xend = bottomRight.cx();
-		double ystart = topLeft.cy();
-		double yend = bottomRight.cy();
-		MandelbrotImage image = MandelbrotImage.of(imageWidth, imageHeight, topLeft, bottomRight);
+	public MandelbrotImage drawMandelbrot(CalculationArea calculation, int maxIt, ImageArea imageDim) {
+		double xstart = calculation.topLeft().cx();
+		double xend = calculation.bottomRight().cx();
+		double ystart = calculation.topLeft().cy();
+		double yend = calculation.bottomRight().cy();
+		int imageWidth = imageDim.width();
+		int imageHeight = imageDim.height();
+		MandelbrotImage image = MandelbrotImage.of(imageDim, calculation);
 
 		// Steps for calculations are orientated on the width / height of the image
 		double dx = (xend - xstart) / (imageWidth - 1);

@@ -4,6 +4,11 @@
 package de.lexasoft.mandelbrot.cli;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,11 +28,22 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotControllerException;
  */
 public class MandelbrotCLI {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotCLI.class);
+
+	static {
+		InputStream stream = MandelbrotCLI.class.getClassLoader().getResourceAsStream("logging.properties");
+		try {
+			LogManager.getLogManager().readConfiguration(stream);
+		} catch (SecurityException | IOException e) {
+			LOGGER.error("Could not initialize logger", e);
+		}
+	}
+
 	private void doRun(String yamlFilename) throws JsonParseException, JsonMappingException, IOException {
-		System.out.println("Starting to calculate...");
+		LOGGER.info("Starting to calculate...");
 		MandelbrotAttributesDTO propDTO = MandelbrotAttributesDTO.of(yamlFilename);
 		MandelbrotController.of().executeMultiCalculation(propDTO);
-		System.out.println("Done.");
+		LOGGER.info("Done.");
 	}
 
 	/**
@@ -40,18 +56,16 @@ public class MandelbrotCLI {
 	public static void main(String[] args) {
 		MandelbrotCLI cli = new MandelbrotCLI();
 		if ((args == null) || args.length < 1) {
-			System.err.println("File name to yaml file must be given.");
+			LOGGER.error("File name to yaml file must be given.");
 			System.exit(99);
 		}
 		try {
 			cli.doRun(args[0]);
 			System.exit(0);
 		} catch (IOException e) {
-			System.err.println("Unknown IO error occured. Check console for details. (" + e.getLocalizedMessage() + ")");
-			e.printStackTrace();
+			LOGGER.error("Unknown IO error occured. Check console for details. (" + e.getLocalizedMessage() + ")", e);
 		} catch (MandelbrotControllerException e) {
-			System.err.println("Could not run the calculation. Check console for details. (" + e.getLocalizedMessage() + ")");
-			e.printStackTrace();
+			LOGGER.error("Could not run the calculation. Check console for details. (" + e.getLocalizedMessage() + ")", e);
 		}
 		System.exit(99);
 	}
