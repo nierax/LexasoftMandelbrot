@@ -93,6 +93,8 @@ public class MandelbrotIteratorBuilder {
 	}
 
 	/**
+	 * Allows to set a custom iterator. Can be omitted.
+	 * 
 	 * @param iterator the iterator to set
 	 */
 	public MandelbrotIteratorBuilder withIterator(MandelbrotIterator iterator) {
@@ -100,17 +102,32 @@ public class MandelbrotIteratorBuilder {
 		return this;
 	}
 
-	protected MandelbrotIterator createIterator() {
+	/**
+	 * Creates a custom iterator, if there isn't a custom one set.
+	 * 
+	 * @return A new Iterator, using the colorize object, if it is given.
+	 */
+	private MandelbrotIterator createIterator() {
 		if (colorize.isPresent()) {
 			return MandelbrotIterator.of(colorize.get());
 		}
 		return MandelbrotIterator.of();
 	}
 
+	/**
+	 * Check, whether all pre conditions are fulfilled to do the calculation.
+	 * 
+	 * @return True, if the calculation may run, false otherwise.
+	 */
 	private boolean checkPreConditions() {
 		return calculationArea.isPresent() && imageArea.isPresent() && maxIterations.isPresent();
 	}
 
+	/**
+	 * Calculate
+	 * 
+	 * @return
+	 */
 	public Optional<MandelbrotImage> calculate() {
 		Optional<MandelbrotImage> result = Optional.empty();
 		if (checkPreConditions()) {
