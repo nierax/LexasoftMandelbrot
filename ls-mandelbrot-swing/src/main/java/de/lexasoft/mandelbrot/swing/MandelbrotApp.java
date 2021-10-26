@@ -4,6 +4,8 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.EventQueue;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.LogManager;
@@ -26,12 +28,32 @@ public class MandelbrotApp {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotApp.class);
 
-	static {
+	private static final void initializeLogging() {
 		InputStream stream = MandelbrotApp.class.getClassLoader().getResourceAsStream("logging.properties");
+		initializeLogging(stream);
+	}
+
+	/**
+	 * @param stream
+	 */
+	private static void initializeLogging(InputStream stream) {
 		try {
 			LogManager.getLogManager().readConfiguration(stream);
 		} catch (SecurityException | IOException e) {
 			LOGGER.error("Could not initialize logger", e);
+		}
+	}
+
+	private static void initializeLogging(String[] args) {
+		if (args.length == 0) {
+			initializeLogging();
+		} else {
+			try {
+				initializeLogging(new FileInputStream(args[0]));
+			} catch (FileNotFoundException e) {
+				initializeLogging();
+				LOGGER.error(String.format("Did not find the file provided %s", args[0]), e);
+			}
 		}
 	}
 
@@ -42,6 +64,7 @@ public class MandelbrotApp {
 	}
 
 	public static void main(String[] args) {
+		initializeLogging(args);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
