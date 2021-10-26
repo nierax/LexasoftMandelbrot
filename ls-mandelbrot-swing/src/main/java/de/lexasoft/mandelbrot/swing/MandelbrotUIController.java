@@ -28,7 +28,6 @@ public class MandelbrotUIController {
 	private ExportImageController exportController;
 	private ZoomController zoomController;
 	private DragController dragController;
-	private StatusbarController statusbarController;
 
 	/**
 	 * 
@@ -49,7 +48,6 @@ public class MandelbrotUIController {
 		this.calcAreaController = new DrawCalculationAreaController(this.view.getDrawCalculationAreaPanel());
 		this.zoomController = new ZoomController(view.getDrawCalculationAreaPanel());
 		this.dragController = new DragController(view.getDrawCalculationAreaPanel());
-		this.statusbarController = new StatusbarController(view.getStatusBar());
 		initView();
 	}
 
@@ -86,8 +84,6 @@ public class MandelbrotUIController {
 		fileMenuController.initController();
 		fileMenuController.addModelChangedListener(e -> handleLoadEvent(e));
 		exportController.initController();
-		statusbarController.initController();
-		imageController.setDurationUpdater(statusbarController);
 
 		// Now we can start calculating the image
 		imageController.startRunning();

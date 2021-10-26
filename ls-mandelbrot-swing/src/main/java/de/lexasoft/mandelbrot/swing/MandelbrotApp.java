@@ -9,12 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.LogManager;
-
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 
@@ -83,7 +79,7 @@ public class MandelbrotApp {
 					MandelbrotUIController ctrl = new MandelbrotUIController(model, view);
 					ctrl.initController();
 					String laf = UIManager.getSystemLookAndFeelClassName();
-					LOGGER.info("Using system look and feel " + laf);
+					System.out.println("Using system look and feel " + laf);
 					UIManager.setLookAndFeel(laf);
 					SwingUtilities.updateComponentTreeUI(view.getFrmLexasoftMandelbrotApplication());
 					view.getFrmLexasoftMandelbrotApplication().pack();

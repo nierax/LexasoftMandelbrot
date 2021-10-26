@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -43,7 +44,8 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.setTitle("Lexasoft Mandelbrot Application");
 		frmLexasoftMandelbrotApplication.setBounds(100, 100, 750, 530);
 		frmLexasoftMandelbrotApplication.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmLexasoftMandelbrotApplication.getContentPane().setLayout(new BorderLayout(0, 0));
+		frmLexasoftMandelbrotApplication.getContentPane()
+		    .setLayout(new BoxLayout(frmLexasoftMandelbrotApplication.getContentPane(), BoxLayout.X_AXIS));
 
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setDividerLocation(0.8d);
@@ -52,7 +54,8 @@ public class MandelbrotSwingView {
 
 		imagePanel = new ImagePanel();
 		splitPane.add(imagePanel);
-		imagePanel.setPreferredSize(new Dimension(450, 405));
+
+    imagePanel.setPreferredSize(new Dimension(450, 405));
 		imagePanel.setMinimumSize(new Dimension(200, 150));
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
@@ -65,7 +68,8 @@ public class MandelbrotSwingView {
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		rightPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		splitPane.add(rightPanel);
-		GridBagLayout gbl_rightPanel = new GridBagLayout();
+
+    GridBagLayout gbl_rightPanel = new GridBagLayout();
 		gbl_rightPanel.columnWidths = new int[] { 25 };
 		gbl_rightPanel.rowHeights = new int[] { 0, 0 };
 		gbl_rightPanel.columnWeights = new double[] { 1.0 };
@@ -88,9 +92,6 @@ public class MandelbrotSwingView {
 		gbc_colorControlPanel.gridx = 0;
 		gbc_colorControlPanel.gridy = 1;
 		rightPanel.add(colorControlPanel, gbc_colorControlPanel);
-
-		statusBar = new StatusbarView();
-		frmLexasoftMandelbrotApplication.getContentPane().add(statusBar, BorderLayout.SOUTH);
 
 		menuBar = new JMenuBar();
 		frmLexasoftMandelbrotApplication.setJMenuBar(menuBar);
@@ -144,7 +145,4 @@ public class MandelbrotSwingView {
 		return drawCalculationAreaPanel;
 	}
 
-	StatusbarView getStatusBar() {
-		return statusBar;
-	}
 }
