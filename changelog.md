@@ -1,6 +1,8 @@
 # Change log
 
 ## Unpublished
+
+## Version 0.1.7
 **Enhancements**
 Status bar added with duration of calculation
 Logging to log file with java.util.Logging
