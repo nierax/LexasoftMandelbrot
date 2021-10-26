@@ -63,6 +63,16 @@ public class MandelbrotApp {
 	private MandelbrotApp() {
 	}
 
+	/**
+	 * Starts the application.
+	 * <p>
+	 * Arguments are used as follows:
+	 * <ol>
+	 * <li>alternative logging properties (as used in java.util.logging)</li>
+	 * </ol>
+	 * 
+	 * @param args Use of arguments described above.
+	 */
 	public static void main(String[] args) {
 		initializeLogging(args);
 		EventQueue.invokeLater(new Runnable() {
