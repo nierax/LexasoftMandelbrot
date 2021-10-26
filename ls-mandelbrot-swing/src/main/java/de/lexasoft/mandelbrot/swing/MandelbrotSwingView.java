@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
@@ -25,6 +26,8 @@ public class MandelbrotSwingView {
 	private JMenuBar menuBar;
 	private FileMenuView mnFile;
 	private DrawCalculationAreaPanel drawCalculationAreaPanel;
+	private StatusbarView statusBar;
+	private JSplitPane splitPane;
 
 	/**
 	 * Create the application.
@@ -44,27 +47,36 @@ public class MandelbrotSwingView {
 		frmLexasoftMandelbrotApplication.getContentPane()
 		    .setLayout(new BoxLayout(frmLexasoftMandelbrotApplication.getContentPane(), BoxLayout.X_AXIS));
 
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane.setDividerLocation(0.8d);
+		splitPane.setOneTouchExpandable(true);
+		frmLexasoftMandelbrotApplication.getContentPane().add(splitPane, BorderLayout.CENTER);
+
 		imagePanel = new ImagePanel();
-		frmLexasoftMandelbrotApplication.getContentPane().add(imagePanel);
-		imagePanel.setPreferredSize(new Dimension(450, 405));
+		splitPane.add(imagePanel);
+
+    imagePanel.setPreferredSize(new Dimension(450, 405));
+		imagePanel.setMinimumSize(new Dimension(200, 150));
 		imagePanel.setLayout(new BorderLayout(0, 0));
 
 		drawCalculationAreaPanel = new DrawCalculationAreaPanel();
 		drawCalculationAreaPanel.setBackground(new Color(0, 0, 0, 0));
-		imagePanel.add(drawCalculationAreaPanel);
+		imagePanel.add(drawCalculationAreaPanel, BorderLayout.CENTER);
 		drawCalculationAreaPanel.setLayout(new BorderLayout(0, 0));
 
 		JPanel rightPanel = new JPanel();
 		rightPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		rightPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		frmLexasoftMandelbrotApplication.getContentPane().add(rightPanel);
-		GridBagLayout gbl_rightPanel = new GridBagLayout();
+		splitPane.add(rightPanel);
+
+    GridBagLayout gbl_rightPanel = new GridBagLayout();
 		gbl_rightPanel.columnWidths = new int[] { 25 };
 		gbl_rightPanel.rowHeights = new int[] { 0, 0 };
 		gbl_rightPanel.columnWeights = new double[] { 1.0 };
 		gbl_rightPanel.rowWeights = new double[] { 1.0, 1.0 };
 		rightPanel.setLayout(gbl_rightPanel);
 		rightPanel.setPreferredSize(new Dimension(200, 0));
+		rightPanel.setMinimumSize(new Dimension(180, 150));
 
 		calculationPanel = new CalculationPanel();
 		GridBagConstraints gbc_calculationPanel = new GridBagConstraints();

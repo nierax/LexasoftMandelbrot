@@ -2,6 +2,15 @@
 
 ## Unpublished
 
+## Version 0.1.7
+**Enhancements**
+Status bar added with duration of calculation
+Logging to log file with java.util.Logging
+Custom log configuration (logger.properties) can be added as first application parameter
+Divider between image and control area can be slipped
+**Bug fixes**
+Resize of the image did not work properly in horizontal direction
+
 ## Version 0.1.6
 **Enhancements**
 Assembly of Mandelbrot swing application added.

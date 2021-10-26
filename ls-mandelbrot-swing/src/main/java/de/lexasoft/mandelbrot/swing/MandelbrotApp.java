@@ -4,7 +4,11 @@
 package de.lexasoft.mandelbrot.swing;
 
 import java.awt.EventQueue;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -18,13 +22,55 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
  */
 public class MandelbrotApp {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotApp.class);
+
+	private static final void initializeLogging() {
+		InputStream stream = MandelbrotApp.class.getClassLoader().getResourceAsStream("logging.properties");
+		initializeLogging(stream);
+	}
+
+	/**
+	 * @param stream
+	 */
+	private static void initializeLogging(InputStream stream) {
+		try {
+			LogManager.getLogManager().readConfiguration(stream);
+		} catch (SecurityException | IOException e) {
+			LOGGER.error("Could not initialize logger", e);
+		}
+	}
+
+	private static void initializeLogging(String[] args) {
+		if (args.length == 0) {
+			initializeLogging();
+		} else {
+			try {
+				initializeLogging(new FileInputStream(args[0]));
+			} catch (FileNotFoundException e) {
+				initializeLogging();
+				LOGGER.error(String.format("Did not find the file provided %s", args[0]), e);
+			}
+		}
+	}
+
 	/**
 	 * 
 	 */
 	private MandelbrotApp() {
 	}
 
+	/**
+	 * Starts the application.
+	 * <p>
+	 * Arguments are used as follows:
+	 * <ol>
+	 * <li>alternative logging properties (as used in java.util.logging)</li>
+	 * </ol>
+	 * 
+	 * @param args Use of arguments described above.
+	 */
 	public static void main(String[] args) {
+		initializeLogging(args);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
