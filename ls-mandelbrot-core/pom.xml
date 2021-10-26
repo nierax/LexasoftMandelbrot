@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>de.lexasoft</groupId>
 		<artifactId>mandelbrot</artifactId>
-		<version>0.1.7-SNAPSHOT</version>
+		<version>0.1.7</version>
 	</parent>
 
 	<dependencies>
