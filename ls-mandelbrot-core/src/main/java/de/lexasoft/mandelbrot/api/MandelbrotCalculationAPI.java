@@ -37,8 +37,11 @@ public class MandelbrotCalculationAPI {
 		    model.getCustomColorPalette(), //
 		    model.getColorGrading(), //
 		    model.getMandelbrotColor());
+
+		// Measure time the calculation run
 		TimeMeasureSupport<Optional<MandelbrotImage>> time = TimeMeasureSupport.of();
 
+		// Start calculation
 		Optional<MandelbrotImage> image = time.runProcess(() -> MandelbrotIteratorBuilder.of() //
 		    .withColorize(colorize) //
 		    .withCalculationArea(model.getCalculation()) //
