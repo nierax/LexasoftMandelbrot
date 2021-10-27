@@ -131,7 +131,7 @@ public class MandelbrotIteratorBuilder {
 	public Optional<MandelbrotImage> calculate() {
 		Optional<MandelbrotImage> result = Optional.empty();
 		if (checkPreConditions()) {
-			MandelbrotIterator iterator = (this.iterator.isPresent()) ? this.iterator.get() : createIterator();
+			MandelbrotIterator iterator = this.iterator.orElseGet(this::createIterator);
 			result = Optional.ofNullable( //
 			    iterator.drawMandelbrot( //
 			        this.calculationArea.get(), //
