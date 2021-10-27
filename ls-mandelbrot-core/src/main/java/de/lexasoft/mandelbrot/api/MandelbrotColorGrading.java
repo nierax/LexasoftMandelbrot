@@ -33,6 +33,19 @@ public class MandelbrotColorGrading {
 	}
 
 	/**
+	 * Creates an object, signalizing, that no color grading is wanted.
+	 * 
+	 * @return MandelbrotColorGrading with no color grading
+	 */
+	public static MandelbrotColorGrading none() {
+		return new MandelbrotColorGrading(ColorGradingStyle.NONE, 0);
+	}
+
+	public boolean shouldBeGraded() {
+		return style != ColorGradingStyle.NONE && colorsTotal > 0;
+	}
+
+	/**
 	 * @return the style
 	 */
 	public ColorGradingStyle getStyle() {

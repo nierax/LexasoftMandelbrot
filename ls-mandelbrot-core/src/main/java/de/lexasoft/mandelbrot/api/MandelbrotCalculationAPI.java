@@ -4,11 +4,12 @@
 package de.lexasoft.mandelbrot.api;
 
 import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 import de.lexasoft.mandelbrot.MandelbrotColorize;
-import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
+import de.lexasoft.mandelbrot.MandelbrotColorizeBuilder;
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
+import de.lexasoft.mandelbrot.cu.MandelbrotIteratorBuilder;
 import de.lexasoft.util.TimeMeasureSupport;
 
 /**
@@ -30,13 +31,26 @@ public class MandelbrotCalculationAPI {
 	 * @return
 	 */
 	public final MandelbrotImage calculate(MandelbrotCalculationProperties model) {
-		MandelbrotColorize colorize = MandelbrotColorizeFactory.of(model.getPaletteVariant(), model.getCustomColorPalette(),
-		    model.getColorGrading(), model.getMandelbrotColor());
-		MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
-		TimeMeasureSupport<MandelbrotImage> time = TimeMeasureSupport.of();
-		MandelbrotImage image = time.runProcess(
-		    () -> calculator.drawMandelbrot(model.getCalculation(), model.getMaximumIterations(), model.getImage()));
+		// Create colorize method
+		MandelbrotColorize colorize = MandelbrotColorizeBuilder.of() //
+		    .withPalette(model.getPaletteVariant()) //
+		    .withColors(model.getCustomColorPalette()) //
+		    .withGrading(model.getColorGrading()) //
+		    .withMandelbrotColor(model.getMandelbrotColor()) //
+		    .build();
+
+		// Measure time the calculation run
+		TimeMeasureSupport<Optional<MandelbrotImage>> time = TimeMeasureSupport.of();
+
+		// Start calculation
+		Optional<MandelbrotImage> image = time.runProcess(() -> MandelbrotIteratorBuilder.of() //
+		    .withColorize(colorize) //
+		    .withCalculationArea(model.getCalculation()) //
+		    .withMaxIterations(model.getMaximumIterations()) //
+		    .withImageArea(model.getImage()) //
+		    .calculate());
+
 		InfoCallbackAPI.of().outCalculationReady(time.getTimeElapsed());
-		return image;
+		return image.get();
 	}
 }

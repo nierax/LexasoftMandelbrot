@@ -27,7 +27,7 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  * @author nierax
  *
  */
-class MandelbrotColorizeFactoryTest {
+class MandelbrotColorizeBuilderTest {
 
 	private List<Color> colors;
 
@@ -48,8 +48,12 @@ class MandelbrotColorizeFactoryTest {
 	 * In this case both list of colors and color interval are not needed.
 	 */
 	@Test
-	void testOfBlackAndWhite() {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.BLACK_WHITE, null, null);
+	void build_with_BlackAndWhite() {
+		// Create
+		MandelbrotColorize cut = MandelbrotColorizeBuilder.of() //
+		    .withPalette(PaletteVariant.BLACK_WHITE)//
+		    .build();
+		// Check
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotBlackWhite);
 	}
@@ -61,8 +65,12 @@ class MandelbrotColorizeFactoryTest {
 	 * The grading is 0, which means, that the original RAINBOW29 list is expected.
 	 */
 	@Test
-	void testOfRainbow29() {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.RAINBOW29, null, null);
+	void build_with_Rainbow29() {
+		// Create
+		MandelbrotColorize cut = MandelbrotColorizeBuilder.of() //
+		    .withPalette(PaletteVariant.RAINBOW29)//
+		    .build();
+		// Check
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -85,9 +93,14 @@ class MandelbrotColorizeFactoryTest {
 	 * A custom (ungraded) palette is not needed, as RAINBOW29 is a predefined list.
 	 */
 	@Test
-	void testOfRainbow29Graded() {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.RAINBOW29, null,
-		    MandelbrotColorGrading.of(ColorGradingStyle.LINE, 57));
+	void build_with_Rainbow29_Graded() {
+		// Create
+		MandelbrotColorize cut = MandelbrotColorizeBuilder.of() //
+		    .withPalette(PaletteVariant.RAINBOW29)//
+		    .withGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 57))//
+		    .build();
+
+		// Check
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -109,9 +122,14 @@ class MandelbrotColorizeFactoryTest {
 	 * A custom (ungraded) palette is not needed, as BLUEWHITE is a predefined list.
 	 */
 	@Test
-	void testOfBlueWhiteGraded() {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.BLUEWHITE, null,
-		    MandelbrotColorGrading.of(ColorGradingStyle.LINE, 3));
+	void build_with_blue_white_graded() {
+		// Create
+		MandelbrotColorize cut = MandelbrotColorizeBuilder.of() //
+		    .withPalette(PaletteVariant.BLUEWHITE)//
+		    .withGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 3)) //
+		    .build();
+
+		// Check
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -127,9 +145,14 @@ class MandelbrotColorizeFactoryTest {
 	 * color variant custom in 2 steps, graded to 3 steps.
 	 */
 	@Test
-	void testOfCustomGraded() {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.CUSTOM, colors,
-		    MandelbrotColorGrading.of(ColorGradingStyle.LINE, 3));
+	void build_with_custom_graded() {
+		// Create
+		MandelbrotColorize cut = MandelbrotColorizeBuilder.of() //
+		    .withPalette(PaletteVariant.CUSTOM)//
+		    .withColors(colors) //
+		    .withGrading(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 3)) //
+		    .build();
+
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
@@ -141,7 +164,7 @@ class MandelbrotColorizeFactoryTest {
 		assertEquals(Color.WHITE, palette.get(2));
 	}
 
-	private static Stream<Arguments> testOfCustomNotGraded() {
+	private static Stream<Arguments> build_custom_NotGraded() {
 		return Stream.of(null, Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.LINE, 0)),
 		    Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.CIRCLE, 0)),
 		    Arguments.of(MandelbrotColorGrading.of(ColorGradingStyle.NONE, 0)),
@@ -154,8 +177,14 @@ class MandelbrotColorizeFactoryTest {
 	 */
 	@ParameterizedTest
 	@MethodSource
-	void testOfCustomNotGraded(MandelbrotColorGrading grading) {
-		MandelbrotColorize cut = MandelbrotColorizeFactory.of(PaletteVariant.CUSTOM, colors, grading);
+	void build_custom_NotGraded(MandelbrotColorGrading grading) {
+		// Create
+		MandelbrotColorize cut = MandelbrotColorizeBuilder.of() //
+		    .withPalette(PaletteVariant.CUSTOM)//
+		    .withColors(colors) //
+		    .withGrading(grading) //
+		    .build();
+
 		assertNotNull(cut);
 		assertTrue(cut instanceof MandelbrotColorPalette);
 		List<Color> palette = ((MandelbrotColorPalette) cut).getPalette();
