@@ -44,11 +44,9 @@ public class MandelbrotColorizeBuilder {
 	 */
 	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, MandelbrotColorGrading colorGrading,
 	    Color mandelbrotColor) {
-		boolean isGradingUsed = (colorGrading != null) && (!colorGrading.getStyle().equals(ColorGradingStyle.NONE))
-		    && (colorGrading.getColorsTotal() > 0);
-		List<Color> custom = !isGradingUsed ? ungraded
+		List<Color> colors = !colorGrading.shouldBeGraded() ? ungraded
 		    : ColorGrading.of(colorGrading.getStyle()).gradePalette(ungraded, colorGrading.getColorsTotal());
-		return MandelbrotColorPalette.of(custom, mandelbrotColor);
+		return MandelbrotColorPalette.of(colors, mandelbrotColor);
 	}
 
 	/**
@@ -80,58 +78,69 @@ public class MandelbrotColorizeBuilder {
 	}
 
 	/**
-	 * Factory method for a colorize object.
+	 * Factory method for the builder.
 	 * 
-	 * @param variant         The variant used
-	 * @param colors          The colors, describing the palette to create.
-	 * @param colorGrading    The number of steps for color gradients. 0, if no
-	 *                        grading is wanted.
-	 * @param mandelbrotColor The color used for the MandelbrotIterator set.
-	 * @return An object of {@link MandelbrotColorize}, ready to use.
+	 * @return
 	 */
-	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, MandelbrotColorGrading colorGrading,
-	    Color mandelbrotColor) {
-		MandelbrotColorizeBuilder factory = new MandelbrotColorizeBuilder();
-		return factory.createColorize(variant, colors, colorGrading, mandelbrotColor);
-	}
-
-	/**
-	 * Factory method for a colorize object. Black is used as default color of the
-	 * MandelbrotIterator set.
-	 * 
-	 * @param variant   The variant used
-	 * @param colors    The colors, describing the palette to create.
-	 * @param nrOfSteps The number of steps for color gradients.
-	 * @return An object of {@link MandelbrotColorize}, ready to use.
-	 */
-	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, MandelbrotColorGrading colorGrading) {
-		return of(variant, colors, colorGrading, Color.BLACK);
-	}
-
 	public static final MandelbrotColorizeBuilder of() {
 		return new MandelbrotColorizeBuilder();
 	}
 
+	/**
+	 * The palette type to use.
+	 * 
+	 * @Default {@link PaletteVariant#BLACK_WHITE}
+	 * @see PaletteVariant
+	 * @param palette Use this type of palette.
+	 * @return Reference to the builder for fluent api.
+	 */
 	public MandelbrotColorizeBuilder withPalette(PaletteVariant palette) {
 		this.palette = Optional.ofNullable(palette);
 		return this;
 	}
 
+	/**
+	 * Describes the grading style to use.
+	 * 
+	 * @Default {@link ColorGradingStyle#NONE}
+	 * @param grading
+	 * @return
+	 */
 	public MandelbrotColorizeBuilder withGrading(MandelbrotColorGrading grading) {
 		this.grading = Optional.ofNullable(grading);
 		return this;
 	}
 
+	/**
+	 * The background color in the Mandelbrot set.
+	 * 
+	 * @Default {@link java.awt.Color#BLACK}
+	 * @param mandelbrotColor
+	 * @return
+	 */
 	public MandelbrotColorizeBuilder withMandelbrotColor(Color mandelbrotColor) {
 		this.mandelbrotColor = Optional.ofNullable(mandelbrotColor);
 		return this;
 	}
 
+	/**
+	 * The list of colors, if not given by the palette variant.
+	 * 
+	 * @Default {@link PaletteVariant#BLUEWHITE#colorPalette()}
+	 * @param colors
+	 * @return
+	 */
 	public MandelbrotColorizeBuilder withColors(List<Color> colors) {
 		this.colors = Optional.ofNullable(colors);
 		return this;
 	}
 
+	/**
+	 * Builds the colorize object from the values, given before or the defaults, as
+	 * mentioned with the with methods.
+	 * 
+	 * @return
+	 */
 	public MandelbrotColorize build() {
 		return createColorize( //
 		    this.palette.orElse(PaletteVariant.BLACK_WHITE), //

@@ -41,6 +41,10 @@ public class MandelbrotColorGrading {
 		return new MandelbrotColorGrading(ColorGradingStyle.NONE, 0);
 	}
 
+	public boolean shouldBeGraded() {
+		return style != ColorGradingStyle.NONE && colorsTotal > 0;
+	}
+
 	/**
 	 * @return the style
 	 */
