@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.Optional;
 
 import de.lexasoft.mandelbrot.MandelbrotColorize;
-import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
+import de.lexasoft.mandelbrot.MandelbrotColorizeBuilder;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.cu.MandelbrotIteratorBuilder;
 import de.lexasoft.util.TimeMeasureSupport;
@@ -32,11 +32,12 @@ public class MandelbrotCalculationAPI {
 	 */
 	public final MandelbrotImage calculate(MandelbrotCalculationProperties model) {
 		// Create colorize method
-		MandelbrotColorize colorize = MandelbrotColorizeFactory.of(//
-		    model.getPaletteVariant(), //
-		    model.getCustomColorPalette(), //
-		    model.getColorGrading(), //
-		    model.getMandelbrotColor());
+		MandelbrotColorize colorize = MandelbrotColorizeBuilder.of() //
+		    .withPalette(model.getPaletteVariant()) //
+		    .withColors(model.getCustomColorPalette()) //
+		    .withGrading(model.getColorGrading()) //
+		    .withMandelbrotColor(model.getMandelbrotColor()) //
+		    .build();
 
 		// Measure time the calculation run
 		TimeMeasureSupport<Optional<MandelbrotImage>> time = TimeMeasureSupport.of();

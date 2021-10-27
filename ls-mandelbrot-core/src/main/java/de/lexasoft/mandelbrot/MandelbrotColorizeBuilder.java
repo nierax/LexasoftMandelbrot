@@ -5,6 +5,7 @@ package de.lexasoft.mandelbrot;
 
 import java.awt.Color;
 import java.util.List;
+import java.util.Optional;
 
 import de.lexasoft.mandelbrot.api.ColorGrading;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
@@ -17,12 +18,17 @@ import de.lexasoft.mandelbrot.api.PaletteVariant;
  * @author nierax
  *
  */
-public class MandelbrotColorizeFactory {
+public class MandelbrotColorizeBuilder {
+
+	private Optional<PaletteVariant> palette = Optional.empty();
+	private Optional<List<Color>> colors = Optional.empty();
+	private Optional<MandelbrotColorGrading> grading = Optional.empty();
+	private Optional<Color> mandelbrotColor = Optional.empty();
 
 	/**
 	 * 
 	 */
-	private MandelbrotColorizeFactory() {
+	private MandelbrotColorizeBuilder() {
 		super();
 	}
 
@@ -85,7 +91,7 @@ public class MandelbrotColorizeFactory {
 	 */
 	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, MandelbrotColorGrading colorGrading,
 	    Color mandelbrotColor) {
-		MandelbrotColorizeFactory factory = new MandelbrotColorizeFactory();
+		MandelbrotColorizeBuilder factory = new MandelbrotColorizeBuilder();
 		return factory.createColorize(variant, colors, colorGrading, mandelbrotColor);
 	}
 
@@ -100,5 +106,37 @@ public class MandelbrotColorizeFactory {
 	 */
 	public static MandelbrotColorize of(PaletteVariant variant, List<Color> colors, MandelbrotColorGrading colorGrading) {
 		return of(variant, colors, colorGrading, Color.BLACK);
+	}
+
+	public static final MandelbrotColorizeBuilder of() {
+		return new MandelbrotColorizeBuilder();
+	}
+
+	public MandelbrotColorizeBuilder withPalette(PaletteVariant palette) {
+		this.palette = Optional.ofNullable(palette);
+		return this;
+	}
+
+	public MandelbrotColorizeBuilder withGrading(MandelbrotColorGrading grading) {
+		this.grading = Optional.ofNullable(grading);
+		return this;
+	}
+
+	public MandelbrotColorizeBuilder withMandelbrotColor(Color mandelbrotColor) {
+		this.mandelbrotColor = Optional.ofNullable(mandelbrotColor);
+		return this;
+	}
+
+	public MandelbrotColorizeBuilder withColors(List<Color> colors) {
+		this.colors = Optional.ofNullable(colors);
+		return this;
+	}
+
+	public MandelbrotColorize build() {
+		return createColorize( //
+		    this.palette.orElse(PaletteVariant.BLACK_WHITE), //
+		    this.colors.orElseGet(PaletteVariant.BLUEWHITE::colorPalette), //
+		    this.grading.orElseGet(MandelbrotColorGrading::none), //
+		    this.mandelbrotColor.orElse(Color.BLACK));
 	}
 }
