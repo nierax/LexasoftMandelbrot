@@ -7,6 +7,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -28,11 +30,13 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	private PaletteVariant paletteVariant;
 	private ColorGradingStyle colorGradingStyle;
 	private int totalNrOfColors;
+	private Map<String, String> errorMsgs;
 
 	/**
 	 * 
 	 */
 	public ColorController(ColorAttributesDTO colorModel, ColorControlPanel view) {
+		errorMsgs = new HashMap<>();
 		initModel(colorModel);
 		this.view = view;
 		initView();
@@ -62,7 +66,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	 * Registers the listeners to promote changes of the attributes.
 	 */
 	public void initController() {
-		view.getPaletteVariant().addItemListener(e -> changePalettVariant(e));
+		view.getPaletteVariant().addItemListener(this::changePalettVariant);
 		view.getTotalColors().addFocusListener(new FocusListener() {
 
 			@Override
@@ -91,6 +95,21 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 		return variant.nrOfColorsUngraded();
 	}
 
+	private void outErrorMsgs() {
+		view.getErrorText().setText("");
+		errorMsgs.entrySet().forEach((entry) -> view.getErrorText().setText(entry.getValue()));
+	}
+
+	private void pushColorErrorMsg2GUI(String key, String message) {
+		errorMsgs.put(key, message);
+		outErrorMsgs();
+	}
+
+	private void removeColorErrorMsgFromGUI(String key) {
+		errorMsgs.remove(key);
+		outErrorMsgs();
+	}
+
 	/**
 	 * @param nrOfC
 	 * @return
@@ -105,9 +124,9 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 			} catch (ParseException e) {
 				view.getErrorText().setText(String.format("Error parsing value for total number of colors \"%s\"", nrOfC));
 			}
-			view.getErrorText().setText(String.format("Minimum number of colors set to minimum value %s.", minNrOfC));
+			pushColorErrorMsg2GUI("nrOfC", String.format("Minimum number of colors set to minimum value %s.", minNrOfC));
 		} else {
-			view.getErrorText().setText("");
+			removeColorErrorMsgFromGUI("nrOfC");
 		}
 		return nrOfC;
 	}
@@ -149,6 +168,11 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	void changePalettVariant(ItemEvent evt) {
 		if (evt.getStateChange() == ItemEvent.SELECTED) {
 			PaletteVariant value = (PaletteVariant) evt.getItem();
+			if (value == PaletteVariant.CUSTOM) {
+				pushColorErrorMsg2GUI("customPalette", "Custom palettes are not supported yet in swing gui.");
+			} else {
+				removeColorErrorMsgFromGUI("customPalette");
+			}
 			paletteVariant(value);
 			view.getColorGradingStyle().setEnabled(isColorGradingStyleEnabled(value));
 			view.getTotalColors().setEnabled(isColorGradingNofCEnabled(value, gradingStyle()));
