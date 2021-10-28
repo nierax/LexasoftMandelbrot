@@ -60,7 +60,7 @@ class ColorControllerTest {
 		assertEquals(color.getPaletteVariant(), view.getPaletteVariant().getSelectedItem());
 		assertEquals(color.getColorGrading().getStyle(), view.getColorGradingStyle().getSelectedItem());
 		assertEquals(color.getColorGrading().getColorsTotal(), Integer.parseInt(view.getTotalColors().getText()));
-		assertEquals("", view.getErrorText().getText());
+		assertNotNull(view.getMessagePanel());
 	}
 
 	private static Stream<Arguments> testChangeTotalColorsOk() {
@@ -112,9 +112,9 @@ class ColorControllerTest {
 		assertEquals(expectedNew, cut.totalNrOfColors());
 		assertEquals(expectedNew, Integer.parseInt(view.getTotalColors().getText()));
 		if (expectedNew > newValue) {
-			assertNotEquals("", view.getErrorText().getText());
+			assertNotEquals("", view.getMessagePanel().getCompleteText());
 		} else {
-			assertEquals("", view.getErrorText().getText());
+			assertEquals("", view.getMessagePanel().getCompleteText());
 		}
 	}
 

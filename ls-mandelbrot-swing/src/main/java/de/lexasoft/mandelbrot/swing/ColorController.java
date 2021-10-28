@@ -7,9 +7,11 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 
+import de.lexasoft.common.model.Message;
+import de.lexasoft.common.model.MessageId;
+import de.lexasoft.common.model.MessageText;
+import de.lexasoft.common.swing.MessageController;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.api.ValidationAPI;
@@ -30,13 +32,12 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	private PaletteVariant paletteVariant;
 	private ColorGradingStyle colorGradingStyle;
 	private int totalNrOfColors;
-	private Map<String, String> errorMsgs;
+	private MessageController msgCtrl;
 
 	/**
 	 * 
 	 */
 	public ColorController(ColorAttributesDTO colorModel, ColorControlPanel view) {
-		errorMsgs = new HashMap<>();
 		initModel(colorModel);
 		this.view = view;
 		initView();
@@ -59,7 +60,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 		} catch (ParseException e) {
 			throw new MandelbrotException("Error parsing total number of colors", e);
 		}
-		view.getErrorText().setText("");
+		msgCtrl = new MessageController(view.getMessagePanel());
 	}
 
 	/**
@@ -95,19 +96,13 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 		return variant.nrOfColorsUngraded();
 	}
 
-	private void outErrorMsgs() {
-		view.getErrorText().setText("");
-		errorMsgs.entrySet().forEach((entry) -> view.getErrorText().setText(entry.getValue()));
-	}
-
 	private void pushColorErrorMsg2GUI(String key, String message) {
-		errorMsgs.put(key, message);
-		outErrorMsgs();
+		Message msg = Message.of(MessageId.of(key), MessageText.of(message));
+		msgCtrl.displayMessage(msg);
 	}
 
 	private void removeColorErrorMsgFromGUI(String key) {
-		errorMsgs.remove(key);
-		outErrorMsgs();
+		msgCtrl.unDisplayMessage(MessageId.of(key));
 	}
 
 	/**
@@ -122,7 +117,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 			try {
 				view.getTotalColors().setBasicValue(nrOfC);
 			} catch (ParseException e) {
-				view.getErrorText().setText(String.format("Error parsing value for total number of colors \"%s\"", nrOfC));
+				pushColorErrorMsg2GUI("color-1", String.format("Error parsing value for total number of colors \"%s\"", nrOfC));
 			}
 			pushColorErrorMsg2GUI("nrOfC", String.format("Minimum number of colors set to minimum value %s.", minNrOfC));
 		} else {
