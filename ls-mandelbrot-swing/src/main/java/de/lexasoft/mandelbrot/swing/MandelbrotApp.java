@@ -29,7 +29,7 @@ public class MandelbrotApp {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotApp.class);
 
 	private static final void initializeLogging() {
-		InputStream stream = MandelbrotApp.class.getClassLoader().getResourceAsStream("logging.properties");
+		InputStream stream = MandelbrotApp.class.getClassLoader().getResourceAsStream("logging-swing.properties");
 		initializeLogging(stream);
 	}
 
