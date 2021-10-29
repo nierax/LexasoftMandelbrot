@@ -9,9 +9,9 @@ import java.awt.event.ItemEvent;
 import java.text.ParseException;
 
 import de.lexasoft.common.model.Message;
+import de.lexasoft.common.model.MessageController;
 import de.lexasoft.common.model.MessageId;
 import de.lexasoft.common.model.MessageText;
-import de.lexasoft.common.swing.MessageController;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 import de.lexasoft.mandelbrot.api.ValidationAPI;

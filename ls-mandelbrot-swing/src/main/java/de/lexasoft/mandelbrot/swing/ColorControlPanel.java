@@ -10,10 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
+import de.lexasoft.common.model.MessagePanel;
 import de.lexasoft.common.swing.JFormatterFactory;
 import de.lexasoft.common.swing.LSJFormattedTextField;
-import de.lexasoft.common.swing.MessagePanel;
-import de.lexasoft.common.swing.MessagePanelImpl;
+import de.lexasoft.common.swing.MessagePanelTextAreaImpl;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
@@ -28,7 +28,7 @@ public class ColorControlPanel extends JPanel {
 	private LSJFormattedTextField<Integer> totalColors;
 	private JComboBox<PaletteVariant> paletteVariant;
 	private JComboBox<ColorGradingStyle> colorGradingStyle;
-	private MessagePanelImpl messagePanel;
+	private MessagePanelTextAreaImpl messagePanel;
 
 	/**
 	 * Create the panel.
@@ -105,7 +105,7 @@ public class ColorControlPanel extends JPanel {
 		add(totalColors, gbc_totalColors);
 		totalColors.setColumns(10);
 
-		messagePanel = new MessagePanelImpl();
+		messagePanel = new MessagePanelTextAreaImpl();
 		GridBagConstraints gbc_messagePanel = new GridBagConstraints();
 		gbc_messagePanel.gridwidth = 2;
 		gbc_messagePanel.insets = new Insets(0, 0, 0, 5);
