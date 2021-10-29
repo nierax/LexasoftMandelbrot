@@ -60,7 +60,7 @@ class ColorControllerTest {
 		assertEquals(color.getPaletteVariant(), view.getPaletteVariant().getSelectedItem());
 		assertEquals(color.getColorGrading().getStyle(), view.getColorGradingStyle().getSelectedItem());
 		assertEquals(color.getColorGrading().getColorsTotal(), Integer.parseInt(view.getTotalColors().getText()));
-		assertEquals("", view.getErrorText().getText());
+		assertNotNull(view.getMessagePanel());
 	}
 
 	private static Stream<Arguments> testChangeTotalColorsOk() {
@@ -112,9 +112,9 @@ class ColorControllerTest {
 		assertEquals(expectedNew, cut.totalNrOfColors());
 		assertEquals(expectedNew, Integer.parseInt(view.getTotalColors().getText()));
 		if (expectedNew > newValue) {
-			assertNotEquals("", view.getErrorText().getText());
+			assertNotEquals("", view.getMessagePanel().getCompleteText());
 		} else {
-			assertEquals("", view.getErrorText().getText());
+			assertEquals("", view.getMessagePanel().getCompleteText());
 		}
 	}
 
@@ -125,7 +125,10 @@ class ColorControllerTest {
 		    Arguments.of(ColorGradingStyle.LINE, 6, PaletteVariant.BLUEWHITE, 6, true),
 		    Arguments.of(ColorGradingStyle.CIRCLE, 13, PaletteVariant.BLUEWHITE, 13, true),
 		    Arguments.of(ColorGradingStyle.CIRCLE, 10, PaletteVariant.RAINBOW7, 14, true),
-		    Arguments.of(ColorGradingStyle.LINE, 13, PaletteVariant.RAINBOW29, 57, true));
+		    Arguments.of(ColorGradingStyle.LINE, 13, PaletteVariant.RAINBOW29, 57, true),
+		    Arguments.of(ColorGradingStyle.LINE, 2, PaletteVariant.BLUEWHITE, 3, true),
+		    Arguments.of(ColorGradingStyle.LINE, 2, PaletteVariant.CUSTOM, 3, true),
+		    Arguments.of(ColorGradingStyle.LINE, 6, PaletteVariant.CUSTOM, 6, true));
 	}
 
 	/**
