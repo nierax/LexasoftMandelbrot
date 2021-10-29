@@ -125,7 +125,10 @@ class ColorControllerTest {
 		    Arguments.of(ColorGradingStyle.LINE, 6, PaletteVariant.BLUEWHITE, 6, true),
 		    Arguments.of(ColorGradingStyle.CIRCLE, 13, PaletteVariant.BLUEWHITE, 13, true),
 		    Arguments.of(ColorGradingStyle.CIRCLE, 10, PaletteVariant.RAINBOW7, 14, true),
-		    Arguments.of(ColorGradingStyle.LINE, 13, PaletteVariant.RAINBOW29, 57, true));
+		    Arguments.of(ColorGradingStyle.LINE, 13, PaletteVariant.RAINBOW29, 57, true),
+		    Arguments.of(ColorGradingStyle.LINE, 2, PaletteVariant.BLUEWHITE, 3, true),
+		    Arguments.of(ColorGradingStyle.LINE, 2, PaletteVariant.CUSTOM, 3, true),
+		    Arguments.of(ColorGradingStyle.LINE, 6, PaletteVariant.CUSTOM, 6, true));
 	}
 
 	/**

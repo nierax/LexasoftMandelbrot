@@ -90,9 +90,10 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	 */
 	private int nrOfColorsUngraded(PaletteVariant variant) {
 		// Custom not supported yet. So let's think about it later
-//		if (variant == PaletteVariant.CUSTOM) {
-//			return model.getCustomColorPalette().size();
-//		}
+		if (variant == PaletteVariant.CUSTOM) {
+			// BLUEWHITE is the default, when no custom palette is given.
+			return PaletteVariant.BLUEWHITE.nrOfColorsUngraded();
+		}
 		return variant.nrOfColorsUngraded();
 	}
 
