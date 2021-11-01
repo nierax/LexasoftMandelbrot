@@ -11,6 +11,7 @@ import java.text.ParseException;
 import de.lexasoft.common.model.Message;
 import de.lexasoft.common.model.MessageController;
 import de.lexasoft.common.model.MessageId;
+import de.lexasoft.common.model.MessageSeverity;
 import de.lexasoft.common.model.MessageText;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
@@ -98,7 +99,7 @@ public class ColorController extends ModelChangingController<ColorControllerMode
 	}
 
 	private void pushColorErrorMsg2GUI(String key, String message) {
-		Message msg = Message.of(MessageId.of(key), MessageText.of(message));
+		Message msg = Message.of(MessageId.of(key), MessageText.of(message), MessageSeverity.ERROR);
 		msgCtrl.displayMessage(msg);
 	}
 
