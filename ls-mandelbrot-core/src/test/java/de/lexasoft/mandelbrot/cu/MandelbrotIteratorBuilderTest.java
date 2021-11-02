@@ -25,6 +25,8 @@ import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -43,6 +45,8 @@ import de.lexasoft.mandelbrot.api.ImageArea;
  */
 @ExtendWith(MockitoExtension.class)
 class MandelbrotIteratorBuilderTest {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(MandelbrotIteratorBuilderTest.class);
 
 	private MandelbrotIteratorBuilder cut;
 	@Mock
@@ -86,6 +90,7 @@ class MandelbrotIteratorBuilderTest {
 		assertNull(result.get());
 		assertTrue(result.isErroneous());
 		assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+		LOGGER.info(result.getMessages()::toString);
 	}
 
 	/**
@@ -100,6 +105,7 @@ class MandelbrotIteratorBuilderTest {
 		assertNull(result.get());
 		assertTrue(result.isErroneous());
 		assertEquals(2, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+		LOGGER.info(result.getMessages()::toString);
 	}
 
 	/**
@@ -115,6 +121,7 @@ class MandelbrotIteratorBuilderTest {
 		assertNull(result.get());
 		assertTrue(result.isErroneous());
 		assertEquals(1, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+		LOGGER.info(result.getMessages()::toString);
 	}
 
 	/**
@@ -150,5 +157,6 @@ class MandelbrotIteratorBuilderTest {
 		assertTrue(image.isErroneous());
 		assertEquals(1, image.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
 		verify(iterator).drawMandelbrot(calculation, 25, imageArea);
+		LOGGER.info(image.getMessages()::toString);
 	}
 }
