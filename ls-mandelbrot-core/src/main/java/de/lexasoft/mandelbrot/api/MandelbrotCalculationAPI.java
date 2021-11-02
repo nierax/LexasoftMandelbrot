@@ -30,7 +30,7 @@ public class MandelbrotCalculationAPI {
 	 * @param model
 	 * @return
 	 */
-	public final MandelbrotImage calculate(MandelbrotCalculationProperties model) {
+	public final Result<MandelbrotImage> calculate(MandelbrotCalculationProperties model) {
 		// Create colorize method
 		MandelbrotColorize colorize = MandelbrotColorizeBuilder.of() //
 		    .withPalette(model.getPaletteVariant()) //
@@ -51,6 +51,6 @@ public class MandelbrotCalculationAPI {
 		    .calculate());
 
 		InfoCallbackAPI.of().outCalculationReady(time.getTimeElapsed());
-		return image.get();
+		return image;
 	}
 }
