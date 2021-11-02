@@ -14,11 +14,13 @@
  */
 package de.lexasoft.mandelbrot.cu;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import de.lexasoft.common.model.MessageSeverity;
+import de.lexasoft.common.model.Result;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.CalculationArea;
@@ -65,8 +69,10 @@ class MandelbrotIteratorBuilderTest {
 	 */
 	@Test
 	final void testCalculateNoParams() {
-		Optional<MandelbrotImage> image = cut.calculate();
-		assertTrue(image.isEmpty());
+		Result<MandelbrotImage> result = cut.calculate();
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
 	}
 
 	/**
@@ -74,10 +80,12 @@ class MandelbrotIteratorBuilderTest {
 	 */
 	@Test
 	final void testCalculateJustColorizeParams() {
-		Optional<MandelbrotImage> image = //
+		Result<MandelbrotImage> result = //
 		    cut.withColorize(colorize) //
 		        .calculate();
-		assertTrue(image.isEmpty());
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
 	}
 
 	/**
@@ -85,11 +93,13 @@ class MandelbrotIteratorBuilderTest {
 	 */
 	@Test
 	final void testCalculateColorizeCalculationParams() {
-		Optional<MandelbrotImage> image = //
+		Result<MandelbrotImage> result = //
 		    cut.withColorize(colorize) //
 		        .withCalculationArea(calculation) //
 		        .calculate();
-		assertTrue(image.isEmpty());
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(2, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
 	}
 
 	/**
@@ -97,12 +107,14 @@ class MandelbrotIteratorBuilderTest {
 	 */
 	@Test
 	final void testCalculateColorizeCalculationImageAreaParams() {
-		Optional<MandelbrotImage> image = //
+		Result<MandelbrotImage> result = //
 		    cut.withColorize(colorize) //
 		        .withCalculationArea(calculation) //
 		        .withImageArea(imageArea) //
 		        .calculate();
-		assertTrue(image.isEmpty());
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(1, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
 	}
 
 	/**
@@ -111,13 +123,14 @@ class MandelbrotIteratorBuilderTest {
 	@Test
 	final void testCalculateAll() {
 		when(iterator.drawMandelbrot(calculation, 25, imageArea)).thenReturn(result);
-		Optional<MandelbrotImage> image = //
+		Result<MandelbrotImage> image = //
 		    cut.withColorize(colorize) //
 		        .withCalculationArea(calculation) //
 		        .withImageArea(imageArea) //
 		        .withMaxIterations(25) //
 		        .calculate();
-		assertTrue(image.isPresent());
+		assertNotNull(image.get());
+		assertFalse(image.isErroneous());
 		verify(iterator).drawMandelbrot(calculation, 25, imageArea);
 	}
 
@@ -127,13 +140,15 @@ class MandelbrotIteratorBuilderTest {
 	@Test
 	final void testCalculateAllButNoResult() {
 		when(iterator.drawMandelbrot(calculation, 25, imageArea)).thenReturn(null);
-		Optional<MandelbrotImage> image = //
+		Result<MandelbrotImage> image = //
 		    cut.withColorize(colorize) //
 		        .withCalculationArea(calculation) //
 		        .withImageArea(imageArea) //
 		        .withMaxIterations(25) //
 		        .calculate();
-		assertTrue(image.isEmpty());
+		assertNull(image.get());
+		assertTrue(image.isErroneous());
+		assertEquals(1, image.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
 		verify(iterator).drawMandelbrot(calculation, 25, imageArea);
 	}
 }
