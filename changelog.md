@@ -1,12 +1,15 @@
-# Changelog
+# Change log
 
 ## Unpublished
+
+## Version 0.1.8
 **Enhancements**
 
 * Internal code optimized:
 * Clearer API to calculation package
 * Use of message handling with de.lexasoft.common.model.Message (needs de.lexasoft::ls-commons-parent v0.1.4 or above)
 * Showing an hint, that custom palettes are not supported yet.
+* Using the result type de.lexasoft.common.model.Result<T>
 
 **Bug fixes**
 
