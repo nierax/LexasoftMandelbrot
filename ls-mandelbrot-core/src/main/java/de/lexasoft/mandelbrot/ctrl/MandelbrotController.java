@@ -73,7 +73,7 @@ public class MandelbrotController {
 		// Now step through all calculations
 		props.stream().forEach(p -> {
 			try {
-				api.calculate(p).writeToFile(p.getImageFilename());
+				api.calculate(p).get().writeToFile(p.getImageFilename());
 			} catch (IOException e) {
 				throw new MandelbrotControllerException("Error occured writing the image file", e);
 			}
@@ -96,7 +96,7 @@ public class MandelbrotController {
 			    "Method MandelbrotController::executeSingleCalculation can handle single calculation, only. Try executeMultiCalculation instead.");
 		}
 		MandelbrotCalculationProperties props = AbstractDTO2PropertiesMapper.of(singleCalc).mapDTO2Properties().get(0);
-		return api.calculate(props);
+		return api.calculate(props).get();
 	}
 
 	/**

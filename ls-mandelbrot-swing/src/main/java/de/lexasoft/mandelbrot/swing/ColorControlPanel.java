@@ -1,7 +1,5 @@
 package de.lexasoft.mandelbrot.swing;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,11 +8,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import de.lexasoft.common.model.MessagePanel;
 import de.lexasoft.common.swing.JFormatterFactory;
 import de.lexasoft.common.swing.LSJFormattedTextField;
+import de.lexasoft.common.swing.MessagePanelTextAreaImpl;
 import de.lexasoft.mandelbrot.api.ColorGradingStyle;
 import de.lexasoft.mandelbrot.api.PaletteVariant;
 
@@ -29,7 +28,7 @@ public class ColorControlPanel extends JPanel {
 	private LSJFormattedTextField<Integer> totalColors;
 	private JComboBox<PaletteVariant> paletteVariant;
 	private JComboBox<ColorGradingStyle> colorGradingStyle;
-	private JLabel errorText;
+	private MessagePanelTextAreaImpl messagePanel;
 
 	/**
 	 * Create the panel.
@@ -39,15 +38,15 @@ public class ColorControlPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
 
 		JLabel lblNewLabel = new JLabel("Color control");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.gridwidth = 2;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		add(lblNewLabel, gbc_lblNewLabel);
@@ -106,17 +105,14 @@ public class ColorControlPanel extends JPanel {
 		add(totalColors, gbc_totalColors);
 		totalColors.setColumns(10);
 
-		errorText = new JLabel("Error");
-		errorText.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		errorText.setHorizontalAlignment(SwingConstants.LEFT);
-		errorText.setForeground(Color.RED);
-		GridBagConstraints gbc_errorText = new GridBagConstraints();
-		gbc_errorText.gridwidth = 2;
-		gbc_errorText.insets = new Insets(0, 0, 0, 5);
-		gbc_errorText.anchor = GridBagConstraints.WEST;
-		gbc_errorText.gridx = 0;
-		gbc_errorText.gridy = 4;
-		add(errorText, gbc_errorText);
+		messagePanel = new MessagePanelTextAreaImpl();
+		GridBagConstraints gbc_messagePanel = new GridBagConstraints();
+		gbc_messagePanel.gridwidth = 2;
+		gbc_messagePanel.insets = new Insets(0, 0, 0, 5);
+		gbc_messagePanel.fill = GridBagConstraints.BOTH;
+		gbc_messagePanel.gridx = 0;
+		gbc_messagePanel.gridy = 4;
+		add(messagePanel, gbc_messagePanel);
 
 	}
 
@@ -132,7 +128,7 @@ public class ColorControlPanel extends JPanel {
 		return totalColors;
 	}
 
-	public JLabel getErrorText() {
-		return errorText;
+	public MessagePanel getMessagePanel() {
+		return messagePanel;
 	}
 }

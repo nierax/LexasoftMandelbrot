@@ -1,19 +1,39 @@
 # Change log
 
 ## Unpublished
+
+## Version 0.1.8
 **Enhancements**
-Status bar added with duration of calculation
-Logging to log file with java.util.Logging
-Custom log configuration (logger.properties) can be added as first application parameter
-Divider between image and control area can be slipped
+
+* Internal code optimized:
+* Clearer API to calculation package
+* Use of message handling with de.lexasoft.common.model.Message (needs de.lexasoft::ls-commons-parent v0.1.4 or above)
+* Showing an hint, that custom palettes are not supported yet.
+* Using the result type de.lexasoft.common.model.Result<T>
+
 **Bug fixes**
-Resize of the image did not work properly in horizontal direction
+
+* Use of custom palette in Swing GUI does not cause an exception anymore. Default Frozen is used.
+
+## Version 0.1.7 
+October 26, 2021
+
+**Enhancements**
+
+* Status bar added with duration of calculation
+* Logging to log file with java.util.Logging
+* Custom log configuration (logger.properties) can be added as first application parameter
+* Divider between image and control area can be slipped
+
+**Bug fixes**
+
+* Resize of the image did not work properly in horizontal direction
 
 ## Version 0.1.6
 **Enhancements**
-Assembly of Mandelbrot swing application added.
+* Assembly of Mandelbrot swing application added.
 ** Bug Fixes**
-Corrected: Use of older JUnit packages.
+* Corrected: Use of older JUnit packages.
 
 ## Version 0.1.5
 **Enhancements**

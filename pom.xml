@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.lexasoft</groupId>
 	<artifactId>mandelbrot</artifactId>
-	<version>0.1.7</version>
+	<version>0.1.8</version>
 	<packaging>pom</packaging>
 	<name>Lexasoft-Mandelbrot</name>
 
@@ -18,7 +18,7 @@
 			<dependency>
 				<groupId>de.lexasoft</groupId>
 				<artifactId>ls-mandelbrot-core</artifactId>
-				<version>0.1.7</version>
+				<version>0.1.8</version>
 			</dependency>
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
@@ -39,7 +39,7 @@
 			<dependency>
 				<groupId>de.lexasoft</groupId>
 				<artifactId>ls-commons</artifactId>
-				<version>0.1.3</version>
+				<version>0.1.4-02</version>
 			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
@@ -66,6 +66,17 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub OWNER Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/nierax/LexasoftCommons-Parent</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<pluginManagement>

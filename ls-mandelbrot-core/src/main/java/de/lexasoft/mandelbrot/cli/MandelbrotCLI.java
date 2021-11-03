@@ -31,7 +31,7 @@ public class MandelbrotCLI {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotCLI.class);
 
 	static {
-		InputStream stream = MandelbrotCLI.class.getClassLoader().getResourceAsStream("logging.properties");
+		InputStream stream = MandelbrotCLI.class.getClassLoader().getResourceAsStream("logging-cli.properties");
 		try {
 			LogManager.getLogManager().readConfiguration(stream);
 		} catch (SecurityException | IOException e) {

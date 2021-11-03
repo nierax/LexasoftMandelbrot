@@ -5,10 +5,11 @@ package de.lexasoft.mandelbrot.api;
 
 import java.awt.image.BufferedImage;
 
+import de.lexasoft.common.model.Result;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
-import de.lexasoft.mandelbrot.MandelbrotColorizeFactory;
+import de.lexasoft.mandelbrot.MandelbrotColorizeBuilder;
 import de.lexasoft.mandelbrot.MandelbrotImage;
-import de.lexasoft.mandelbrot.cu.MandelbrotIterator;
+import de.lexasoft.mandelbrot.cu.MandelbrotIteratorBuilder;
 import de.lexasoft.util.TimeMeasureSupport;
 
 /**
@@ -29,13 +30,26 @@ public class MandelbrotCalculationAPI {
 	 * @param model
 	 * @return
 	 */
-	public final MandelbrotImage calculate(MandelbrotCalculationProperties model) {
-		MandelbrotColorize colorize = MandelbrotColorizeFactory.of(model.getPaletteVariant(), model.getCustomColorPalette(),
-		    model.getColorGrading(), model.getMandelbrotColor());
-		MandelbrotIterator calculator = MandelbrotIterator.of(colorize);
-		TimeMeasureSupport<MandelbrotImage> time = TimeMeasureSupport.of();
-		MandelbrotImage image = time.runProcess(
-		    () -> calculator.drawMandelbrot(model.getCalculation(), model.getMaximumIterations(), model.getImage()));
+	public final Result<MandelbrotImage> calculate(MandelbrotCalculationProperties model) {
+		// Create colorize method
+		MandelbrotColorize colorize = MandelbrotColorizeBuilder.of() //
+		    .withPalette(model.getPaletteVariant()) //
+		    .withColors(model.getCustomColorPalette()) //
+		    .withGrading(model.getColorGrading()) //
+		    .withMandelbrotColor(model.getMandelbrotColor()) //
+		    .build();
+
+		// Measure time the calculation run
+		TimeMeasureSupport<Result<MandelbrotImage>> time = TimeMeasureSupport.of();
+
+		// Start calculation
+		Result<MandelbrotImage> image = time.runProcess(() -> MandelbrotIteratorBuilder.of() //
+		    .withColorize(colorize) //
+		    .withCalculationArea(model.getCalculation()) //
+		    .withMaxIterations(model.getMaximumIterations()) //
+		    .withImageArea(model.getImage()) //
+		    .calculate());
+
 		InfoCallbackAPI.of().outCalculationReady(time.getTimeElapsed());
 		return image;
 	}
