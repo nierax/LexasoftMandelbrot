@@ -49,7 +49,7 @@ class MandelbrotCalculationAPITest {
 	 */
 	@Test
 	final void testCalculate() throws IOException {
-		MandelbrotImage image = cut.calculate(model);
+		MandelbrotImage image = cut.calculate(model).get();
 		assertNotNull(image);
 		assertEquals(459, image.getImage().getWidth());
 		assertEquals(405, image.getImage().getHeight());

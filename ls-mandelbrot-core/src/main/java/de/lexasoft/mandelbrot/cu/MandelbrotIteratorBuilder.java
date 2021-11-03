@@ -17,6 +17,13 @@ package de.lexasoft.mandelbrot.cu;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+import de.lexasoft.common.model.Message;
+import de.lexasoft.common.model.MessageId;
+import de.lexasoft.common.model.MessageList;
+import de.lexasoft.common.model.MessageSeverity;
+import de.lexasoft.common.model.MessageText;
+import de.lexasoft.common.model.Result;
+import de.lexasoft.common.model.ResultBuilder;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.CalculationArea;
@@ -119,8 +126,32 @@ public class MandelbrotIteratorBuilder {
 	 * 
 	 * @return True, if the calculation may run, false otherwise.
 	 */
-	private boolean checkPreConditions() {
-		return calculationArea.isPresent() && imageArea.isPresent() && maxIterations.isPresent();
+	private Result<Boolean> checkPreConditions() {
+		String msg = "Missing parameters %s for calculation.";
+		MessageList msgList = MessageList.of();
+		if (calculationArea.isEmpty()) {
+			msgList.addMessage(//
+			    Message.of(MessageId.of("param-missing-ca"), //
+			        MessageText.of(String.format(msg, "calculation area")), //
+			        MessageSeverity.ERROR));
+		}
+		if (imageArea.isEmpty()) {
+			msgList.addMessage(//
+			    Message.of(MessageId.of("param-missing-ia"), //
+			        MessageText.of(String.format(msg, "image area")), //
+			        MessageSeverity.ERROR));
+		}
+		if (maxIterations.isEmpty()) {
+			msgList.addMessage(//
+			    Message.of(MessageId.of("param-missing-mi"), //
+			        MessageText.of(String.format(msg, "maximum iterations")), //
+			        MessageSeverity.ERROR));
+		}
+
+		return ResultBuilder.of(//
+		    msgList.countMessagesWithSeverity(MessageSeverity.ERROR) == 0)//
+		    .withMessages(msgList)//
+		    .build();
 	}
 
 	/**
@@ -128,16 +159,26 @@ public class MandelbrotIteratorBuilder {
 	 * 
 	 * @return
 	 */
-	public Optional<MandelbrotImage> calculate() {
-		Optional<MandelbrotImage> result = Optional.empty();
-		if (checkPreConditions()) {
+	public Result<MandelbrotImage> calculate() {
+		Result<Boolean> check = checkPreConditions();
+		MandelbrotImage image = null;
+		Message msg = null;
+		if (check.get()) {
 			MandelbrotIterator iterator = this.iterator.orElseGet(this::createIterator);
-			result = Optional.ofNullable( //
-			    iterator.drawMandelbrot( //
-			        this.calculationArea.get(), //
-			        this.maxIterations.getAsInt(), //
-			        this.imageArea.get()));
+			image = iterator.drawMandelbrot( //
+			    this.calculationArea.get(), //
+			    this.maxIterations.getAsInt(), //
+			    this.imageArea.get());
+			if (image == null) {
+				msg = Message.of(//
+				    MessageId.of("unknown-no-result"),
+				    MessageText.of("Calculation returned without result for unknown reason."), //
+				    MessageSeverity.ERROR);
+			}
 		}
-		return result;
+		return ResultBuilder.of(image)//
+		    .withMessages(check.getMessages())//
+		    .withMessage(msg) //
+		    .build();
 	}
 }
