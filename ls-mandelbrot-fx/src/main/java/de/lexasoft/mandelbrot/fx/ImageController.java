@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import de.lexasoft.mandelbrot.MandelbrotImage;
+import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotAttributesDTO;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import javafx.embed.swing.SwingFXUtils;
@@ -24,12 +25,14 @@ public class ImageController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Image image = SwingFXUtils.toFXImage(calculate().getImage(), null);
+		Image image = SwingFXUtils.toFXImage(calculate(AspectRatioHandle.FOLLOW_IMAGE).getImage(), null);
 		mbImage.setImage(image);
 	}
 
-	private MandelbrotImage calculate() {
-		return MandelbrotController.of().executeSingleCalculation(MandelbrotAttributesDTO.ofDefaults());
+	private MandelbrotImage calculate(AspectRatioHandle arHandle) {
+		MandelbrotAttributesDTO attribs = MandelbrotAttributesDTO.ofDefaults();
+		attribs.getImage().setAspectRatioHandle(arHandle);
+		return MandelbrotController.of().executeSingleCalculation(attribs);
 	}
 
 }

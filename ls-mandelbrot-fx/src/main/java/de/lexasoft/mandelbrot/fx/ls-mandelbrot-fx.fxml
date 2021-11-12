@@ -32,7 +32,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ImageView fx:id="mbImage" fitHeight="150.0" fitWidth="200.0" layoutX="106.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="mbImage" layoutX="106.0" layoutY="93.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
         </items>

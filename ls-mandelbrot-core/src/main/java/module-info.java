@@ -1,5 +1,5 @@
 module de.lexasoft.mandelbrot {
-	requires java.desktop;
+	requires transitive java.desktop;
 	requires org.slf4j;
 	requires de.lexasoft.common;
 	requires com.fasterxml.jackson.annotation;
@@ -9,6 +9,7 @@ module de.lexasoft.mandelbrot {
 	requires com.fasterxml.jackson.dataformat.yaml;
 
 	exports de.lexasoft.mandelbrot.ctrl;
+	exports de.lexasoft.mandelbrot.api;
 	exports de.lexasoft.mandelbrot;
 
 	opens de.lexasoft.mandelbrot.ctrl to com.fasterxml.jackson.databind;
