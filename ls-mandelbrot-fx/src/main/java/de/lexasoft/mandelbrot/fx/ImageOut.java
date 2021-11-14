@@ -14,33 +14,19 @@
  */
 package de.lexasoft.mandelbrot.fx;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
 
 /**
- * 
  * @author nierax
  *
  */
-public class ImageController implements Initializable {
+public interface ImageOut {
 
-	@FXML
-	private AnchorPane imagePane;
+	/**
+	 * Send image to JavaFX GUI.
+	 * 
+	 * @param image
+	 */
+	void outImage(Image image);
 
-	@FXML
-	private ImageView mbImage;
-
-	private CalculationController calculation;
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		this.calculation = new CalculationController(mbImage::setImage);
-		imagePane.widthProperty().addListener((v, o, c) -> calculation.newWidth(c.intValue()));
-		imagePane.heightProperty().addListener((v, o, c) -> calculation.newHeight(c.intValue()));
-	}
 }
