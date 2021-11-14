@@ -67,6 +67,33 @@ public class ImageAttributesDTO {
 	}
 
 	/**
+	 * Checks, whether a width is given (width > 0).
+	 * 
+	 * @return True, if width is set, false otherwise.
+	 */
+	public boolean isImageWidthSet() {
+		return imageWidth > 0;
+	}
+
+	/**
+	 * Checks, whether an height is given (height > 0).
+	 * 
+	 * @return True, if height is set, false otherwise.
+	 */
+	public boolean isImageHeightSet() {
+		return imageHeight > 0;
+	}
+
+	/**
+	 * Checks, whether both height and width are set.
+	 * 
+	 * @return True, when height and width are given, false otherwise;
+	 */
+	public boolean isImageDimensionSet() {
+		return isImageWidthSet() && isImageHeightSet();
+	}
+
+	/**
 	 * @return the aspectRatioHandle
 	 */
 	public AspectRatioHandle getAspectRatioHandle() {
