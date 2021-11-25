@@ -3,6 +3,7 @@
  */
 package de.lexasoft.mandelbrot.ctrl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import de.lexasoft.mandelbrot.api.AspectRatioHandle;
@@ -71,6 +72,7 @@ public class ImageAttributesDTO {
 	 * 
 	 * @return True, if width is set, false otherwise.
 	 */
+	@JsonIgnore
 	public boolean isImageWidthSet() {
 		return imageWidth > 0;
 	}
@@ -80,6 +82,7 @@ public class ImageAttributesDTO {
 	 * 
 	 * @return True, if height is set, false otherwise.
 	 */
+	@JsonIgnore
 	public boolean isImageHeightSet() {
 		return imageHeight > 0;
 	}
@@ -89,6 +92,7 @@ public class ImageAttributesDTO {
 	 * 
 	 * @return True, when height and width are given, false otherwise;
 	 */
+	@JsonIgnore
 	public boolean isImageDimensionSet() {
 		return isImageWidthSet() && isImageHeightSet();
 	}

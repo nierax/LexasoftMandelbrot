@@ -12,6 +12,8 @@ module de.lexasoft.mandelbrot {
 	exports de.lexasoft.mandelbrot.api;
 	exports de.lexasoft.mandelbrot;
 
-	opens de.lexasoft.mandelbrot.ctrl to com.fasterxml.jackson.databind;
-	opens de.lexasoft.mandelbrot.api to com.fasterxml.jackson.databind;
+	opens de.lexasoft.mandelbrot.ctrl;
+	opens de.lexasoft.mandelbrot.api;
+	opens de.lexasoft.mandelbrot;
+	opens de.lexasoft.mandelbrot.cu;
 }

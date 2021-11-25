@@ -27,7 +27,7 @@ import javafx.scene.layout.AnchorPane;
  * @author nierax
  *
  */
-public class ImageController implements Initializable {
+public class MandelbrotAppController implements Initializable {
 
 	@FXML
 	private AnchorPane imagePane;
