@@ -6,7 +6,7 @@ module de.lexasoft.mandelbrot {
 	requires com.fasterxml.jackson.databind;
 	requires java.logging;
 	requires com.fasterxml.jackson.dataformat.yaml;
-	requires ls.commons;
+	requires de.lexasoft.common;
 
 	exports de.lexasoft.mandelbrot.ctrl;
 	exports de.lexasoft.mandelbrot.api;
