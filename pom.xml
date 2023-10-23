@@ -67,7 +67,7 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<distributionManagement>
+<!--	<distributionManagement>-->
 		<repositories>
 			<repository>
 				<id>github</id>
@@ -75,8 +75,16 @@
 				<url>https://maven.pkg.github.com/nierax</url>
 			</repository>
 		</repositories>
-	</distributionManagement>
+<!--	</distributionManagement>-->
 
+    <servers>
+        <server>
+            <id>github</id>
+            <username>${env.GITHUB_USERNAME}</username>
+            <password>${env.GITHUB_TOKEN}</password>
+        </server>
+    </servers>
+    
 	<build>
 		<pluginManagement>
 			<plugins>
