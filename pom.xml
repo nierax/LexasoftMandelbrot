@@ -71,10 +71,7 @@
 		<repository>
 			<id>github</id>
 			<name>GitHub OWNER Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/nierax/LexasoftCommons-Parent</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
+			<url>https://maven.pkg.github.com/nierax</url>
 		</repository>
 	</distributionManagement>
 
