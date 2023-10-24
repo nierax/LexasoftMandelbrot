@@ -28,7 +28,7 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build, test and publish package
+      with:
+      	repo-token: ${{ secrets.GITHUB_TOKEN }}
       run: mvn --batch-mode package --file pom.xml
-        with:
-        	repo-token: ${{ secrets.GITHUB_TOKEN }}
 
