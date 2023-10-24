@@ -29,5 +29,6 @@ jobs:
         cache: maven
     - name: Build, test and publish package
       run: mvn --batch-mode package --file pom.xml
-      	repo-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
