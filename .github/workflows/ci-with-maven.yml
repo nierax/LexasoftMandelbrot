@@ -12,7 +12,7 @@ on:
   push:
     branches: [ "feature/*", "version*" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "version*" ]
 
 jobs:
   build:
@@ -29,6 +29,6 @@ jobs:
         cache: maven
     - name: Build, test and publish package
       run: mvn --batch-mode package --file pom.xml
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
