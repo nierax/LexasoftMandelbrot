@@ -126,7 +126,7 @@
 				<version>3.1.2</version>
     		    <configuration>
 				   <systemPropertyVariables>
-				     <java.awt.headless>true</java.awt.headless>
+				     <java.awt.headless>false</java.awt.headless>
 				   </systemPropertyVariables>
 				</configuration>				
 			</plugin>
