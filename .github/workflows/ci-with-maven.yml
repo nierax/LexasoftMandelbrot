@@ -30,7 +30,7 @@ jobs:
         cache: maven
     - name: prepare headless
       run: |
-        sudo apt-get install xvfb libxrender1 libxtst6 libxi6 
+#        sudo apt-get install xvfb libxrender1 libxtst6 libxi6 
         sudo Xvfb :1 -screen 0 1024x768x24
         export DISPLAY=":1"
     - name: Build, test and publish package
