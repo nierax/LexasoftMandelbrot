@@ -67,16 +67,15 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<name>GitHub OWNER Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/nierax/LexasoftCommons-Parent</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</distributionManagement>
+<!--	<distributionManagement>-->
+		<repositories>
+			<repository>
+				<id>github</id>
+				<name>GitHub OWNER Apache Maven Packages</name>
+				<url>https://maven.pkg.github.com/nierax/LexasotCommons-Parent</url>
+			</repository>
+		</repositories>
+<!--	</distributionManagement>-->
 
 	<build>
 		<pluginManagement>
@@ -93,8 +92,14 @@
 						<release>17</release>
 				</configuration>
 			</plugin>
+			<plugin>
+			    <artifactId>maven-antrun-plugin</artifactId>
+			    <version>3.1.0</version>
+			</plugin>			
+
 			</plugins>
 		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
