@@ -88,7 +88,8 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<distributionManagement>
+<!--	<distributionManagement>-->
+	<repositories>
 		<repository>
 			<id>github</id>
 			<name>GitHub OWNER Apache Maven Packages</name>
@@ -97,7 +98,8 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-	</distributionManagement>
+	</repositories>
+<!--	</distributionManagement>-->
 
 	<build>
 		<pluginManagement>

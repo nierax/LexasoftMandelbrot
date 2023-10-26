@@ -9,3 +9,4 @@ junit-tmp/
 .project
 .settings/
 *.versionsBackup
+*.orig
