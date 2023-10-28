@@ -13,23 +13,23 @@ import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
- * This class generates an image of the MandelbrotIterator set
+ * This class generates an image of the Mandelbrot set
  * <p>
  * 
  * @author nierax
  */
-public class MandelbrotIterator {
+public class MandelbrotIteratorFast {
 
 	private final MandelbrotColorize colorize;
 
 	/**
 	 * Do not create other than with of() method.
 	 */
-	private MandelbrotIterator() {
+	private MandelbrotIteratorFast() {
 		this(new MandelbrotBlackWhite());
 	}
 
-	private MandelbrotIterator(MandelbrotColorize colorize) {
+	private MandelbrotIteratorFast(MandelbrotColorize colorize) {
 		super();
 		this.colorize = colorize;
 	}
@@ -40,7 +40,7 @@ public class MandelbrotIterator {
 	 * @param topLeft     The top left point of the calculation limit.
 	 * @param bottomRight The bottom right point of the calculation limit.
 	 * @param maxIt       The maximum number of iterations, before the point is
-	 *                    considered to be in the MandelbrotIterator set.
+	 *                    considered to be in the Mandelbrot set.
 	 * @param imageWidth  The width of the image in pixel.
 	 * @param imageHeight The height of the image in pixel.
 	 * @return The image with the graphics written in.
@@ -78,23 +78,23 @@ public class MandelbrotIterator {
 	}
 
 	/**
-	 * Create MandelbrotIterator object with the given colorize strategy.
+	 * Create MandelbrotIteratorFast object with the given colorize strategy.
 	 * 
 	 * @param colorize The colorize strategy to use.
 	 * @return Newly created MandelbrotIterator object.
 	 */
-	public final static MandelbrotIterator of(MandelbrotColorize colorize) {
-		MandelbrotIterator mb = new MandelbrotIterator(colorize);
+	public final static MandelbrotIteratorFast of(MandelbrotColorize colorize) {
+		MandelbrotIteratorFast mb = new MandelbrotIteratorFast(colorize);
 		return mb;
 	}
 
 	/**
-	 * Create MandelbrotIterator object with a standard colorize strategy (black and
-	 * white only).
+	 * Create MandelbrotIteratorFast object with a standard colorize strategy (black
+	 * and white only).
 	 * 
 	 * @return Newly created MandelbrotIterator object.
 	 */
-	public final static MandelbrotIterator of() {
+	public final static MandelbrotIteratorFast of() {
 		return of(new MandelbrotBlackWhite());
 	}
 }

@@ -67,14 +67,14 @@ class MandelbrotIteratorTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIterator#drawMandelbrot(de.lexasoft.mandelbrot.api.MandelbrotPointPosition, de.lexasoft.mandelbrot.api.MandelbrotPointPosition, int, int, int)}.
+	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotIteratorFast#drawMandelbrot(de.lexasoft.mandelbrot.api.MandelbrotPointPosition, de.lexasoft.mandelbrot.api.MandelbrotPointPosition, int, int, int)}.
 	 * 
 	 * @throws IOException
 	 */
 	@ParameterizedTest
 	@MethodSource
 	void testDrawMandelbrot(MandelbrotColorize col, int maxIter, String filename) throws IOException {
-		MandelbrotIterator cut = MandelbrotIterator.of(col);
+		MandelbrotIteratorFast cut = MandelbrotIteratorFast.of(col);
 		MandelbrotImage image = cut.drawMandelbrot(calculation, maxIter, imageDim);
 		assertNotNull(image, "Image could not be created");
 		image.writeToFile(filename);

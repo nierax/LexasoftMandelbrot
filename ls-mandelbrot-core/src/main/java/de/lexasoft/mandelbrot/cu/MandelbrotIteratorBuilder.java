@@ -32,7 +32,7 @@ import de.lexasoft.mandelbrot.api.ImageArea;
 /**
  * Builder for Mandelbrot iterator, which calculates the Mandelbrot image.
  * 
- * @see MandelbrotIterator
+ * @see MandelbrotIteratorFast
  * @author nierax
  *
  */
@@ -43,7 +43,7 @@ public class MandelbrotIteratorBuilder {
 	private OptionalInt maxIterations = OptionalInt.empty();
 	private Optional<ImageArea> imageArea = Optional.empty();
 
-	private Optional<MandelbrotIterator> iterator = Optional.empty();
+	private Optional<MandelbrotIteratorFast> iterator = Optional.empty();
 
 	/**
 	 * Create only with the of() Method.
@@ -104,7 +104,7 @@ public class MandelbrotIteratorBuilder {
 	 * 
 	 * @param iterator the iterator to set
 	 */
-	public MandelbrotIteratorBuilder withIterator(MandelbrotIterator iterator) {
+	public MandelbrotIteratorBuilder withIterator(MandelbrotIteratorFast iterator) {
 		this.iterator = Optional.ofNullable(iterator);
 		return this;
 	}
@@ -114,11 +114,11 @@ public class MandelbrotIteratorBuilder {
 	 * 
 	 * @return A new Iterator, using the colorize object, if it is given.
 	 */
-	private MandelbrotIterator createIterator() {
+	private MandelbrotIteratorFast createIterator() {
 		if (colorize.isPresent()) {
-			return MandelbrotIterator.of(colorize.get());
+			return MandelbrotIteratorFast.of(colorize.get());
 		}
-		return MandelbrotIterator.of();
+		return MandelbrotIteratorFast.of();
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class MandelbrotIteratorBuilder {
 		MandelbrotImage image = null;
 		Message msg = null;
 		if (check.get()) {
-			MandelbrotIterator iterator = this.iterator.orElseGet(this::createIterator);
+			MandelbrotIteratorFast iterator = this.iterator.orElseGet(this::createIterator);
 			image = iterator.drawMandelbrot( //
 			    this.calculationArea.get(), //
 			    this.maxIterations.getAsInt(), //

@@ -18,10 +18,9 @@ import de.lexasoft.mandelbrot.ctrl.MandelbrotController;
 import de.lexasoft.mandelbrot.ctrl.MandelbrotControllerException;
 
 /**
- * CLI application for MandelbrotIterator calculation.
+ * CLI application for MandelbrotIteratorFast calculation.
  * <p>
- * Call with a yaml file, containing the attributes for a MandelbrotIterator
- * calculation
+ * Call with a yaml file, containing the attributes for a Mandelbrot calculation
  * 
  * @author nierax
  *

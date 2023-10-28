@@ -36,8 +36,8 @@ class MandelbrotFormulaTest {
 	 * Test method for
 	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotFormula#iterate(double, double, int)}.
 	 * <p>
-	 * Checks some known points of the MandelbrotIterator set to evaluate that the
-	 * method works correctly.
+	 * Checks some known points of the Mandelbrot set to evaluate that the method
+	 * works correctly.
 	 */
 	@ParameterizedTest
 	@MethodSource

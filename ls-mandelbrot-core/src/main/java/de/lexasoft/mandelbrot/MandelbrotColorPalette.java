@@ -7,7 +7,7 @@ import java.awt.Color;
 import java.util.List;
 
 /**
- * This colorize method uses a given color palette to colorize the MandelbrotIterator
+ * This colorize method uses a given color palette to colorize the Mandelbrot
  * set.
  * <p>
  * The index in the palette is called with iteration modulo number of colors.
@@ -28,10 +28,10 @@ public class MandelbrotColorPalette implements MandelbrotColorize {
 
 	/**
 	 * Create a new colorize method from the given palette. In addition the color
-	 * for the MandelbrotIterator set can be given.
+	 * for the Mandelbrot set can be given.
 	 * 
 	 * @param palette         The color palette to use
-	 * @param mandelbrotColor The color, used for the MandelbrotIterator set.
+	 * @param mandelbrotColor The color, used for the Mandelbrot set.
 	 * @return The new object of {@link #MandelbrotColorPalette(List)}.
 	 */
 	public static MandelbrotColorPalette of(List<Color> palette, Color mandelbrotColor) {

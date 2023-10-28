@@ -39,7 +39,7 @@ public class MandelbrotColorizeBuilder {
 	 * @param ungraded        The original color palette.
 	 * @param colorGrading    The color grading (number of colors, the palette
 	 *                        should have in the end).
-	 * @param mandelbrotColor The color of the MandelbrotIterator set.
+	 * @param mandelbrotColor The color of the Mandelbrot set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
 	private MandelbrotColorize createAndGradePalette(List<Color> ungraded, MandelbrotColorGrading colorGrading,
@@ -55,7 +55,7 @@ public class MandelbrotColorizeBuilder {
 	 * @param variant         The variant used
 	 * @param colors          The colors, describing the palette to create.
 	 * @param colorGrading    The number of steps for color gradients.
-	 * @param mandelbrotColor The color used for the MandelbrotIterator set.
+	 * @param mandelbrotColor The color used for the Mandelbrot set.
 	 * @return An object of {@link MandelbrotColorize}, ready to use.
 	 */
 	private MandelbrotColorize createColorize(PaletteVariant variant, List<Color> colors,

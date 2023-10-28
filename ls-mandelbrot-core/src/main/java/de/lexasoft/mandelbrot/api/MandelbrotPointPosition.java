@@ -4,7 +4,7 @@
 package de.lexasoft.mandelbrot.api;
 
 /**
- * Represents a position of a point in the MandelbrotIterator calculation.
+ * Represents a position of a point in the Mandelbrot calculation.
  * 
  * @author nierax
  *
