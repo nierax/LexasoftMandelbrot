@@ -29,7 +29,7 @@ import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 /**
  * @author nierax
  */
-class MandelbrotIteratorTest {
+class MandelbrotIteratorFastTest {
 
 	private CalculationArea calculation;
 	private ImageArea imageDim;
@@ -74,7 +74,7 @@ class MandelbrotIteratorTest {
 	@ParameterizedTest
 	@MethodSource
 	void testDrawMandelbrot(MandelbrotColorize col, int maxIter, String filename) throws IOException {
-		MandelbrotIteratorFast cut = MandelbrotIteratorFast.of(col);
+		MandelbrotIteratorFast cut = new MandelbrotIteratorFast(col);
 		MandelbrotImage image = cut.drawMandelbrot(calculation, maxIter, imageDim);
 		assertNotNull(image, "Image could not be created");
 		image.writeToFile(filename);

@@ -43,7 +43,7 @@ public class MandelbrotIteratorBuilder {
 	private OptionalInt maxIterations = OptionalInt.empty();
 	private Optional<ImageArea> imageArea = Optional.empty();
 
-	private Optional<MandelbrotIteratorFast> iterator = Optional.empty();
+	private Optional<MandelbrotIterator> iterator = Optional.empty();
 
 	/**
 	 * Create only with the of() Method.
@@ -114,11 +114,11 @@ public class MandelbrotIteratorBuilder {
 	 * 
 	 * @return A new Iterator, using the colorize object, if it is given.
 	 */
-	private MandelbrotIteratorFast createIterator() {
+	private MandelbrotIterator createIterator() {
 		if (colorize.isPresent()) {
-			return MandelbrotIteratorFast.of(colorize.get());
+			return MandelbrotIterator.of(colorize.get());
 		}
-		return MandelbrotIteratorFast.of();
+		return MandelbrotIterator.of();
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class MandelbrotIteratorBuilder {
 		MandelbrotImage image = null;
 		Message msg = null;
 		if (check.get()) {
-			MandelbrotIteratorFast iterator = this.iterator.orElseGet(this::createIterator);
+			MandelbrotIterator iterator = this.iterator.orElseGet(this::createIterator);
 			image = iterator.drawMandelbrot( //
 			    this.calculationArea.get(), //
 			    this.maxIterations.getAsInt(), //
