@@ -4,10 +4,13 @@
 package de.lexasoft.mandelbrot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,29 +35,29 @@ class MandelbrotPointPositionTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = MandelbrotPointPosition.of(0, 0);
+		cut = MandelbrotPointPosition.of(BigDecimal.valueOf(Double.valueOf(0)), BigDecimal.valueOf(Double.valueOf(0)));
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.api.MandelbrotPointPosition#movex(double)}.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotPointPosition#movex(BigDecimal)}.
 	 */
 	@ParameterizedTest
 	@ValueSource(doubles = { 0.0, -0.2, 2.2 })
 	void testDeltax(double deltax) {
-		double result = cut.movex(deltax);
-		assertEquals(deltax, result, "Not the right difference.");
+		BigDecimal result = cut.movex(BigDecimal.valueOf(deltax));
+		assertEquals(deltax, result.doubleValue(), "Not the right difference.");
 	}
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.api.MandelbrotPointPosition#movey(double)}.
+	 * {@link de.lexasoft.mandelbrot.api.MandelbrotPointPosition#movey(BigDecimal)}.
 	 */
 	@ParameterizedTest
 	@ValueSource(doubles = { 0.0, -0.2, 2.2 })
 	void testDeltay(double deltay) {
-		double result = cut.movey(deltay);
-		assertEquals(deltay, result, "Not the right difference.");
+		BigDecimal result = cut.movey(BigDecimal.valueOf(deltay));
+		assertEquals(deltay, result.doubleValue(), "Not the right difference.");
 	}
 
 	private static Stream<Arguments> testEquals() {
@@ -69,19 +72,20 @@ class MandelbrotPointPositionTest {
 	@ParameterizedTest
 	@MethodSource
 	void testEquals(double cx, double cy, double otherCx, double otherCy, boolean expected) {
-		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
-		MandelbrotPointPosition other = MandelbrotPointPosition.of(otherCx, otherCy);
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(BigDecimal.valueOf(cx), BigDecimal.valueOf(cy));
+		MandelbrotPointPosition other = MandelbrotPointPosition.of(BigDecimal.valueOf(otherCx),
+		    BigDecimal.valueOf(otherCy));
 		assertEquals(cut.equals(other), expected);
 	}
 
 	@Test
 	void testOfCopy() {
-		MandelbrotPointPosition source = MandelbrotPointPosition.of(1.0, 1.5);
+		MandelbrotPointPosition source = MandelbrotPointPosition.of(BigDecimal.valueOf(1.0), BigDecimal.valueOf(1.5));
 		MandelbrotPointPosition other = MandelbrotPointPosition.of(source);
 		assertNotNull(other);
 		assertNotSame(source, other);
-		assertEquals(1.0, other.cx());
-		assertEquals(1.5, other.cy());
+		assertEquals(1.0, other.cx().doubleValue());
+		assertEquals(1.5, other.cy().doubleValue());
 	}
 
 	/**
@@ -89,10 +93,10 @@ class MandelbrotPointPositionTest {
 	 */
 	@Test
 	void testMoveTo() {
-		MandelbrotPointPosition result = cut.moveTo(-2.02, 1.2);
+		MandelbrotPointPosition result = cut.moveTo(BigDecimal.valueOf(-2.02), BigDecimal.valueOf(1.2));
 
-		assertEquals(-2.02, cut.cx());
-		assertEquals(1.2, cut.cy());
+		assertEquals(-2.02, cut.cx().doubleValue());
+		assertEquals(1.2, cut.cy().doubleValue());
 		assertSame(cut, result);
 	}
 
@@ -123,13 +127,14 @@ class MandelbrotPointPositionTest {
 	@MethodSource
 	void testMove(double cx, double cy, double deltaX, double deltaY, double expX, double expY) {
 		// Prepare
-		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(BigDecimal.valueOf(cx), BigDecimal.valueOf(cy));
 		// Run
-		MandelbrotPointPosition result = cut.move(MandelbrotPointPosition.of(deltaX, deltaY));
+		MandelbrotPointPosition result = //
+		    cut.move(MandelbrotPointPosition.of(BigDecimal.valueOf(deltaX), BigDecimal.valueOf(deltaY)));
 		// Check
 		assertSame(cut, result);
-		assertEquals(expX, result.cx(), 0.0001);
-		assertEquals(expY, result.cy(), 0.0001);
+		assertEquals(expX, result.cx().doubleValue(), 0.0001);
+		assertEquals(expY, result.cy().doubleValue(), 0.0001);
 	}
 
 	private final static Stream<Arguments> testSubtract() {
@@ -157,14 +162,45 @@ class MandelbrotPointPositionTest {
 	@MethodSource
 	final void testSubtract(double cx, double cy, double sX, double sY, double deltaX, double deltaY) {
 		// Prepare
-		MandelbrotPointPosition cut = MandelbrotPointPosition.of(cx, cy);
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(BigDecimal.valueOf(cx), BigDecimal.valueOf(cy));
 		// Run
-		MandelbrotPointPosition result = cut.subtract(MandelbrotPointPosition.of(sX, sY));
+		MandelbrotPointPosition result = //
+		    cut.subtract(MandelbrotPointPosition.of(BigDecimal.valueOf(sX), BigDecimal.valueOf(sY)));
 		// Check
 		assertNotNull(result);
 		assertNotSame(cut, result);
-		assertEquals(deltaX, result.cx(), 0.0001);
-		assertEquals(deltaY, result.cy(), 0.0001);
+		assertEquals(deltaX, result.cx().doubleValue(), 0.0001);
+		assertEquals(deltaY, result.cy().doubleValue(), 0.0001);
+	}
+
+	/**
+	 * Test for isCxSet Method.
+	 * <ul>
+	 * <li>NaN: false</li>
+	 * <li>0: true</li>
+	 * <li>1: true</li>
+	 * </ul>
+	 */
+	@Test
+	final void testIsCxSet() {
+		assertFalse(new MandelbrotPointPosition().isCxSet());
+		assertTrue(cut.isCxSet());
+		assertTrue(MandelbrotPointPosition.of(BigDecimal.valueOf(1), BigDecimal.valueOf(1)).isCxSet());
+	}
+
+	/**
+	 * Test for isCySet Method.
+	 * <ul>
+	 * <li>NaN: false</li>
+	 * <li>0: true</li>
+	 * <li>1: true</li>
+	 * </ul>
+	 */
+	@Test
+	final void testIsCySet() {
+		assertFalse(new MandelbrotPointPosition().isCySet());
+		assertTrue(cut.isCySet());
+		assertTrue(MandelbrotPointPosition.of(BigDecimal.ZERO, BigDecimal.valueOf(1)).isCySet());
 	}
 
 }

@@ -16,6 +16,7 @@ package de.lexasoft.mandelbrot.api;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,8 +39,13 @@ class ImageAreaTest {
 	void setUp() throws Exception {
 	}
 
+	private static BigDecimal value(double value) {
+		return BigDecimal.valueOf(value);
+	}
+
 	private static CalculationArea area(double tlCx, double tlCy, double brCx, double brCy) {
-		return CalculationArea.of(MandelbrotPointPosition.of(tlCx, tlCy), MandelbrotPointPosition.of(brCx, brCy));
+		return CalculationArea.of(MandelbrotPointPosition.of(value(tlCx), value(tlCy)),
+		    MandelbrotPointPosition.of(value(brCx), value(brCy)));
 	}
 
 	private static final Stream<Arguments> testFollowAspectRatio() {

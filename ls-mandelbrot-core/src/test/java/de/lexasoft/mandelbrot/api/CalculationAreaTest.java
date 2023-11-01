@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Point;
+import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -42,6 +43,10 @@ class CalculationAreaTest {
 	void setUp() throws Exception {
 	}
 
+	private static BigDecimal value(double value) {
+		return (Double.isNaN(value)) ? BigDecimal.ZERO : BigDecimal.valueOf(value);
+	}
+
 	/**
 	 * Make the creation of the point a little bit shorter.
 	 * 
@@ -50,7 +55,7 @@ class CalculationAreaTest {
 	 * @return
 	 */
 	private static MandelbrotPointPosition point(double x, double y) {
-		return MandelbrotPointPosition.of(x, y);
+		return MandelbrotPointPosition.of(value(x), value(y));
 	}
 
 	private static Stream<Arguments> testFollowAspectRatioOk() {
@@ -83,10 +88,10 @@ class CalculationAreaTest {
 		// Run
 		cut.followAspectRatio(image);
 		// Check
-		assertEquals(expTl.cx(), cut.topLeft().cx(), 0.000001);
-		assertEquals(expTl.cy(), cut.topLeft().cy(), 0.000001);
-		assertEquals(expBr.cx(), cut.bottomRight().cx(), 0.00001);
-		assertEquals(expBr.cy(), cut.bottomRight().cy(), 0.00001);
+		assertEquals(expTl.cx().doubleValue(), cut.topLeft().cx().doubleValue(), 0.000001);
+		assertEquals(expTl.cy().doubleValue(), cut.topLeft().cy().doubleValue(), 0.000001);
+		assertEquals(expBr.cx().doubleValue(), cut.bottomRight().cx().doubleValue(), 0.00001);
+		assertEquals(expBr.cy().doubleValue(), cut.bottomRight().cy().doubleValue(), 0.00001);
 	}
 
 	private static final Stream<Arguments> testFollowAspectRatioTooManyNaN() {
@@ -133,10 +138,10 @@ class CalculationAreaTest {
 		// Run
 		cut.fitIn(image);
 		// Check
-		assertEquals(expTl.cx(), cut.topLeft().cx(), 0.0001);
-		assertEquals(expTl.cy(), cut.topLeft().cy(), 0.0001);
-		assertEquals(expBr.cx(), cut.bottomRight().cx(), 0.0001);
-		assertEquals(expBr.cy(), cut.bottomRight().cy(), 0.0001);
+		assertEquals(expTl.cx().doubleValue(), cut.topLeft().cx().doubleValue(), 0.0001);
+		assertEquals(expTl.cy().doubleValue(), cut.topLeft().cy().doubleValue(), 0.0001);
+		assertEquals(expBr.cx().doubleValue(), cut.bottomRight().cx().doubleValue(), 0.0001);
+		assertEquals(expBr.cy().doubleValue(), cut.bottomRight().cy().doubleValue(), 0.0001);
 	}
 
 	private static final Stream<Arguments> testCalculatePointFromImagePosition() {
@@ -173,8 +178,8 @@ class CalculationAreaTest {
 		MandelbrotPointPosition result = cut.calculatePointFromImagePosition(imgDim, imgPoint);
 		// Check
 		assertNotNull(result);
-		assertEquals(expected.cx(), result.cx(), 0.00001);
-		assertEquals(expected.cy(), result.cy(), 0.00001);
+		assertEquals(expected.cx().doubleValue(), result.cx().doubleValue(), 0.00001);
+		assertEquals(expected.cy().doubleValue(), result.cy().doubleValue(), 0.00001);
 	}
 
 	private static final Stream<Arguments> testZoom() {
@@ -216,10 +221,10 @@ class CalculationAreaTest {
 		// Run
 		cut.zoom(factor, center);
 		// Check
-		assertEquals(expTl.cx(), cut.topLeft().cx(), 0.00001);
-		assertEquals(expTl.cy(), cut.topLeft().cy(), 0.00001);
-		assertEquals(expBr.cx(), cut.bottomRight().cx(), 0.00001);
-		assertEquals(expBr.cy(), cut.bottomRight().cy(), 0.00001);
+		assertEquals(expTl.cx().doubleValue(), cut.topLeft().cx().doubleValue(), 0.00001);
+		assertEquals(expTl.cy().doubleValue(), cut.topLeft().cy().doubleValue(), 0.00001);
+		assertEquals(expBr.cx().doubleValue(), cut.bottomRight().cx().doubleValue(), 0.00001);
+		assertEquals(expBr.cy().doubleValue(), cut.bottomRight().cy().doubleValue(), 0.00001);
 	}
 
 	private static final Stream<Arguments> testGetCenterPoint() {
@@ -239,8 +244,8 @@ class CalculationAreaTest {
 		// Run
 		MandelbrotPointPosition center = cut.getCenterPoint();
 		// Check
-		assertEquals(expCenter.cx(), center.cx(), 0.0001);
-		assertEquals(expCenter.cy(), center.cy(), 0.0001);
+		assertEquals(expCenter.cx().doubleValue(), center.cx().doubleValue(), 0.0001);
+		assertEquals(expCenter.cy().doubleValue(), center.cy().doubleValue(), 0.0001);
 	}
 
 	private final static Stream<Arguments> testMove() {
@@ -273,10 +278,10 @@ class CalculationAreaTest {
 		CalculationArea result = cut.move(delta);
 		// Check
 		assertSame(cut, result);
-		assertEquals(expTl.cx(), result.topLeft().cx(), 0.0001);
-		assertEquals(expTl.cy(), result.topLeft().cy(), 0.0001);
-		assertEquals(expBr.cx(), result.bottomRight().cx(), 0.0001);
-		assertEquals(expBr.cy(), result.bottomRight().cy(), 0.0001);
+		assertEquals(expTl.cx().doubleValue(), result.topLeft().cx().doubleValue(), 0.0001);
+		assertEquals(expTl.cy().doubleValue(), result.topLeft().cy().doubleValue(), 0.0001);
+		assertEquals(expBr.cx().doubleValue(), result.bottomRight().cx().doubleValue(), 0.0001);
+		assertEquals(expBr.cy().doubleValue(), result.bottomRight().cy().doubleValue(), 0.0001);
 	}
 
 }

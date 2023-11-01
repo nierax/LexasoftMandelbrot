@@ -3,6 +3,8 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import java.math.BigDecimal;
+
 /**
  * Represents a position of a point in the Mandelbrot calculation.
  * 
@@ -13,15 +15,14 @@ public class MandelbrotPointPosition {
 	/**
 	 * x position
 	 */
-	private double cx;
+	private BigDecimal cx;
 	/**
 	 * y position
 	 */
-	private double cy;
+	private BigDecimal cy;
 
 	public MandelbrotPointPosition() {
-		cx = Double.NaN;
-		cy = Double.NaN;
+		this(BigDecimal.ZERO, BigDecimal.ZERO);
 	}
 
 	/**
@@ -30,8 +31,7 @@ public class MandelbrotPointPosition {
 	 * @param cx
 	 * @param cy
 	 */
-	MandelbrotPointPosition(double cx, double cy) {
-		super();
+	MandelbrotPointPosition(BigDecimal cx, BigDecimal cy) {
 		this.cx = cx;
 		this.cy = cy;
 	}
@@ -43,7 +43,7 @@ public class MandelbrotPointPosition {
 	 * @param cy
 	 * @return New object of {@link MandelbrotPointPosition}
 	 */
-	public static final MandelbrotPointPosition of(double cx, double cy) {
+	public static final MandelbrotPointPosition of(BigDecimal cx, BigDecimal cy) {
 		return new MandelbrotPointPosition(cx, cy);
 	}
 
@@ -51,21 +51,21 @@ public class MandelbrotPointPosition {
 		return of(other.cx, other.cy);
 	}
 
-	public double cx() {
+	public BigDecimal cx() {
 		return cx;
 	}
 
-	public double setCx(double cx) {
+	public BigDecimal setCx(BigDecimal cx) {
 		this.cx = cx;
 		return cx;
 	}
 
-	public double movex(double delta) {
-		this.cx += delta;
+	public BigDecimal movex(BigDecimal delta) {
+		this.cx = cx.add(delta);
 		return this.cx;
 	}
 
-	public double cy() {
+	public BigDecimal cy() {
 		return cy;
 	}
 
@@ -77,7 +77,7 @@ public class MandelbrotPointPosition {
 	 * @return the cx
 	 */
 	@Deprecated
-	public double getCx() {
+	public BigDecimal getCx() {
 		return cx();
 	}
 
@@ -89,17 +89,17 @@ public class MandelbrotPointPosition {
 	 * @return the cy
 	 */
 	@Deprecated
-	public double getCy() {
+	public BigDecimal getCy() {
 		return cy();
 	}
 
-	public double setCy(double cy) {
+	public BigDecimal setCy(BigDecimal cy) {
 		this.cy = cy;
 		return cy;
 	}
 
-	public double movey(double delta) {
-		this.cy += delta;
+	public BigDecimal movey(BigDecimal delta) {
+		this.cy = cy.add(delta);
 		return this.cy;
 	}
 
@@ -110,7 +110,7 @@ public class MandelbrotPointPosition {
 	 * @param cy Y coordinate of the new position
 	 * @return Instance of this object.
 	 */
-	public MandelbrotPointPosition moveTo(double cx, double cy) {
+	public MandelbrotPointPosition moveTo(BigDecimal cx, BigDecimal cy) {
 		setCx(cx);
 		setCy(cy);
 		return this;
@@ -135,9 +135,33 @@ public class MandelbrotPointPosition {
 	 * @return The difference between this object and @subtrahend in a new object
 	 */
 	public MandelbrotPointPosition subtract(MandelbrotPointPosition subtrahend) {
-		double deltax = cx() - subtrahend.cx();
-		double deltay = cy() - subtrahend.cy();
+		BigDecimal deltax = cx.subtract(subtrahend.cx());
+		BigDecimal deltay = cy.subtract(subtrahend.cy());
 		return MandelbrotPointPosition.of(deltax, deltay);
+	}
+
+	/**
+	 * 
+	 * @return True, if cx is set, false otherwise.
+	 */
+	public boolean isCxSet() {
+		return !cx.equals(BigDecimal.ZERO);
+	}
+
+	/**
+	 * 
+	 * @return True, if cy is set, false otherwise.
+	 */
+	public boolean isCySet() {
+		return !cy.equals(BigDecimal.ZERO);
+	}
+
+	public BigDecimal unsetCx() {
+		return setCx(BigDecimal.ZERO);
+	}
+
+	public BigDecimal unsetCy() {
+		return setCy(BigDecimal.ZERO);
 	}
 
 	/**
@@ -149,7 +173,7 @@ public class MandelbrotPointPosition {
 			return false;
 		}
 		MandelbrotPointPosition other = (MandelbrotPointPosition) obj;
-		return ((Double.compare(cx, other.cx) == 0) && (Double.compare(cy, other.cy) == 0));
+		return ((other.cx().compareTo(cx) == 0) && (other.cy().compareTo(cy) == 0));
 	}
 
 	@Override

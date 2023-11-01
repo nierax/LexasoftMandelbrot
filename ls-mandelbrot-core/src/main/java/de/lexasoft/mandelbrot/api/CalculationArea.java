@@ -15,6 +15,9 @@
 package de.lexasoft.mandelbrot.api;
 
 import java.awt.Point;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * Represents the area of a calculation.
@@ -26,6 +29,7 @@ public class CalculationArea {
 
 	private MandelbrotPointPosition topLeft;
 	private MandelbrotPointPosition bottomRight;
+	private MathContext mc = new MathContext(200, RoundingMode.HALF_UP);
 
 	/**
 	 * @param topLeft
@@ -47,25 +51,35 @@ public class CalculationArea {
 		return new CalculationArea(topLeft, bottomRight);
 	}
 
-	private int countNaN() {
+	private int countNotSet() {
 		int count = 0;
-		if (Double.isNaN(topLeft.cx())) {
+		if (!topLeft.isCxSet()) {
 			count++;
 		}
-		if (Double.isNaN(topLeft.cy())) {
+		if (!topLeft.isCySet()) {
 			count++;
 		}
-		if (Double.isNaN(bottomRight.cx())) {
+		if (!bottomRight.isCxSet()) {
 			count++;
 		}
-		if (Double.isNaN(bottomRight.cy())) {
+		if (!bottomRight.isCySet()) {
 			count++;
 		}
 		return count;
 	}
 
-	private double difference(double v0, double v1) {
-		return Math.abs(v0 - v1);
+	private BigDecimal difference(BigDecimal v0, BigDecimal v1) {
+		return v0.subtract(v1).abs();
+	}
+
+	private BigDecimal aspectRatioFromImage(ImageArea image) {
+		BigDecimal height = BigDecimal.valueOf(image.height());
+		BigDecimal width = BigDecimal.valueOf(image.width());
+		return width.divide(height, mc);
+	}
+
+	private boolean widthIsGiven() {
+		return topLeft.isCxSet() && bottomRight.isCxSet();
 	}
 
 	/**
@@ -84,34 +98,38 @@ public class CalculationArea {
 	 */
 	public void followAspectRatio(ImageArea image) {
 		// Check the number of omitted parameters?
-		int count = countNaN();
+		int count = countNotSet();
 		// All parameters given, recalculate bottomRight.cy
 		if (count == 0) {
-			bottomRight.setCy(Double.NaN);
+			bottomRight.unsetCy();
 		}
 		// More than one parameter omitted.
 		else if (count > 1) {
 			throw new IllegalArgumentException(
 			    String.format("Just one calculation parameter can be omitted, but it were %s", count));
 		}
-		double ratioXtoY = (double) image.width() / (double) image.height();
+		BigDecimal ratioXtoY = aspectRatioFromImage(image);
 		// width is given
-		if (!Double.isNaN(topLeft.cx()) && !Double.isNaN(bottomRight.cx())) {
-			double height = difference(topLeft.cx(), bottomRight.cx()) / ratioXtoY;
-			if (Double.isNaN(bottomRight.cy())) {
-				bottomRight.setCy(topLeft.cy() - height);
+		if (widthIsGiven()) {
+			BigDecimal height = difference(topLeft.cx(), bottomRight.cx()).divide(ratioXtoY, mc);
+			if (bottomRight.isCySet()) {
+				topLeft.setCy(bottomRight.cy().add(height));
 			} else {
-				topLeft.setCy(bottomRight.cy() + height);
+				bottomRight.setCy(topLeft.cy().subtract(height));
 			}
 			return;
 		}
 		// height is given
-		double width = difference(topLeft.cy(), bottomRight.cy()) * ratioXtoY;
-		if (Double.isNaN(bottomRight.cx())) {
-			bottomRight.setCx(topLeft.cx() + width);
+		BigDecimal width = difference(topLeft.cy(), bottomRight.cy()).multiply(ratioXtoY);
+		if (bottomRight.isCxSet()) {
+			topLeft.setCx(bottomRight.cx().subtract(width));
 		} else {
-			topLeft.setCx(bottomRight.cx() - width);
+			bottomRight.setCx(topLeft.cx().add(width));
 		}
+	}
+
+	private BigDecimal half(BigDecimal value) {
+		return value.divide(BigDecimal.valueOf(2), mc);
 	}
 
 	/**
@@ -121,11 +139,12 @@ public class CalculationArea {
 	 * @param image The image area to fit in.
 	 */
 	public void fitIn(ImageArea image) {
-		double widthCalc0 = Math.abs(bottomRight.cx() - topLeft.cx());
-		double heightCalc0 = Math.abs(topLeft.cy() - bottomRight.cy());
-		double aspectRatioImage = (double) image.width() / (double) image.height();
-		double aspectRatioCalc = widthCalc0 / heightCalc0;
-		int relation = Double.compare(aspectRatioImage, aspectRatioCalc);
+		BigDecimal widthCalc0 = bottomRight.cx().subtract(topLeft.cx()).abs();
+		BigDecimal heightCalc0 = topLeft.cy().subtract(bottomRight.cy()).abs();
+		AspectRatio aspectRatioImage = AspectRatio.of(BigDecimal.valueOf(image.width()),
+		    BigDecimal.valueOf(image.height()));
+		AspectRatio aspectRatioCalc = AspectRatio.of(widthCalc0, heightCalc0);
+		int relation = aspectRatioImage.value().compareTo(aspectRatioCalc.value());
 		// aspect ratio of image and calculation are identical
 		if (relation == 0) {
 			// Nothing to do here
@@ -133,14 +152,18 @@ public class CalculationArea {
 		}
 		// aspect ratio of image is wider than aspect ratio of calculation
 		if (relation > 0) {
-			double widthCalc1 = heightCalc0 * aspectRatioImage;
-			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
-			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
+			BigDecimal widthCalc1 = heightCalc0.multiply(aspectRatioImage.value());
+			bottomRight.setCx(bottomRight.cx().subtract(half(widthCalc0)).add(half(widthCalc1)));
+//			bottomRight.setCx(bottomRight.cx() - (widthCalc0 / 2) + (widthCalc1 / 2));
+			topLeft.setCx(topLeft.cx().add(half(widthCalc0)).subtract(half(widthCalc1)));
+//			topLeft.setCx(topLeft.cx() + (widthCalc0 / 2) - (widthCalc1 / 2));
 		} else {
 			// aspect ratio of image is higher than aspect ratio of calculation
-			double heightCalc1 = widthCalc0 / aspectRatioImage;
-			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
-			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
+			BigDecimal heightCalc1 = widthCalc0.divide(aspectRatioImage.value(), mc);
+			topLeft.setCy(topLeft.cy().subtract(half(heightCalc0)).add(half(heightCalc1)));
+//			topLeft.setCy(topLeft.cy() - (heightCalc0 / 2) + (heightCalc1 / 2));
+			bottomRight.setCy(bottomRight.cy().add(half(heightCalc0)).subtract(half(heightCalc1)));
+//			bottomRight.setCy(bottomRight.cy() + (heightCalc0 / 2) - (heightCalc1 / 2));
 		}
 	}
 
@@ -158,8 +181,15 @@ public class CalculationArea {
 	 * @return The calculation point in respect to the point on the image
 	 */
 	public MandelbrotPointPosition calculatePointFromImagePosition(ImageArea image, Point imgPoint) {
-		double cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * (imgPoint.getX() / image.width()));
-		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * (imgPoint.getY() / image.height()));
+		BigDecimal xrel = BigDecimal.valueOf(imgPoint.getX() / image.width());
+		BigDecimal yrel = BigDecimal.valueOf(imgPoint.getY() / image.height());
+		BigDecimal xdiff = bottomRight.cx().subtract(topLeft.cx());
+		BigDecimal ydiff = topLeft.cy().subtract(bottomRight.cy());
+
+		BigDecimal cx = topLeft.cx().add(xdiff.multiply(xrel));
+		BigDecimal cy = topLeft.cy().subtract(ydiff.multiply(yrel));
+//		double cx = topLeft.cx() + ((bottomRight.cx() - topLeft.cx()) * (imgPoint.getX() / image.width()));
+//		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) * (imgPoint.getY() / image.height()));
 		return MandelbrotPointPosition.of(cx, cy);
 	}
 
@@ -169,8 +199,12 @@ public class CalculationArea {
 	 * @return The center point
 	 */
 	public MandelbrotPointPosition getCenterPoint() {
-		double cx = topLeft.cx() - ((topLeft.cx() - bottomRight.cx()) / 2);
-		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) / 2);
+		BigDecimal halfWidth = topLeft.cx().subtract(bottomRight.cx()).divide(BigDecimal.valueOf(2));
+		BigDecimal halfHeight = topLeft.cy().subtract(bottomRight.cy()).divide(BigDecimal.valueOf(2));
+		BigDecimal cx = topLeft.cx().subtract(halfWidth);
+//		double cx = topLeft.cx() - ((topLeft.cx() - bottomRight.cx()) / 2);
+		BigDecimal cy = topLeft.cy().subtract(halfHeight);
+//		double cy = topLeft.cy() - ((topLeft.cy() - bottomRight.cy()) / 2);
 		return MandelbrotPointPosition.of(cx, cy);
 	}
 
@@ -178,16 +212,16 @@ public class CalculationArea {
 	 * 
 	 * @return The width of the calculation area.
 	 */
-	public double width() {
-		return bottomRight.cx() - topLeft.cx();
+	public BigDecimal width() {
+		return bottomRight.cx().subtract(topLeft.cx());
 	}
 
 	/**
 	 * 
 	 * @return The height of the calculation area.
 	 */
-	public double height() {
-		return topLeft.cy() - bottomRight.cy();
+	public BigDecimal height() {
+		return topLeft.cy().subtract(bottomRight.cy());
 	}
 
 	/**
@@ -199,19 +233,21 @@ public class CalculationArea {
 	 * @param mouse  The center point of the zoom.
 	 */
 	public CalculationArea zoom(double factor, MandelbrotPointPosition mouse) {
+		BigDecimal width = width();
+		BigDecimal height = height();
 		// First get relative position of the mouse point
 		// Relation to topLeft
-		double rX1 = (mouse.cx() - topLeft.cx()) / width();
-		double rY1 = (topLeft.cy() - mouse.cy()) / height();
+		BigDecimal rX1 = (mouse.cx().subtract(topLeft.cx())).divide(width);
+		BigDecimal rY1 = (topLeft.cy().subtract(mouse.cy())).divide(height);
 		// Relation to bottomRight
-		double rX2 = (bottomRight.cx() - mouse.cx()) / width();
-		double rY2 = (mouse.cy() - bottomRight.cy()) / height();
+		BigDecimal rX2 = (bottomRight.cx().subtract(mouse.cx())).divide(width);
+		BigDecimal rY2 = (mouse.cy().subtract(bottomRight.cy())).divide(height);
 
 		// Now move the result in relation as calculated above.
-		double width1 = width() * factor;
-		double height1 = height() * factor;
-		topLeft.moveTo(mouse.cx() - (rX1 * width1), mouse.cy() + (rY1 * height1));
-		bottomRight.moveTo(mouse.cx() + (rX2 * width1), mouse.cy() - (rY2 * height1));
+		BigDecimal width1 = width.multiply(BigDecimal.valueOf(factor));
+		BigDecimal height1 = height.multiply(BigDecimal.valueOf(factor));
+		topLeft.moveTo(mouse.cx().subtract((rX1.multiply(width1))), mouse.cy().add((rY1.multiply(height1))));
+		bottomRight.moveTo(mouse.cx().add((rX2.multiply(width1))), mouse.cy().subtract((rY2.multiply(height1))));
 		return this;
 	}
 
