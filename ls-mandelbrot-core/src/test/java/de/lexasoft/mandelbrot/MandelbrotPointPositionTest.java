@@ -88,6 +88,27 @@ class MandelbrotPointPositionTest {
 		assertEquals(1.5, other.cy().doubleValue());
 	}
 
+	@Test
+	void of_from_double_with_values() {
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(2.02d, -0.8d);
+		assertNotNull(cut);
+		assertEquals(2.02d, cut.cx().doubleValue());
+		assertEquals(-0.8d, cut.cy().doubleValue());
+	}
+
+	@Test
+	void of_from_double_with_Double_NaN() {
+		MandelbrotPointPosition cut = MandelbrotPointPosition.of(2.02d, Double.NaN);
+		assertNotNull(cut);
+		assertEquals(2.02d, cut.cx().doubleValue());
+		assertFalse(cut.isCySet());
+
+		cut = MandelbrotPointPosition.of(Double.NaN, -0.8d);
+		assertNotNull(cut);
+		assertFalse(cut.isCxSet());
+		assertEquals(-0.8d, cut.cy().doubleValue());
+	}
+
 	/**
 	 * Values should be as given, returned instance must be the same as the cut.
 	 */

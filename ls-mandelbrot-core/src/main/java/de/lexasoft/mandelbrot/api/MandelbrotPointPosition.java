@@ -37,7 +37,7 @@ public class MandelbrotPointPosition {
 	}
 
 	/**
-	 * Fluent api for position.
+	 * Fluent api for Mandelbrot point position.
 	 * 
 	 * @param cx
 	 * @param cy
@@ -47,8 +47,27 @@ public class MandelbrotPointPosition {
 		return new MandelbrotPointPosition(cx, cy);
 	}
 
+	/**
+	 * Create from another Mandelbrot point position
+	 * 
+	 * @param other The other position
+	 * @return New object of {@link MandelbrotPointPosition}
+	 */
 	public static final MandelbrotPointPosition of(MandelbrotPointPosition other) {
 		return of(other.cx, other.cy);
+	}
+
+	/**
+	 * Create from double values.
+	 * 
+	 * @param cx
+	 * @param cy
+	 * @return New object of {@link MandelbrotPointPosition}
+	 */
+	public static final MandelbrotPointPosition of(double cx, double cy) {
+		BigDecimal bdcx = Double.isNaN(cx) ? BigDecimal.ZERO : BigDecimal.valueOf(cx);
+		BigDecimal bdcy = Double.isNaN(cy) ? BigDecimal.ZERO : BigDecimal.valueOf(cy);
+		return of(bdcx, bdcy);
 	}
 
 	public BigDecimal cx() {
