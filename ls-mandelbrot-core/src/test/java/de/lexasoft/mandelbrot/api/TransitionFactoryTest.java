@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -66,8 +67,12 @@ class TransitionFactoryTest {
 		    Arguments.of(point(Double.NaN, 1.2), point(0.7, -1.2), point(Double.NaN, 0.3), point(-0.2, -0.3), 10, 40));
 	}
 
-	private double expected(double given, double expected) {
-		return (Double.isNaN(given) ? Double.NaN : expected);
+	private double expected(BigDecimal given, double expected) {
+		return (given.equals(BigDecimal.ZERO) ? Double.NaN : expected);
+	}
+
+	private double value(BigDecimal result) {
+		return result.equals(BigDecimal.ZERO) ? Double.NaN : result.doubleValue();
 	}
 
 	/**
@@ -90,10 +95,10 @@ class TransitionFactoryTest {
 		// First step
 		MandelbrotCalculationProperties props = transitions.get(0);
 		assertNotNull(props);
-		assertEquals(expected(tlStart.cx(), -1.72d), props.getTopLeft().cx(), 0.001);
-		assertEquals(expected(tlStart.cy(), 0.9d), props.getTopLeft().cy(), 0.001);
-		assertEquals(expected(brStart.cx(), 0.4d), props.getBottomRight().cx(), 0.001);
-		assertEquals(expected(brStart.cy(), -0.9d), props.getBottomRight().cy(), 0.001);
+		assertEquals(expected(tlStart.cx(), -1.72d), value(props.getTopLeft().cx()), 0.001d);
+		assertEquals(expected(tlStart.cy(), 0.9d), value(props.getTopLeft().cy()), 0.001);
+		assertEquals(expected(brStart.cx(), 0.4d), value(props.getBottomRight().cx()), 0.001);
+		assertEquals(expected(brStart.cy(), -0.9d), value(props.getBottomRight().cy()), 0.001);
 		assertEquals(20, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
@@ -108,10 +113,10 @@ class TransitionFactoryTest {
 		// Second step
 		props = transitions.get(1);
 		assertNotNull(props);
-		assertEquals(expected(tlStart.cx(), -1.42d), props.getTopLeft().cx(), 0.001);
-		assertEquals(expected(tlStart.cy(), 0.6d), props.getTopLeft().cy(), 0.001);
-		assertEquals(expected(brStart.cx(), 0.1d), props.getBottomRight().cx(), 0.001);
-		assertEquals(expected(brStart.cy(), -0.6d), props.getBottomRight().cy(), 0.001);
+		assertEquals(expected(tlStart.cx(), -1.42d), value(props.getTopLeft().cx()), 0.001);
+		assertEquals(expected(tlStart.cy(), 0.6d), value(props.getTopLeft().cy()), 0.001);
+		assertEquals(expected(brStart.cx(), 0.1d), value(props.getBottomRight().cx()), 0.001);
+		assertEquals(expected(brStart.cy(), -0.6d), value(props.getBottomRight().cy()), 0.001);
 		assertEquals(30, props.getMaximumIterations());
 		assertEquals(459, props.getImageWidth());
 		assertEquals(405, props.getImageHeight());
