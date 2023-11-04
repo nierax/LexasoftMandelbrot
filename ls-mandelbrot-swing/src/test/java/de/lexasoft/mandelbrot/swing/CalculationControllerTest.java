@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -91,10 +92,10 @@ class CalculationControllerTest {
 		assertEquals(calc.getBottomRight(), cut.bottomRight());
 		assertEquals(calc.getMaximumIterations(), cut.maximumIterations());
 		// View initialized?
-		verify(tlCx).setBasicValue(calc.getTopLeft().cx());
-		verify(tlCy).setBasicValue(calc.getTopLeft().cy());
-		verify(brCx).setBasicValue(calc.getBottomRight().cx());
-		verify(brCy).setBasicValue(calc.getBottomRight().cy());
+		verify(tlCx).setBasicValue(calc.getTopLeft().cx().doubleValue());
+		verify(tlCy).setBasicValue(calc.getTopLeft().cy().doubleValue());
+		verify(brCx).setBasicValue(calc.getBottomRight().cx().doubleValue());
+		verify(brCy).setBasicValue(calc.getBottomRight().cy().doubleValue());
 		verify(maxIter).setBasicValue(calc.getMaximumIterations());
 		verify(aspectRatio).setSelectedItem(AspectRatio.FILL);
 	}
@@ -129,10 +130,10 @@ class CalculationControllerTest {
 		// Have listeners been informed?
 		verify(listener).modelChanged(any(ModelChangedEvent.class));
 		// Check, whether the values in controller model are set correctly
-		assertEquals(-0.15, cut.topLeft().cx());
-		assertEquals(-0.1, cut.topLeft().cy());
-		assertEquals(-0.05, cut.bottomRight().cx());
-		assertEquals(0, cut.bottomRight().cy());
+		assertEquals(new BigDecimal("-0.15"), cut.topLeft().cx());
+		assertEquals(new BigDecimal("-0.1"), cut.topLeft().cy());
+		assertEquals(new BigDecimal("-0.05"), cut.bottomRight().cx());
+		assertEquals(new BigDecimal("0.0"), cut.bottomRight().cy());
 	}
 
 	@Test

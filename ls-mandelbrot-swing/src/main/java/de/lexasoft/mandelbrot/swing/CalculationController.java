@@ -6,6 +6,7 @@ package de.lexasoft.mandelbrot.swing;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
+import java.math.BigDecimal;
 import java.text.ParseException;
 
 import de.lexasoft.mandelbrot.api.CalculationArea;
@@ -142,10 +143,10 @@ public class CalculationController extends ModelChangingController<CalculationCo
 
 	public void calculate() {
 		try {
-			topLeft.setCx(view.getTlcx().getBasicValue());
-			topLeft.setCy(view.getTlcy().getBasicValue());
-			bottomRight.setCx(view.getBrcx().getBasicValue());
-			bottomRight.setCy(view.getBrcy().getBasicValue());
+			topLeft.setCx(BigDecimal.valueOf(view.getTlcx().getBasicValue()));
+			topLeft.setCy(BigDecimal.valueOf(view.getTlcy().getBasicValue()));
+			bottomRight.setCx(BigDecimal.valueOf(view.getBrcx().getBasicValue()));
+			bottomRight.setCy(BigDecimal.valueOf(view.getBrcy().getBasicValue()));
 		} catch (ParseException e) {
 			throw new MandelbrotException("Error parsing calculation area values", e);
 		}
@@ -216,10 +217,10 @@ public class CalculationController extends ModelChangingController<CalculationCo
 	 */
 	private void setCalculationAreaValues(MandelbrotPointPosition tl, MandelbrotPointPosition br) {
 		try {
-			this.view.getTlcx().setBasicValue(tl.cx());
-			this.view.getTlcy().setBasicValue(tl.cy());
-			this.view.getBrcx().setBasicValue(br.cx());
-			this.view.getBrcy().setBasicValue(br.cy());
+			this.view.getTlcx().setBasicValue(tl.cx().doubleValue());
+			this.view.getTlcy().setBasicValue(tl.cy().doubleValue());
+			this.view.getBrcx().setBasicValue(br.cx().doubleValue());
+			this.view.getBrcy().setBasicValue(br.cy().doubleValue());
 		} catch (ParseException e) {
 			throw new MandelbrotException("Error setting calculation area values");
 		}
