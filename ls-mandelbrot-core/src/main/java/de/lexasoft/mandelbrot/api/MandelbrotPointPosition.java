@@ -5,6 +5,8 @@ package de.lexasoft.mandelbrot.api;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Represents a position of a point in the Mandelbrot calculation.
  * 
@@ -163,6 +165,7 @@ public class MandelbrotPointPosition {
 	 * 
 	 * @return True, if cx is set, false otherwise.
 	 */
+	@JsonIgnore
 	public boolean isCxSet() {
 		return !cx.equals(BigDecimal.ZERO);
 	}
@@ -171,6 +174,7 @@ public class MandelbrotPointPosition {
 	 * 
 	 * @return True, if cy is set, false otherwise.
 	 */
+	@JsonIgnore
 	public boolean isCySet() {
 		return !cy.equals(BigDecimal.ZERO);
 	}

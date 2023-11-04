@@ -177,8 +177,8 @@ class MandelbrotControllerTest {
 		// Run
 		MandelbrotPointPosition result = cut.calculatePointFromImagePosition(calc, img, point, ar);
 		// Check
-		assertEquals(expected.cx(), result.cx(), 0.00001);
-		assertEquals(expected.cy(), result.cy(), 0.00001);
+		assertEquals(expected.cx().doubleValue(), result.cx().doubleValue(), 0.00001);
+		assertEquals(expected.cy().doubleValue(), result.cy().doubleValue(), 0.00001);
 	}
 
 }

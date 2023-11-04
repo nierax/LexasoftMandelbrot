@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -57,10 +58,10 @@ class MandelbrotAttributesDTOTest {
 	 */
 	private void assertValuesSingleCalculation(MandelbrotAttributesDTO cut) {
 		// Calculation
-		assertEquals(-2.02, cut.getCalculation().getTopLeft().cx());
-		assertEquals(1.2, cut.getCalculation().getTopLeft().cy());
-		assertEquals(0.7, cut.getCalculation().getBottomRight().cx());
-		assertEquals(-1.2, cut.getCalculation().getBottomRight().cy());
+		assertEquals(new BigDecimal("-2.02"), cut.getCalculation().getTopLeft().cx());
+		assertEquals(new BigDecimal("1.2"), cut.getCalculation().getTopLeft().cy());
+		assertEquals(new BigDecimal("0.7"), cut.getCalculation().getBottomRight().cx());
+		assertEquals(new BigDecimal("-1.2"), cut.getCalculation().getBottomRight().cy());
 		assertEquals(500, cut.getCalculation().getMaximumIterations());
 		// Image
 		assertEquals(4590, cut.getImage().getImageWidth());
@@ -115,10 +116,10 @@ class MandelbrotAttributesDTOTest {
 		assertEquals(TransitionVariant.LINEAR, following.get(0).getTransition().variant());
 		// Calculation
 		CalculationAttributesDTO calculation = following.get(0).getCalculation();
-		assertEquals(-1.12, calculation.getTopLeft().cx());
-		assertEquals(0.3, calculation.getTopLeft().cy());
-		assertEquals(-0.2, calculation.getBottomRight().cx());
-		assertEquals(-0.3, calculation.getBottomRight().cy());
+		assertEquals(new BigDecimal("-1.12"), calculation.getTopLeft().cx());
+		assertEquals(new BigDecimal("0.3"), calculation.getTopLeft().cy());
+		assertEquals(new BigDecimal("-0.2"), calculation.getBottomRight().cx());
+		assertEquals(new BigDecimal("-0.3"), calculation.getBottomRight().cy());
 		// Other attributes not set, should be null
 		assertNull(following.get(0).getColor());
 		assertNull(following.get(0).getImage());

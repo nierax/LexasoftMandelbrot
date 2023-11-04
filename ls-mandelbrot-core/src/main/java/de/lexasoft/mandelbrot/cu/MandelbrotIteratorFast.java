@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot.cu;
 
 import java.awt.Point;
+import java.math.BigDecimal;
 
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
@@ -47,10 +48,10 @@ public class MandelbrotIteratorFast implements MandelbrotIterator {
 	 */
 	@Override
 	public MandelbrotImage drawMandelbrot(CalculationArea calculation, int maxIt, ImageArea imageDim) {
-		double xstart = calculation.topLeft().cx();
-		double xend = calculation.bottomRight().cx();
-		double ystart = calculation.topLeft().cy();
-		double yend = calculation.bottomRight().cy();
+		double xstart = calculation.topLeft().cx().doubleValue();
+		double xend = calculation.bottomRight().cx().doubleValue();
+		double ystart = calculation.topLeft().cy().doubleValue();
+		double yend = calculation.bottomRight().cy().doubleValue();
 		int imageWidth = imageDim.width();
 		int imageHeight = imageDim.height();
 		MandelbrotImage image = MandelbrotImage.of(imageDim, calculation);
@@ -64,16 +65,16 @@ public class MandelbrotIteratorFast implements MandelbrotIterator {
 		// Start position
 		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, ystart);
 		for (int column = 0; column < imageWidth; column++) {
-			cpos.setCy(ystart);
+			cpos.setCy(BigDecimal.valueOf(ystart));
 			for (int line = 0; line < imageHeight; line++) {
-				int iterate = point.iterate(cpos.cx(), cpos.cy(), maxIt);
+				int iterate = point.iterate(cpos.cx().doubleValue(), cpos.cy().doubleValue(), maxIt);
 				Point iPoint = new Point();
 				iPoint.x = column;
 				iPoint.y = line;
 				image.colorizePoint(iPoint, colorize.getColorForIteration(iterate, maxIt));
-				cpos.movey(dy);
+				cpos.movey(BigDecimal.valueOf(dy));
 			}
-			cpos.movex(dx);
+			cpos.movex(BigDecimal.valueOf(dx));
 		}
 		return image;
 	}
