@@ -4,14 +4,12 @@
 package de.lexasoft.mandelbrot.cu;
 
 import java.awt.Point;
-import java.math.BigDecimal;
 
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.CalculationArea;
 import de.lexasoft.mandelbrot.api.ImageArea;
-import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
 
 /**
  * This class generates an image of the Mandelbrot set
@@ -63,18 +61,19 @@ public class MandelbrotIteratorFast implements MandelbrotIterator {
 		MandelbrotFormula point = new MandelbrotFormula();
 
 		// Start position
-		MandelbrotPointPosition cpos = MandelbrotPointPosition.of(xstart, ystart);
+		double cpx = xstart;
+		double cpy = ystart;
 		for (int column = 0; column < imageWidth; column++) {
-			cpos.setCy(BigDecimal.valueOf(ystart));
+			cpy = ystart;
 			for (int line = 0; line < imageHeight; line++) {
-				int iterate = point.iterate(cpos.cx().doubleValue(), cpos.cy().doubleValue(), maxIt);
+				int iterate = point.iterate(cpx, cpy, maxIt);
 				Point iPoint = new Point();
 				iPoint.x = column;
 				iPoint.y = line;
 				image.colorizePoint(iPoint, colorize.getColorForIteration(iterate, maxIt));
-				cpos.movey(BigDecimal.valueOf(dy));
+				cpy += dy;
 			}
-			cpos.movex(BigDecimal.valueOf(dx));
+			cpx += dx;
 		}
 		return image;
 	}
