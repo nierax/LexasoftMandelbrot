@@ -24,14 +24,19 @@ public interface MandelbrotIterator {
 	MandelbrotImage drawMandelbrot(CalculationArea calculation, int maxIt, ImageArea imageDim);
 
 	/**
+	 * 
+	 * @return The colorize strategy of the calculation.
+	 */
+	MandelbrotColorize colorize();
+
+	/**
 	 * Create MandelbrotIteratorFast object with the given colorize strategy.
 	 * 
 	 * @param colorize The colorize strategy to use.
 	 * @return Newly created MandelbrotIterator object.
 	 */
 	public static MandelbrotIterator of(MandelbrotColorize colorize) {
-		MandelbrotIterator mb = new MandelbrotIteratorFast(colorize);
-		return mb;
+		return new MandelbrotIteratorFast(colorize);
 	}
 
 	/**
