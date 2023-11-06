@@ -53,6 +53,7 @@ class MandelbrotIteratorTest {
 		MandelbrotIterator cut = MandelbrotIterator.of();
 		assertNotNull(cut);
 		assertTrue((cut.colorize() instanceof MandelbrotBlackWhite));
+		assertTrue(cut instanceof MandelbrotIteratorFast);
 	}
 
 	@Test
