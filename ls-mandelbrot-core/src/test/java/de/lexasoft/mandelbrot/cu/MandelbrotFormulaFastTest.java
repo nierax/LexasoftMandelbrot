@@ -16,16 +16,16 @@ import org.junit.jupiter.params.provider.MethodSource;
  * @author nierax
  *
  */
-class MandelbrotFormulaTest {
+class MandelbrotFormulaFastTest {
 
-	private MandelbrotFormula cut;
+	private MandelbrotFormulaFast cut;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		cut = new MandelbrotFormula();
+		cut = new MandelbrotFormulaFast();
 	}
 
 	private static Stream<Arguments> testIterate() {
@@ -34,7 +34,7 @@ class MandelbrotFormulaTest {
 
 	/**
 	 * Test method for
-	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotFormula#iterate(double, double, int)}.
+	 * {@link de.lexasoft.mandelbrot.cu.MandelbrotFormulaFast#iterate(double, double, int)}.
 	 * <p>
 	 * Checks some known points of the Mandelbrot set to evaluate that the method
 	 * works correctly.

@@ -58,7 +58,7 @@ public class MandelbrotIteratorFast implements MandelbrotIterator {
 		double dx = (xend - xstart) / (imageWidth - 1);
 		double dy = (yend - ystart) / (imageHeight - 1);
 
-		MandelbrotFormula point = new MandelbrotFormula();
+		MandelbrotFormulaFast point = new MandelbrotFormulaFast();
 
 		// Start position
 		double cpx = xstart;

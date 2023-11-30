@@ -11,7 +11,7 @@ package de.lexasoft.mandelbrot.cu;
  * @author nierax
  *
  */
-public class MandelbrotFormula {
+public class MandelbrotFormulaFast {
 	
 	/**
 	 * This logic is based on https://www.k-achilles.de/algorithmen/apfelmaennchen.pdf
