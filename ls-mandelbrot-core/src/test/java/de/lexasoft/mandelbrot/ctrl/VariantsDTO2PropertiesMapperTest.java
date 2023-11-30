@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.awt.Color;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -49,10 +50,10 @@ class VariantsDTO2PropertiesMapperTest {
 		// First entry with complete properties
 		MandelbrotCalculationProperties props = listOfProps.get(0);
 		assertNotNull(props);
-		assertEquals(-2.02d, props.getTopLeft().cx());
-		assertEquals(1.2d, props.getTopLeft().cy());
-		assertEquals(0.7d, props.getBottomRight().cx());
-		assertEquals(-1.2d, props.getBottomRight().cy());
+		assertEquals(new BigDecimal("-2.02"), props.getTopLeft().cx());
+		assertEquals(new BigDecimal("1.2"), props.getTopLeft().cy());
+		assertEquals(new BigDecimal("0.7"), props.getBottomRight().cx());
+		assertEquals(new BigDecimal("-1.2"), props.getBottomRight().cy());
 		assertEquals(100, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());
@@ -69,10 +70,10 @@ class VariantsDTO2PropertiesMapperTest {
 		// Second entry with different maximum iterations
 		props = listOfProps.get(1);
 		assertNotNull(props);
-		assertEquals(-2.02d, props.getTopLeft().cx());
-		assertEquals(1.2d, props.getTopLeft().cy());
-		assertEquals(0.7d, props.getBottomRight().cx());
-		assertEquals(-1.2d, props.getBottomRight().cy());
+		assertEquals(new BigDecimal("-2.02"), props.getTopLeft().cx());
+		assertEquals(new BigDecimal("1.2"), props.getTopLeft().cy());
+		assertEquals(new BigDecimal("0.7"), props.getBottomRight().cx());
+		assertEquals(new BigDecimal("-1.2"), props.getBottomRight().cy());
 		assertEquals(500, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());
@@ -89,10 +90,10 @@ class VariantsDTO2PropertiesMapperTest {
 		// Third entry with different coordinates and maximum iterations
 		props = listOfProps.get(2);
 		assertNotNull(props);
-		assertEquals(-0.2d, props.getTopLeft().cx());
-		assertEquals(0.93d, props.getTopLeft().cy());
-		assertEquals(-0.02d, props.getBottomRight().cx());
-		assertEquals(0.8d, props.getBottomRight().cy());
+		assertEquals(new BigDecimal("-0.2"), props.getTopLeft().cx());
+		assertEquals(new BigDecimal("0.93"), props.getTopLeft().cy());
+		assertEquals(new BigDecimal("-0.02"), props.getBottomRight().cx());
+		assertEquals(new BigDecimal("0.8"), props.getBottomRight().cy());
 		assertEquals(300, props.getMaximumIterations());
 		assertEquals(4590, props.getImageWidth());
 		assertEquals(4050, props.getImageHeight());

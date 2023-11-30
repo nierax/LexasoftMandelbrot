@@ -32,7 +32,7 @@ import de.lexasoft.mandelbrot.api.ImageArea;
 /**
  * Builder for Mandelbrot iterator, which calculates the Mandelbrot image.
  * 
- * @see MandelbrotIterator
+ * @see MandelbrotIteratorFast
  * @author nierax
  *
  */
@@ -104,7 +104,7 @@ public class MandelbrotIteratorBuilder {
 	 * 
 	 * @param iterator the iterator to set
 	 */
-	public MandelbrotIteratorBuilder withIterator(MandelbrotIterator iterator) {
+	public MandelbrotIteratorBuilder withIterator(MandelbrotIteratorFast iterator) {
 		this.iterator = Optional.ofNullable(iterator);
 		return this;
 	}

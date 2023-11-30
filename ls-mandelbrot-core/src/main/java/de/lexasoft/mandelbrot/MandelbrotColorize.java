@@ -7,7 +7,7 @@ public interface MandelbrotColorize {
 	/**
 	 * Find the color for this number of iterations.
 	 * <p>
-	 * If the point is in the MandelbrotIterator set, black should be returned, otherwise a
+	 * If the point is in the Mandelbrot set, black should be returned, otherwise a
 	 * color depending on the algorithm of the implementation.
 	 * 
 	 * @param iteration Number of iterations on a special point.

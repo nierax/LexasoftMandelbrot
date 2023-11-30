@@ -81,7 +81,7 @@ class MandelbrotCalculationPropertiesTest {
 
 	/**
 	 * Tests the determination of the image width / image height from the aspect
-	 * ration of the MandelbrotIterator calculation.
+	 * ration of the MandelbrotIteratorFast calculation.
 	 * 
 	 * @param topLeft        The position top left to relate to.
 	 * @param bottomRight    The position bottom right to relate to.
@@ -147,10 +147,10 @@ class MandelbrotCalculationPropertiesTest {
 
 		cut.normalize();
 
-		assertEquals(expectedTopLeft.cx(), cut.getTopLeft().cx(), 0.001);
-		assertEquals(expectedTopLeft.cy(), cut.getTopLeft().cy(), 0.001);
-		assertEquals(expectedBottomRight.cx(), cut.getBottomRight().cx(), 0.001);
-		assertEquals(expectedBottomRight.cy(), cut.getBottomRight().cy(), 0.001);
+		assertEquals(expectedTopLeft.cx().doubleValue(), cut.getTopLeft().cx().doubleValue(), 0.001);
+		assertEquals(expectedTopLeft.cy().doubleValue(), cut.getTopLeft().cy().doubleValue(), 0.001);
+		assertEquals(expectedBottomRight.cx().doubleValue(), cut.getBottomRight().cx().doubleValue(), 0.001);
+		assertEquals(expectedBottomRight.cy().doubleValue(), cut.getBottomRight().cy().doubleValue(), 0.001);
 	}
 
 	/**
@@ -159,8 +159,8 @@ class MandelbrotCalculationPropertiesTest {
 	 */
 	@Test
 	void testNormalizeAspcetRatioCalculationError() {
-		cut.getTopLeft().setCx(Double.NaN);
-		cut.getBottomRight().setCx(Double.NaN);
+		cut.getTopLeft().unsetCx();
+		cut.getBottomRight().unsetCx();
 		cut.setAspectRatio(AspectRatioHandle.FITIN);
 		assertThrows(IllegalArgumentException.class, () -> {
 			cut.normalize();
@@ -244,10 +244,10 @@ class MandelbrotCalculationPropertiesTest {
 		cut.setCalculation(CalculationArea.of(topLeft, bottomRight));
 		cut.setImage(ImageArea.of(imageWidth, imageHeight));
 		cut.handleAspectRatio(ar);
-		assertEquals(expTL.cx(), cut.getTopLeft().cx(), 0.0001);
-		assertEquals(expTL.cy(), cut.getTopLeft().cy(), 0.0001);
-		assertEquals(expBR.cx(), cut.getBottomRight().cx(), 0.0001);
-		assertEquals(expBR.cy(), cut.getBottomRight().cy(), 0.0001);
+		assertEquals(expTL.cx().doubleValue(), cut.getTopLeft().cx().doubleValue(), 0.0001);
+		assertEquals(expTL.cy().doubleValue(), cut.getTopLeft().cy().doubleValue(), 0.0001);
+		assertEquals(expBR.cx().doubleValue(), cut.getBottomRight().cx().doubleValue(), 0.0001);
+		assertEquals(expBR.cy().doubleValue(), cut.getBottomRight().cy().doubleValue(), 0.0001);
 		assertEquals(expWidth, cut.getImageWidth());
 		assertEquals(expHeight, cut.getImageHeight());
 	}

@@ -42,12 +42,11 @@ public class ImageArea {
 	 * @param calculation
 	 */
 	public void followAspectRatio(CalculationArea calculation) {
-		double ratioXtoY = Math.abs(calculation.topLeft().cx() - calculation.bottomRight().cx())
-		    / Math.abs(calculation.topLeft().cy() - calculation.bottomRight().cy());
+		AspectRatio ratioXtoY = AspectRatio.of(calculation.topLeft(), calculation.bottomRight());
 		if (width == 0) {
-			width = (int) (height * ratioXtoY);
+			width = (int) (height * ratioXtoY.value().doubleValue());
 		} else {
-			height = (int) (width / ratioXtoY);
+			height = (int) (width / ratioXtoY.value().doubleValue());
 		}
 	}
 
@@ -67,6 +66,11 @@ public class ImageArea {
 
 	public final static ImageArea of(int width, int height) {
 		return new ImageArea(width, height);
+	}
+
+	@Override
+	public String toString() {
+		return String.format("de.ls.mb.a.ImageArea[%s,%s]", height, width);
 	}
 
 }

@@ -66,7 +66,7 @@ class SoftTransitionFactoryTest {
 	final void testStepFactor(Transition transition, int step, double expected) {
 		TransitionFactory cut = TransitionFactory.of(transition);
 		assertTrue(cut instanceof SoftTransitionFactory);
-		assertEquals(expected, cut.stepFactor(step), 0.00001);
+		assertEquals(expected, cut.stepFactor(step).doubleValue(), 0.00001);
 	}
 
 }

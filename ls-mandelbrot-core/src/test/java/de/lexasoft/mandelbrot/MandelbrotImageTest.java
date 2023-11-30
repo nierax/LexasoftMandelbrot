@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +34,8 @@ class MandelbrotImageTest {
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		topLeft = MandelbrotPointPosition.of(-2.02, 1.2);
-		bottomRight = MandelbrotPointPosition.of(0.8, -1.2);
+		topLeft = MandelbrotPointPosition.of(BigDecimal.valueOf(-2.02), BigDecimal.valueOf(1.2));
+		bottomRight = MandelbrotPointPosition.of(BigDecimal.valueOf(0.8), BigDecimal.valueOf(-1.2));
 		cut = MandelbrotImage.of(459, 405, topLeft, bottomRight);
 	}
 

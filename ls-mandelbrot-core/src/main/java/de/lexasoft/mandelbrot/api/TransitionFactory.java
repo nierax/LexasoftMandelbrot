@@ -3,6 +3,8 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +44,11 @@ public class TransitionFactory {
 
 	private MandelbrotPointPosition calcPointTransition(MandelbrotPointPosition start, MandelbrotPointPosition end,
 	    int steps) {
-		double deltaX = (start.cx() - end.cx()) / steps;
-		double deltaY = (start.cy() - end.cy()) / steps;
+		MathContext prec = CalculationPrecision.of().value();
+		BigDecimal deltaX = (start.cx().subtract(end.cx())).divide(BigDecimal.valueOf(steps), prec);
+//		double deltaX = (start.cx() - end.cx()) / steps;
+		BigDecimal deltaY = (start.cy().subtract(end.cy())).divide(BigDecimal.valueOf(steps), prec);
+//		double deltaY = (start.cy() - end.cy()) / steps;
 		return MandelbrotPointPosition.of(deltaX, deltaY);
 	}
 
@@ -59,8 +64,12 @@ public class TransitionFactory {
 	 * @param step The step of the transition, being performed.
 	 * @return The factor for this step.
 	 */
-	protected double stepFactor(int step) {
-		return step;
+	protected BigDecimal stepFactor(int step) {
+		return BigDecimal.valueOf(step);
+	}
+
+	private BigDecimal val1_minus__val2_times_faktor_(BigDecimal val1, BigDecimal val2, BigDecimal factor) {
+		return val1.subtract(val2.multiply(factor, CalculationPrecision.of().value()));
 	}
 
 	/**
@@ -81,11 +90,16 @@ public class TransitionFactory {
 		factors.mIFactor = (double) (start.getMaximumIterations() - end.getMaximumIterations()) / (transition.steps() + 1);
 		for (int i = 1; i < transition.steps() + 1; i++) {
 			MandelbrotCalculationProperties step = start.cloneValues();
-			step.getTopLeft().setCx(start.getTopLeft().cx() - (factors.tlFactors.cx() * stepFactor(i)));
-			step.getTopLeft().setCy(start.getTopLeft().cy() - (factors.tlFactors.cy() * stepFactor(i)));
-			step.getBottomRight().setCx(start.getBottomRight().cx() - (factors.brFactors.cx() * stepFactor(i)));
-			step.getBottomRight().setCy(start.getBottomRight().cy() - (factors.brFactors.cy() * stepFactor(i)));
-			step.setMaximumIterations((int) (start.getMaximumIterations() - (factors.mIFactor * stepFactor(i))));
+			step.getTopLeft()
+			    .setCx(val1_minus__val2_times_faktor_(start.getTopLeft().cx(), factors.tlFactors.cx(), stepFactor(i)));
+			step.getTopLeft()
+			    .setCy(val1_minus__val2_times_faktor_(start.getTopLeft().cy(), factors.tlFactors.cy(), stepFactor(i)));
+			step.getBottomRight()
+			    .setCx(val1_minus__val2_times_faktor_(start.getBottomRight().cx(), factors.brFactors.cx(), stepFactor(i)));
+			step.getBottomRight()
+			    .setCy(val1_minus__val2_times_faktor_(start.getBottomRight().cy(), factors.brFactors.cy(), stepFactor(i)));
+			step.setMaximumIterations(
+			    (int) (start.getMaximumIterations() - (factors.mIFactor * stepFactor(i).doubleValue())));
 			listOfProps.add(step);
 		}
 		return listOfProps;

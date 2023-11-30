@@ -50,7 +50,7 @@ class MandelbrotIteratorBuilderTest {
 
 	private MandelbrotIteratorBuilder cut;
 	@Mock
-	private MandelbrotIterator iterator;
+	private MandelbrotIteratorFast iterator;
 	@Mock
 	private CalculationArea calculation;
 	@Mock

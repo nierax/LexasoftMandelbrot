@@ -3,6 +3,7 @@
  */
 package de.lexasoft.mandelbrot.api;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class SoftTransitionFactory extends TransitionFactory {
 	}
 
 	@Override
-	protected double stepFactor(int step) {
+	protected BigDecimal stepFactor(int step) {
 		double initialDt = 0.1;
 		int rest = transition().steps();
 		while (rest > 10) {
@@ -67,7 +68,7 @@ public class SoftTransitionFactory extends TransitionFactory {
 			rest /= 10;
 		}
 		try {
-			return bezier.bezier(bezier.tFromX2((double) step, initialDt)).y();
+			return BigDecimal.valueOf(bezier.bezier(bezier.tFromX2((double) step, initialDt)).y());
 		} catch (MathException e) {
 			throw new IllegalArgumentException(
 			    String.format("Could not handle bezier calculation for x=%s with dt=%s", step, initialDt), e);

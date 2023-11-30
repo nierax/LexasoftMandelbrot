@@ -121,16 +121,16 @@ public class MandelbrotCalculationProperties {
 		if (calculation == null) {
 			throw new IllegalArgumentException(String.format(msg, "Calculation"));
 		}
-		if (Double.isNaN(calculation.topLeft().cx())) {
+		if (!calculation.topLeft().isCxSet()) {
 			throw new IllegalArgumentException(String.format(msg, "topLeft.cx"));
 		}
-		if (Double.isNaN(calculation.topLeft().cy())) {
+		if (!calculation.topLeft().isCySet()) {
 			throw new IllegalArgumentException(String.format(msg, "topLeft.cy"));
 		}
-		if (Double.isNaN(calculation.bottomRight().cx())) {
+		if (!calculation.bottomRight().isCxSet()) {
 			throw new IllegalArgumentException(String.format(msg, "bottomRight.cx"));
 		}
-		if (Double.isNaN(calculation.bottomRight().cy())) {
+		if (!calculation.bottomRight().isCySet()) {
 			throw new IllegalArgumentException(String.format(msg, "bottomRight.cy"));
 		}
 	}

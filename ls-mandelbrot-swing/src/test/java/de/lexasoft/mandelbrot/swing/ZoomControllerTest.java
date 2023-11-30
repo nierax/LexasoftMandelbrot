@@ -124,10 +124,10 @@ class ZoomControllerTest {
 		cut.mouseWheelMoved(event);
 
 		// Check
-		assertEquals(expResult.topLeft().cx(), listener.calculation.topLeft().cx(), 0.0001);
-		assertEquals(expResult.topLeft().cy(), listener.calculation.topLeft().cy(), 0.0001);
-		assertEquals(expResult.bottomRight().cx(), listener.calculation.bottomRight().cx(), 0.0001);
-		assertEquals(expResult.bottomRight().cy(), listener.calculation.bottomRight().cy(), 0.0001);
+		assertEquals(expResult.topLeft().cx().doubleValue(), listener.calculation.topLeft().cx().doubleValue(), 0.0001);
+		assertEquals(expResult.topLeft().cy().doubleValue(), listener.calculation.topLeft().cy().doubleValue(), 0.0001);
+		assertEquals(expResult.bottomRight().cx().doubleValue(), listener.calculation.bottomRight().cx().doubleValue(), 0.0001);
+		assertEquals(expResult.bottomRight().cy().doubleValue(), listener.calculation.bottomRight().cy().doubleValue(), 0.0001);
 	}
 
 }
