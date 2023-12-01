@@ -34,7 +34,8 @@ class MandelbrotFormulaFastTest {
         Arguments.of(0.75, -0.75, 500, 2), //
         Arguments.of(0.0, 1.2, 500, 3), //
         Arguments.of(0.0, 1.1, 500, 4), //
-        Arguments.of(0.5, -0.5, 500, 5));
+        Arguments.of(0.5, -0.5, 500, 5), //
+        Arguments.of(-1.99624454148471615720, 8.2E-19, 5, 5));
   }
 
   /**

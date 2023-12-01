@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * 
  */
 class MandelbrotFormulaExactTest {
-  
+
   private MandelbrotFormulaExact cut;
 
   /**
@@ -27,18 +27,20 @@ class MandelbrotFormulaExactTest {
   void setUp() throws Exception {
     cut = new MandelbrotFormulaExact();
   }
-  
+
   private static Stream<Arguments> testIterate() {
     return Stream.of(//
         Arguments.of(0.0, 0.0, 500, 500), //
         Arguments.of(0.75, -0.75, 500, 2), //
         Arguments.of(0.0, 1.2, 500, 3), //
-        Arguments.of(0.0, 1.1, 500, 4), 
-        Arguments.of(0.5, -0.5, 500, 5));
+        Arguments.of(0.0, 1.1, 500, 4), Arguments.of(0.5, -0.5, 500, 5),
+        Arguments.of(-1.99624454148471615720, 8.2E-19, 500, 58),
+        Arguments.of(-1.384541484716157205240174672489082997, 8.2E-35, 500, 500));
   }
 
   /**
-   * Test method for {@link de.lexasoft.mandelbrot.cu.MandelbrotFormulaExact#iterate(java.math.BigDecimal, java.math.BigDecimal, int)}.
+   * Test method for
+   * {@link de.lexasoft.mandelbrot.cu.MandelbrotFormulaExact#iterate(java.math.BigDecimal, java.math.BigDecimal, int)}.
    */
   @ParameterizedTest
   @MethodSource

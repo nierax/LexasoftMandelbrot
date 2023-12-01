@@ -4,6 +4,7 @@
 package de.lexasoft.mandelbrot.cu;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 /**
  * Represents one point to be investigated in an exact calculated manner.
@@ -14,15 +15,17 @@ import java.math.BigDecimal;
  *
  */
 public class MandelbrotFormulaExact {
-  
-  private static final BigDecimal TWO = BigDecimal.valueOf((int)2);
+
+  private static final BigDecimal TWO = BigDecimal.valueOf((int) 2);
+
+  private static final MathContext PREC = CalculationVersion.EXACT.precision();
 
   private BigDecimal quadrat(BigDecimal base) {
-    return base.multiply(base);
+    return base.multiply(base, PREC);
   }
 
   private boolean hasToContinue(BigDecimal zx, BigDecimal zy, int counter, int maxIt) {
-    int compare = quadrat(zx).add(quadrat(zy)).compareTo(BigDecimal.valueOf(4d));
+    int compare = quadrat(zx).add(quadrat(zy), PREC).compareTo(BigDecimal.valueOf(4d));
     return compare <= 0 && counter < maxIt;
   }
 
@@ -39,9 +42,9 @@ public class MandelbrotFormulaExact {
     BigDecimal zx = BigDecimal.valueOf(0.0), zy = BigDecimal.valueOf(0.0), tmp;
     do {
       // tmp = zx * zx - zy * zy + cx;
-      tmp = quadrat(zx).subtract(quadrat(zy)).add(cx);
+      tmp = quadrat(zx).subtract(quadrat(zy), PREC).add(cx, PREC);
       // zy = 2 * zx * zy + cy;
-      zy = TWO.multiply((zx.multiply(zy))).add(cy);
+      zy = TWO.multiply((zx.multiply(zy, PREC)), PREC).add(cy, PREC);
       zx = tmp;
       counter = counter + 1;
     } while (hasToContinue(zx, zy, counter, maxIt));
