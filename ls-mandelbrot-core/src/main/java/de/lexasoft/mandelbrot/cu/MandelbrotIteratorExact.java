@@ -7,9 +7,6 @@ import java.awt.Point;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
@@ -24,8 +21,6 @@ import de.lexasoft.mandelbrot.api.ImageArea;
  * precise.
  */
 public class MandelbrotIteratorExact implements MandelbrotIterator {
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(MandelbrotIteratorExact.class);
 
   private final MandelbrotColorize colorize;
 
@@ -77,8 +72,6 @@ public class MandelbrotIteratorExact implements MandelbrotIterator {
     for (int column = 0; column < imageWidth; column++) {
       cpy = ystart;
       for (int line = 0; line < imageHeight; line++) {
-        // LOGGER.info(String.format("co:%s, li:%s, cpx:%s, cpy:%s", column, line, cpx,
-        // cpy));
         int iterate = point.iterate(cpx, cpy, maxIt);
         Point iPoint = new Point();
         iPoint.x = column;
