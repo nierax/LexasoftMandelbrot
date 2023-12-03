@@ -43,7 +43,7 @@ public class MandelbrotIteratorBuilder {
   private Optional<CalculationArea> calculationArea = Optional.empty();
   private OptionalInt maxIterations = OptionalInt.empty();
   private Optional<ImageArea> imageArea = Optional.empty();
-  private Optional<CalculationVersion> calcVersion = Optional.empty();
+  private Optional<CalcPrecision> calcVersion = Optional.empty();
 
   private Optional<MandelbrotIterator> iterator = Optional.empty();
 
@@ -107,7 +107,7 @@ public class MandelbrotIteratorBuilder {
    * @param version The calculation version to be used.
    * @return
    */
-  public MandelbrotIteratorBuilder withCalculationVersion(CalculationVersion version) {
+  public MandelbrotIteratorBuilder withCalculationVersion(CalcPrecision version) {
     this.calcVersion = Optional.ofNullable(version);
     return this;
   }
@@ -129,7 +129,7 @@ public class MandelbrotIteratorBuilder {
    */
   private MandelbrotIterator createIterator() {
     MandelbrotColorize col = colorize.orElse(new MandelbrotBlackWhite());
-    CalculationVersion calc = calcVersion.orElse(CalculationVersion.FAST);
+    CalcPrecision calc = calcVersion.orElse(CalcPrecision.FAST);
     return MandelbrotIterator.of(calc, col);
   }
 

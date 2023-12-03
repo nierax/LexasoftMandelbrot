@@ -24,19 +24,19 @@ public interface MandelbrotIterator {
 
 	/**
 	 * Create MandelbrotIterator with the given calculation version and the colorize
-	 * strategy.
+	 * method.
 	 * 
 	 * @param version  Calculation version to be used. FAST vs. EXACT
-	 * @param colorize The colorize strategy to use.
+	 * @param colorize The colorize method to use.
 	 * @return Newly created MandelbrotIterator object.
 	 */
-	public static MandelbrotIterator of(CalculationVersion version, MandelbrotColorize colorize) {
+	public static MandelbrotIterator of(CalcPrecision version, MandelbrotColorize colorize) {
 		switch (version) {
-		case EXACT: {
-			return new MandelbrotIteratorExact(colorize);
+		case FAST: {
+			return new MandelbrotIteratorFast(colorize);
 		}
 		default:
-			return new MandelbrotIteratorFast(colorize);
+			return new MandelbrotIteratorExact(version, colorize);
 		}
 
 	}

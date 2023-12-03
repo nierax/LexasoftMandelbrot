@@ -22,66 +22,77 @@ import de.lexasoft.mandelbrot.api.ImageArea;
  */
 public class MandelbrotIteratorExact implements MandelbrotIterator {
 
-  private final MandelbrotColorize colorize;
+	private final MandelbrotColorize colorize;
 
-  private final static MathContext PREC = CalculationVersion.EXACT.precision();
+	private final CalcPrecision precision;
 
-  /**
-   * Do not create other than with of() method.
-   */
-  MandelbrotIteratorExact() {
-    this(new MandelbrotBlackWhite());
-  }
+	/**
+	 * Create with {@link CalcPrecision#EXACT} and {@link MandelbrotBlackWhite}.
+	 */
+	MandelbrotIteratorExact() {
+		this(CalcPrecision.EXACT, new MandelbrotBlackWhite());
+	}
 
-  MandelbrotIteratorExact(MandelbrotColorize colorize) {
-    this.colorize = colorize;
-  }
+	/**
+	 * Create with the given precision and colorize method.
+	 * 
+	 * @param precision The required precision
+	 * @param colorize  The colorize method to be used.
+	 */
+	MandelbrotIteratorExact(CalcPrecision precision, MandelbrotColorize colorize) {
+		this.precision = precision;
+		this.colorize = colorize;
+	}
 
-  /**
-   * Based on https://www.k-achilles.de/algorithmen/apfelmaennchen.pdf
-   * 
-   * Implementation of the Mandelbrot calculation with the type bIgDecimal. More
-   * exact but slower.
-   * 
-   * @param calculation The calculation area.
-   * @param maxIt       Number of maximum iterations.
-   * @param imageDim    The dimensions of the image to draw.
-   * @return The image with the graphics written in.
-   */
-  @Override
-  public MandelbrotImage drawMandelbrot(CalculationArea calculation, int maxIt, ImageArea imageDim) {
-    BigDecimal xstart = calculation.topLeft().cx();
-    BigDecimal xend = calculation.bottomRight().cx();
-    BigDecimal ystart = calculation.topLeft().cy();
-    BigDecimal yend = calculation.bottomRight().cy();
-    int imageWidth = imageDim.width();
-    int imageHeight = imageDim.height();
-    MandelbrotImage image = MandelbrotImage.of(imageDim, calculation);
+	private MathContext prec() {
+		return precision.precision();
+	}
 
-    // Steps for calculations are orientated on the width / height of the image
-    // double dx = (xend - xstart) / (imageWidth - 1);
-    BigDecimal dx = (xend.subtract(xstart, PREC)).divide(BigDecimal.valueOf(imageWidth - 1), PREC);
-    // double dy = (yend - ystart) / (imageHeight - 1);
-    BigDecimal dy = (yend.subtract(ystart, PREC)).divide(BigDecimal.valueOf(imageHeight - 1), PREC);
+	/**
+	 * Based on https://www.k-achilles.de/algorithmen/apfelmaennchen.pdf
+	 * 
+	 * Implementation of the Mandelbrot calculation with the type bIgDecimal. More
+	 * exact but slower.
+	 * 
+	 * @param calculation The calculation area.
+	 * @param maxIt       Number of maximum iterations.
+	 * @param imageDim    The dimensions of the image to draw.
+	 * @return The image with the graphics written in.
+	 */
+	@Override
+	public MandelbrotImage drawMandelbrot(CalculationArea calculation, int maxIt, ImageArea imageDim) {
+		BigDecimal xstart = calculation.topLeft().cx();
+		BigDecimal xend = calculation.bottomRight().cx();
+		BigDecimal ystart = calculation.topLeft().cy();
+		BigDecimal yend = calculation.bottomRight().cy();
+		int imageWidth = imageDim.width();
+		int imageHeight = imageDim.height();
+		MandelbrotImage image = MandelbrotImage.of(imageDim, calculation);
 
-    MandelbrotFormulaExact point = new MandelbrotFormulaExact();
+		// Steps for calculations are orientated on the width / height of the image
+		// double dx = (xend - xstart) / (imageWidth - 1);
+		BigDecimal dx = (xend.subtract(xstart, prec())).divide(BigDecimal.valueOf(imageWidth - 1), prec());
+		// double dy = (yend - ystart) / (imageHeight - 1);
+		BigDecimal dy = (yend.subtract(ystart, prec())).divide(BigDecimal.valueOf(imageHeight - 1), prec());
 
-    // Start position
-    BigDecimal cpx = xstart;
-    BigDecimal cpy = ystart;
-    for (int column = 0; column < imageWidth; column++) {
-      cpy = ystart;
-      for (int line = 0; line < imageHeight; line++) {
-        int iterate = point.iterate(cpx, cpy, maxIt);
-        Point iPoint = new Point();
-        iPoint.x = column;
-        iPoint.y = line;
-        image.colorizePoint(iPoint, colorize.getColorForIteration(iterate, maxIt));
-        cpy = cpy.add(dy, PREC);
-      }
-      cpx = cpx.add(dx, PREC);
-    }
-    return image;
-  }
+		MandelbrotFormulaExact point = new MandelbrotFormulaExact(this.precision);
+
+		// Start position
+		BigDecimal cpx = xstart;
+		BigDecimal cpy = ystart;
+		for (int column = 0; column < imageWidth; column++) {
+			cpy = ystart;
+			for (int line = 0; line < imageHeight; line++) {
+				int iterate = point.iterate(cpx, cpy, maxIt);
+				Point iPoint = new Point();
+				iPoint.x = column;
+				iPoint.y = line;
+				image.colorizePoint(iPoint, colorize.getColorForIteration(iterate, maxIt));
+				cpy = cpy.add(dy, prec());
+			}
+			cpx = cpx.add(dx, prec());
+		}
+		return image;
+	}
 
 }
