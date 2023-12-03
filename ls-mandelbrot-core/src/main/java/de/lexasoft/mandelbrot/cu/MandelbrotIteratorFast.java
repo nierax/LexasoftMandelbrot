@@ -78,9 +78,4 @@ public class MandelbrotIteratorFast implements MandelbrotIterator {
 		return image;
 	}
 
-	@Override
-	public MandelbrotColorize colorize() {
-		return colorize;
-	}
-
 }
