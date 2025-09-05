@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.lexasoft.mandelbrot.cu.CalcPrecision;
+
 /**
  * @author nierax
  *
@@ -22,6 +24,7 @@ public class MandelbrotCalculationProperties {
 	private MandelbrotColorGrading colorGrading;
 	private Color mandelbrotColor;
 	private AspectRatioHandle aspectRatioHandle;
+	private CalcPrecision calcPrecision;
 
 	public int getMaximumIterations() {
 		return maximumIterations;
@@ -61,6 +64,20 @@ public class MandelbrotCalculationProperties {
 
 	public void setImageFilename(String imageFilename) {
 		this.imageFilename = imageFilename;
+	}
+
+	/**
+	 * @return the calcPrecision
+	 */
+	public CalcPrecision getCalcPrecision() {
+		return calcPrecision;
+	}
+
+	/**
+	 * @param calcPrecision the calcPrecision to set
+	 */
+	public void setCalcPrecision(CalcPrecision precision) {
+		this.calcPrecision = precision;
 	}
 
 	/**
@@ -235,6 +252,7 @@ public class MandelbrotCalculationProperties {
 		props.setImage(ImageArea.of(459, 405));
 		props.setAspectRatio(AspectRatioHandle.FITIN);
 		props.setMaximumIterations(25);
+		props.setCalcPrecision(CalcPrecision.FAST);
 		return props;
 	}
 

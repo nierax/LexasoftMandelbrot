@@ -47,6 +47,7 @@ public class MandelbrotCalculationAPI {
 		    .withColorize(colorize) //
 		    .withCalculationArea(model.getCalculation()) //
 		    .withMaxIterations(model.getMaximumIterations()) //
+		    .withCalcPrecision(model.getCalcPrecision()) //
 		    .withImageArea(model.getImage()) //
 		    .calculate());
 

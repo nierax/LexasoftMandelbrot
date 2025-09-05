@@ -24,6 +24,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import de.lexasoft.mandelbrot.cu.CalcPrecision;
+
 /**
  * @author nierax
  *
@@ -371,6 +373,7 @@ class MandelbrotCalculationPropertiesTest {
 		assertEquals(MandelbrotPointPosition.of(0.8d, -1.2d), cut.getBottomRight());
 		assertEquals(PaletteVariant.BLUEWHITE, cut.getPaletteVariant());
 		assertEquals(ColorGradingStyle.LINE, cut.getColorGrading().getStyle());
+		assertEquals(CalcPrecision.FAST, cut.getCalcPrecision());
 		assertEquals(6, cut.getColorGrading().getColorsTotal());
 		assertEquals(405, cut.getImageHeight());
 		assertEquals(459, cut.getImageWidth());

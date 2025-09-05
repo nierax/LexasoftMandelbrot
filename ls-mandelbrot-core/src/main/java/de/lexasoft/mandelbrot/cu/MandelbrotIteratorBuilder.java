@@ -104,11 +104,11 @@ public class MandelbrotIteratorBuilder {
   /**
    * Which calculation version should be used.
    * 
-   * @param version The calculation version to be used.
+   * @param precision The calculation version to be used.
    * @return
    */
-  public MandelbrotIteratorBuilder withCalculationVersion(CalcPrecision version) {
-    this.calcVersion = Optional.ofNullable(version);
+  public MandelbrotIteratorBuilder withCalcPrecision(CalcPrecision precision) {
+    this.calcVersion = Optional.ofNullable(precision);
     return this;
   }
 
