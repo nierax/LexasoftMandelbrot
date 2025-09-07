@@ -40,6 +40,7 @@ import de.lexasoft.mandelbrot.api.AspectRatioHandle;
 import de.lexasoft.mandelbrot.api.CalculationArea;
 import de.lexasoft.mandelbrot.api.ImageArea;
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.cu.CalcPrecision;
 
 /**
  * Integration test for the controller to check the correctness of the
@@ -52,14 +53,15 @@ class MandelbrotControllerTest {
 	private MandelbrotController cut;
 	private MandelbrotAttributesDTO singleCalc;
 	private MandelbrotAttributesDTO multiCalc;
+	private static final String PATH_2_YAMLS = "src/test/resources/";
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
 	void setUp() throws Exception {
-		singleCalc = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-ctrl-test.yaml");
-		multiCalc = MandelbrotAttributesDTO.of("src/test/resources/mandelbrot-ctrl-list-test.yaml");
+		singleCalc = MandelbrotAttributesDTO.of(PATH_2_YAMLS + "mandelbrot-ctrl-test.yaml");
+		multiCalc = MandelbrotAttributesDTO.of(PATH_2_YAMLS + "mandelbrot-ctrl-list-test.yaml");
 		cut = MandelbrotController.of();
 	}
 
@@ -179,6 +181,33 @@ class MandelbrotControllerTest {
 		// Check
 		assertEquals(expected.cx().doubleValue(), result.cx().doubleValue(), 0.00001);
 		assertEquals(expected.cy().doubleValue(), result.cy().doubleValue(), 0.00001);
+	}
+
+	static final Stream<Arguments> testExecuteSingleCalculation_with_different_calcPrecisions() {
+
+		return Stream.of(//
+		    Arguments.of(PATH_2_YAMLS + "mandelbrot-ctrl-test.yaml", CalcPrecision.FAST, 800, 459), //
+		    Arguments.of(PATH_2_YAMLS + "mandelbrot-ctrl-test-MIDDLE.yaml", CalcPrecision.MIDDLE, 800, 459), //
+		    Arguments.of(PATH_2_YAMLS + "mandelbrot-ctrl-test-EXACT.yaml", CalcPrecision.EXACT, 800, 459), //
+		    Arguments.of(PATH_2_YAMLS + "mandelbrot-ctrl-test-LOW.yaml", CalcPrecision.LOW, 800, 459));
+	}
+
+	@ParameterizedTest
+	@MethodSource
+	final void testExecuteSingleCalculation_with_different_calcPrecisions(String toYamlFile,
+	    CalcPrecision expCalcPrecision, int expHeight, int expWidth)
+	    throws JsonParseException, JsonMappingException, IOException {
+
+		MandelbrotAttributesDTO dto = MandelbrotAttributesDTO.of(toYamlFile);
+		assertEquals(expCalcPrecision, dto.getCalculation().getCalcPrecision());
+
+		MandelbrotImage image = cut.executeSingleCalculation(dto);
+		assertNotNull(image);
+		assertEquals(expWidth, image.getImage().getWidth());
+		assertEquals(expHeight, image.getImage().getHeight());
+		// Write image to disc.
+		image.writeToFile(dto.getImage().getImageFilename());
+
 	}
 
 }
