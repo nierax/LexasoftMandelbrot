@@ -76,7 +76,7 @@ following:
     bottomRight:
       cx: -0.02
       # Keep the aspect ratio
-      cy: auto
+      # cy: auto
   # Increase maximum iterations to 300.
     maximumIterations: 300
   # Make sure, You provide a file name with every variant.

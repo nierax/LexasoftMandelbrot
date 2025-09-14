@@ -8,6 +8,7 @@ import java.util.List;
 import de.lexasoft.mandelbrot.api.MandelbrotCalculationProperties;
 import de.lexasoft.mandelbrot.api.Transition;
 import de.lexasoft.mandelbrot.api.TransitionFactory;
+import de.lexasoft.mandelbrot.ctrl.TransitionAttributesDTO.TransitionDTO;
 
 /**
  * Extends the {@link AbstractDTO2PropertiesMapper} to handle the list of
@@ -59,17 +60,24 @@ public class TransitionDTO2PropertiesMapper extends AbstractDTO2PropertiesMapper
 	    List<MandelbrotCalculationProperties> listOfProps) {
 		MandelbrotCalculationProperties start = listOfProps.get(0);
 		for (TransitionAttributesDTO calc : followingDTO) {
-			// Figure transition parameters
-			Transition transition = Transition.of(calc.getTransition().steps(), calc.getTransition().variant());
-			TransitionFactory transitionFactory = TransitionFactory.of(transition);
-			// Map the next entry (end point of the transition)
-			MandelbrotCalculationProperties next = mapSingleCalculation(calc, start.cloneValues());
-			// Calculate transitions and add them to the list
-			listOfProps.addAll(transitionFactory.createTransitions(start, next));
-			// Add the end point of the transition
-			listOfProps.add(next);
-			// End point is the start point of the next transition
-			start = next;
+			// if no transition is given in this step, jump over
+			TransitionDTO currTrans = calc.getTransition();
+			if (currTrans != null) {
+				// Figure transition parameters
+				Transition transition = Transition.of(currTrans.steps(), currTrans.variant());
+				TransitionFactory transitionFactory = TransitionFactory.of(transition);
+				// Map the next entry (end point of the transition)
+				MandelbrotCalculationProperties next = mapSingleCalculation(calc, start.cloneValues());
+				// Calculate transitions and add them to the list
+				listOfProps.addAll(transitionFactory.createTransitions(start, next));
+				// Add the end point of the transition
+				listOfProps.add(next);
+				// End point is the start point of the next transition
+				start = next;
+
+			} else {
+				listOfProps.add(mapSingleCalculation(calc, start.cloneValues()));
+			}
 		}
 		// Add indices to the file names
 		int size = listOfProps.size();

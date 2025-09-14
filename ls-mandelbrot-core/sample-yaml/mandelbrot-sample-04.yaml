@@ -79,7 +79,7 @@ following:
     bottomRight:
       cx: -0.02
     # Keep the aspect ratio
-      cy: auto
+    #  cy: auto
   # Increase maximum iterations now from 300 (prev) to 500.
     maximumIterations: 500
   # Use 20 steps with soft movement in and out
