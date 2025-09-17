@@ -30,6 +30,15 @@ image:
 # Please note, that the directory must exist on the system
   imageFilename: "./images/mandelbrot-sample-transition.tiff"
 
+# Define the way, the iamge ratio is recogned for variants, in case it should follow the first calculation.
+# - IGNORE Ignore aspect ratio, the image might be stretched or compressed
+# - FITIN  Fit the complete calculation area in the image. 
+# - FOLLOW_CALCULATION The aspect ratio in the image is used to recalculate image width or image height.
+# - FOLLOW_IMAGE The aspect ratio of the image is used to recalculate calculation's parameters.
+  aspectRatioHandle: "FOLLOW_IMAGE"
+
+
+
 #Color defining porperties
 color:
 # Information about the colorization of the image.
