@@ -46,86 +46,86 @@ import de.lexasoft.mandelbrot.api.ImageArea;
 @ExtendWith(MockitoExtension.class)
 class MandelbrotIteratorBuilderTest {
 
-  private static Logger LOGGER = LoggerFactory.getLogger(MandelbrotIteratorBuilderTest.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(MandelbrotIteratorBuilderTest.class);
 
-  private MandelbrotIteratorBuilder cut;
-  @Mock
-  private MandelbrotIterator iterator;
-  @Mock
-  private CalculationArea calculation;
-  @Mock
-  private MandelbrotColorize colorize;
-  @Mock
-  private ImageArea imageArea;
-  @Mock
-  private MandelbrotImage result;
+	private MandelbrotIteratorBuilder cut;
+	@Mock
+	private MandelbrotIterator iterator;
+	@Mock
+	private CalculationArea calculation;
+	@Mock
+	private MandelbrotColorize colorize;
+	@Mock
+	private ImageArea imageArea;
+	@Mock
+	private MandelbrotImage result;
 
-  /**
-   * @throws java.lang.Exception
-   */
-  @BeforeEach
-  void setUp() throws Exception {
-    cut = MandelbrotIteratorBuilder.of().withIterator(iterator);
-  }
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@BeforeEach
+	void setUp() throws Exception {
+		cut = MandelbrotIteratorBuilder.of().withIterator(iterator);
+	}
 
-  /**
-   * Calculation should return no result.
-   */
-  @Test
-  final void testCalculateNoParams() {
-    Result<MandelbrotImage> result = cut.calculate();
-    assertNull(result.get());
-    assertTrue(result.isErroneous());
-    assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
-  }
-
-  /**
-   * Calculation should return no result.
-   */
-  @Test
-  final void testCalculateJustColorizeParams() {
-    Result<MandelbrotImage> result = //
-        cut.withColorize(colorize) //
-            .calculate();
-    assertNull(result.get());
-    assertTrue(result.isErroneous());
-    assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
-    LOGGER.info(result.getMessages()::toString);
-  }
-
-  /**
-   * Calculation should return no result.
-   */
-  @Test
-  final void testCalculateColorizeCalculationParams() {
-    Result<MandelbrotImage> result = //
-        cut.withColorize(colorize) //
-            .withCalculationArea(calculation) //
-            .calculate();
-    assertNull(result.get());
-    assertTrue(result.isErroneous());
-    assertEquals(2, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
-    LOGGER.info(result.getMessages()::toString);
-  }
-
-  /**
-   * Calculation should return no result.
-   */
-  @Test
-  final void testCalculateColorizeCalculationImageAreaParams() {
-    Result<MandelbrotImage> result = //
-        cut.withColorize(colorize) //
-            .withCalculationArea(calculation) //
-            .withImageArea(imageArea) //
-            .calculate();
-    assertNull(result.get());
-    assertTrue(result.isErroneous());
-    assertEquals(1, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
-    LOGGER.info(result.getMessages()::toString);
-  }
-
-  /**
+	/**
 	 * Calculation should return no result.
+	 */
+	@Test
+	final void testCalculateNoParams() {
+		Result<MandelbrotImage> result = cut.calculate();
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+	}
+
+	/**
+	 * Calculation should return no result.
+	 */
+	@Test
+	final void testCalculateJustColorizeParams() {
+		Result<MandelbrotImage> result = //
+		    cut.withColorize(colorize) //
+		        .calculate();
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(3, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+		LOGGER.info(result.getMessages()::toString);
+	}
+
+	/**
+	 * Calculation should return no result.
+	 */
+	@Test
+	final void testCalculateColorizeCalculationParams() {
+		Result<MandelbrotImage> result = //
+		    cut.withColorize(colorize) //
+		        .withCalculationArea(calculation) //
+		        .calculate();
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(2, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+		LOGGER.info(result.getMessages()::toString);
+	}
+
+	/**
+	 * Calculation should return no result.
+	 */
+	@Test
+	final void testCalculateColorizeCalculationImageAreaParams() {
+		Result<MandelbrotImage> result = //
+		    cut.withColorize(colorize) //
+		        .withCalculationArea(calculation) //
+		        .withImageArea(imageArea) //
+		        .calculate();
+		assertNull(result.get());
+		assertTrue(result.isErroneous());
+		assertEquals(1, result.getMessages().countMessagesWithSeverity(MessageSeverity.ERROR));
+		LOGGER.info(result.getMessages()::toString);
+	}
+
+	/**
+	 * Calculation should return an expected result.
 	 */
 	@Test
 	final void testCalculateAll() {
@@ -134,6 +134,7 @@ class MandelbrotIteratorBuilderTest {
 		    cut.withColorize(colorize) //
 		        .withCalculationArea(calculation) //
 		        .withImageArea(imageArea) //
+		        .withCalcPrecision(CalcPrecision.FAST) //
 		        .withMaxIterations(25) //
 		        .calculate();
 		assertNotNull(image.get());
@@ -141,7 +142,7 @@ class MandelbrotIteratorBuilderTest {
 		verify(iterator).drawMandelbrot(calculation, 25, imageArea);
 	}
 
-  /**
+	/**
 	 * Calculation should return no result.
 	 */
 	@Test
