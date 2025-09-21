@@ -157,6 +157,9 @@ public abstract class AbstractDTO2PropertiesMapper {
 		if (calcDTO.getMaximumIterations() > 0) {
 			props.setMaximumIterations(calcDTO.getMaximumIterations());
 		}
+		if (calcDTO.getCalcPrecision() != null) {
+			props.setCalcPrecision(calcDTO.getCalcPrecision());
+		}
 	}
 
 	private static Type determineType(MandelbrotAttributesDTO propsDTO) {

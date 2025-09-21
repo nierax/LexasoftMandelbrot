@@ -6,11 +6,11 @@ calculation:
     cx: 0.7
     cy: -1.2
   maximumIterations: 50
-  calcPrecision: FAST
+  calcPrecision: LOW
 image:
   imageWidth: 459
   imageHeight: 800
-  imageFilename: "./junit-tmp/mandelbrot-ctrl-test.tiff"
+  imageFilename: "./junit-tmp/mandelbrot-ctrl-test-low.tiff"
 color:
   paletteVariant: "CUSTOM"
   customColorPalette:

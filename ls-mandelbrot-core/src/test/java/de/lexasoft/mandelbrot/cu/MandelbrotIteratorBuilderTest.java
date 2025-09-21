@@ -50,7 +50,7 @@ class MandelbrotIteratorBuilderTest {
 
 	private MandelbrotIteratorBuilder cut;
 	@Mock
-	private MandelbrotIteratorFast iterator;
+	private MandelbrotIterator iterator;
 	@Mock
 	private CalculationArea calculation;
 	@Mock
@@ -125,7 +125,7 @@ class MandelbrotIteratorBuilderTest {
 	}
 
 	/**
-	 * Calculation should return no result.
+	 * Calculation should return an expected result.
 	 */
 	@Test
 	final void testCalculateAll() {
@@ -134,6 +134,7 @@ class MandelbrotIteratorBuilderTest {
 		    cut.withColorize(colorize) //
 		        .withCalculationArea(calculation) //
 		        .withImageArea(imageArea) //
+		        .withCalcPrecision(CalcPrecision.FAST) //
 		        .withMaxIterations(25) //
 		        .calculate();
 		assertNotNull(image.get());

@@ -1,6 +1,5 @@
 package de.lexasoft.mandelbrot.cu;
 
-import de.lexasoft.mandelbrot.MandelbrotBlackWhite;
 import de.lexasoft.mandelbrot.MandelbrotColorize;
 import de.lexasoft.mandelbrot.MandelbrotImage;
 import de.lexasoft.mandelbrot.api.CalculationArea;
@@ -24,23 +23,22 @@ public interface MandelbrotIterator {
 	MandelbrotImage drawMandelbrot(CalculationArea calculation, int maxIt, ImageArea imageDim);
 
 	/**
-	 * Create MandelbrotIteratorFast object with the given colorize strategy.
+	 * Create MandelbrotIterator with the given calculation version and the colorize
+	 * method.
 	 * 
-	 * @param colorize The colorize strategy to use.
+	 * @param version  Calculation version to be used. FAST vs. EXACT
+	 * @param colorize The colorize method to use.
 	 * @return Newly created MandelbrotIterator object.
 	 */
-	public static MandelbrotIterator of(MandelbrotColorize colorize) {
-		MandelbrotIterator mb = new MandelbrotIteratorFast(colorize);
-		return mb;
+	public static MandelbrotIterator of(CalcPrecision version, MandelbrotColorize colorize) {
+		switch (version) {
+		case FAST: {
+			return new MandelbrotIteratorFast(colorize);
+		}
+		default:
+			return new MandelbrotIteratorExact(version, colorize);
+		}
+
 	}
 
-	/**
-	 * Create MandelbrotIteratorFast object with a standard colorize strategy (black
-	 * and white only).
-	 * 
-	 * @return Newly created MandelbrotIterator object.
-	 */
-	public static MandelbrotIterator of() {
-		return of(new MandelbrotBlackWhite());
-	}
 }

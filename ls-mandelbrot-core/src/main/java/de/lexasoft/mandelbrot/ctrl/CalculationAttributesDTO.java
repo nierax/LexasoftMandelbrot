@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import de.lexasoft.mandelbrot.api.MandelbrotPointPosition;
+import de.lexasoft.mandelbrot.cu.CalcPrecision;
 
 /**
  * All attributes, used to define the calculation attributes, such as the area
@@ -23,6 +24,8 @@ public class CalculationAttributesDTO {
 	private MandelbrotPointPosition bottomRight;
 	@JsonProperty
 	private int maximumIterations;
+	@JsonProperty
+	private CalcPrecision calcPrecision;
 
 	/**
 	 * @return the topLeft
@@ -67,6 +70,20 @@ public class CalculationAttributesDTO {
 	}
 
 	/**
+	 * @return the calcPrecision
+	 */
+	public CalcPrecision getCalcPrecision() {
+		return calcPrecision;
+	}
+
+	/**
+	 * @param calcPrecision the calcPrecision to set
+	 */
+	public void setCalcPrecision(CalcPrecision calcPrecision) {
+		this.calcPrecision = calcPrecision;
+	}
+
+	/**
 	 * Create {@link CalculationAttributesDTO} with default values.
 	 * 
 	 * @return
@@ -76,6 +93,8 @@ public class CalculationAttributesDTO {
 		calc.topLeft = MandelbrotPointPosition.of(-2.02d, 1.2d);
 		calc.bottomRight = MandelbrotPointPosition.of(0.8d, -1.2d);
 		calc.maximumIterations = 25;
+		calc.calcPrecision = CalcPrecision.FAST;
 		return calc;
 	}
+
 }

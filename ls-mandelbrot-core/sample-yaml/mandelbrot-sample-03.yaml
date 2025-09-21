@@ -31,6 +31,13 @@ image:
 # - tiff
 # Please note, that the directory must exist on the system
   imageFilename: "./images/mandelbrot-sample-variant.tiff"
+  
+# Define the way, the iamge ratio is recogned for variants, in case it should follow the first calculation.
+# - IGNORE Ignore aspect ratio, the image might be stretched or compressed
+# - FITIN  Fit the complete calculation area in the image. 
+# - FOLLOW_CALCULATION The aspect ratio in the image is used to recalculate image width or image height.
+# - FOLLOW_IMAGE The aspect ratio of the image is used to recalculate calculation's parameters.
+  aspectRatioHandle: "FOLLOW_IMAGE"
 
 #Color defining porperties
 color:
@@ -76,7 +83,7 @@ following:
     bottomRight:
       cx: -0.02
       # Keep the aspect ratio
-      cy: auto
+      # cy: auto
   # Increase maximum iterations to 300.
     maximumIterations: 300
   # Make sure, You provide a file name with every variant.
